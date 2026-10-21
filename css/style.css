@@ -415,3 +415,15 @@ footer{
 .book-info {
     display: none;
   }
+/* Phones: the search box gets its own full-width row under the logo and buttons */
+@media (max-width: 768px){
+    .header .header-1{
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 1.5rem 5%;
+    }
+    .header .header-1 .search-form{
+        order: 3;
+        width: 100%;
+    }
+}

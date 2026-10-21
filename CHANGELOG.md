@@ -13,6 +13,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com), and the versi
   images before every deploy.
 - The book covers, shelf and background images, which were missing from the repository, so the pages render as
   designed.
+- A phone layout for the header, where the search box was squeezed to a sliver.
 
 ### Fixed
 
