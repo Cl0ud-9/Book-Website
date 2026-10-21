@@ -1,0 +1,48 @@
+The Bookshelf Source-Available License
+
+Copyright (c) 2023-2026 Cloud/9 (https://github.com/Cl0ud-9). All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software") to:
+
+  a. read, study and review the Software;
+  b. run it locally for personal, educational and non-commercial purposes; and
+  c. fork and modify it solely to prepare contributions to the official repository at
+     https://github.com/Cl0ud-9/Book-Website,
+
+subject to the following conditions:
+
+1. The above copyright notice and this permission notice shall be included in all copies or substantial portions
+   of the Software.
+
+2. Redistribution of the Software or any derivative work, in source or binary form, including modified, renamed or
+   rebranded copies, is prohibited without prior written permission from the author. Forking on GitHub, as
+   GitHub's Terms of Service allow, grants no further rights: a fork may be used only as described in (c) above.
+
+3. Commercial use of the Software or any derivative work is prohibited. This includes, but is not limited to,
+   selling it, using it as the site of a business, or publishing it on any template gallery, theme store or other
+   commercial platform.
+
+4. Hosting the Software for other people, other than the author's own deployment, is not permitted without prior
+   written permission from the author.
+
+5. The Software may not be used, in whole or in part, to train, fine-tune or evaluate any machine learning or
+   artificial intelligence model, or be supplied to an AI tool or agent to produce a derivative or competing work,
+   without prior written permission from the author.
+
+6. The name "The Bookshelf" and the site's visual design may not be used to name, brand or promote any derivative
+   work.
+
+7. The right to sell, sublicense and distribute the Software, for profit or otherwise, is reserved exclusively by
+   the author, Cloud/9.
+
+8. By submitting a contribution to the Software (for example a pull request), you confirm that you have the right
+   to submit it, and you grant the author a perpetual, worldwide, irrevocable, royalty-free license to use, modify,
+   sublicense and distribute that contribution as part of the Software under any terms the author chooses.
+
+Third-party material used by the Software stays under its own license, listed in NOTICE.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

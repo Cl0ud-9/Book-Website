@@ -1,0 +1,42 @@
+name: Deploy to GitHub Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Collect the site's files
+        run: |
+          mkdir _site
+          cp -r index.html login.html signup.html css image _site/
+      - name: Check every local link and image resolves
+        run: |
+          missing=0
+          for page in _site/*.html; do
+            for ref in $(grep -oE '(href|src)="[^"#:]+"' "$page" | sed -E 's/^(href|src)="//; s/"$//'); do
+              [ -e "_site/$ref" ] || { echo "$page: missing $ref"; missing=1; }
+            done
+          done
+          for ref in $(grep -oE 'url\([^)]+\)' _site/css/style.css | sed -E 's/url\(//; s/\)$//; s/["'"'"']//g'); do
+            [ -e "_site/css/$ref" ] || { echo "style.css: missing $ref"; missing=1; }
+          done
+          exit $missing
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v5

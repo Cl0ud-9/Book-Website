@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security problem
+    url: https://github.com/Cl0ud-9/Book-Website/security/advisories/new
+    about: Please report vulnerabilities privately, not as a public issue.
+  - name: See the live site
+    url: https://cl0ud-9.github.io/Book-Website/
+    about: The current version, deployed from main.

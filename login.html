@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log in | The Bookshelf</title>
+  <link rel = "icon" href = "https://i.pinimg.com/originals/dd/64/da/dd64da585bc57cb05e5fd4d8ce873f57.png" type = "image/x-icon">
+  <link rel="stylesheet" href="css/style.css">
+
+<style>
+body{
+background-color: #f2f2f2;
+/* background-image: url("image/PG.jpg"); */
+background-size: cover;
+background-position: center;
+position: relative;
+}
+
+form{
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+font-size: 20px;
+font-weight: bold;
+text-align: left;
+}
+
+table{
+background-color: white;
+padding: 2rem;
+border-radius: 20px;
+box-shadow: var(--box-shadow);
+}
+
+td{
+font-size: 1.2rem;
+color: var(--black);
+padding: .5rem 0;
+}
+
+input[type="text"], input[type="password"]{
+width: 100%;
+padding: .5rem;
+font-size: 1.2rem;
+color: var(--black);
+border: var(--border);
+border-radius: 10px;
+margin-top: .5rem;
+}
+
+input[type="submit"]{
+background-color: var(--green);
+color: white;
+padding: 1rem 1.5rem;
+border-radius: 10px;
+border: none;
+font-size: 13px;
+cursor: pointer;
+margin-top: 1rem;
+}
+
+input[type="submit"]:hover{
+background-color: var(--dark-color);
+}
+
+.header {
+    background-color: var(--green);
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+h1 {
+    color: white;
+    margin: 0;
+}
+
+form {
+    width: 400px;
+    margin: 2rem auto;
+}
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1>Log in</h1>
+    </div>
+    <form name="myform" onsubmit="return validate()">
+        <table>
+            <tr>
+                <td>Username : </td>
+                <td><input type="text" name="uname"> </td>
+            </tr>
+            <tr>
+                <td>Password : </td>
+                <td><input type="password" name="pwd"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Log in"></td>
+                <td><a href="signup.html">New here? Sign up</a> · <a href="index.html">Home</a></td>
+            </tr>
+        </table>
+    </form>
+
+<script>
+    function validate()
+    {
+            var uname=document.myform.uname.value;
+            var pwd=document.myform.pwd.value;
+
+            if(uname==null||uname=="")
+            {
+                alert('Username should not be empty');
+                return false;
+            }
+            if(pwd==null||pwd=="")
+            {
+                alert('Password should not be empty');
+                return false;
+            }
+            // The site has no server, so a valid form only shows this message
+            alert('Welcome back, ' + uname + '!');
+            return false;
+    }
+
+</script>
+</body>
+
+</html>

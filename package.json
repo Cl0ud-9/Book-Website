@@ -1,5 +1,15 @@
 {
+  "name": "book-website",
+  "version": "1.0.0",
+  "description": "The Bookshelf: a responsive bookshop front page with log-in and sign-up forms.",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "5.1.0"
   }
 }
