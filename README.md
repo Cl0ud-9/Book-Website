@@ -44,6 +44,9 @@ npm start          # http://localhost:3000
 
 `server.js` is a small Express server that serves only the site's pages, styles and images.
 
+An unfinished port of the site to Angular, from the same course, is kept on the
+[`angular-port`](https://github.com/Cl0ud-9/Book-Website/tree/angular-port/angular) branch.
+
 ## How it is published
 
 Every push to `main` runs [`.github/workflows/pages.yml`](.github/workflows/pages.yml): it copies the pages, styles
