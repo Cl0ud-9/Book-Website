@@ -86,7 +86,7 @@
       img: { "max-width": "100%" },
     });
     // The site's own Figtree, for the Sans option
-    rendition.hooks.content.register((contents) => contents.addStylesheet(new URL("css/reader-content.css", location.href).href));
+    rendition.hooks.content.register((contents) => contents.addStylesheet(new URL(`css/reader-content.css?${window.bookshelfVersion || ""}`, location.href).href));
 
     const apply = () => {
       rendition.themes.select(prefs.theme);

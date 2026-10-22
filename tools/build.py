@@ -4,6 +4,7 @@ the home page, All books, a page for every book, the reader, log in, sign up and
 usage: python tools/build.py [OUTPUT_DIR]      (default: the repository root)
 Change the shelf in tools/library.py, and what the home page features in FEATURED below.
 """
+import hashlib
 import html
 import json
 import re
@@ -253,6 +254,10 @@ BOOT = ("<script>(function(d){var r=d.documentElement;r.classList.add('js');"
 
 
 SITE = "https://cl0ud-9.github.io/Book-Website/"
+# The site's own CSS and scripts are linked with ?v=<a hash of them>, so a browser never keeps last week's copy after a
+# deploy (GitHub Pages lets them cache files for ten minutes). app.js passes the same version on to the reader's files.
+ASSETS = ["css/main.css", "css/reader-content.css", "js/app.js", "js/forms.js", "js/reader.js"]
+VERSION = hashlib.sha1(b"".join((ROOT / a).read_bytes() for a in ASSETS)).hexdigest()[:8]
 
 
 def page(name, path, title, description, body, theme="yellow", book=None, with_footer=True):
@@ -283,11 +288,11 @@ def page(name, path, title, description, body, theme="yellow", book=None, with_f
 <link rel="apple-touch-icon" href="image/apple-touch-icon.png">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/main.css?v={VERSION}">
 {BOOT}
 {scripts}
-<script src="js/forms.js" defer></script>
-<script src="js/app.js" defer></script>
+<script src="js/forms.js?v={VERSION}" defer></script>
+<script src="js/app.js?v={VERSION}" defer></script>
 </head>
 <body data-barba="wrapper">
 {SPRITE}

@@ -226,7 +226,7 @@
     if (content) gsap.set(content, { opacity: 0, y: "5em" });
     // Not quite 0: the browser then draws the big covers while the squiggle still hides them, instead of in the middle
     // of the opening, where that first draw cost a couple of frames
-    if (books.length) gsap.set(books, { opacity: 0.001, y: "6em", rotate: (i) => [-30, 40, -25][i] });
+    if (books.length) gsap.set(books, { opacity: 0.001, y: "6em", rotate: (i) => [-6, 10, -6][i] });
     if (bg && desktop.matches) gsap.set(bg, { clipPath: "ellipse(20% 0% at 100% 100%)" });
     if (small) gsap.set(small, { y: "-5em", opacity: 0 });
 
@@ -384,14 +384,15 @@
     return () => { window.removeEventListener("scroll", onScroll); clearTimeout(rest); };
   }
 
-  // Hero books bob gently and lean towards the pointer
+  // Hero books float gently up and down, and lean towards the pointer. Only up and down: a rocking turn on top of
+  // their 3D angle looked like the books tilting by themselves.
   function floatingBooks(page) {
     const books = page.querySelectorAll("[data-float]");
     if (!books.length) return;
     books.forEach((book, i) => {
       gsap.to(book.firstElementChild, {
-        y: i === 0 ? "-1.2em" : "1em", rotate: i === 0 ? 2 : -3,
-        duration: gsap.utils.random(2.6, 3.4), ease: "sine.inOut", yoyo: true, repeat: -1,
+        y: i === 0 ? "-0.8em" : "0.7em",
+        duration: i === 0 ? 3.2 : 2.8, ease: "sine.inOut", yoyo: true, repeat: -1,
       });
     });
     if (!finePointer.matches) return;
@@ -1057,7 +1058,9 @@
     try { return JSON.parse(localStorage.getItem("bookshelf:reading")) || {}; } catch { return {}; }
   };
 
-  // The reader's scripts (about 320 KB) are fetched only when a book is opened, once
+  // The reader's scripts (about 320 KB) are fetched only when a book is opened, once, with this build's version
+  const version = document.querySelector("script[src*='js/app.js']")?.src.split("?")[1] || "";
+  window.bookshelfVersion = version;
   let readerScripts = null;
   function loadReader() {
     const load = (src) => new Promise((resolve, reject) => {
@@ -1067,7 +1070,7 @@
       s.onerror = reject;
       document.head.append(s);
     });
-    readerScripts ||= load("js/vendor/jszip.min.js").then(() => load("js/vendor/epub.min.js")).then(() => load("js/reader.js"));
+    readerScripts ||= load("js/vendor/jszip.min.js").then(() => load("js/vendor/epub.min.js")).then(() => load(`js/reader.js?${version}`));
     return readerScripts;
   }
 
