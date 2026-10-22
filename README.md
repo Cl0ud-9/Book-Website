@@ -99,10 +99,13 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
 
   | Page | Performance | Accessibility | Best practices | SEO | Downloads |
   |---|---|---|---|---|---|
-  | Home | 89 to 97 | 100 | 100 | 100 | 501 KB |
-  | All books | 95 to 99 | 100 | 100 | 100 | 335 KB |
-  | A book page | 95 to 99 | 100 | 100 | 100 | 289 KB |
-  | Log in, Sign up | 98 | 100 | 100 | 100 | 200 KB |
+  | Home | 81 to 96 | 100 | 100 | 100 | 687 KB |
+  | All books | 89 to 91 | 100 | 100 | 100 | 545 KB |
+  | A book page | 70 to 98 | 100 | 100 | 100 | 489 KB |
+  | The reader | 70 to 97 | 100 | 100 | 100 | 1,073 KB, most of it the book |
+  | Log in, Sign up | 99 | 100 | 100 | 100 | 197 KB |
+
+  Performance swings from run to run on GitHub Pages; the painted covers weigh more than the old flat drawings did.
 
 ## Run it
 
