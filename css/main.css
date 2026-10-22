@@ -539,12 +539,12 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 .book-card__open {
   display: inline-flex; align-items: center; gap: .4em; margin-top: .35em;
   font-size: 1.0625em; font-weight: 600;
-  opacity: .7; transition: opacity .3s, gap .4s var(--ease-smooth);
+  transition: gap .4s var(--ease-smooth);
 }
 .book-card__open .icon { width: 1em; height: 1em; }
 @media (hover: hover) {
   .book-card:hover .book-card__cover { translate: 0 -.4em; box-shadow: 0 1.2em 2em -.8em rgba(0, 0, 0, .5); }
-  .book-card:hover .book-card__open { opacity: 1; gap: .7em; }
+  .book-card:hover .book-card__open { gap: .7em; }
 }
 .book-card__cover img { width: 100%; aspect-ratio: 360 / 574; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
 .book-card__title { font-family: var(--font-heading); font-weight: 800; font-size: 2.6em; letter-spacing: -.03em; line-height: .95; }
