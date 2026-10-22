@@ -19,7 +19,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com), and the versi
 
 ### Added
 
--  checks that every hover effect still responds after a link, Back and Forward.
+- `tools/effects.py` checks that every hover effect still responds after a link, Back and Forward.
 
 ## [2.3.0] - 2026-10-22
 
