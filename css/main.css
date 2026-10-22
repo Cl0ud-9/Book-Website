@@ -505,14 +505,16 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
   position: absolute; z-index: 2; right: 4%; top: 13%;
   max-width: 7em; text-align: center; rotate: 8deg;
 }
-.hero__visual { position: absolute; inset: 0; perspective: 140em; pointer-events: none; }
+/* Each book carries its own perspective (in its transform below) instead of the hero having one: as the books rose
+   in and floated, a shared viewpoint saw them from a changing angle, and they seemed to tilt by themselves */
+.hero__visual { position: absolute; inset: 0; pointer-events: none; }
 .hero__book, .hero__float { position: absolute; transform-style: preserve-3d; }
 .hero__float { position: relative; }
 .hero__book .book3d { width: 100%; }
 .hero__book.is--main { width: 25em; right: 12%; top: 19%; }
-.hero__book.is--main .book3d { transform: rotateY(-28deg) rotateX(10deg) rotateZ(-3deg); --d: 3.4em; }
+.hero__book.is--main .book3d { transform: perspective(140em) rotateY(-28deg) rotateX(10deg) rotateZ(-3deg); --d: 3.4em; }
 .hero__book.is--back { width: 21em; right: 27%; top: 27%; }
-.hero__book.is--back .book3d { transform: rotateY(-34deg) rotateX(8deg) rotateZ(-12deg); --d: 2.8em; }
+.hero__book.is--back .book3d { transform: perspective(140em) rotateY(-34deg) rotateX(8deg) rotateZ(-12deg); --d: 2.8em; }
 /* Darkened on the cover itself: a filter on the book would flatten it, drawing its page block over the cover */
 .hero__book.is--back .book3d__front img { filter: brightness(.92); }
 

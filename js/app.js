@@ -226,7 +226,7 @@
     if (content) gsap.set(content, { opacity: 0, y: "5em" });
     // Not quite 0: the browser then draws the big covers while the squiggle still hides them, instead of in the middle
     // of the opening, where that first draw cost a couple of frames
-    if (books.length) gsap.set(books, { opacity: 0.001, y: "6em", rotate: (i) => [-6, 10, -6][i] });
+    if (books.length) gsap.set(books, { opacity: 0.001, y: "6em" });
     if (bg && desktop.matches) gsap.set(bg, { clipPath: "ellipse(20% 0% at 100% 100%)" });
     if (small) gsap.set(small, { y: "-5em", opacity: 0 });
 
@@ -238,8 +238,8 @@
       if (button) tl.to(button, { opacity: 1, y: "0em", duration: 0.35, ease: "energy" }, at + 0.525);
       if (noteSplit) tl.to(noteSplit.chars, { ...scribbleTo, onComplete: () => noteSplit.revert() }, at + 0.45);
       if (content) tl.to(content, { y: "0em", opacity: 1, duration: 0.6, ease: "energy" }, at + 0.35);
-      // A smooth glide into place: an elastic ease swung these big tilted books back and forth before they settled
-      if (books.length) tl.to(books, { opacity: 1, y: "0em", rotate: 0, duration: 1.1, ease: "expo.out", stagger: 0.08 }, at + 0.15);
+      // Straight up into place, no turning: an elastic, rotating entrance made these big books look like they wobbled
+      if (books.length) tl.to(books, { opacity: 1, y: "0em", duration: 1.1, ease: "expo.out", stagger: 0.08 }, at + 0.15);
     };
   }
 
