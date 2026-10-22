@@ -7,7 +7,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com), and the versi
 
 ## [2.0.0] - 2026-10-22
 
-A redesign: a bright, illustrated bookshop where everything moves, with a new page for the whole catalogue.
+A redesign: a bright, illustrated bookshop where everything moves, with a new page for the whole catalogue. On the
+live site, Lighthouse on a phone scores 90 to 99 for performance and 100 for accessibility, best practices and SEO on
+every page.
 
 ### Added
 
@@ -22,7 +24,8 @@ A redesign: a bright, illustrated bookshop where everything moves, with a new pa
   scroll up, emoji you can fling with the pointer, and a footer that slides out from under the page.
 - `books.html`: every book, searchable by title, author or genre, with genre chips. Genre links on the home page open
   it already filtered.
-- Ten original covers, drawn for the site, with new fictional titles and authors.
+- Ten original covers, drawn for the site in 180, 360, 720 and 1080 pixel widths, with new fictional titles and
+  authors.
 - A phone menu, a 404 page in the new style, and `tools/` with the page generator, the cover renderer and a browser
   check that exercises the site on desktop, phone, reduced motion and without JavaScript.
 

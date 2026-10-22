@@ -63,9 +63,16 @@ rebuilt from scratch in version 2. Every book, cover and illustration on it was 
 - **No JavaScript.** Every page is complete and readable, with real links between them.
 - **Keyboard and screen readers.** A skip link, labelled fields, visible focus, sliders driven by the arrow keys, genre
   covers that follow keyboard focus, a phone menu that keeps focus inside and closes with Escape, and animated text
-  that is still read out as whole sentences. Lighthouse accessibility: 100 on every page.
-- **Nothing from other servers.** Fonts and libraries are served with the site. The four fonts are cut down to the
-  characters used (122 KB together) and the covers are WebP in three widths.
+  that is still read out as whole sentences.
+- **Fast anyway.** Fonts and libraries are served with the site, so it makes no requests to other servers. The four
+  fonts are cut down to the characters used (122 KB together) and the covers are WebP in four widths. Lighthouse on
+  a phone, on the live site:
+
+  | Page | Performance | Accessibility | Best practices | SEO | Downloads |
+  |---|---|---|---|---|---|
+  | Home | 90 to 96 | 100 | 100 | 100 | 558 KB |
+  | All books | 96 | 100 | 100 | 100 | 342 KB |
+  | Log in, Sign up | 96 to 99 | 100 | 100 | 100 | 240 KB |
 
 ## Run it
 
