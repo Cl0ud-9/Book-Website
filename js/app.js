@@ -82,9 +82,14 @@
 
   /* ---------------- Header and menu ---------------- */
 
+  let lastY = 0;
   const onScroll = () => {
-    const started = (lenis ? lenis.scroll : window.scrollY) > 50;
-    header.dataset.scrollingStarted = String(started);
+    const y = lenis ? lenis.scroll : window.scrollY;
+    header.dataset.scrollingStarted = String(y > 50);
+    // Small jitters do not count, so the Menu button does not flicker
+    if (Math.abs(y - lastY) < 8) return;
+    header.dataset.scrollDir = y > lastY && y > 50 ? "down" : "up";
+    lastY = y;
   };
   if (lenis) lenis.on("scroll", onScroll);
   else window.addEventListener("scroll", onScroll, { passive: true });

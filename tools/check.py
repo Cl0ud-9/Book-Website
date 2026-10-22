@@ -179,6 +179,22 @@ with sync_playwright() as p:
     ok(not page.locator("#menu").is_visible(), "Escape closes the menu")
     wide = page.evaluate("document.documentElement.scrollWidth")
     ok(wide <= 390, f"no sideways scrolling on phones ({wide}px)")
+    # big words stay inside their card or panel
+    spill = page.evaluate("""() => [...document.querySelectorAll('.book-card__title, .genre__default, .genre__more')].filter(el => {
+      const box = el.closest('.book-card, .genre').getBoundingClientRect(), r = document.createRange();
+      r.selectNodeContents(el);
+      return [...r.getClientRects()].some(t => t.width && (t.right > box.right || t.left < box.left));
+    }).map(el => el.textContent.trim())""")
+    ok(not spill, f"titles and genres fit their boxes ({spill or 'all fit'})")
+    # the Menu button gets out of the way while reading down, and comes back on the way up (Escape left keyboard
+    # focus on it, which keeps it in view on purpose, so drop that first)
+    page.evaluate("document.activeElement.blur()")
+    page.mouse.wheel(0, 1200)
+    page.wait_for_timeout(1200)
+    ok(page.locator("[data-menu-toggle]").bounding_box()["y"] + 60 < 0, "Menu button hides while scrolling down")
+    page.mouse.wheel(0, -300)
+    page.wait_for_timeout(1200)
+    ok(page.locator("[data-menu-toggle]").bounding_box()["y"] > 0, "Menu button returns on scrolling up")
     print("phone console:", errors or "clean")
     page.close()
 

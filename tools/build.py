@@ -111,9 +111,13 @@ def price(now, was):
     return f'<p class="book-card__price">₹{now} <s><span class="sr-only">was </span>₹{was}</s></p>'
 
 
-def tags(genres):
+def tags(genres, card=None):
+    # A tag the same colour as its card would vanish into it, so that one turns white
+    def colour(g):
+        c = TAG_COLOURS.get(g, "white")
+        return "white" if c == card else c
     return ('<ul class="tags" aria-label="Genres">' +
-            "".join(f'<li class="tag" style="--tag:var(--{TAG_COLOURS.get(g, "white")})">{e(g)}</li>' for g in genres)
+            "".join(f'<li class="tag" style="--tag:var(--{colour(g)})">{e(g)}</li>' for g in genres)
             + "</ul>")
 
 
@@ -304,7 +308,7 @@ def book_card(i, sizes, extra_cls="", lazy=True, heading="h3"):
     search = " ".join([title, author, *genres]).lower()
     return f"""<article class="book-card {extra_cls}" id="book-{i}" style="--card:var(--{colour});--ink:{ink(colour)}" data-search="{e(search)}" data-genres="{e(" ".join(slug(g) for g in genres))}" data-books-slider-item>
   <div class="book-card__cover">{cover(i, sizes, lazy=lazy)}</div>
-  {tags(genres)}
+  {tags(genres, colour)}
   <{heading} class="book-card__title"><a class="book-card__link" href="{book_url(i)}" draggable="false">{e(title)}</a></{heading}>
   <p class="book-card__author">{e(author)}</p>
   {price(now, was)}

@@ -25,6 +25,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com), and the versi
 - The page could be wider than a phone screen: the footer's bottom row overshot its edges, and the logo and Menu
   button did not fit beside each other below about 420 px. Nothing can widen the page now, even while animating.
 - The footer wordmark was cut off at the right edge.
+- On phones, long book titles ("The Lighthouse Letters", "Last Seen Wednesday") ran past the edge of their card, and
+  "Contemporary" ran off the genre panel. Both now shrink to fit their box.
+- The phone Menu button covered whatever was under it while reading. It slides away while scrolling down and comes
+  back as soon as you scroll up (or tab to it).
+- The Contemporary tag on Paper Moons was the same pale green as its card, so only the word showed. A tag that
+  matches its card is white now.
 - Words in the curved tagline ran together at its bends on phones.
 
 ## [2.1.0] - 2026-10-22

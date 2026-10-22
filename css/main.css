@@ -347,7 +347,10 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 .menu-toggle {
   display: none;
   --bg: var(--orange); --c: var(--black);
+  transition: scale .15s var(--ease-click), translate .5s var(--ease-smooth);
 }
+/* Out of the way while reading down the page, back as soon as the reader scrolls up or tabs to it */
+.header[data-scroll-dir="down"] > .menu-toggle:not(:focus-visible) { translate: 0 calc(var(--header-height) * -1.2); }
 .menu-toggle .button-alt__icon { width: 1.3em; height: 1.3em; }
 
 .menu {
@@ -546,7 +549,9 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
   .book-card:hover .book-card__open { gap: .7em; }
 }
 .book-card__cover img { width: 100%; aspect-ratio: 360 / 574; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
-.book-card__title { font-family: var(--font-heading); font-weight: 900; font-size: 2.6em; letter-spacing: -.03em; line-height: .95; }
+.book-card { container-type: inline-size; }
+/* Never wider than the card: the longest word, "Lighthouse", is 5.74 times the type size */
+.book-card__title { font-family: var(--font-heading); font-weight: 900; font-size: min(2.6em, 16.5cqi); letter-spacing: -.03em; line-height: .95; }
 .book-card__author { font-size: 1.125em; font-weight: 600; }
 .book-card__price { font-size: 1.5em; font-weight: 600; }
 .book-card__price s { font-size: .7em; font-weight: 600; }
@@ -675,6 +680,7 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 /* ---------- Genres ---------- */
 
 .genre {
+  container-type: inline-size;
   margin: 1em var(--gap) 0; border-radius: var(--radius);
   background: var(--magenta);
   padding: 6em 2em 5em;
@@ -739,8 +745,9 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 @media (max-width: 991px) {
   .genre { padding: 4em 1em 3.5em; }
   .genre__note { position: static; margin-top: .75em; rotate: -4deg; max-width: none; }
-  .genre__default, .genre__more { font-size: 3.25em; }
-  .genre__hover { font-size: 3.6em; }
+  /* The longest genre, "Contemporary", is 7.37 times the type size (5.92 handwritten): keep it inside the panel */
+  .genre__default, .genre__more { font-size: min(3.25em, 13cqi); }
+  .genre__hover { font-size: min(3.6em, 16cqi); }
   .genre__item { padding: .3em 0; }
   .genre__item:is(:hover, :focus-within) + .genre__item .genre__link { translate: 0 .5em; }
   .genre__item:is(:hover, :focus-within) + .genre__item + .genre__item .genre__link { translate: 0 .125em; }
