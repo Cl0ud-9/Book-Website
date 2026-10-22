@@ -7,7 +7,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com), and the versi
 
 ## [2.1.0] - 2026-10-22
 
-A cleaner, more finished pass, and every book can now be opened.
+A cleaner, more finished pass, and every book can now be opened. On the live site every page scores 100 for
+accessibility, best practices and SEO, and 89 to 98 for performance on a phone.
 
 ### Added
 

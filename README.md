@@ -78,9 +78,10 @@ scratch in version 2. Every book, cover and illustration on it was made for the 
 
   | Page | Performance | Accessibility | Best practices | SEO | Downloads |
   |---|---|---|---|---|---|
-  | Home | 90 to 96 | 100 | 100 | 100 | 558 KB |
-  | All books | 96 | 100 | 100 | 100 | 342 KB |
-  | Log in, Sign up | 96 to 99 | 100 | 100 | 100 | 240 KB |
+  | Home | 89 to 97 | 100 | 100 | 100 | 501 KB |
+  | All books | 95 to 98 | 100 | 100 | 100 | 335 KB |
+  | A book page | 95 to 97 | 100 | 100 | 100 | 289 KB |
+  | Log in, Sign up | 98 | 100 | 100 | 100 | 200 KB |
 
 ## Run it
 
