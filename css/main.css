@@ -219,19 +219,21 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
   position: relative;
   display: inline-grid; place-items: center;
   height: 2.75em; padding: 0 1.1em;
-  font-size: 1.125em; font-weight: 500; letter-spacing: .005em; text-decoration: none; white-space: nowrap;
+  font-size: 1.125em; font-weight: 600; letter-spacing: .005em; text-decoration: none; white-space: nowrap;
   transition: scale .15s var(--ease-click);
 }
 .button__bg {
-  position: absolute; inset: 0; border-radius: .65em; background: var(--button-bg);
+  position: absolute; inset: 0; border-radius: 10em; background: var(--button-bg);
   transition: scale .15s var(--ease-soft-overshoot), transform .15s var(--ease-soft-overshoot);
 }
+/* The bookmark hangs from under the current page's button, like a ribbon out of a book. (It used to stick up out of
+   the top, where the edge of the window cut it off.) */
 .button__bg::after {
-  content: ""; position: absolute; right: .9em; top: 0;
-  width: .7em; height: 1.1em; background: var(--magenta);
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 72%, 0 100%);
+  content: ""; position: absolute; right: 1.1em; top: 100%; z-index: -1;
+  width: .75em; height: 1.35em; background: var(--magenta);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 74%, 0 100%);
   transform-origin: top center;
-  translate: 0 -95%;
+  translate: 0 -.4em;
   scale: 1 0;
   transition: scale .25s var(--ease-smooth);
 }
@@ -465,14 +467,18 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
   background: linear-gradient(90deg, rgba(0, 0, 0, .25), rgba(255, 255, 255, .15) 30%, rgba(0, 0, 0, .1) 70%, rgba(0, 0, 0, .3)), var(--spine);
   border-radius: .3em;
 }
+/* Page edges: a few soft lines and a shade towards the spine. Hair-thin stripes looked like a barcode on phones,
+   where each was only two or three pixels wide. */
 .book3d__pages {
   top: .25em; bottom: .25em; left: 100%; width: calc(var(--d) - .3em);
   transform: translateX(-50%) rotateY(90deg);
-  background: repeating-linear-gradient(90deg, #fffdf6 0 .12em, #e6dfcf .12em .18em);
+  background: linear-gradient(90deg, rgba(0, 0, 0, .12), transparent 30% 75%, rgba(0, 0, 0, .08)),
+    repeating-linear-gradient(90deg, #fffdf6 0 .3em, #efe8d8 .3em .38em);
 }
 .book3d__top, .book3d__bottom {
   left: .1em; right: .25em; height: calc(var(--d) - .3em);
-  background: repeating-linear-gradient(0deg, #fffdf6 0 .12em, #e6dfcf .12em .18em);
+  background: linear-gradient(0deg, rgba(0, 0, 0, .08), transparent 40%),
+    repeating-linear-gradient(0deg, #fffdf6 0 .3em, #efe8d8 .3em .38em);
 }
 .book3d__top { top: 0; transform: translateY(-50%) rotateX(90deg); }
 .book3d__bottom { top: 100%; transform: translateY(-50%) rotateX(-90deg); }
@@ -506,7 +512,9 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 .hero__book.is--main { width: 25em; right: 12%; top: 19%; }
 .hero__book.is--main .book3d { transform: rotateY(-28deg) rotateX(10deg) rotateZ(-3deg); --d: 3.4em; }
 .hero__book.is--back { width: 21em; right: 27%; top: 27%; }
-.hero__book.is--back .book3d { transform: rotateY(-34deg) rotateX(8deg) rotateZ(-12deg); --d: 2.8em; filter: brightness(.92); }
+.hero__book.is--back .book3d { transform: rotateY(-34deg) rotateX(8deg) rotateZ(-12deg); --d: 2.8em; }
+/* Darkened on the cover itself: a filter on the book would flatten it, drawing its page block over the cover */
+.hero__book.is--back .book3d__front img { filter: brightness(.92); }
 
 @media (max-width: 991px) {
   .hero { align-content: start; padding: calc(var(--header-height) + 2em) 1.25em 24em; min-height: 0; }
@@ -904,6 +912,10 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 
 .favs__text { font-size: var(--font-size-paragraph); max-width: 26em; }
 .favs__slider { overflow: hidden; padding: 4em 0 1em; cursor: grab; }
+/* A shelf whose books all fit has nothing to slide (see sliders in app.js) */
+.is--still { cursor: auto; }
+.is--still > [data-books-slider-wrapper] { justify-content: center; padding-left: 0; }
+[data-books-slider-controls][hidden] { display: none; }
 .favs__list .slide { width: 26em; }
 .fav-card { position: relative; display: grid; gap: .75em; justify-items: center; text-align: center; rotate: var(--book-slider-item-rotate, 0deg); }
 .fav-card__cover {

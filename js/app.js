@@ -472,20 +472,23 @@
         card.style.setProperty("--book-slider-item-rotate", `${-rotation}deg`);
         return { card, rotation, yOffset: gsap.utils.random(3, 9, 0.1) * direction };
       });
+      const tilt = () => {
+        const box = viewport.getBoundingClientRect();
+        const middle = box.left + box.width / 2;
+        // Measure every card before moving any: alternating the two made the browser redo its styles once per card
+        const centres = settings.map(({ card }) => { const r = card.getBoundingClientRect(); return r.left + r.width / 2; });
+        settings.forEach(({ card, rotation, yOffset }, i) => {
+          const strength = Math.sin(gsap.utils.clamp(-2, 2, (centres[i] - middle) / (box.width / 2)) * 1.2);
+          card.style.transform = `translateY(${strength * yOffset}%) rotate(${strength * rotation}deg)`;
+        });
+      };
       let slider = null;
       slider = new window.Smooothy(wrapper, {
         infinite: false, snap: false, dragSensitivity: 0.008, lerpFactor: 0.225, bounceLimit: 0.5,
         setOffset: ({ wrapperWidth }) => wrapperWidth - 32,
         onUpdate: () => {
           if (!slider) return;
-          const box = viewport.getBoundingClientRect();
-          const middle = box.left + box.width / 2;
-          // Measure every card before moving any: alternating the two made the browser redo its styles once per card
-          const centres = settings.map(({ card }) => { const r = card.getBoundingClientRect(); return r.left + r.width / 2; });
-          settings.forEach(({ card, rotation, yOffset }, i) => {
-            const strength = Math.sin(gsap.utils.clamp(-2, 2, (centres[i] - middle) / (box.width / 2)) * 1.2);
-            card.style.transform = `translateY(${strength * yOffset}%) rotate(${strength * rotation}deg)`;
-          });
+          tilt();
           const atStart = slider.currentSlide <= 0;
           const atEnd = gsap.utils.clamp(0, 1, slider.progress) >= 0.95;
           prev?.classList.toggle("is--disabled", atStart);
@@ -494,6 +497,24 @@
           next?.setAttribute("aria-disabled", String(atEnd));
         },
       });
+      // A shelf whose books all fit on screen has nothing to slide. Smooothy's limits then turned inside out and any
+      // input (even scrolling the page past it) sent the books back and forth, so such a shelf simply stands still.
+      if (slider.maxScroll >= 0) {
+        slider.destroy();
+        tilt();
+        section.querySelector("[data-books-slider-controls]")?.setAttribute("hidden", "");
+        viewport.classList.add("is--still");
+        viewport.removeAttribute("tabindex");
+        return;
+      }
+      // Smooothy's own wheel handling also reacted to scrolling the page with the pointer over the shelf. Only a
+      // sideways swipe (a trackpad) moves the shelf now; scrolling up and down belongs to the page.
+      slider.virtualScroll?.destroy();
+      viewport.addEventListener("wheel", (event) => {
+        if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+        event.preventDefault();
+        slider.target = gsap.utils.clamp(slider.maxScroll, 0, slider.target - event.deltaX * 0.004);
+      }, { passive: false });
       let downX = 0;
       let dragged = false;
       wrapper.addEventListener("pointerdown", (event) => { downX = event.clientX; dragged = false; });

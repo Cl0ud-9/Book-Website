@@ -5,6 +5,22 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [2.3.1] - 2026-10-22
+
+### Fixed
+
+- The Readers' favourites shelf jittered back and forth when the page was scrolled past it on a laptop. All four
+  books fit on screen, so the shelf had nothing to slide and its limits turned inside out; it now stands still. The
+  main shelf also ignores up-and-down scrolling now, and moves with a sideways trackpad swipe as well as a drag.
+- On phones, the edges of the 3D books' pages looked like a barcode, and the book at the back drew its page block as
+  a strip across its cover. The page edges are softer, and the back book is 3D again.
+- The bookmark on the current page's button stuck up out of the top of the window, where it was cut off. It now
+  hangs below the button, and the header buttons are round pills like the original's.
+
+### Added
+
+-  checks that every hover effect still responds after a link, Back and Forward.
+
 ## [2.3.0] - 2026-10-22
 
 Smoothness, measured frame by frame on a real Android phone, and the small things a finished site has.

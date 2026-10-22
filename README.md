@@ -121,6 +121,7 @@ The pages are generated from one list, so a book's title, price, genres and colo
 python tools/build.py      # edit BOOKS in it first; rewrites every page, including one per book
 python tools/covers.py     # redraws the ten covers (needs Pillow, Playwright and Google Chrome)
 python tools/check.py      # with npm start running: uses the site like a visitor and reports what fails
+python tools/effects.py    # with npm start running: checks every hover effect after links, Back and Forward
 python tools/social.py     # with npm start running: redraws the link previews and the home-screen icon
 python tools/fonts.py      # rebuilds the three fonts from their sources (needs fonttools and brotli)
 ```
