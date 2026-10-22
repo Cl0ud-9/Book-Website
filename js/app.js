@@ -238,7 +238,8 @@
       if (button) tl.to(button, { opacity: 1, y: "0em", duration: 0.35, ease: "energy" }, at + 0.525);
       if (noteSplit) tl.to(noteSplit.chars, { ...scribbleTo, onComplete: () => noteSplit.revert() }, at + 0.45);
       if (content) tl.to(content, { y: "0em", opacity: 1, duration: 0.6, ease: "energy" }, at + 0.35);
-      if (books.length) tl.to(books, { opacity: 1, y: "0em", rotate: 0, duration: 0.85, ease: ELASTIC, stagger: 0.08 }, at + 0.15);
+      // A smooth glide into place: an elastic ease swung these big tilted books back and forth before they settled
+      if (books.length) tl.to(books, { opacity: 1, y: "0em", rotate: 0, duration: 1.1, ease: "expo.out", stagger: 0.08 }, at + 0.15);
     };
   }
 
@@ -829,7 +830,7 @@
   function giftPop(page) {
     page.querySelectorAll("[data-gift]").forEach((wrap) => {
       gsap.fromTo(wrap.querySelector("[data-gift-item]"), { rotate: 30, scale: 0 },
-        { rotate: -21, scale: 1, ease: ELASTIC_SOFT, duration: 0.95, scrollTrigger: { trigger: wrap, start: "top 72%", once: true } });
+        { rotate: -21, scale: 1, ease: "back.out(1.6)", duration: 0.9, scrollTrigger: { trigger: wrap, start: "top 72%", once: true } });
     });
   }
 

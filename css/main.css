@@ -1265,9 +1265,12 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 body:has(.reader) .header { display: none; }
 .reader {
   --r-bg: #fffdf6; --r-fg: #1d1b16; --r-soft: #efe7d6; --r-line: rgba(0, 0, 0, .12);
-  position: relative; height: 100svh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden;
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden;
   background: var(--r-bg); color: var(--r-fg); transition: background-color .3s, color .3s;
 }
+/* Pinned to the whole screen: sized to 100svh it stopped short when a phone hid its address bar, and the page's white
+   showed underneath (more specific than .page > section:last-of-type, which would make it relative again) */
+.page > section.reader { position: fixed; inset: 0; z-index: 1; }
 .reader[data-theme="sepia"] { --r-bg: #f3e9d2; --r-fg: #3b2f1e; --r-soft: #e6d6b4; --r-line: rgba(59, 47, 30, .16); }
 .reader[data-theme="night"] { --r-bg: #17161c; --r-fg: #e4dfd2; --r-soft: #2a2933; --r-line: rgba(255, 255, 255, .14); }
 .reader__bar { display: flex; align-items: center; gap: 1em; padding: .75em 1.25em; border-bottom: 1px solid var(--r-line); }

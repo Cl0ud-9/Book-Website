@@ -34,6 +34,15 @@ prices and bag are gone.
 
 - The ten made-up books, their prices, Add to bag, and the tools that drew their covers.
 
+### Fixed
+
+- In the reader on a phone, a strip of white showed under the page once the browser hid its address bar. The reader
+  now always fills the whole screen, in every page colour.
+- The two books on the home page, the cover on a book's page and the gift book swung back and forth before settling.
+  They now glide into place.
+- The reader's buttons kept their names for screen readers on phones, each page has a title, and the reader no longer
+  adds an unload listener (deprecated in browsers).
+
 ## [2.3.1] - 2026-10-22
 
 ### Fixed
