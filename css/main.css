@@ -451,7 +451,7 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 .book3d > div { position: absolute; backface-visibility: hidden; }
 .book3d__front {
   inset: 0; transform: translateZ(calc(var(--d) / 2));
-  border-radius: .15em .5em .5em .15em; overflow: hidden;
+  border-radius: .15em .3em .3em .15em; overflow: hidden;
   box-shadow: inset .35em 0 .4em -.2em rgba(0, 0, 0, .35);
 }
 .book3d__front img { width: 100%; height: 100%; object-fit: cover; }
@@ -460,7 +460,7 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
   background: linear-gradient(90deg, rgba(0, 0, 0, .25) 0 1.5%, rgba(255, 255, 255, .25) 2.5%, transparent 6%),
     linear-gradient(120deg, rgba(255, 255, 255, .22), transparent 40%);
 }
-.book3d__back { inset: 0; transform: rotateY(180deg) translateZ(calc(var(--d) / 2)); background: var(--spine); border-radius: .5em .15em .15em .5em; }
+.book3d__back { inset: 0; transform: rotateY(180deg) translateZ(calc(var(--d) / 2)); background: var(--spine); border-radius: .3em .15em .15em .3em; }
 .book3d__spine {
   top: 0; bottom: 0; left: 0; width: var(--d);
   transform: translateX(-50%) rotateY(-90deg);
@@ -468,20 +468,21 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
   border-radius: .3em;
 }
 /* Page edges: a few soft lines and a shade towards the spine. Hair-thin stripes looked like a barcode on phones,
-   where each was only two or three pixels wide. */
+   where each was only two or three pixels wide. The block is tucked just inside the covers, as in a real hardback:
+   flush with their edges, the rounded corners left a see-through gap between cover and pages. */
 .book3d__pages {
-  top: .25em; bottom: .25em; left: 100%; width: calc(var(--d) - .3em);
+  top: .1em; bottom: .1em; left: calc(100% - .2em); width: calc(var(--d) - .1em);
   transform: translateX(-50%) rotateY(90deg);
   background: linear-gradient(90deg, rgba(0, 0, 0, .12), transparent 30% 75%, rgba(0, 0, 0, .08)),
     repeating-linear-gradient(90deg, #fffdf6 0 .3em, #efe8d8 .3em .38em);
 }
 .book3d__top, .book3d__bottom {
-  left: .1em; right: .25em; height: calc(var(--d) - .3em);
+  left: .1em; right: .2em; height: calc(var(--d) - .1em);
   background: linear-gradient(0deg, rgba(0, 0, 0, .08), transparent 40%),
     repeating-linear-gradient(0deg, #fffdf6 0 .3em, #efe8d8 .3em .38em);
 }
-.book3d__top { top: 0; transform: translateY(-50%) rotateX(90deg); }
-.book3d__bottom { top: 100%; transform: translateY(-50%) rotateX(-90deg); }
+.book3d__top { top: .2em; transform: translateY(-50%) rotateX(90deg); }
+.book3d__bottom { top: calc(100% - .2em); transform: translateY(-50%) rotateX(-90deg); }
 
 /* ---------- Hero ---------- */
 
@@ -497,7 +498,9 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 }
 .hero__bg { position: absolute; inset: 0; }
 .hero__shapes { width: 100%; height: 100%; max-width: none; }
-.hero__content { position: relative; z-index: 2; display: grid; gap: 2em; justify-items: start; }
+.hero__content { position: relative; z-index: 2; display: grid; gap: 2em; justify-items: start; pointer-events: none; }
+/* The column is as wide as the hero and sits over the books: only its own contents take the pointer */
+.hero__content > * { pointer-events: auto; }
 .hero__title { max-width: 8ch; }
 .hero__title em { color: var(--violet); padding-right: .04em; }
 .hero__text { font-size: var(--font-size-paragraph); max-width: 24em; font-weight: 600; letter-spacing: -.01em; }
@@ -509,6 +512,8 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
    in and floated, a shared viewpoint saw them from a changing angle, and they seemed to tilt by themselves */
 .hero__visual { position: absolute; inset: 0; pointer-events: none; }
 .hero__book, .hero__float { position: absolute; transform-style: preserve-3d; }
+/* The books answer a tap with a little lean (floatingBooks in app.js); the rest of the visual lets touches through */
+.hero__book { pointer-events: auto; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .hero__float { position: relative; }
 .hero__book .book3d { width: 100%; }
 .hero__book.is--main { width: 25em; right: 12%; top: 19%; }

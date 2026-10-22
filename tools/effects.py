@@ -44,6 +44,9 @@ def home_effects(page, where):
     page.evaluate("window.scrollTo(0, 0)"); page.wait_for_timeout(800)
     check(page, where, "hero books lean to the pointer", "document.querySelector('.hero__book.is--main').style.transform",
           lambda: page.mouse.move(200, 600, steps=6), 600)
+    book = page.locator(".hero__book.is--main").bounding_box()
+    check(page, where, "a hero book leans when clicked", "document.querySelector('.hero__book.is--main').style.transform",
+          lambda: page.mouse.click(book["x"] + book["width"] * 0.8, book["y"] + book["height"] / 2), 120)
     check(page, where, "hero button letters wave", "document.querySelector('.hero [data-button-alt-text] .split-char')?.style.transform || 'none'",
           hover(page, ".hero .button-alt"), 120)
     check(page, where, "how-it-works cards fan out", "[...document.querySelectorAll('[data-call-out-item]')].map(c => c.style.transform).join()",

@@ -395,7 +395,20 @@
         duration: i === 0 ? 3.2 : 2.8, ease: "sine.inOut", yoyo: true, repeat: -1,
       });
     });
-    if (!finePointer.matches) return;
+    // A tap or click makes a book dip and lean a little towards where it was touched, then spring back once
+    const nudges = [...books].map((book) => {
+      const nudge = (event) => {
+        const box = book.getBoundingClientRect();
+        const side = event.clientX < box.left + box.width / 2 ? -1 : 1;
+        gsap.timeline({ overwrite: "auto" })
+          .to(book, { rotate: side * 4, scale: 0.97, duration: 0.14, ease: "power2.out" })
+          .to(book, { rotate: 0, scale: 1, duration: 0.7, ease: "back.out(2.2)" });
+      };
+      book.addEventListener("pointerdown", nudge);
+      return () => book.removeEventListener("pointerdown", nudge);
+    });
+    const unnudge = () => nudges.forEach((fn) => fn());
+    if (!finePointer.matches) return unnudge;
     const hero = page.querySelector(".hero");
     const movers = [...books].map((book, i) => ({
       x: gsap.quickTo(book, "xPercent", { duration: 0.9, ease: "power3" }),
@@ -408,7 +421,7 @@
       movers.forEach((m) => { m.x(nx * m.depth); m.y(ny * m.depth); });
     };
     hero.addEventListener("pointermove", move);
-    return () => hero.removeEventListener("pointermove", move);
+    return () => { hero.removeEventListener("pointermove", move); unnudge(); };
   }
 
   // Letters in buttons dip and spring back on hover

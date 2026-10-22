@@ -44,6 +44,9 @@ prices and bag are gone.
   carries its own, so its angle stays the same.
 - After a new version went live, a browser could keep using the old scripts for up to ten minutes. The site's CSS and
   scripts now carry a version in their address, so every visit gets the current ones.
+- On a phone, an orange gap showed between a 3D book's cover and its pages at the corners. The pages now sit just
+  inside the covers, as in a real hardback.
+- Tapping or clicking a book at the top of the home page makes it lean a little towards your finger and spring back.
 - The reader's buttons kept their names for screen readers on phones, each page has a title, and the reader no longer
   adds an unload listener (deprecated in browsers).
 
