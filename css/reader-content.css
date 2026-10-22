@@ -1,0 +1,13 @@
+/* Added inside a book while it is read (js/reader.js) */
+
+/* The site's own Figtree, for the reader's Sans option */
+@font-face { font-family: Figtree; font-weight: 500 700; font-display: swap; src: url("../fonts/figtree.woff2") format("woff2"); }
+
+/* Standard Ebooks hides some headings by moving them 999em to the left (the title page shows its title as artwork).
+   epub.js counts that distance as page width and made dozens of blank pages, so they are hidden in place instead,
+   still there for screen readers. */
+section.epub-type-contains-word-titlepage h1, section.epub-type-contains-word-titlepage p,
+section.epub-type-contains-word-colophon h2, section.epub-type-contains-word-imprint h2 {
+  position: absolute !important; left: 0 !important; width: 1px !important; height: 1px !important;
+  overflow: hidden !important; clip-path: inset(50%) !important; white-space: nowrap !important;
+}

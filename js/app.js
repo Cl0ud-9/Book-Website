@@ -101,7 +101,7 @@
   }
 
   function setCurrentNav(namespace) {
-    const key = { home: "home", books: "books", book: "books", login: "account", signup: "account" }[namespace];
+    const key = { home: "home", books: "books", book: "books", reader: "books", login: "account", signup: "account" }[namespace];
     document.querySelectorAll("[data-nav]").forEach((link) => {
       if (link.dataset.nav === key) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
@@ -452,9 +452,18 @@
     });
   }
 
-  function currentMonth(page) {
-    const month = new Intl.DateTimeFormat("en", { month: "long" }).format(new Date());
-    page.querySelectorAll("[data-current-month]").forEach((el) => { el.textContent = month; });
+  // Smooothy's destroy() removes new functions rather than the ones it added to window, so its mousemove, mouseup and
+  // touch listeners stayed behind, and with them every shelf and the page around it, on every visit to the home page.
+  // The window listeners it adds while it is built are noted here, and removed with it.
+  function withWindowListeners(build) {
+    const added = [];
+    const add = window.addEventListener;
+    window.addEventListener = function (...args) { added.push(args); return add.apply(this, args); };
+    try {
+      return [build(), () => added.forEach((args) => window.removeEventListener(...args))];
+    } finally {
+      window.addEventListener = add;
+    }
   }
 
   // Draggable shelves: each card tilts and dips the further it is from the middle
@@ -483,7 +492,8 @@
         });
       };
       let slider = null;
-      slider = new window.Smooothy(wrapper, {
+      let unlisten = null;
+      [slider, unlisten] = withWindowListeners(() => new window.Smooothy(wrapper, {
         infinite: false, snap: false, dragSensitivity: 0.008, lerpFactor: 0.225, bounceLimit: 0.5,
         setOffset: ({ wrapperWidth }) => wrapperWidth - 32,
         onUpdate: () => {
@@ -496,11 +506,12 @@
           prev?.setAttribute("aria-disabled", String(atStart));
           next?.setAttribute("aria-disabled", String(atEnd));
         },
-      });
+      }));
       // A shelf whose books all fit on screen has nothing to slide. Smooothy's limits then turned inside out and any
       // input (even scrolling the page past it) sent the books back and forth, so such a shelf simply stands still.
       if (slider.maxScroll >= 0) {
         slider.destroy();
+        unlisten();
         tilt();
         section.querySelector("[data-books-slider-controls]")?.setAttribute("hidden", "");
         viewport.classList.add("is--still");
@@ -534,11 +545,12 @@
         trigger: section, start: "top bottom", end: "bottom top",
         onToggle: (self) => (self.isActive ? gsap.ticker.add(tick) : gsap.ticker.remove(tick)),
       });
-      instances.push({ slider, tick, cards });
+      instances.push({ slider, unlisten, tick, cards });
     });
-    return () => instances.forEach(({ slider, tick, cards }) => {
+    return () => instances.forEach(({ slider, unlisten, tick, cards }) => {
       gsap.ticker.remove(tick);
       slider.destroy();
+      unlisten();
       cards.forEach((card) => { card.style.transform = ""; card.style.removeProperty("--book-slider-item-rotate"); });
     });
   }
@@ -889,21 +901,20 @@
     });
   }
 
-  // Book pages: the cover leans towards the pointer and bobs gently; "Add to bag" says thanks with confetti
+  // Book pages: the cover leans towards the pointer and bobs gently; downloading a book sets off confetti
   function bookPage(page) {
     const area = page.querySelector(".book-hero");
     const target = page.querySelector("[data-book-tilt-target]");
-    const bag = page.querySelector("[data-add-to-bag]");
-    const status = page.querySelector("[data-bag-status]");
+    const download = page.querySelector(".book-hero a[download]");
     const cleanups = [];
-    if (bag) {
-      const add = () => {
-        status.textContent = "Added to your bag. (A demo: nothing is ordered.)";
-        const box = bag.getBoundingClientRect();
+    if (download) {
+      // A little celebration for a book that's yours to keep
+      const cheer = () => {
+        const box = download.getBoundingClientRect();
         confettiBurst(box.left + box.width / 2, box.top + box.height / 2);
       };
-      bag.addEventListener("click", add);
-      cleanups.push(() => bag.removeEventListener("click", add));
+      download.addEventListener("click", cheer);
+      cleanups.push(() => download.removeEventListener("click", cheer));
     }
     if (target && !reducedMotion()) {
       gsap.to(target, { y: "-1em", duration: 2.8, ease: "sine.inOut", yoyo: true, repeat: -1 });
@@ -992,7 +1003,8 @@
     if (!chips.some((c) => c.dataset.genre === genre)) genre = "";
 
     const apply = (animate = true) => {
-      const words = input.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+      // Accents dropped, as in the cards' search text, so "bronte" finds Brontë
+      const words = input.value.trim().toLowerCase().normalize("NFD").replace(/\p{Mn}/gu, "").split(/\s+/).filter(Boolean);
       const shown = [];
       cards.forEach((card) => {
         const match = words.every((w) => card.dataset.search.includes(w)) && (!genre || card.dataset.genres.split(" ").includes(genre));
@@ -1023,7 +1035,83 @@
       apply();
     }));
     apply(false);
-    if (!reducedMotion()) gsap.from(cards.filter((c) => !c.hidden), { y: "4em", opacity: 0, rotate: () => gsap.utils.random(-6, 6), duration: 0.9, ease: ELASTIC_SOFT, stagger: 0.05, delay: 0.6 });
+    // Cards drop in as they come into view, a row or two at a time (the whole library at once took seconds)
+    if (!reducedMotion()) {
+      gsap.set(cards, { y: "4em", opacity: 0 });
+      ScrollTrigger.batch(cards, {
+        start: "top 95%", once: true,
+        onEnter: (batch) => gsap.to(batch, { y: "0em", opacity: 1, rotate: 0, duration: 0.9, ease: ELASTIC_SOFT, stagger: 0.05,
+          startAt: { rotate: () => gsap.utils.random(-6, 6) } }),
+      });
+    }
+  }
+
+  /* ---------------- The library: reading, and coming back to a book ---------------- */
+
+  const libraryOf = (page) => {
+    const data = page.querySelector("[data-library]");
+    try { return data ? JSON.parse(data.textContent) : {}; } catch { return {}; }
+  };
+  const places = () => {
+    try { return JSON.parse(localStorage.getItem("bookshelf:reading")) || {}; } catch { return {}; }
+  };
+
+  // The reader's scripts (about 320 KB) are fetched only when a book is opened, once
+  let readerScripts = null;
+  function loadReader() {
+    const load = (src) => new Promise((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = src;
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.append(s);
+    });
+    readerScripts ||= load("js/vendor/jszip.min.js").then(() => load("js/vendor/epub.min.js")).then(() => load("js/reader.js"));
+    return readerScripts;
+  }
+
+  function readerPage(page) {
+    const root = page.querySelector("[data-reader]");
+    if (!root) return;
+    let undo = null;
+    let gone = false;
+    loadReader().then(() => { if (!gone) undo = window.BookshelfReader.open(root, libraryOf(page)); })
+      .catch(() => { root.querySelector("[data-reader-message]").textContent = "The reader didn’t load. Check your connection and try again."; });
+    return () => { gone = true; undo?.(); };
+  }
+
+  // Home: the books you have started, newest first
+  function continueReading(page) {
+    const section = page.querySelector("[data-continue]");
+    if (!section) return;
+    const library = libraryOf(page);
+    const started = Object.entries(places()).filter(([slug, p]) => library[slug] && p.percent < 0.99)
+      .sort((a, b) => b[1].at - a[1].at).slice(0, 4);
+    if (!started.length) return;
+    const list = section.querySelector("[data-continue-list]");
+    const template = section.querySelector("template");
+    started.forEach(([slug, p]) => {
+      const item = template.content.firstElementChild.cloneNode(true);
+      const book = library[slug];
+      item.querySelector("a").href = `read.html?book=${slug}`;
+      item.querySelector("img").src = `image/covers/${slug}-360.webp`;
+      item.querySelector("[data-continue-title]").textContent = book.title;
+      item.querySelector("[data-continue-author]").textContent = book.author;
+      item.querySelector("[data-continue-percent]").textContent = `${Math.round(p.percent * 100)}% read`;
+      item.querySelector("[data-continue-bar]").style.transform = `scaleX(${p.percent})`;
+      list.append(item);
+    });
+    section.hidden = false;
+  }
+
+  // A book you have started: its Read button says where you are
+  function readButton(page) {
+    const button = page.querySelector("[data-read-button]");
+    if (!button) return;
+    const p = places()[button.dataset.readButton];
+    if (!p) return;
+    const label = button.querySelector("[data-button-alt-text]");
+    label.textContent = `Continue (${Math.round(p.percent * 100)}%)`;
   }
 
   /* ---------------- Page lifecycle ---------------- */
@@ -1033,9 +1121,12 @@
 
   function initPage(container) {
     setCurrentNav(container.dataset.barbaNamespace);
-    currentMonth(container);
     pageCleanups.push(window.BookshelfForms?.init(container) || (() => {}));
     accordions(container);
+    continueReading(container);
+    readButton(container);
+    const closeReader = readerPage(container);
+    if (closeReader) pageCleanups.push(closeReader);
     if (reducedMotion()) {
       catalogue(container);
       return;

@@ -445,7 +445,7 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
   --d: 2.6em;
   --spine: var(--magenta);
   position: relative;
-  aspect-ratio: 360 / 574;
+  aspect-ratio: 2 / 3;
   transform-style: preserve-3d;
 }
 .book3d > div { position: absolute; backface-visibility: hidden; }
@@ -564,13 +564,14 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
   .book-card:hover .book-card__cover { translate: 0 -.4em; box-shadow: 0 1.2em 2em -.8em rgba(0, 0, 0, .5); }
   .book-card:hover .book-card__open { gap: .7em; }
 }
-.book-card__cover img { width: 100%; aspect-ratio: 360 / 574; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
+.book-card__cover img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
 .book-card { container-type: inline-size; }
-/* Never wider than the card: the longest word, "Lighthouse", is 5.74 times the type size */
-.book-card__title { font-family: var(--font-heading); font-weight: 900; font-size: min(2.6em, 16.5cqi); letter-spacing: -.03em; line-height: .95; }
+/* Never wider than the card: --fit (set by tools/build.py) is how many times the type size its longest unbreakable
+   word measures, so only a title with a long word ("Extraordinary") gets smaller */
+.book-card__title { font-family: var(--font-heading); font-weight: 900; font-size: min(2.6em, calc(100cqi / var(--fit, 6))); letter-spacing: -.03em; line-height: .95; }
 .book-card__author { font-size: 1.125em; font-weight: 600; }
-.book-card__price { font-size: 1.5em; font-weight: 600; }
-.book-card__price s { font-size: .7em; font-weight: 600; }
+.book-card__time { display: flex; align-items: center; gap: .4em; font-size: 1.0625em; font-weight: 600; }
+.book-card__time .icon { width: 1.05em; height: 1.05em; }
 .book-card__hook { font-size: 1.125em; line-height: 1.25; }
 
 
@@ -636,7 +637,7 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 }
 .open-book__scene { position: absolute; inset: 0; display: grid; place-items: center; perspective: 160em; }
 .open-book__book {
-  --w: 30em; --h: calc(var(--w) * 574 / 360); --d: 4.5em;
+  --w: 30em; --h: calc(var(--w) * 3 / 2); --d: 4.5em;
   position: relative; width: var(--w); height: var(--h);
   transform-style: preserve-3d;
 }
@@ -734,7 +735,7 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 .genre__holding { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
 .genre__holder {
   position: absolute; left: 50%; top: var(--hold-y, 50%);
-  width: 15em; aspect-ratio: 360 / 574;
+  width: 15em; aspect-ratio: 2 / 3;
   transition: top .35s var(--ease-smooth);
 }
 .genre__holder:nth-child(1) { translate: calc(-150% - var(--hold-w, 20em) / 2) -100%; }
@@ -922,7 +923,7 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
   width: 100%; padding: 1.25em; border-radius: 1.5em; background: var(--card);
   box-shadow: 0 1em 2em -1.25em rgba(0, 0, 0, .5);
 }
-.fav-card__cover img { width: 100%; border-radius: .8em; aspect-ratio: 360 / 574; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
+.fav-card__cover img { width: 100%; border-radius: .8em; aspect-ratio: 2 / 3; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
 .fav-card__badge {
   position: absolute; right: -1.5em; top: -1.5em; width: 8em; height: 8em;
   display: grid; place-items: center; rotate: 12deg;
@@ -966,7 +967,7 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
   text-align: left;
 }
 .spotlight__card .tags { justify-self: start; }
-.spotlight__cover img { border-radius: .9em; aspect-ratio: 360 / 574; object-fit: cover; width: 100%; }
+.spotlight__cover img { border-radius: .9em; aspect-ratio: 2 / 3; object-fit: cover; width: 100%; }
 .spotlight__book { justify-self: start; font-family: var(--font-heading); font-weight: 900; font-size: 2.5em; letter-spacing: -.03em; line-height: .9; }
 .spotlight__book-text { font-size: 1.125em; line-height: 1.3; }
 .spotlight__quote { color: var(--violet); font-size: 2em; rotate: -4deg; }
@@ -1111,9 +1112,10 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 .book-hero__hook { color: inherit; font-size: 2.5em; max-width: 16em; line-height: 1.05; }
 .book-hero__buy { display: grid; gap: 1em; justify-items: start; margin-top: .5em; }
 .book-hero__price { font-size: 2.25em; font-weight: 600; display: flex; align-items: baseline; gap: .4em; }
-.book-hero__price s { font-size: .6em; font-weight: 500; opacity: .75; }
+.book-hero__actions { display: flex; flex-wrap: wrap; gap: .75em; }
+.book-hero__formats { font-size: 1.0625em; font-weight: 500; }
+.book-hero__formats a { font-weight: 700; color: inherit; }
 .book-hero__save { font-size: .45em; font-weight: 600; letter-spacing: .04em; padding: .35em .7em; border-radius: 99em; background: var(--black); color: var(--white); align-self: center; }
-.book-hero__status { font-size: 1.25em; font-weight: 600; min-height: 1.3em; }
 
 .book-about { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 6em; padding: 8em 6em 6em; align-items: start; }
 .book-about__text { display: grid; gap: 1.5em; }
@@ -1234,6 +1236,101 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 
 .not-found .hero-xs { min-height: 100svh; align-content: center; border-radius: 0 0 var(--radius) var(--radius); }
 .not-found__code { font-family: var(--font-heading); font-weight: 900; font-size: 18em; letter-spacing: -.03em; line-height: .8; color: var(--orange); }
+
+/* ---------- Continue reading (home; filled in from this device by app.js) ---------- */
+
+.continue { margin: 1em var(--gap) 0; padding: 3em 2.5em; border-radius: var(--radius); background: var(--soft-periwinkle); display: grid; gap: 1.5em; }
+.continue[hidden] { display: none; }
+.continue__list { display: grid; grid-template-columns: repeat(auto-fill, minmax(20em, 1fr)); gap: 1em; }
+.continue__link {
+  display: grid; grid-template-columns: 4.5em 1fr; gap: 1em; align-items: center; padding: .75em;
+  border-radius: 1em; background: var(--white); text-decoration: none; transition: scale .3s var(--ease-bounce);
+}
+.continue__link:hover { scale: 1.02; }
+.continue__link img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: .4em; }
+.continue__text { display: grid; gap: .3em; }
+.continue__book { font-family: var(--font-heading); font-weight: 900; font-size: 1.35em; line-height: 1; letter-spacing: -.02em; }
+.continue__author, .continue__percent { font-weight: 600; }
+.continue__progress { height: .4em; border-radius: 1em; background: var(--soft-grey); overflow: hidden; }
+.continue__progress span { display: block; height: 100%; background: var(--magenta-ink); transform-origin: left; transform: scaleX(0); }
+
+@media (max-width: 991px) {
+  .continue { padding: 2em 1.25em; }
+  .continue__list { grid-template-columns: 1fr; }
+}
+
+/* ---------- Reader (read.html, js/reader.js) ---------- */
+
+/* The reader has a bar of its own, so the site's header steps aside */
+body:has(.reader) .header { display: none; }
+.reader {
+  --r-bg: #fffdf6; --r-fg: #1d1b16; --r-soft: #efe7d6; --r-line: rgba(0, 0, 0, .12);
+  position: relative; height: 100svh; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden;
+  background: var(--r-bg); color: var(--r-fg); transition: background-color .3s, color .3s;
+}
+.reader[data-theme="sepia"] { --r-bg: #f3e9d2; --r-fg: #3b2f1e; --r-soft: #e6d6b4; --r-line: rgba(59, 47, 30, .16); }
+.reader[data-theme="night"] { --r-bg: #17161c; --r-fg: #e4dfd2; --r-soft: #2a2933; --r-line: rgba(255, 255, 255, .14); }
+.reader__bar { display: flex; align-items: center; gap: 1em; padding: .75em 1.25em; border-bottom: 1px solid var(--r-line); }
+.reader__back, .reader__tool {
+  display: inline-flex; align-items: center; gap: .45em; height: 2.6em; padding: 0 1em; border-radius: 10em;
+  background: var(--r-soft); color: inherit; font-weight: 600; text-decoration: none; white-space: nowrap;
+  transition: scale .15s var(--ease-click);
+}
+.reader__back:active, .reader__tool:active { scale: .95; }
+.reader__back .icon, .reader__tool .icon { width: 1.15em; height: 1.15em; }
+.reader__tool[aria-expanded="true"] { background: var(--r-fg); color: var(--r-bg); }
+.reader__titles { flex: 1; min-width: 0; text-align: center; }
+.reader__title { font-family: var(--font-heading); font-weight: 900; font-size: 1.35em; letter-spacing: -.02em; line-height: 1.1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.reader__author { font-weight: 500; opacity: .75; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.reader__tools { display: flex; gap: .5em; }
+/* minmax(0, …): a paginated book is one very long row of columns, which must not widen the page */
+.reader__stage { position: relative; display: grid; grid-template-columns: 4.5em minmax(0, 1fr) 4.5em; min-height: 0; }
+.reader__view { min-width: 0; min-height: 0; height: 100%; padding: 1.5em 0; overflow: hidden; }
+.reader.is--scrolled .reader__stage { grid-template-columns: minmax(0, 1fr); }
+.reader.is--scrolled .reader__view { padding: 0; }
+.reader.is--scrolled .reader__turn { display: none; }
+.reader__turn { display: grid; place-items: center; color: inherit; opacity: .55; transition: opacity .2s; }
+.reader__turn:hover, .reader__turn:focus-visible { opacity: 1; }
+.reader__turn .icon { width: 2.2em; height: 2.2em; }
+.reader__message { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 2em; font-size: 1.25em; font-weight: 600; pointer-events: none; }
+.reader__message:empty { display: none; }
+.reader__message a { pointer-events: auto; color: inherit; }
+.reader.is--ready .reader__message:not(:empty) { background: var(--r-bg); }
+.reader__foot { display: grid; grid-template-columns: 1fr minmax(6em, 24em) 1fr; align-items: center; gap: 1em; padding: .65em 1.25em; border-top: 1px solid var(--r-line); font-size: .95em; font-weight: 600; }
+.reader__chapter { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; opacity: .75; }
+.reader__progress { height: .35em; border-radius: 1em; background: var(--r-soft); overflow: hidden; }
+.reader__progress span { display: block; height: 100%; background: var(--magenta-ink); transform-origin: left; transform: scaleX(0); transition: transform .4s var(--ease-smooth); }
+.reader__percent { text-align: right; }
+.reader__panel {
+  position: absolute; z-index: 5; top: 4.6em; right: 1.25em; width: min(24em, calc(100% - 2.5em)); max-height: min(36em, 75svh);
+  overflow: auto; overscroll-behavior: contain; padding: 1.25em; border-radius: 1.25em;
+  background: var(--r-bg); color: var(--r-fg); border: 1px solid var(--r-line); box-shadow: 0 1.5em 3em -1.5em rgba(0, 0, 0, .45);
+}
+.reader__panel-title { font-family: var(--font-heading); font-weight: 900; font-size: 1.5em; letter-spacing: -.02em; margin-bottom: .5em; }
+.reader__toc { display: grid; gap: .1em; }
+.reader__toc-link { width: 100%; text-align: left; padding: .5em .75em .5em calc(.75em + var(--depth, 0) * 1em); border-radius: .6em; font-weight: 500; color: inherit; }
+.reader__toc-link:hover, .reader__toc-link:focus-visible { background: var(--r-soft); }
+.reader__setting { display: flex; flex-wrap: wrap; align-items: center; gap: .5em; padding: .5em 0; }
+.reader__setting > span:first-child { width: 3.5em; font-weight: 700; }
+.reader__size { min-width: 3.5em; text-align: center; font-weight: 600; }
+.reader__choice { height: 2.4em; padding: 0 .9em; border-radius: 10em; background: var(--r-soft); color: inherit; font-weight: 600; }
+.reader__choice[aria-pressed="true"] { background: var(--r-fg); color: var(--r-bg); }
+.reader__choice.is--paper { background: #fffdf6; color: #1d1b16; }
+.reader__choice.is--sepia { background: #f3e9d2; color: #3b2f1e; }
+.reader__choice.is--night { background: #17161c; color: #e4dfd2; }
+.reader__choice:is(.is--paper, .is--sepia, .is--night)[aria-pressed="true"] { outline: .15em solid var(--magenta-ink); outline-offset: .12em; }
+.reader.is--missing .reader__stage > :not(.reader__message), .reader.is--missing .reader__foot, .reader.is--missing .reader__tools { visibility: hidden; }
+
+@media (max-width: 767px) {
+  .reader__bar { gap: .5em; padding: .6em .75em; }
+  .reader__tool-label, .reader__back span { display: none; }
+  .reader__back, .reader__tool { width: 2.6em; padding: 0; justify-content: center; }
+  .reader__title { font-size: 1.1em; }
+  .reader__author { font-size: .9em; }
+  .reader__foot { grid-template-columns: 1fr auto; }
+  .reader__foot .reader__progress { display: none; }
+  .reader__panel { right: .75em; width: calc(100% - 1.5em); }
+}
 
 /* ---------- Confetti ---------- */
 

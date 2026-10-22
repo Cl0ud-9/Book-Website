@@ -1,78 +1,64 @@
-"""Write The Bookshelf's pages (index, books, login, signup, 404) from one list of books and shared parts.
+"""Write The Bookshelf's pages from the library (library/books.json, made by tools/library.py) and shared parts:
+the home page, All books, a page for every book, the reader, log in, sign up and 404.
 
 usage: python tools/build.py [OUTPUT_DIR]      (default: the repository root)
-Edit BOOKS below to change the shelf, then run this and commit the regenerated pages.
+Change the shelf in tools/library.py, and what the home page features in FEATURED below.
 """
 import html
+import json
 import re
 import sys
+import unicodedata
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import shapes  # noqa: E402
 
-OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent
+OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT
 e = html.escape
 
-# title, author, price, was, genres, card colour, one-line hook, description, spine colour
-BOOKS = [
-    ("The Lighthouse Letters", "Mira Kapoor", 249, 499, ["Romance", "Historical"], "yellow",
-     "Forty years of letters, one lighthouse, and the reply that never came.",
-     "When Asha inherits her grandmother's lighthouse she finds a trunk of unsent letters to a sailor who may still be "
-     "alive. A sweeping, tender story about the things we mean to say.", "#3b308f"),
-    ("Paper Moons", "Aanya Rao", 249, 499, ["Romance", "Contemporary"], "pale-green",
-     "Two strangers, one rooftop, and a string of paper moons.",
-     "Every night at 11, someone hangs a new paper moon outside Meera's window. A warm, funny love story told in "
-     "notes, rooftops and very bad timing.", "#ff008c"),
-    ("Small Rituals", "Leo Fernandes", 299, 649, ["Self-help", "Non-fiction"], "pale-orange",
-     "Keep your days, one page at a time.",
-     "A gentle guide to journaling and the small daily habits that make a life feel like your own, with prompts for "
-     "every season.", "#9982de"),
-    ("The Hollow Wood", "Ines Marlow", 169, 299, ["Mystery", "Fantasy"], "olive",
-     "Every path in this wood leads somewhere it shouldn't.",
-     "Three children go into the Hollow Wood. Two come back, and neither will say what they saw behind the glowing "
-     "door. An atmospheric, unsettling fable.", "#2e3b22"),
-    ("Last Seen Wednesday", "Dev Malhotra", 69, 199, ["Thriller"], "cyan",
-     "Everyone saw her on Wednesday. No one remembers it.",
-     "A missing student, a circled date and a town that has quietly agreed to forget. A tight, twisty thriller you "
-     "will finish in one sitting.", "#000000"),
-    ("Fog Over Kestrel Lane", "Clara Whitby", 117, 449, ["Mystery"], "periwinkle",
-     "The fog hides more than the houses.",
-     "On a street where the fog never lifts, one window stays lit every night. A cosy mystery with a sharp-eyed "
-     "retired postwoman at its heart.", "#465a86"),
-    ("Wild Green Hours", "Tara Bose", 269, 479, ["Nature", "Photography"], "pale-pink",
-     "Slow down. Look closer.",
-     "A year spent watching one small patch of forest, in photographs and short essays about patience, weather and "
-     "the creatures that live at our feet.", "#0e5e3a"),
-    ("Cities Above the Clouds", "Noor Haddad", 296, 599, ["Fantasy", "Adventure"], "pale-blue",
-     "A city above the clouds, and a girl who fell from it.",
-     "Zara has never seen the ground. When her balloon tears she lands in a world below the clouds that was never "
-     "supposed to exist. A soaring adventure.", "#3b308f"),
-    ("Where Mountains Sleep", "Kenji Arai", 699, 999, ["Nature", "Photography"], "violet",
-     "Mountains, moons and the quiet in between.",
-     "Photographs from twelve years of walking the high ranges at dusk, with notes on light, altitude and learning "
-     "to wait.", "#9982de"),
-    ("Night Swimming", "Ruth Okafor", 169, 299, ["Poetry"], "magenta",
-     "Poems for 2 a.m. and the moon that keeps you up.",
-     "Forty-two short poems about water, insomnia and the people we call at midnight. Quiet, funny and bright as "
-     "moonlight on a lake.", "#141a3a"),
-]
-GENRES = ["Romance", "Mystery", "Fantasy", "Thriller", "Poetry", "Photography", "Self-help", "Historical",
-          "Adventure", "Contemporary"]
-TAG_COLOURS = {"Romance": "pale-pink", "Historical": "soft-orange", "Contemporary": "pale-green",
-               "Self-help": "soft-periwinkle", "Non-fiction": "white", "Mystery": "pale-blue", "Fantasy": "pale-periwinkle",
-               "Thriller": "black", "Nature": "pale-green", "Photography": "white", "Adventure": "orange",
-               "Poetry": "pale-yellow", "Bookshelf pick": "magenta"}
-W, H = 360, 574
+# Every book: title, author, translator, abstract, description (paragraphs), words, reading_time, language,
+# standard_ebooks, slug, genres, spine, epub, kindle, kobo
+LIBRARY = json.loads((ROOT / "library" / "books.json").read_text(encoding="utf-8"))
+BOOK = {b["slug"]: b for b in LIBRARY}
+GENRES = ["Romance", "Mystery", "Adventure", "Fantasy", "Science fiction", "Horror", "Poetry", "Philosophy",
+          "Children’s", "Plays", "Literary fiction"]
+TAG_COLOURS = {"Romance": "pale-pink", "Mystery": "pale-blue", "Adventure": "orange", "Fantasy": "pale-periwinkle",
+               "Science fiction": "cyan", "Horror": "black", "Poetry": "pale-yellow", "Philosophy": "soft-orange",
+               "Children’s": "pale-green", "Plays": "soft-periwinkle", "Literary fiction": "white",
+               "Book of the month": "magenta"}
+CARD_COLOURS = ["yellow", "pale-green", "pale-orange", "cyan", "periwinkle", "pale-pink", "pale-blue", "olive",
+                "violet", "magenta"]
+for n, b in enumerate(LIBRARY):
+    b["colour"] = CARD_COLOURS[n % len(CARD_COLOURS)]
+W, H = 360, 540
 DARK = {"olive", "violet"}  # card colours that need white text (both pass WCAG AA with it)
 
+# What the home page shows; every name is a book's slug
+FEATURED = {
+    "hero": ("wuthering-heights", "pride-and-prejudice"),  # behind, in front
+    "shelf": ["pride-and-prejudice", "frankenstein", "the-great-gatsby", "dracula", "jane-eyre",
+              "the-adventures-of-sherlock-holmes", "the-picture-of-dorian-gray", "meditations",
+              "alices-adventures-in-wonderland", "the-count-of-monte-cristo"],
+    "open_book": "alices-adventures-in-wonderland",
+    "gift": "little-women",
+    "starts": [("pride-and-prejudice", "If you love a love story"),
+               ("the-hound-of-the-baskervilles", "If you love a good mystery"),
+               ("frankenstein", "If you like a little fear"),
+               ("the-count-of-monte-cristo", "If you want an adventure")],
+    "spotlight": "the-great-gatsby",
+    "spotlight_quotes": ("“So we beat on, boats against the current, borne back ceaselessly into the past.”",
+                         "“I hope she’ll be a fool, that’s the best thing a girl can be in this world.”"),
+}
 
-def cover(i, sizes, lazy=True, cls="", priority=False, alt=None):
-    title, author = BOOKS[i - 1][:2]
-    srcset = ", ".join(f"image/book-{i}-{w}.webp {w}w" for w in (180, 360, 720, 1080))
-    attrs = [f'src="image/book-{i}-360.webp"', f'srcset="{srcset}"', f'sizes="{sizes}"',
+
+def cover(slug, sizes, lazy=True, cls="", priority=False, alt=None):
+    b = BOOK[slug]
+    srcset = ", ".join(f"image/covers/{slug}-{w}.webp {w}w" for w in (180, 360, 720, 1080))
+    attrs = [f'src="image/covers/{slug}-360.webp"', f'srcset="{srcset}"', f'sizes="{sizes}"',
              f'width="{W}" height="{H}"',
-             f'alt="{e(alt if alt is not None else f"{title} by {author}, book cover")}"']
+             f'alt="{e(alt if alt is not None else b["title"] + " by " + b["author"] + ", book cover")}"']
     if cls:
         attrs.append(f'class="{cls}"')
     if lazy:
@@ -82,8 +68,13 @@ def cover(i, sizes, lazy=True, cls="", priority=False, alt=None):
     return f"<img {' '.join(attrs)}>"
 
 
+def plain(s):
+    # Lower case without accents, so a search for "bronte" finds Brontë (app.js does the same to what you type)
+    return "".join(c for c in unicodedata.normalize("NFD", s.lower()) if unicodedata.category(c) != "Mn")
+
+
 def slug(s):
-    return s.lower().replace(" ", "-")
+    return re.sub(r"[^a-z0-9]+", "-", s.lower().replace("'", "").replace("’", "")).strip("-")
 
 
 def icon(name, cls="icon"):
@@ -107,8 +98,10 @@ def submit_alt(text, colour="magenta"):
             f'{icon("arrow", "button-alt__icon")}</span></button>')
 
 
-def price(now, was):
-    return f'<p class="book-card__price">₹{now} <s><span class="sr-only">was </span>₹{was}</s></p>'
+def reading_time(b):
+    # "7 hours 24 minutes" reads as "7 h 24 min" on a card
+    short = b["reading_time"].replace(" hours", " h").replace(" hour", " h").replace(" minutes", " min").replace(" minute", " min")
+    return f'<p class="book-card__time">{icon("clock")}<span><span class="sr-only">Reading time: </span>{e(short)}</span></p>'
 
 
 def tags(genres, card=None):
@@ -121,9 +114,9 @@ def tags(genres, card=None):
             + "</ul>")
 
 
-def book3d(i, cls="", sizes="(max-width: 991px) 40vw, 24em", lazy=True, priority=False):
-    return (f'<div class="book3d {cls}" style="--spine:{BOOKS[i - 1][8]}">'
-            f'<div class="book3d__front">{cover(i, sizes, lazy=lazy, priority=priority, alt="")}</div>'
+def book3d(slug, cls="", sizes="(max-width: 991px) 40vw, 24em", lazy=True, priority=False):
+    return (f'<div class="book3d {cls}" style="--spine:{BOOK[slug]["spine"]}">'
+            f'<div class="book3d__front">{cover(slug, sizes, lazy=lazy, priority=priority, alt="")}</div>'
             '<div class="book3d__back"></div><div class="book3d__spine"></div>'
             '<div class="book3d__pages"></div><div class="book3d__top"></div><div class="book3d__bottom"></div></div>')
 
@@ -138,9 +131,10 @@ def bg_svg(paths, cls, view="0 0 1440 1000", small=False):
 ICON_DIR = Path(__file__).resolve().parent / "icons"
 # name used in the pages -> Lucide file
 ICONS = {"arrow": "arrow-right", "left": "arrow-left", "up": "arrow-up", "plus": "plus", "menu": "menu", "close": "x",
-         "search": "search", "bag": "shopping-bag", "book": "book-open", "sparkles": "sparkles", "gift": "gift",
+         "search": "search", "book": "book-open", "sparkles": "sparkles", "gift": "gift",
          "bookmark": "bookmark", "heart": "heart", "mail": "mail", "star": "star", "layers": "layers", "globe": "globe",
-         "package": "package"}
+         "package": "package", "clock": "clock", "download": "download", "contents": "list-ordered", "type": "type",
+         "sun": "sun", "moon": "moon", "prev": "chevron-left", "next": "chevron-right", "read": "book-marked"}
 
 
 def lucide_symbol(name, file):
@@ -172,7 +166,7 @@ HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
 <header class="header" data-header data-scrolling-started="false">
   <a class="header__logo" href="./" aria-label="The Bookshelf, home">
     <svg class="header__logo-icon" aria-hidden="true"><use href="#i-logo"></use></svg>
-    <span class="header__logo-text">Bookshelf</span><span class="header__logo-sub" aria-hidden="true">The<br>shop</span>
+    <span class="header__logo-text">Bookshelf</span><span class="header__logo-sub" aria-hidden="true">The<br>library</span>
   </a>
   <nav class="header__nav" aria-label="Main">
     <ul class="header__nav-list">
@@ -214,7 +208,7 @@ def footer():
     <div class="footer__top" data-footer-parallax-top>
       <form class="footer__form" data-newsletter novalidate>
         <h2 class="footer__form-title">Letters from the shelf</h2>
-        <p class="footer__text">One email a month: the new books, a few favourites, and nothing else.</p>
+        <p class="footer__text">One email a month: the classics we added, a few favourites, and nothing else.</p>
         <div class="footer__field">
           <label class="sr-only" for="newsletter-email">Email address</label>
           <span class="footer__input">{icon("mail")}<input class="field__input is--light" type="email" id="newsletter-email" name="email" placeholder="you@example.com" autocomplete="email" required></span>
@@ -224,8 +218,8 @@ def footer():
       </form>
       <nav class="footer__nav" aria-label="Footer">
         <div class="footer__col">
-          <h2 class="footer__heading">Shop</h2>
-          <ul><li><a href="books.html">All books</a></li><li><a href="index.html#genres">Genres</a></li><li><a href="index.html#new">New this month</a></li></ul>
+          <h2 class="footer__heading">Library</h2>
+          <ul><li><a href="books.html">All books</a></li><li><a href="index.html#genres">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Account</h2>
@@ -261,11 +255,11 @@ BOOT = ("<script>(function(d){var r=d.documentElement;r.classList.add('js');"
 SITE = "https://cl0ud-9.github.io/Book-Website/"
 
 
-def page(name, path, title, description, body, theme="yellow", book=None):
+def page(name, path, title, description, body, theme="yellow", book=None, with_footer=True):
     scripts = "\n".join(f'<script src="{s}" defer></script>' for s in SCRIPTS)
     # Link previews: a 1200 x 630 JPEG (made by tools/social.py), the size and format every app shows
-    social = f"image/social/book-{book}.jpg" if book else "image/social/home.jpg"
-    alt = f"The cover of {BOOKS[book - 1][0]} on its page at the Bookshelf" if book else "The Bookshelf home page"
+    social = f"image/social/{book}.jpg" if book else "image/social/home.jpg"
+    alt = f"The cover of {BOOK[book]['title']} on its page at the Bookshelf" if book else "The Bookshelf home page"
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -301,7 +295,7 @@ def page(name, path, title, description, body, theme="yellow", book=None):
 {HEADER}
 <main id="main" class="page" data-barba="container" data-barba-namespace="{name}" data-page-theme="{theme}">
 {body}
-{footer()}
+{footer() if with_footer else ""}
 </main>
 <div class="confetti" data-confetti-container aria-hidden="true"></div>
 </body>
@@ -309,62 +303,81 @@ def page(name, path, title, description, body, theme="yellow", book=None):
 """
 
 
-def book_url(i):
-    return f"book-{slug(BOOKS[i - 1][0])}.html"
+def book_url(s):
+    return f"book-{s}.html"
 
 
 def ink(colour):
     return "#fff" if colour in DARK else "#000"
 
 
+def library_data():
+    # What the reader and "Continue reading" need to know about each book, read by app.js
+    data = {b["slug"]: {"title": b["title"], "author": b["author"], "epub": b["epub"]} for b in LIBRARY}
+    return f'<script type="application/json" data-library>{json.dumps(data, ensure_ascii=False, separators=(",", ":"))}</script>'
+
+
 # The title is the card's link; its ::after stretches over the whole card, so the card is one big click target
-def book_card(i, sizes, extra_cls="", lazy=True, heading="h3"):
-    title, author, now, was, genres, colour, hook, desc, _ = BOOKS[i - 1]
-    search = " ".join([title, author, *genres]).lower()
-    return f"""<article class="book-card {extra_cls}" id="book-{i}" style="--card:var(--{colour});--ink:{ink(colour)}" data-search="{e(search)}" data-genres="{e(" ".join(slug(g) for g in genres))}" data-books-slider-item>
-  <div class="book-card__cover">{cover(i, sizes, lazy=lazy)}</div>
-  {tags(genres, colour)}
-  <{heading} class="book-card__title"><a class="book-card__link" href="{book_url(i)}" draggable="false">{e(title)}</a></{heading}>
-  <p class="book-card__author">{e(author)}</p>
-  {price(now, was)}
-  <p class="book-card__hook">{e(hook)}</p>
+def book_card(s, sizes, extra_cls="", lazy=True, heading="h3"):
+    b = BOOK[s]
+    search = plain(" ".join([b["title"], b["author"], *(b["genres"])]))
+    return f"""<article class="book-card {extra_cls}" id="book-{s}" style="--card:var(--{b["colour"]});--ink:{ink(b["colour"])}" data-search="{e(search)}" data-genres="{e(" ".join(slug(g) for g in b["genres"]))}" data-books-slider-item>
+  <div class="book-card__cover">{cover(s, sizes, lazy=lazy)}</div>
+  {tags(b["genres"], b["colour"])}
+  <{heading} class="book-card__title" style="--fit:{fit(b["title"])}"><a class="book-card__link" href="{book_url(s)}" draggable="false">{e(b["title"])}</a></{heading}>
+  <p class="book-card__author">{e(b["author"])}</p>
+  {reading_time(b)}
+  <p class="book-card__hook">{e(b["abstract"])}</p>
   <span class="book-card__open" aria-hidden="true">Open the book {icon("arrow")}</span>
 </article>"""
 
 
-PAGES = [312, 268, 196, 224, 288, 336, 176, 384, 208, 96]
-FORMATS = ["Hardback", "Paperback", "Hardback", "Paperback", "Paperback", "Hardback", "Hardback", "Hardback",
-           "Hardback", "Paperback"]
+def fit(title):
+    # About 0.58 em a letter in heavy Rubik: a title's longest unbreakable word, for .book-card__title
+    parts = [p + ("-" if i < len(w.split("-")) - 1 else "") for w in title.split() for i, p in enumerate(w.split("-"))]
+    return round(max(5.8, 0.58 * max(len(p) for p in parts) + 0.2), 2)
 
 
-def book_page(i):
-    title, author, now, was, genres, colour, hook, desc, spine = BOOKS[i - 1]
-    save = round((was - now) / was * 100)
-    # Related: same genre first, then neighbours on the shelf
-    related = [j for j in range(1, 11) if j != i and set(BOOKS[j - 1][4]) & set(genres)]
-    related += [j for j in range(1, 11) if j != i and j not in related]
-    more = "\n".join(book_card(j, "(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em") for j in related[:3])
-    facts = [("book", "Format", FORMATS[i - 1]), ("layers", "Pages", str(PAGES[i - 1])),
-             ("bookmark", "Genre", " and ".join(genres)), ("globe", "Language", "English"),
-             ("package", "Ships", "Wrapped, with a bookmark")]
-    dl = "".join(f"<div><dt>{icon(ic)}{a}</dt><dd>{e(b)}</dd></div>" for ic, a, b in facts)
-    return f"""<section class="book-hero" style="--card:var(--{colour});--ink:{ink(colour)}" data-intro-page aria-labelledby="page-title">
+def icon_button(tag, attrs, text, colour, ic):
+    return (f'<{tag} class="button-alt is--{colour}" data-button-alt {attrs}><span class="button-alt__text-wrap">'
+            f'<span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>{e(text)}</span></span>'
+            f'<span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span>'
+            f'{icon(ic, "button-alt__icon")}</span></{tag}>')
+
+
+def book_page(s):
+    b = BOOK[s]
+    # Related: books sharing the most genres, then the rest of the shelf in order
+    related = sorted((o for o in LIBRARY if o["slug"] != s), key=lambda o: -len(set(o["genres"]) & set(b["genres"])))
+    more = "\n".join(book_card(o["slug"], "(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em") for o in related[:3])
+    words = f"{b['words']:,} words"
+    facts = [("clock", "Reading time", b["reading_time"]), ("layers", "Length", words),
+             ("bookmark", "Genre", " and ".join(b["genres"])),
+             ("globe", "Language", "English")]
+    if b["translator"]:
+        facts.append(("type", "Translated by", b["translator"]))
+    dl = "".join(f"<div><dt>{icon(ic)}{a}</dt><dd>{e(v)}</dd></div>" for ic, a, v in facts)
+    about = "\n    ".join(f"<p>{e(p)}</p>" for p in b["description"])
+    return f"""<section class="book-hero" style="--card:var(--{b["colour"]});--ink:{ink(b["colour"])}" data-intro-page aria-labelledby="page-title">
   {bg_svg([("is--glow", shapes.BLOB_A), ("is--glow", shapes.BLOB_B)], "book-hero__shapes", "0 0 1440 1000", small=True)}
   <a class="book-hero__back" href="books.html">{icon("left")} All books</a>
   <div class="book-hero__grid">
     <div class="book-hero__visual" data-book-tilt aria-hidden="true">
-      <div class="book-hero__float" data-book-tilt-target>{book3d(i, "is--large", "(max-width: 991px) 60vw, 30em", lazy=False, priority=True)}</div>
+      <div class="book-hero__float" data-book-tilt-target>{book3d(s, "is--large", "(max-width: 991px) 60vw, 30em", lazy=False, priority=True)}</div>
       <span class="book-hero__shadow"></span>
     </div>
     <div class="book-hero__info">
-      <div data-hero-paragraph>{tags(genres)}</div>
-      <h1 class="book-hero__title heading-l" id="page-title" data-hero-title>{e(title)}</h1>
-      <p class="book-hero__author" data-hero-paragraph>by {e(author)}</p>
-      <p class="book-hero__hook accent-note" data-hero-handwritten-text>{e(hook)}</p>
+      <div data-hero-paragraph>{tags(b["genres"])}</div>
+      <h1 class="book-hero__title heading-l" id="page-title" data-hero-title>{e(b["title"])}</h1>
+      <p class="book-hero__author" data-hero-paragraph>by {e(b["author"])}</p>
+      <p class="book-hero__hook accent-note" data-hero-handwritten-text>{e(b["abstract"])}</p>
       <div class="book-hero__buy" data-hero-button>
-        <p class="book-hero__price">₹{now} <s><span class="sr-only">was </span>₹{was}</s> <span class="book-hero__save">Save {save}%</span></p>
-        <button type="button" class="button-alt is--black" data-button-alt data-add-to-bag><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Add to bag</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span>{icon("plus", "button-alt__icon")}</span></button>
-        <p class="book-hero__status" role="status" aria-live="polite" data-bag-status></p>
+        <p class="book-hero__price">Free <span class="book-hero__save">{e(b["reading_time"])}</span></p>
+        <div class="book-hero__actions">
+          {icon_button("a", f'href="read.html?book={s}" data-read-button="{s}"', "Read now", "black", "read")}
+          {icon_button("a", f'href="{b["epub"]}" download', "Download EPUB", "white", "download")}
+        </div>
+        <p class="book-hero__formats">Also for <a href="{b["kindle"]}">Kindle</a> and <a href="{b["kobo"]}">Kobo</a></p>
       </div>
     </div>
   </div>
@@ -372,7 +385,7 @@ def book_page(i):
 <section class="book-about" aria-labelledby="about-title">
   <div class="book-about__text">
     <h2 class="book-about__title heading-m" id="about-title">About the book</h2>
-    <p>{e(desc)}</p>
+    {about}
   </div>
   <dl class="book-about__facts">{dl}</dl>
 </section>
@@ -392,17 +405,18 @@ ILLUSTRATIONS = {
     "talk": '<svg viewBox="0 0 160 120" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 22h74a8 8 0 0 1 8 8v34a8 8 0 0 1-8 8H50l-16 14V72H20a8 8 0 0 1-8-8V30a8 8 0 0 1 8-8z" fill="#fff"/><path d="M30 40h52M30 54h36"/><path d="M146 52h-34a6 6 0 0 0-6 6v28a6 6 0 0 0 6 6h18l14 12V92h2a6 6 0 0 0 6-6V58a6 6 0 0 0-6-6z" fill="#fff"/><path d="m122 72 6 6 10-12"/></g></svg>',
 }
 STEPS = [
-    ("cyan", "browse", "Browse the shelf", "Ten new books every month, from page-turning thrillers to poems for 2 a.m."),
-    ("pale-pink", "pick", "Pick your reads", "Add as many as you like. Every book is fairly priced, and most are half off."),
-    ("yellow", "parcel", "Open your parcel", "Your books arrive wrapped, with a bookmark for each one."),
+    ("cyan", "browse", "Browse the shelf", "Over a hundred classics, from Austen and Asimov to Sherlock Holmes and Shakespeare."),
+    ("pale-pink", "pick", "Pick your reads", "Every book is free. No sign-up, no ads, no catch."),
+    ("yellow", "parcel", "Read anywhere", "Right here in your browser, or download it for your phone, Kindle or Kobo."),
     ("periwinkle", "talk", "Talk about it", "Share what you thought, and find your next favourite from other readers."),
 ]
 
 
 def home():
+    count = len(LIBRARY)
     # Smooothy moves each .slide; the card inside it is free to tilt
-    shelf = "\n".join(f'<div class="slide">{book_card(i, "(max-width: 991px) 60vw, 18em")}</div>'
-                      for i in range(1, 11))
+    shelf = "\n".join(f'<div class="slide">{book_card(s, "(max-width: 991px) 60vw, 18em")}</div>'
+                      for s in FEATURED["shelf"])
     steps = "\n".join(f"""<li class="step" style="--card:var(--{c})" data-call-out-item>
   <div class="step__inner" data-call-out-child>
     <p class="step__number accent-note">Step #{n}</p>
@@ -411,66 +425,81 @@ def home():
     <p class="step__text">{e(d)}</p>
   </div>
 </li>""" for n, (c, ill, t, d) in enumerate(STEPS, 1))
-    # each genre shows four covers around it; books of that genre first, then others to fill
+    # each genre shows four covers around it, all from that genre
     def covers_for(g):
-        mine = [i for i, b in enumerate(BOOKS, 1) if g in b[4]]
-        rest = [i for i in range(1, 11) if i not in mine]
-        return (mine + rest)[:4]
+        return [b["slug"] for b in LIBRARY if g in b["genres"]][:4]
     holders = []
     for h in range(4):
         imgs = "".join(cover(covers_for(g)[h], "17em", alt="", cls="genre__img") for g in GENRES)
         holders.append(f'<div class="genre__holder"><div class="genre__box" data-genre-interaction-box>{imgs}</div></div>')
     genres = "\n".join(f"""<li class="genre__item" data-genre-interaction-item><a class="genre__link" href="books.html?genre={slug(g)}">
   <span class="genre__default">{e(g)}</span><span class="genre__hover" aria-hidden="true">{e(g)}</span></a></li>""" for g in GENRES)
-    favourites = [(10, "#1", "Most re-read"), (4, "#2", "Most gifted"), (1, "#3", "Most underlined"),
-                  (8, "#4", "Most talked about")]
-    fav_cards = "\n".join(f"""<div class="slide"><article class="fav-card" style="--card:var(--{BOOKS[i - 1][5]});--ink:{'#fff' if BOOKS[i - 1][5] in DARK else '#000'}" data-books-slider-item>
-  <div class="fav-card__cover">{cover(i, "(max-width: 991px) 60vw, 20em")}</div>
-  <p class="fav-card__badge" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="{burst()}"/></svg><span>{rank}</span></p>
-  <h3 class="fav-card__title"><a class="book-card__link" href="{book_url(i)}" draggable="false">{e(BOOKS[i - 1][0])}</a></h3>
-  <p class="fav-card__label">{rank}: {e(label)}</p>
-</article></div>""" for i, rank, label in favourites)
+    fav_cards = "\n".join(f"""<div class="slide"><article class="fav-card" style="--card:var(--{BOOK[s]["colour"]});--ink:{ink(BOOK[s]["colour"])}" data-books-slider-item>
+  <div class="fav-card__cover">{cover(s, "(max-width: 991px) 60vw, 20em")}</div>
+  <p class="fav-card__badge" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="{burst()}"/></svg><span>#{n}</span></p>
+  <h3 class="fav-card__title"><a class="book-card__link" href="{book_url(s)}" draggable="false">{e(BOOK[s]["title"])}</a></h3>
+  <p class="fav-card__label">{e(label)}</p>
+</article></div>""" for n, (s, label) in enumerate(FEATURED["starts"], 1))
     q = [
-        ("Is the Bookshelf a real shop?",
-         "Not yet. It is a design project: you can browse the shelf, search it and try the forms, but nothing is "
-         "sold, sent or stored."),
-        ("How much do books cost?",
-         "Between ₹69 and ₹699 on this shelf, and most of them are half price."),
-        ("Do I need an account to browse?",
-         "No. Browse and search as much as you like. An account would save your shelf, once accounts exist."),
-        ("How often do new books arrive?",
-         "The shelf changes on the first of every month, so there is always something new to talk about."),
+        ("Are the books really free?",
+         f"Yes, all {count} of them, to read here or to download and keep. They are out of copyright, so they belong "
+         "to everyone."),
+        ("Where do the books come from?",
+         "They are public-domain editions from Standard Ebooks, carefully proofread and beautifully typeset, with "
+         "the art on their covers taken from public-domain paintings."),
+        ("Can I read on my Kindle, Kobo or phone?",
+         "Yes. Every book page has an EPUB download for phones and most e-readers, and links to Kindle and Kobo "
+         "editions. Or just press Read now and read in your browser."),
+        ("Will it remember where I stopped?",
+         "Yes, on this device: open the book again and it picks up on your page. Nothing is sent anywhere, so there "
+         "is no account to make."),
+        ("Why are there no new bestsellers?",
+         "Recent books are still under copyright, so they cannot be shared for free. Your local library can lend "
+         "you most of them, often as ebooks through an app like Libby."),
     ]
     faq = "\n".join(f"""<details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">{e(a)}</span>{icon("plus", "accordion__icon")}</summary>
   <div class="accordion__content" data-accordion-content><p>{e(b)}</p></div>
 </details>""" for a, b in q)
-    ribbon_text = "New books every month ✦ A free bookmark with every book ✦ Most of the shelf at half price ✦ "
+    ribbon_text = f"Free, forever ✦ {count} classics ✦ Read here or download ✦ No sign-up, no ads ✦ "
+    spot = BOOK[FEATURED["spotlight"]]
+    quote_a, quote_b = FEATURED["spotlight_quotes"]
+    back, front = FEATURED["hero"]
     return f"""<section class="hero" data-intro-home aria-labelledby="hero-title">
   <div class="hero__bg" data-hero-bg>{bg_svg([("is--pale-yellow", shapes.HERO_BAND), ("is--pale-orange", shapes.HERO_RIDGE), ("is--orange", shapes.HERO_HILLS)], "hero__shapes", "0 0 1440 1000")}</div>
   <div class="hero__content">
     <h1 class="hero__title heading-xxl" id="hero-title" data-hero-title>Stories you can’t put down</h1>
-    <p class="hero__text" data-hero-paragraph>The Bookshelf is a little online bookshop with a big appetite for stories. Hand-picked reads, fair prices and a fresh shelf every month.</p>
+    <p class="hero__text" data-hero-paragraph>The Bookshelf is a free library of the classics: {count} books to read right here or download, from Austen to Asimov. No sign-up, no ads, no catch.</p>
     <div data-hero-button>{button_alt("books.html", "Browse the shelf")}</div>
   </div>
-  <p class="hero__note accent-note" data-hero-handwritten-text>Free bookmark with every book!</p>
+  <p class="hero__note accent-note" data-hero-handwritten-text>Free, forever!</p>
   <div class="hero__visual" data-hero-visual aria-hidden="true">
-    <div class="hero__book is--back" data-float><div class="hero__float">{book3d(1, "", "(max-width: 991px) 38vw, 21em", lazy=False)}</div></div>
-    <div class="hero__book is--main" data-float><div class="hero__float">{book3d(8, "", "(max-width: 991px) 45vw, 26em", lazy=False, priority=True)}</div></div>
+    <div class="hero__book is--back" data-float><div class="hero__float">{book3d(back, "", "(max-width: 991px) 38vw, 21em", lazy=False)}</div></div>
+    <div class="hero__book is--main" data-float><div class="hero__float">{book3d(front, "", "(max-width: 991px) 45vw, 26em", lazy=False, priority=True)}</div></div>
   </div>
+</section>
+
+<section class="continue" aria-labelledby="continue-title" data-continue hidden>
+  <h2 class="continue__title heading-m" id="continue-title">Continue reading</h2>
+  <ul class="continue__list" data-continue-list></ul>
+  <template><li class="continue__item"><a class="continue__link" href="read.html">
+    <img src="" width="{W}" height="{H}" alt="" loading="lazy" decoding="async">
+    <span class="continue__text"><span class="continue__book" data-continue-title></span><span class="continue__author" data-continue-author></span>
+    <span class="continue__progress"><span data-continue-bar></span></span><span class="continue__percent" data-continue-percent></span></span>
+  </a></li></template>
 </section>
 
 <section class="books" id="new" aria-labelledby="books-title" data-books-slider>
   <div class="books__head">
-    <p class="books__note accent-note" data-handwritten-text-inview>Hidden gems and page-turners</p>
-    <h2 class="books__title heading-l" id="books-title">Fresh on the shelf</h2>
-    <p class="books__text">Ten new reads for <span data-current-month>this month</span>. Drag the shelf, or use the arrows.</p>
+    <p class="books__note accent-note" data-handwritten-text-inview>The ones everyone talks about</p>
+    <h2 class="books__title heading-l" id="books-title">Where to start</h2>
+    <p class="books__text">Ten classics that earned the name. Drag the shelf, or use the arrows.</p>
   </div>
   <div class="slider-controls" data-books-slider-controls>
     <button class="slider-arrow" type="button" aria-label="Previous books">{icon("left")}</button>
     <button class="slider-arrow" type="button" aria-label="Next books">{icon("arrow")}</button>
   </div>
-  <div class="books__slider" data-books-slider-viewport tabindex="0" role="region" aria-label="New books. Use the arrow keys to browse.">
+  <div class="books__slider" data-books-slider-viewport tabindex="0" role="region" aria-label="Where to start. Use the arrow keys to browse.">
     <div class="books__list" data-books-slider-wrapper>
 {shelf}
     </div>
@@ -498,12 +527,12 @@ def home():
         <div class="open-book__leaf" data-book-open-leaf><div class="open-book__leaf-front"></div><div class="open-book__leaf-back"></div></div>
         <div class="open-book__leaf" data-book-open-leaf><div class="open-book__leaf-front"></div><div class="open-book__leaf-back"></div></div>
         <div class="open-book__cover" data-book-open-cover>
-          <div class="open-book__cover-front">{cover(4, "(max-width: 991px) 70vw, 30em", alt="")}</div>
+          <div class="open-book__cover-front">{cover(FEATURED["open_book"], "(max-width: 991px) 70vw, 30em", alt="")}</div>
           <div class="open-book__cover-back"><span>Ex libris</span>{icon("logo")}</div>
         </div>
       </div>
     </div>
-    <p class="open-book__note accent-note" data-book-open-note>Every book comes with a bookmark, so you never lose your page</p>
+    <p class="open-book__note accent-note" data-book-open-note>The reader keeps your place, so you never lose your page</p>
     <div class="open-book__final">
       <h2 class="open-book__title" id="open-title" data-book-open-title>Get lost in <span class="open-book__mark">a good book.</span></h2>
       <div class="open-book__buttons">
@@ -517,7 +546,7 @@ def home():
 
 <section class="genre" id="genres" aria-labelledby="genre-title" data-genre-interaction>
   <p class="genre__eyebrow" id="genre-title">Choose from</p>
-  <p class="genre__note accent-note" data-handwritten-text-inview>A book for every kind of reader</p>
+  <p class="genre__note accent-note" data-handwritten-text-inview>A classic for every kind of reader</p>
   <div class="genre__wrap">
     <ul class="genre__list" data-genre-interaction-list>
 {genres}
@@ -538,10 +567,10 @@ def home():
   </div>
   <h2 class="sr-only" id="why-title">Why the Bookshelf?</h2>
   <ul class="why__stickers">
-    <li class="sticker is--magenta" data-benefits-item style="--r:-6deg">{icon("sparkles", "sticker__icon")}Hand-picked reads</li>
-    <li class="sticker is--orange" data-benefits-item style="--r:-3deg">{icon("bookmark", "sticker__icon")}Free bookmarks</li>
-    <li class="sticker is--periwinkle" data-benefits-item style="--r:4deg">{icon("heart", "sticker__icon")}Fair prices</li>
-    <li class="sticker is--cyan" data-benefits-item style="--r:7deg">{icon("star", "sticker__icon")}New every month</li>
+    <li class="sticker is--magenta" data-benefits-item style="--r:-6deg">{icon("sparkles", "sticker__icon")}Free, forever</li>
+    <li class="sticker is--orange" data-benefits-item style="--r:-3deg">{icon("bookmark", "sticker__icon")}Keeps your place</li>
+    <li class="sticker is--periwinkle" data-benefits-item style="--r:4deg">{icon("heart", "sticker__icon")}Beautiful editions</li>
+    <li class="sticker is--cyan" data-benefits-item style="--r:7deg">{icon("star", "sticker__icon")}Read anywhere</li>
     <li class="sticker is--olive" data-benefits-item style="--r:-4deg">{icon("layers", "sticker__icon")}Every genre you love</li>
   </ul>
 </section>
@@ -563,11 +592,11 @@ def home():
   <div class="gift__grid">
     <div class="gift__content">
       <h2 class="gift__title heading-m" id="gift-title">A gift that always fits</h2>
-      <p class="gift__text">Not sure what they like? Send a gift card and let them pick their own books. No guessing, no spying on their shelves, and they might even lend you one.</p>
-      {button_alt("signup.html", "Send a gift card", size="small")}
+      <p class="gift__text">Know someone who would love a classic? Every book here has its own page, free to share. Send them the link and they can start reading in seconds, on any phone or laptop.</p>
+      {button_alt("books.html", "Find one to share", size="small")}
       <p class="gift__note accent-note" data-handwritten-text-inview>Wrapped with a ribbon. Naturally.</p>
     </div>
-    <div class="gift__visual" data-gift aria-hidden="true"><div class="gift__item" data-gift-item>{book3d(2, "is--gift", "(max-width: 991px) 50vw, 22em")}<span class="gift__ribbon"></span><span class="gift__bow"></span></div></div>
+    <div class="gift__visual" data-gift aria-hidden="true"><div class="gift__item" data-gift-item>{book3d(FEATURED["gift"], "is--gift", "(max-width: 991px) 50vw, 22em")}<span class="gift__ribbon"></span><span class="gift__bow"></span></div></div>
   </div>
 </section>
 
@@ -578,43 +607,44 @@ def home():
 
 <section class="favs" aria-labelledby="favs-title" data-books-slider data-confetti-rain>
   <div class="favs__head">
-    <span class="favs__badge" data-plop-in aria-hidden="true"><svg data-plop-in-item viewBox="0 0 200 200"><defs><path id="favs-ring" d="M100 100m-70 0a70 70 0 1 1 140 0a70 70 0 1 1-140 0"/></defs><circle cx="100" cy="100" r="96" fill="var(--magenta)"/><text><textPath href="#favs-ring">Readers’ choice ✦ Readers’ choice ✦ </textPath></text><path d="{sparkle_path()}" fill="var(--yellow)" transform="translate(100 100) scale(2.4)"/></svg></span>
-    <h2 class="favs__title heading-l" id="favs-title">Readers’ favourites</h2>
-    <p class="favs__text">The books readers keep coming back to. Every one of them has been re-read, gifted, underlined or argued about.</p>
+    <span class="favs__badge" data-plop-in aria-hidden="true"><svg data-plop-in-item viewBox="0 0 200 200"><defs><path id="favs-ring" d="M100 100m-70 0a70 70 0 1 1 140 0a70 70 0 1 1-140 0"/></defs><circle cx="100" cy="100" r="96" fill="var(--magenta)"/><text><textPath href="#favs-ring">Start here ✦ Start here ✦ Start here ✦ </textPath></text><path d="{sparkle_path()}" fill="var(--yellow)" transform="translate(100 100) scale(2.4)"/></svg></span>
+    <h2 class="favs__title heading-l" id="favs-title">Not sure where to begin?</h2>
+    <p class="favs__text">Four doors into the classics. Pick the one that sounds like you.</p>
   </div>
-  <div class="favs__slider" data-books-slider-viewport tabindex="0" role="region" aria-label="Readers’ favourites. Use the arrow keys to browse.">
+  <div class="favs__slider" data-books-slider-viewport tabindex="0" role="region" aria-label="Where to begin. Use the arrow keys to browse.">
     <div class="favs__list" data-books-slider-wrapper>
 {fav_cards}
     </div>
   </div>
   <div class="slider-controls is--center" data-books-slider-controls>
-    <button class="slider-arrow" type="button" aria-label="Previous favourites">{icon("left")}</button>
-    <button class="slider-arrow" type="button" aria-label="Next favourites">{icon("arrow")}</button>
+    <button class="slider-arrow" type="button" aria-label="Previous books">{icon("left")}</button>
+    <button class="slider-arrow" type="button" aria-label="Next books">{icon("arrow")}</button>
   </div>
 </section>
 
 <section class="spotlight" aria-labelledby="spot-title" data-momentum-hover>
-  <h2 class="spotlight__title heading-l" id="spot-title">Only on the Bookshelf</h2>
-  <p class="spotlight__text">Our pick of the month. Read it slowly, then read it again.</p>
+  <h2 class="spotlight__title heading-l" id="spot-title">Book of the month</h2>
+  <p class="spotlight__text">Our pick for this month. Read it slowly, then read it again.</p>
   <div class="spotlight__frame">
-    <p class="spotlight__quote is--left accent-note" data-handwritten-text-inview>“Perfect for 2 a.m. thoughts and rainy Sundays.”</p>
+    <p class="spotlight__quote is--left accent-note" data-handwritten-text-inview>{e(quote_a)}</p>
     <span class="spotlight__sticker is--moon" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="0 0 100 100"><mask id="spot-moon"><rect width="100" height="100" fill="#fff"/><circle cx="64" cy="38" r="34" fill="#000"/></mask><circle cx="50" cy="50" r="42" fill="var(--yellow)" mask="url(#spot-moon)"/></svg></span></span>
     <span class="spotlight__sticker is--star" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="-12 -12 24 24"><path d="{sparkle_path()}" fill="var(--magenta)"/></svg></span></span>
     <span class="spotlight__sticker is--seal" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="0 0 100 100"><path d="{burst(18, 50, 44)}" fill="var(--violet)"/><text x="50" y="47" text-anchor="middle">Staff</text><text x="50" y="66" text-anchor="middle">pick</text></svg></span></span>
     <article class="spotlight__card">
-      <div class="spotlight__cover">{cover(10, "(max-width: 991px) 60vw, 20em")}</div>
-      {tags(["Poetry", "Bookshelf pick"])}
-      <h3 class="spotlight__book">Night Swimming</h3>
-      <p class="spotlight__book-text">Poems for 2 a.m. and the moon that keeps you up, by Ruth Okafor. ₹169, down from ₹299.</p>
-      {button_alt(book_url(10), "Open the book", size="small")}
+      <div class="spotlight__cover">{cover(spot["slug"], "(max-width: 991px) 60vw, 20em")}</div>
+      {tags([*spot["genres"][:1], "Book of the month"])}
+      <h3 class="spotlight__book">{e(spot["title"])}</h3>
+      <p class="spotlight__book-text">{e(spot["abstract"])} By {e(spot["author"])}.</p>
+      {button_alt(book_url(spot["slug"]), "Open the book", size="small")}
     </article>
     <aside class="spotlight__facts" aria-label="Inside the book">
       <h4>Inside</h4>
-      <p>Forty-two short poems about water, insomnia and the people we call at midnight.</p>
+      <p>{e(spot["reading_time"])} of reading, {spot["words"]:,} words.</p>
     </aside>
-    <p class="spotlight__quote is--right accent-note" data-handwritten-text-inview>“Keep a pencil handy. You will want to underline.”</p>
+    <p class="spotlight__quote is--right accent-note" data-handwritten-text-inview>{e(quote_b)}</p>
   </div>
-</section>"""
+</section>
+{library_data()}"""
 
 
 def sparkle_path():
@@ -632,13 +662,13 @@ def burst(points=14, r1=50, r2=40):
 
 
 def books_page():
-    cards = "\n".join(book_card(i, "(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em") for i in range(1, 11))
+    cards = "\n".join(book_card(b["slug"], "(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em") for b in LIBRARY)
     chips = "".join(f'<li><button type="button" class="chip" aria-pressed="false" data-genre="{slug(g)}">{e(g)}</button></li>'
-                    for g in sorted({g for b in BOOKS for g in b[4]}))
+                    for g in GENRES)
     return f"""<section class="hero-xs is--pale-blue" data-intro-page aria-labelledby="page-title">
   {bg_svg([("is--soft-blue", shapes.BLOB_A), ("is--soft-blue", shapes.BLOB_B)], "hero-xs__shapes", "0 0 1440 1000", small=True)}
   <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>All books</h1>
-  <p class="hero-xs__text" data-hero-paragraph>The whole shelf in one place. Search by title, author or genre.</p>
+  <p class="hero-xs__text" data-hero-paragraph>All {len(LIBRARY)} classics in one place, every one of them free. Search by title, author or genre.</p>
   <p class="hero-xs__note accent-note" data-hero-handwritten-text>Go on, pick three</p>
 </section>
 <section class="catalogue" aria-label="Find a book" data-search-root>
@@ -649,7 +679,7 @@ def books_page():
   </form>
   <ul class="chips" aria-label="Filter by genre">{chips}</ul>
   <h2 class="sr-only">Books</h2>
-  <p class="catalogue__status" role="status" aria-live="polite" data-search-status>Showing all 10 books.</p>
+  <p class="catalogue__status" role="status" aria-live="polite" data-search-status>Showing all {len(LIBRARY)} books.</p>
   <div class="catalogue__grid" data-search-grid>
 {cards}
   </div>
@@ -694,6 +724,40 @@ def form_page(kind):
 </section>"""
 
 
+def reader_page():
+    themes = "".join(f'<button type="button" class="reader__choice is--{t}" data-reader-theme="{t}" aria-pressed="false">{label}</button>'
+                     for t, label in (("paper", "Paper"), ("sepia", "Sepia"), ("night", "Night")))
+    fonts = "".join(f'<button type="button" class="reader__choice" data-reader-font="{f}" aria-pressed="false">{label}</button>'
+                    for f, label in (("book", "Book"), ("serif", "Serif"), ("sans", "Sans")))
+    return f"""<section class="reader" data-reader data-lenis-prevent aria-label="Reader">
+  <div class="reader__bar">
+    <a class="reader__back" href="books.html" data-reader-back>{icon("left")}<span>Back</span></a>
+    <div class="reader__titles"><h1 class="reader__title" data-reader-title>Opening the book…</h1><p class="reader__author" data-reader-author></p></div>
+    <div class="reader__tools">
+      <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-contents">{icon("contents")}<span class="reader__tool-label">Contents</span></button>
+      <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-settings">{icon("type")}<span class="reader__tool-label">Text</span></button>
+      <a class="reader__tool" href="books.html" data-reader-download download>{icon("download")}<span class="reader__tool-label">Download</span></a>
+    </div>
+  </div>
+  <div class="reader__stage">
+    <button class="reader__turn is--prev" type="button" data-reader-prev aria-label="Previous page">{icon("prev")}</button>
+    <div class="reader__view" data-reader-view></div>
+    <button class="reader__turn is--next" type="button" data-reader-next aria-label="Next page">{icon("next")}</button>
+    <p class="reader__message" role="status" data-reader-message>Opening the book…</p>
+    <noscript><p class="reader__message">The reader needs JavaScript. Every book can also be downloaded from its page in <a href="books.html">All books</a>.</p></noscript>
+  </div>
+  <div class="reader__foot"><span class="reader__chapter" data-reader-chapter></span><span class="reader__progress"><span data-reader-bar></span></span><span class="reader__percent" data-reader-percent></span></div>
+  <nav class="reader__panel" id="reader-contents" aria-label="Contents" data-reader-panel hidden><h2 class="reader__panel-title">Contents</h2><ol class="reader__toc" data-reader-toc-list></ol></nav>
+  <div class="reader__panel is--settings" id="reader-settings" role="group" aria-label="Text settings" data-reader-panel hidden>
+    <h2 class="reader__panel-title">Text</h2>
+    <p class="reader__setting"><span>Size</span><button type="button" class="reader__choice" data-reader-size="-1" aria-label="Smaller text">A−</button><span class="reader__size" data-reader-size-value>100%</span><button type="button" class="reader__choice" data-reader-size="1" aria-label="Bigger text">A+</button></p>
+    <p class="reader__setting"><span>Page</span>{themes}</p>
+    <p class="reader__setting"><span>Font</span>{fonts}</p>
+  </div>
+</section>
+{library_data()}"""
+
+
 NOT_FOUND = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -717,27 +781,37 @@ NOT_FOUND = """<!DOCTYPE html>
 """
 
 
-def write(name, text):
+def write(name, text, quiet=False):
     (OUT / name).write_text(text, encoding="utf-8", newline="\n")
-    print(f"{name}: {len(text):,} bytes")
+    if not quiet:
+        print(f"{name}: {len(text):,} bytes")
 
 
-write("index.html", page("home", "", "The Bookshelf: stories you can’t put down",
-                         "A little online bookshop with hand-picked reads, fair prices and a fresh shelf every month.",
-                         home()))
+write("index.html", page("home", "", "The Bookshelf: free classics to read and download",
+                         f"A free library of {len(LIBRARY)} classics, from Austen to Asimov, to read in your browser or "
+                         "download for your phone, Kindle or Kobo.", home()))
 write("books.html", page("books", "books.html", "All books | The Bookshelf",
-                         "Every book on the Bookshelf, searchable by title, author and genre.", books_page(), "pale-blue"))
+                         f"All {len(LIBRARY)} free classics on the Bookshelf, searchable by title, author and genre.",
+                         books_page(), "pale-blue"))
+write("read.html", page("reader", "read.html", "Reading | The Bookshelf", "Read a free classic in your browser.",
+                        reader_page(), "pale-yellow", with_footer=False))
 write("login.html", page("login", "login.html", "Log in | The Bookshelf", "Log in to the Bookshelf.", form_page("login"),
                          "pale-pink"))
 write("signup.html", page("signup", "signup.html", "Sign up | The Bookshelf", "Create a Bookshelf account.",
                           form_page("signup"), "pale-periwinkle"))
 write("404.html", NOT_FOUND)
-for n, book in enumerate(BOOKS, 1):
-    write(book_url(n), page("book", book_url(n), f"{book[0]} by {book[1]} | The Bookshelf", book[6], book_page(n),
-                            book[5], n))
+for b in LIBRARY:
+    write(book_url(b["slug"]), page("book", book_url(b["slug"]), f"{b['title']} by {b['author']}, free | The Bookshelf",
+                                    b["abstract"], book_page(b["slug"]), b["colour"], b["slug"]), quiet=True)
+print(f"book-*.html: {len(LIBRARY)} pages")
+# Pages of books no longer on the shelf
+for old in OUT.glob("book-*.html"):
+    if old.name not in {book_url(b["slug"]) for b in LIBRARY}:
+        old.unlink()
+        print(f"removed {old.name}")
 
-# For search engines: every page except the demo log-in forms. (A robots.txt only counts at the root of
-# cl0ud-9.github.io, not in this folder, so the sitemap is handed to search engines directly.)
-urls = ["", "books.html", *(book_url(n) for n in range(1, len(BOOKS) + 1))]
+# For search engines: every page except the demo log-in forms and the reader. (A robots.txt only counts at the root
+# of cl0ud-9.github.io, not in this folder, so the sitemap is handed to search engines directly.)
+urls = ["", "books.html", *(book_url(b["slug"]) for b in LIBRARY)]
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
       + "".join(f"  <url><loc>{SITE}{u}</loc></url>\n" for u in urls) + "</urlset>\n")

@@ -5,6 +5,35 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [3.0.0] - 2026-10-22
+
+The Bookshelf is now a free library of the classics. The look, the motion and every animation stay; the made-up books,
+prices and bag are gone.
+
+### Added
+
+- 144 classics, from Austen and the Brontës to Sherlock Holmes, Frankenstein and Gatsby, in eleven genres: Standard
+  Ebooks editions with their painted covers, free of copyright in both the US and India. `tools/library.py` fetches
+  each book's details, cover and EPUB (slowly, and only once), and the pages are built from what it fetched.
+- A reader in the page (`read.html`, with epub.js): pages to turn on a laptop, two facing pages on a wide screen, a long
+  scroll on a phone, contents, text size, Paper, Sepia and Night pages, and Book, Serif and Sans fonts. It remembers
+  your place on your device, and says so plainly if a book cannot be opened. Its scripts load only when a book is.
+- Every book's page has Read now, an EPUB download (with a burst of confetti), Kindle and Kobo editions, the full
+  description, reading time, length and translator.
+- Continue reading on the home page, and a Read button that becomes Continue (with how far you got).
+- Search ignores accents, so "bronte" finds Brontë.
+
+### Changed
+
+- The home page: Where to start, Not sure where to begin?, Book of the month with real lines from the book, eleven
+  genres, and new questions, including why recent bestsellers and manga cannot be here.
+- All books shows the whole library, and its cards drop in as they come into view instead of all at once.
+- Card titles fit their card by the length of their own longest word, so short titles stay big.
+
+### Removed
+
+- The ten made-up books, their prices, Add to bag, and the tools that drew their covers.
+
 ## [2.3.1] - 2026-10-22
 
 ### Fixed

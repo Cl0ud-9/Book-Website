@@ -8,3 +8,4 @@ _covers/
 _check/
 __pycache__/
 tools/.font-src/
+tools/.library-cache/

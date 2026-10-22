@@ -21,7 +21,7 @@ jobs:
       - name: Collect the site's files
         run: |
           mkdir _site
-          cp -r index.html books.html book-*.html login.html signup.html 404.html sitemap.xml css js image fonts _site/
+          cp -r index.html books.html book-*.html read.html login.html signup.html 404.html sitemap.xml css js image fonts books _site/
       - name: Check every local link and image resolves
         run: |
           missing=0

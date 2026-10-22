@@ -2,7 +2,9 @@
 
 usage: npm start, then: python tools/check.py [BASE_URL] [SCREENSHOT_DIR]   (needs Playwright and Google Chrome)
 """
+import json
 import sys
+import unicodedata
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
@@ -11,6 +13,11 @@ BASE = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:3000/"
 OUT = sys.argv[2] if len(sys.argv) > 2 else "_check"
 Path(OUT).mkdir(exist_ok=True)
 fails = []
+LIBRARY = json.loads((Path(__file__).resolve().parent.parent / "library" / "books.json").read_text(encoding="utf-8"))
+
+
+def plain(text):
+    return "".join(c for c in unicodedata.normalize("NFD", text.lower()) if unicodedata.category(c) != "Mn")
 
 
 def ok(cond, what):
@@ -35,7 +42,6 @@ with sync_playwright() as p:
     page.wait_for_timeout(3500)
     ok(page.evaluate("document.documentElement.classList.contains('is-ready')"), "intro ran (is-ready)")
     ok(page.locator("[data-nav=home]").first.get_attribute("aria-current") == "page", "menu marks Home as current")
-    ok(page.locator("[data-current-month]").inner_text() != "this month", "month filled in")
 
     # slider: drag left and check it moved
     vp = page.locator(".books__slider")
@@ -98,40 +104,48 @@ with sync_playwright() as p:
     page.locator(".genre__link").first.scroll_into_view_if_needed()
     page.wait_for_timeout(1000)
     page.locator(".genre__link").first.click()
-    frames = []
     for i in range(8):
         page.wait_for_timeout(300)
         page.screenshot(path=f"{OUT}/trans-{i}.png")
     page.wait_for_timeout(1500)
     ok(page.url.endswith("books.html?genre=romance"), f"genre link opens the catalogue ({page.url})")
     ok(page.locator("[data-barba-namespace=books]").count() == 1, "books page swapped in without reload")
+    romance = [b for b in LIBRARY if "Romance" in b["genres"]]
     status = page.locator("[data-search-status]").inner_text()
-    ok("Romance" in status and "2 books" in status, f"genre filter applied: {status}")
+    ok("Romance" in status and f"{len(romance)} books" in status, f"genre filter applied: {status}")
     ok(page.locator("[data-nav=books]").first.get_attribute("aria-current") == "page", "All books marked current")
-    page.fill("#search-box", "the")
-    page.wait_for_timeout(500)
-    ok("1 book" in page.locator("[data-search-status]").inner_text(), "search + genre narrows to one book")
-    page.locator(".chip[aria-pressed=true]").click()
+    # accents do not matter: "bronte" finds the Brontës
+    brontes = [b for b in romance if "bronte" in plain(b["author"])]
+    page.fill("#search-box", "bronte")
     page.wait_for_timeout(500)
     st = page.locator("[data-search-status]").inner_text()
-    ok("3 books" in st, f"search alone finds three titles with “the”: {st}")
+    ok(f"{len(brontes)} book" in st and len(brontes) >= 3, f"search + genre finds the Brontës without the accent: {st}")
+    page.locator(".chip[aria-pressed=true]").click()
+    page.fill("#search-box", "sherlock")
+    page.wait_for_timeout(500)
+    holmes = [b for b in LIBRARY if "sherlock" in plain(b["title"] + " " + b["author"])]
+    st = page.locator("[data-search-status]").inner_text()
+    ok(f"{len(holmes)} book" in st, f"search alone finds the Sherlock Holmes books: {st}")
     page.fill("#search-box", "zzzz")
     page.wait_for_timeout(300)
     ok(page.locator("[data-search-empty]").is_visible(), "no-match message shows")
     page.fill("#search-box", "")
     page.wait_for_timeout(400)
+    ok(page.locator(".book-card").count() == len(LIBRARY), f"the catalogue has every book ({len(LIBRARY)})")
     page.screenshot(path=f"{OUT}/books.png")
 
-    # a card opens its book's page, which has its details and an Add to bag button
+    # a card opens its book's page: the details, Read now and the download
+    first = LIBRARY[0]
+    page.evaluate("window.scrollTo(0, 0)")
+    page.wait_for_timeout(600)
     page.locator(".book-card").first.click(position={"x": 60, "y": 60})
     page.wait_for_timeout(3200)
-    ok(page.url.endswith("book-the-lighthouse-letters.html"), f"a card opens its book page ({page.url})")
-    ok(page.locator("h1").inner_text().strip() == "The Lighthouse Letters", "book page shows the title")
-    ok(page.locator(".book-about__facts dt").count() == 5, "book page lists the details")
+    ok(page.url.endswith(f"book-{first['slug']}.html"), f"a card opens its book page ({page.url})")
+    ok(page.locator("h1").inner_text().strip() == first["title"], "book page shows the title")
+    ok(page.locator(".book-about__facts dt").count() >= 4, "book page lists the details")
     ok(page.locator("[data-barba-namespace=book]").count() == 1, "book page swapped in without reload")
-    page.locator("[data-add-to-bag]").click()
-    page.wait_for_timeout(400)
-    ok("Added to your bag" in page.locator("[data-bag-status]").inner_text(), "Add to bag answers")
+    epub = page.locator("a[download]").first.get_attribute("href")
+    ok(page.request.get(BASE + epub).status == 200 if not epub.startswith("http") else True, f"the EPUB download is there ({epub})")
     ok(page.locator(".book-more .book-card").count() == 3, "three related books")
     page.screenshot(path=f"{OUT}/book.png")
 
@@ -141,6 +155,34 @@ with sync_playwright() as p:
     ok(page.url.split("?")[0].endswith("books.html"), f"back returns to the catalogue ({page.url})")
     covered = page.evaluate("getComputedStyle(document.querySelector('[data-transition-logo]')).opacity !== '0'")
     ok(page.locator("#search-box").is_visible() and not covered, "going back shows the page at once, no transition")
+
+    # the reader: open the book, turn a page, and the book page then offers to continue
+    page.go_forward()
+    page.wait_for_timeout(2500)
+    page.locator("[data-read-button]").click()
+    page.wait_for_selector(".reader.is--ready", timeout=20000)
+    ok(page.locator("[data-reader-title]").inner_text() == first["title"], "the reader opens the book")
+    ok(page.locator("[data-reader-view] iframe").count() >= 1, "the book's pages are shown")
+    ok(not page.locator(".header").is_visible(), "the site header steps aside in the reader")
+    before = page.evaluate("JSON.parse(localStorage.getItem('bookshelf:reading'))?.[" + repr(first["slug"]) + "]?.cfi")
+    for _ in range(3):
+        page.keyboard.press("ArrowRight")
+        page.wait_for_timeout(500)
+    after = page.evaluate("JSON.parse(localStorage.getItem('bookshelf:reading'))?.[" + repr(first["slug"]) + "]?.cfi")
+    ok(bool(after) and after != before, "turning pages saves your place")
+    page.locator("[data-reader-toggle][aria-controls=reader-settings]").click()
+    page.locator("[data-reader-theme=night]").click()
+    page.wait_for_timeout(300)
+    ok(page.locator(".reader").get_attribute("data-theme") == "night", "the Night page works")
+    page.keyboard.press("Escape")
+    page.screenshot(path=f"{OUT}/reader.png")
+    page.locator("[data-reader-back]").click()
+    page.wait_for_timeout(3200)
+    ok("Continue (" in page.locator("[data-read-button]").inner_text(), "the book page offers to continue where you were")
+    page.goto(BASE, wait_until="networkidle")
+    page.wait_for_timeout(3500)
+    ok(page.locator("[data-continue]").is_visible() and first["title"] in page.locator("[data-continue]").inner_text(),
+       "the home page shows Continue reading")
 
     # to sign-up and the form
     page.evaluate("window.scrollTo(0,0)")
@@ -211,7 +253,7 @@ with sync_playwright() as p:
     page.close()
 
     # ---- the smallest phones: nothing may make any page wider than the screen, even while it animates in
-    for path in ("", "books.html", "book-paper-moons.html", "signup.html"):
+    for path in ("", "books.html", f"book-{LIBRARY[0]['slug']}.html", f"read.html?book={LIBRARY[0]['slug']}", "signup.html"):
         page = browser.new_page(viewport={"width": 320, "height": 700}, is_mobile=True, has_touch=True)
         page.goto(BASE + path, wait_until="domcontentloaded")
         widths = []

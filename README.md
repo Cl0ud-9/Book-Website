@@ -1,6 +1,6 @@
 <h1 align="center">The Bookshelf</h1>
 
-<p align="center"><strong>A bright, illustrated bookshop where everything moves: page transitions, a book that opens as you scroll, and a shelf you can drag.</strong></p>
+<p align="center"><strong>A free library of 144 classics to read in your browser or download, in a bright, playful site where everything moves.</strong></p>
 
 <p align="center">
   <a href="https://cl0ud-9.github.io/Book-Website/"><img src="https://img.shields.io/badge/Live%20site-cl0ud--9.github.io%2FBook--Website-ff008c?style=for-the-badge" alt="Live site" height="34"></a>
@@ -16,24 +16,26 @@
 <br>
 
 <p align="center">
-  <img src="docs/img/tour.webp" alt="The opening: a fat violet squiggle covers the screen, the logo springs in, and the squiggle slithers away to reveal the home page; then All books, and a click on a book opens its own page" width="640">
+  <img src="docs/img/tour.webp" alt="The opening: a fat violet squiggle covers the screen, the logo springs in, and the squiggle slithers away to reveal the home page; then All books, a book's page, and the book open in the reader" width="640">
 </p>
 
-The Bookshelf is an imaginary bookshop with a loud, warm personality: heavy type, handwritten notes, colour cards,
-stickers and motion everywhere you look. It began as a Web Technology course project and was rebuilt from
-scratch in version 2. Every book, cover and illustration on it was made for the site.
+The Bookshelf is a free library of the classics with a loud, warm personality: heavy type, handwritten notes,
+colour cards, stickers and motion everywhere you look. 144 books, from Austen and the Brontës to Sherlock Holmes,
+Frankenstein and Gatsby, can be read right in the browser or downloaded for a phone, Kindle or Kobo. It began as a
+Web Technology course project, was rebuilt as an animated bookshop in version 2, and became a library in version 3.
 
 | Page | What it does |
 |---|---|
-| [Home](https://cl0ud-9.github.io/Book-Website/) | Ten new books on a draggable shelf, how it works, a book that opens as you scroll, a giant genre list, why the shop, questions, gift cards, readers' favourites and the pick of the month. |
-| [All books](https://cl0ud-9.github.io/Book-Website/books.html) | Every book, searchable by title, author or genre, with genre chips. Genre links on the home page open it already filtered. |
-| [A book](https://cl0ud-9.github.io/Book-Website/book-cities-above-the-clouds.html) | Each of the ten books has its own page: a 3D copy that leans towards the pointer, the details, Add to bag, and three related books. Every card on the site opens one. |
+| [Home](https://cl0ud-9.github.io/Book-Website/) | Where to start, on a draggable shelf; the books you are reading; how it works; a book that opens as you scroll; eleven genres; questions; the book of the month. |
+| [All books](https://cl0ud-9.github.io/Book-Website/books.html) | All 144 books, searchable by title, author or genre (accents optional), with genre chips. Genre links on the home page open it already filtered. |
+| [A book](https://cl0ud-9.github.io/Book-Website/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description and details, Read now, the EPUB download, Kindle and Kobo editions, and three related books. |
+| [The reader](https://cl0ud-9.github.io/Book-Website/read.html?book=pride-and-prejudice) | The book itself, in the page: pages to turn on a laptop and a long scroll on a phone, contents, text size, three page colours and three fonts. It remembers your place. |
 | [Log in](https://cl0ud-9.github.io/Book-Website/login.html) and [Sign up](https://cl0ud-9.github.io/Book-Website/signup.html) | Forms checked in the browser, with an error beside each field. |
 
 ## The details
 
 <p align="center">
-  <img src="docs/img/shelf.jpg" alt="The new books shelf: colourful cards with illustrated covers, each tilted a little differently" width="49%">
+  <img src="docs/img/shelf.jpg" alt="The Where to start shelf: colourful cards with painted classic covers, each tilted a little differently" width="49%">
   <img src="docs/img/genres.jpg" alt="The genre list: Fantasy under the pointer turns handwritten while four covers pop out around it" width="49%">
 </p>
 
@@ -45,14 +47,20 @@ scratch in version 2. Every book, cover and illustration on it was made for the 
   and handwritten notes (Gochi Hand), each the closest free match to the original's font by measured overlap.
   Headings stretch in word by word with an elastic snap, notes tumble in letter by letter, and button letters dip and
   spring back.
+- **A real library.** The books are Standard Ebooks editions: carefully proofread, beautifully typeset and released
+  into the public domain, with covers made from public-domain paintings. Every one is also out of copyright in India
+  (where copyright runs for the author's life plus 60 years), so authors such as Agatha Christie are left out.
+- **A reader in the page.** epub.js shows the book itself: turn pages with the arrows, the keys or a swipe, jump
+  through the contents, and pick the text size, page colour and font. Your place is kept on your device, so the book
+  page offers to continue and the home page lists what you are reading. Its scripts load only when a book is opened.
 - **A shelf you can throw.** Cards tilt and dip the further they are from the middle as you drag (Smooothy), with
-  arrow buttons and arrow keys too.
+  arrow buttons, arrow keys and a sideways trackpad swipe too.
 - **A book that opens as you scroll.** It turns to face you, the cover swings open, three pages flip, and you fall
   into the page where the headline is waiting. All of it is CSS 3D, driven by the scroll position (ScrollTrigger).
 - **Genres with covers.** The genre under the pointer swaps to handwriting, its neighbours make room, and four
   covers pop out around it and drift with the pointer.
-- **Books you can open.** Each book page has a 3D copy that follows the pointer, and Add to bag answers with a burst
-  of confetti.
+- **Books you can open.** Each book page has a 3D copy that follows the pointer, and downloading a book sets off a
+  burst of confetti.
 - **Little things.** Background shapes that breathe, stickers that slap on, a ring of text that turns as you scroll,
   a tagline that runs along a curve, ribbons that reverse when you scroll up, a shower of confetti in the brand
   colours, stickers you can fling with the pointer (Inertia), a footer that slides out from under the page with a
@@ -60,7 +68,11 @@ scratch in version 2. Every book, cover and illustration on it was made for the 
 
 <p align="center">
   <img src="docs/img/open-book.jpg" alt="The end of the scroll scene: the book has opened and the page reads Get lost in a good book" width="49%">
-  <img src="docs/img/book.jpg" alt="A book page: a 3D copy of Cities Above the Clouds beside its title, price and Add to bag" width="49%">
+  <img src="docs/img/book.jpg" alt="A book page: a 3D copy of Pride and Prejudice beside its title, Read now and Download EPUB" width="49%">
+</p>
+
+<p align="center">
+  <img src="docs/img/reader.jpg" alt="The reader: Pride and Prejudice open on two facing pages, with the contents, text settings and progress" width="640">
 </p>
 
 <p align="center">
@@ -71,7 +83,8 @@ scratch in version 2. Every book, cover and illustration on it was made for the 
 
 - **Reduced motion.** With the system setting on, nothing slides, spins or scrolls itself: pages appear at once and
   the book scene becomes a plain section.
-- **No JavaScript.** Every page is complete and readable, with real links between them.
+- **No JavaScript.** Every page is complete and readable, with real links between them, and every book can still be
+  downloaded; only the reader needs JavaScript.
 - **Keyboard and screen readers.** A skip link, labelled fields, visible focus, sliders driven by the arrow keys, genre
   covers that follow keyboard focus, a phone menu that keeps focus inside and closes with Escape, and animated text
   that is still read out as whole sentences.
@@ -115,11 +128,13 @@ the three `@font-face` rules at the top of `css/main.css` at them; the rest of t
 
 ## Changing the books
 
-The pages are generated from one list, so a book's title, price, genres and colour are written once.
+The shelf is one list, `CATALOGUE` in `tools/library.py`: a Standard Ebooks edition and its genres here. The library
+script fetches each book's details, cover and EPUB (slowly, and only once: they are cached), and the build writes every
+page from what it fetched. What the home page features is `FEATURED` in `tools/build.py`.
 
 ```bash
-python tools/build.py      # edit BOOKS in it first; rewrites every page, including one per book
-python tools/covers.py     # redraws the ten covers (needs Pillow, Playwright and Google Chrome)
+python tools/library.py    # fetches new books into library/books.json, image/covers/ and books/ (needs Pillow)
+python tools/build.py      # rewrites every page, including one per book
 python tools/check.py      # with npm start running: uses the site like a visitor and reports what fails
 python tools/effects.py    # with npm start running: checks every hover effect after links, Back and Forward
 python tools/social.py     # with npm start running: redraws the link previews and the home-screen icon
@@ -127,7 +142,8 @@ python tools/fonts.py      # rebuilds the three fonts from their sources (needs 
 ```
 
 `tools/check.py` drags the shelf, hovers the genres, opens the questions, sends the forms (including one with HTML in
-it), follows a genre link into the catalogue, searches it, opens a book and adds it to the bag, goes back, and checks
+it), follows a genre link into the catalogue, searches it (without accents), opens a book, checks its download, goes
+back, reads it in the reader (turning pages, changing the page colour, and coming back to "Continue"), and checks
 the phone menu (and that it steps aside while you read), that going back returns to where you were, that long titles
 fit their cards, that no page is ever wider than a 320 px phone, reduced motion and the site without JavaScript.
 
@@ -140,23 +156,30 @@ deploy.
 ## Honest limits
 
 - **No back end.** The forms check what you type and show a message. Nothing is sent or stored, so there are no real
-  accounts, newsletter or gift cards.
-- **A fictional shop.** The books, authors and prices are made up. The FAQ on the site says so.
+  accounts or newsletter yet; your place in a book is kept in your own browser, so it does not follow you to another
+  device.
+- **Classics only.** Recent books, such as Colleen Hoover's, and manga such as One Piece are under copyright and
+  cannot be shared for free. The site says where to borrow them instead.
+- **Big books are fetched.** The few heavily illustrated editions over 8 MB are read and downloaded straight from
+  Standard Ebooks rather than kept here, to keep the repository small.
 - **The motion takes a moment.** The opening animation runs before the page is fully shown, which costs some time on a
   slow phone. Reduced motion skips it.
 
 ## Project structure
 
 ```text
-index.html, books.html, book-*.html, login.html, signup.html, 404.html    generated by tools/build.py
+index.html, books.html, book-*.html, read.html, login.html, signup.html, 404.html    generated by tools/build.py
 css/main.css        every style: tokens, the fluid type scale, components and sections
 js/app.js           transitions, smooth scrolling and every animation, one function per effect
 js/forms.js         checks the log-in, sign-up and newsletter forms
-js/vendor/          GSAP, Lenis, Barba and Smooothy, unchanged (licences in LICENSES.md)
+js/vendor/          GSAP, Lenis, Barba, Smooothy, epub.js and JSZip, unchanged (licences in LICENSES.md)
+js/reader.js        the reader (with js/vendor/epub.min.js and jszip.min.js, loaded only on read.html)
+library/books.json  every book's details, written by tools/library.py
+books/              the EPUB files (bigger illustrated editions are fetched from Standard Ebooks instead)
 fonts/              Rubik (headings), Figtree (text) and Gochi Hand (notes), Latin subset, built by tools/fonts.py
-image/              covers (book-N-180/360/720/1080.webp), link previews (social/), the logo and home-screen icon
+image/              covers (covers/<book>-180/360/720/1080.webp), link previews (social/), the logo and home-screen icon
 sitemap.xml         every page, for search engines
-tools/              page, cover, font and preview generators, icons and the browser check
+tools/              library, page, font and preview generators, icons and the browser checks
 server.js           optional local server (npm start)
 ```
 
