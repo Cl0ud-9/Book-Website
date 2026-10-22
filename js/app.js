@@ -277,11 +277,11 @@
     root.classList.add("is-ready");
     root.classList.remove("is-loading");
     const tl = gsap.timeline();
-    brandIn(tl, 0.1);
-    brandOut(tl, 1.25);
-    liftAway(tl, 1.45);
-    tl.to(header, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 2.1);
-    play(tl, 1.7);
+    brandIn(tl, 0.05);
+    brandOut(tl, 0.95);
+    liftAway(tl, 1.15);
+    tl.to(header, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 1.8);
+    play(tl, 1.4);
     return tl.then();
   }
 
