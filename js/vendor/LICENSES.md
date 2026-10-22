@@ -2,7 +2,7 @@
 
 These libraries are served with the site, unchanged, so it makes no requests to other servers.
 
-## GSAP 3.15.0 (gsap, ScrollTrigger, SplitText, CustomEase, InertiaPlugin, DrawSVGPlugin)
+## GSAP 3.15.0 (gsap, ScrollTrigger, SplitText, CustomEase, InertiaPlugin)
 
 Copyright GreenSock (now part of Webflow). Free to use under the GSAP Standard "No Charge" License:
 https://gsap.com/standard-license. Each file keeps its own licence header.

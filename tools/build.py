@@ -4,6 +4,7 @@ usage: python tools/build.py [OUTPUT_DIR]      (default: the repository root)
 Edit BOOKS below to change the shelf, then run this and commit the regenerated pages.
 """
 import html
+import re
 import sys
 from pathlib import Path
 
@@ -130,20 +131,34 @@ def bg_svg(paths, cls, view="0 0 1440 1000", small=False):
             f'data-background-animation{flag}>{body}</svg>')
 
 
-SPRITE = """<svg xmlns="http://www.w3.org/2000/svg" hidden>
-  <symbol id="i-logo" viewBox="0 0 48 48"><path fill="currentColor" d="M24 9.5c-4.2-3.3-10.3-4.4-17-3.5a2 2 0 0 0-1.7 2v27.6a2 2 0 0 0 2.3 2c6.2-.8 11.3.2 15.2 3.1a2 2 0 0 0 2.4 0c3.9-2.9 9-3.9 15.2-3.1a2 2 0 0 0 2.3-2V8a2 2 0 0 0-1.7-2c-6.7-.9-12.8.2-17 3.5Zm-2.2 4.2v20.9c-3.6-1.8-7.9-2.6-12.5-2.4V10c4.9-.4 9.3.8 12.5 3.7Zm4.4 0c3.2-2.9 7.6-4.1 12.5-3.7v22.2c-4.6-.2-8.9.6-12.5 2.4V13.7Z"/><path fill="currentColor" d="M33 4h5v12l-2.5-2-2.5 2z"/></symbol>
-  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6.5L19.5 12 13 18.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-left" viewBox="0 0 24 24"><path d="M20 12H5m6-6.5L4.5 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
-  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
-  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
-  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="m16.5 16.5 4.5 4.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
-  <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></symbol>
-</svg>"""
+ICON_DIR = Path(__file__).resolve().parent / "icons"
+# name used in the pages -> Lucide file
+ICONS = {"arrow": "arrow-right", "left": "arrow-left", "up": "arrow-up", "plus": "plus", "menu": "menu", "close": "x",
+         "search": "search", "bag": "shopping-bag", "book": "book-open", "sparkles": "sparkles", "gift": "gift",
+         "bookmark": "bookmark", "heart": "heart", "mail": "mail", "star": "star", "layers": "layers", "globe": "globe",
+         "package": "package"}
 
-TRANSITION = f"""<div class="transition" data-transition-wrap aria-hidden="true">
-  <svg class="transition__svg" viewBox="0 0 1080 1080" preserveAspectRatio="none"><path d="{shapes.SNAKE}"/></svg>
-  <div class="transition__logo" data-transition-logo><svg viewBox="0 0 48 48"><use href="#i-logo"></use></svg></div>
+
+def lucide_symbol(name, file):
+    svg = (ICON_DIR / f"{file}.svg").read_text(encoding="utf-8")
+    inner = re.sub(r"\s+", " ", svg[svg.index(">", svg.index("<svg")) + 1:svg.rindex("</svg>")]).strip()
+    return (f'  <symbol id="i-{name}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
+            f'stroke-linecap="round" stroke-linejoin="round">{inner}</symbol>')
+
+
+SPRITE = ("""<svg xmlns="http://www.w3.org/2000/svg" hidden>
+  <symbol id="i-logo" viewBox="0 0 48 48"><path fill="currentColor" d="M24 9.5c-4.2-3.3-10.3-4.4-17-3.5a2 2 0 0 0-1.7 2v27.6a2 2 0 0 0 2.3 2c6.2-.8 11.3.2 15.2 3.1a2 2 0 0 0 2.4 0c3.9-2.9 9-3.9 15.2-3.1a2 2 0 0 0 2.3-2V8a2 2 0 0 0-1.7-2c-6.7-.9-12.8.2-17 3.5Zm-2.2 4.2v20.9c-3.6-1.8-7.9-2.6-12.5-2.4V10c4.9-.4 9.3.8 12.5 3.7Zm4.4 0c3.2-2.9 7.6-4.1 12.5-3.7v22.2c-4.6-.2-8.9.6-12.5 2.4V13.7Z"/><path fill="currentColor" d="M33 4h5v12l-2.5-2-2.5 2z"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></symbol>
+""" + "\n".join(lucide_symbol(k, v) for k, v in ICONS.items()) + "\n</svg>")
+
+# A full-screen panel whose edge bends as it lifts away, with the wordmark in the middle
+TRANSITION = """<div class="transition" data-transition-wrap aria-hidden="true">
+  <svg class="transition__svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path data-transition-path d="M0 0H100V100Q50 100 0 100Z"/></svg>
+  <div class="transition__brand" data-transition-brand>
+    <svg class="transition__mark" data-transition-mark><use href="#i-logo"></use></svg>
+    <p class="transition__word" data-transition-word>Book<em>shelf</em></p>
+    <p class="transition__caption" data-transition-caption>Hand-picked books since 2023</p>
+  </div>
 </div>"""
 
 
@@ -156,7 +171,7 @@ HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
 <header class="header" data-header data-scrolling-started="false">
   <a class="header__logo" href="./" aria-label="The Bookshelf, home">
     <svg class="header__logo-icon" aria-hidden="true"><use href="#i-logo"></use></svg>
-    <span class="header__logo-text">Bookshelf</span><span class="header__logo-sub" aria-hidden="true">The<br>shop</span>
+    <span class="header__logo-text">Book<em>shelf</em></span>
   </a>
   <nav class="header__nav" aria-label="Main">
     <ul class="header__nav-list">
@@ -186,7 +201,7 @@ HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
       {button_alt("login.html", "Log in", "white")}
       {button_alt("signup.html", "Sign up", "black")}
     </div>
-    <p class="menu__note handwritten">See you between the pages!</p>
+    <p class="menu__note accent-note">See you between the pages!</p>
   </div>
 </div>"""
 
@@ -195,28 +210,36 @@ def footer():
     return f"""<footer class="footer" data-footer-parallax>
   <div class="footer__inner">
     <div class="footer__top" data-footer-parallax-top>
-      <div class="footer__brand">
-        <a class="footer__logo" href="./" aria-label="The Bookshelf, home">{icon("logo", "footer__logo-icon")}<span>Bookshelf</span></a>
-        <p class="footer__text">A little bookshop with a big appetite for stories.</p>
-        <ul class="footer__links">
-          <li><a href="books.html">All books</a></li>
-          <li><a href="login.html">Log in</a></li>
-          <li><a href="signup.html">Sign up</a></li>
-          <li><a href="https://github.com/Cl0ud-9/Book-Website">Source code</a></li>
-        </ul>
-      </div>
       <form class="footer__form" data-newsletter novalidate>
-        <h2 class="footer__form-title">Join our mailing list</h2>
-        <label class="sr-only" for="newsletter-email">Email address</label>
-        <input class="field__input is--light" type="email" id="newsletter-email" name="email" placeholder="Email address" autocomplete="email" required>
-        {submit_alt("Subscribe")}
+        <h2 class="footer__form-title">Letters from <em>the shelf</em></h2>
+        <p class="footer__text">One email a month: the new books, a few favourites, and nothing else.</p>
+        <div class="footer__field">
+          <label class="sr-only" for="newsletter-email">Email address</label>
+          <span class="footer__input">{icon("mail")}<input class="field__input is--light" type="email" id="newsletter-email" name="email" placeholder="you@example.com" autocomplete="email" required></span>
+          {submit_alt("Subscribe", "yellow")}
+        </div>
         <p class="footer__message" role="status" aria-live="polite" data-newsletter-message></p>
       </form>
+      <nav class="footer__nav" aria-label="Footer">
+        <div class="footer__col">
+          <h2 class="footer__heading">Shop</h2>
+          <ul><li><a href="books.html">All books</a></li><li><a href="index.html#genres">Genres</a></li><li><a href="index.html#new">New this month</a></li></ul>
+        </div>
+        <div class="footer__col">
+          <h2 class="footer__heading">Account</h2>
+          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="index.html#faq">Questions</a></li></ul>
+        </div>
+        <div class="footer__col">
+          <h2 class="footer__heading">Elsewhere</h2>
+          <ul><li><a href="https://github.com/Cl0ud-9/Book-Website">Source on GitHub</a></li><li><a href="https://github.com/Cl0ud-9">More from Cloud/9</a></li></ul>
+        </div>
+      </nav>
     </div>
-    <div class="footer__visual" data-footer-parallax-visual aria-hidden="true">{book3d(8, "is--footer", "20em")}</div>
+    <p class="footer__wordmark" aria-hidden="true">Book<em>shelf</em></p>
     <div class="footer__bottom" data-footer-parallax-bottom>
-      <p>© 2023–2026 Cloud/9. Every cover drawn for the Bookshelf.</p>
-      <p>Built with GSAP, Lenis and Barba</p>
+      <p>© 2023–2026 The Bookshelf</p>
+      <p>Designed and built by <a href="https://github.com/Cl0ud-9">Cloud/9</a></p>
+      <a class="footer__top-link" href="#main" data-back-to-top>Back to top {icon("up")}</a>
     </div>
   </div>
 </footer>"""
@@ -224,7 +247,7 @@ def footer():
 
 # Served with the site: no requests to other servers. Licences are listed in NOTICE and js/vendor/LICENSES.md.
 SCRIPTS = [f"js/vendor/{name}.js" for name in (
-    "gsap.min", "ScrollTrigger.min", "SplitText.min", "CustomEase.min", "InertiaPlugin.min", "DrawSVGPlugin.min",
+    "gsap.min", "ScrollTrigger.min", "SplitText.min", "CustomEase.min", "InertiaPlugin.min",
     "lenis.min", "barba.umd.min", "barba-prefetch.umd.min", "smooothy.min")]
 
 # Hides what the intro animates in, and gives up after 4 s if the scripts never arrive
@@ -233,7 +256,7 @@ BOOT = ("<script>(function(d){var r=d.documentElement;r.classList.add('js');"
         "setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)})(document)</script>")
 
 
-def page(name, title, description, body, theme="yellow"):
+def page(name, title, description, body, theme="yellow", image=8):
     scripts = "\n".join(f'<script src="{s}" defer></script>' for s in SCRIPTS)
     return f"""<!DOCTYPE html>
 <html lang="en">
@@ -245,10 +268,10 @@ def page(name, title, description, body, theme="yellow"):
 <meta name="theme-color" content="#ffd24a">
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(description)}">
-<meta property="og:image" content="https://cl0ud-9.github.io/Book-Website/image/book-8-720.webp">
+<meta property="og:image" content="https://cl0ud-9.github.io/Book-Website/image/book-{image}-720.webp">
 <link rel="icon" href="image/logo.svg" type="image/svg+xml">
-<link rel="preload" href="fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/main.css">
 {BOOT}
 {scripts}
@@ -263,29 +286,85 @@ def page(name, title, description, body, theme="yellow"):
 {body}
 {footer()}
 </main>
-<div class="emoji-rain" data-emoji-rain-container aria-hidden="true"></div>
+<div class="confetti" data-confetti-container aria-hidden="true"></div>
 </body>
 </html>
 """
 
 
-def book_card(i, sizes, extra_cls="", details=False, lazy=True):
+def book_url(i):
+    return f"book-{slug(BOOKS[i - 1][0])}.html"
+
+
+def ink(colour):
+    return "#fff" if colour in DARK else "#000"
+
+
+# The title is the card's link; its ::after stretches over the whole card, so the card is one big click target
+def book_card(i, sizes, extra_cls="", lazy=True, heading="h3"):
     title, author, now, was, genres, colour, hook, desc, _ = BOOKS[i - 1]
-    more = ""
-    if details:
-        more = (f'<button type="button" class="book-card__more" aria-expanded="false" aria-controls="about-{i}">'
-                f'Show more</button><p class="book-card__about" id="about-{i}" hidden>{e(desc)}</p>')
     search = " ".join([title, author, *genres]).lower()
-    ink = "#fff" if colour in DARK else "#000"
-    return f"""<article class="book-card {extra_cls}" id="book-{i}" style="--card:var(--{colour});--ink:{ink}" data-search="{e(search)}" data-genres="{e(" ".join(slug(g) for g in genres))}" data-books-slider-item>
+    return f"""<article class="book-card {extra_cls}" id="book-{i}" style="--card:var(--{colour});--ink:{ink(colour)}" data-search="{e(search)}" data-genres="{e(" ".join(slug(g) for g in genres))}" data-books-slider-item>
   <div class="book-card__cover">{cover(i, sizes, lazy=lazy)}</div>
   {tags(genres)}
-  <h3 class="book-card__title">{e(title)}</h3>
+  <{heading} class="book-card__title"><a class="book-card__link" href="{book_url(i)}" draggable="false">{e(title)}</a></{heading}>
   <p class="book-card__author">{e(author)}</p>
   {price(now, was)}
   <p class="book-card__hook">{e(hook)}</p>
-  {more}
+  <span class="book-card__open" aria-hidden="true">Open the book {icon("arrow")}</span>
 </article>"""
+
+
+PAGES = [312, 268, 196, 224, 288, 336, 176, 384, 208, 96]
+FORMATS = ["Hardback", "Paperback", "Hardback", "Paperback", "Paperback", "Hardback", "Hardback", "Hardback",
+           "Hardback", "Paperback"]
+
+
+def book_page(i):
+    title, author, now, was, genres, colour, hook, desc, spine = BOOKS[i - 1]
+    save = round((was - now) / was * 100)
+    # Related: same genre first, then neighbours on the shelf
+    related = [j for j in range(1, 11) if j != i and set(BOOKS[j - 1][4]) & set(genres)]
+    related += [j for j in range(1, 11) if j != i and j not in related]
+    more = "\n".join(book_card(j, "(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em") for j in related[:3])
+    facts = [("book", "Format", FORMATS[i - 1]), ("layers", "Pages", str(PAGES[i - 1])),
+             ("bookmark", "Genre", " and ".join(genres)), ("globe", "Language", "English"),
+             ("package", "Ships", "Wrapped, with a bookmark")]
+    dl = "".join(f"<div><dt>{icon(ic)}{a}</dt><dd>{e(b)}</dd></div>" for ic, a, b in facts)
+    return f"""<section class="book-hero" style="--card:var(--{colour});--ink:{ink(colour)}" data-intro-page aria-labelledby="page-title">
+  {bg_svg([("is--glow", shapes.BLOB_A), ("is--glow", shapes.BLOB_B)], "book-hero__shapes", "0 0 1440 1000", small=True)}
+  <a class="book-hero__back" href="books.html">{icon("left")} All books</a>
+  <div class="book-hero__grid">
+    <div class="book-hero__visual" data-book-tilt aria-hidden="true">
+      <div class="book-hero__float" data-book-tilt-target>{book3d(i, "is--large", "(max-width: 991px) 60vw, 30em", lazy=False, priority=True)}</div>
+      <span class="book-hero__shadow"></span>
+    </div>
+    <div class="book-hero__info">
+      <div data-hero-paragraph>{tags(genres)}</div>
+      <h1 class="book-hero__title heading-l" id="page-title" data-hero-title>{e(title)}</h1>
+      <p class="book-hero__author" data-hero-paragraph>by {e(author)}</p>
+      <p class="book-hero__hook accent-note" data-hero-handwritten-text>{e(hook)}</p>
+      <div class="book-hero__buy" data-hero-button>
+        <p class="book-hero__price">₹{now} <s><span class="sr-only">was </span>₹{was}</s> <span class="book-hero__save">Save {save}%</span></p>
+        <button type="button" class="button-alt is--black" data-button-alt data-add-to-bag><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Add to bag</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span>{icon("plus", "button-alt__icon")}</span></button>
+        <p class="book-hero__status" role="status" aria-live="polite" data-bag-status></p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="book-about" aria-labelledby="about-title">
+  <div class="book-about__text">
+    <h2 class="book-about__title heading-m" id="about-title">About the <em>book</em></h2>
+    <p>{e(desc)}</p>
+  </div>
+  <dl class="book-about__facts">{dl}</dl>
+</section>
+<section class="book-more" aria-labelledby="more-title">
+  <h2 class="book-more__title heading-l" id="more-title">You might <em>also like</em></h2>
+  <div class="catalogue__grid is--three">
+{more}
+  </div>
+</section>"""
 
 
 # Four line drawings for "how it works"
@@ -309,7 +388,7 @@ def home():
                       for i in range(1, 11))
     steps = "\n".join(f"""<li class="step" style="--card:var(--{c})" data-call-out-item>
   <div class="step__inner" data-call-out-child>
-    <p class="step__number handwritten">Step #{n}</p>
+    <p class="step__number accent-note">Step #{n}</p>
     <div class="step__visual">{ILLUSTRATIONS[ill]}</div>
     <h3 class="step__title">{e(t)}</h3>
     <p class="step__text">{e(d)}</p>
@@ -331,7 +410,7 @@ def home():
     fav_cards = "\n".join(f"""<div class="slide"><article class="fav-card" style="--card:var(--{BOOKS[i - 1][5]});--ink:{'#fff' if BOOKS[i - 1][5] in DARK else '#000'}" data-books-slider-item>
   <div class="fav-card__cover">{cover(i, "(max-width: 991px) 60vw, 20em")}</div>
   <p class="fav-card__badge" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="{burst()}"/></svg><span>{rank}</span></p>
-  <h3 class="fav-card__title">{e(BOOKS[i - 1][0])}</h3>
+  <h3 class="fav-card__title"><a class="book-card__link" href="{book_url(i)}" draggable="false">{e(BOOKS[i - 1][0])}</a></h3>
   <p class="fav-card__label">{rank}: {e(label)}</p>
 </article></div>""" for i, rank, label in favourites)
     q = [
@@ -353,22 +432,21 @@ def home():
     return f"""<section class="hero" data-intro-home aria-labelledby="hero-title">
   <div class="hero__bg" data-hero-bg>{bg_svg([("is--pale-yellow", shapes.HERO_BAND), ("is--pale-orange", shapes.HERO_RIDGE), ("is--orange", shapes.HERO_HILLS)], "hero__shapes", "0 0 1440 1000")}</div>
   <div class="hero__content">
-    <h1 class="hero__title heading-xxl" id="hero-title" data-hero-title>Stories you can’t put down</h1>
+    <h1 class="hero__title heading-xxl" id="hero-title" data-hero-title>Stories you can’t <em>put down</em></h1>
     <p class="hero__text" data-hero-paragraph>The Bookshelf is a little online bookshop with a big appetite for stories. Hand-picked reads, fair prices and a fresh shelf every month.</p>
     <div data-hero-button>{button_alt("books.html", "Browse the shelf")}</div>
   </div>
-  <p class="hero__note handwritten" data-hero-handwritten-text>Free bookmark with every book!</p>
+  <p class="hero__note accent-note" data-hero-handwritten-text>Free bookmark with every book!</p>
   <div class="hero__visual" data-hero-visual aria-hidden="true">
+    <div class="hero__book is--back" data-float><div class="hero__float">{book3d(1, "", "(max-width: 991px) 38vw, 21em", lazy=False)}</div></div>
     <div class="hero__book is--main" data-float><div class="hero__float">{book3d(8, "", "(max-width: 991px) 45vw, 26em", lazy=False, priority=True)}</div></div>
-    <div class="hero__book is--top" data-float><div class="hero__float">{book3d(7, "", "(max-width: 991px) 30vw, 18em", lazy=False)}</div></div>
-    <div class="hero__book is--bottom" data-float><div class="hero__float">{book3d(5, "", "(max-width: 991px) 30vw, 18em")}</div></div>
   </div>
 </section>
 
 <section class="books" id="new" aria-labelledby="books-title" data-books-slider>
   <div class="books__head">
-    <p class="books__note handwritten" data-handwritten-text-inview>Hidden gems and page-turners</p>
-    <h2 class="books__title heading-l" id="books-title">Fresh on the shelf</h2>
+    <p class="books__note accent-note" data-handwritten-text-inview>Hidden gems and page-turners</p>
+    <h2 class="books__title heading-l" id="books-title">Fresh on the <em>shelf</em></h2>
     <p class="books__text">Ten new reads for <span data-current-month>this month</span>. Drag the shelf, or use the arrows.</p>
   </div>
   <div class="slider-controls" data-books-slider-controls>
@@ -384,8 +462,8 @@ def home():
 
 <section class="flow" aria-labelledby="flow-title">
   <div class="flow__head">
-    <h2 class="flow__title heading-l" id="flow-title">How it works</h2>
-    <p class="flow__note handwritten" data-handwritten-text-inview>Easier than choosing what to read next</p>
+    <h2 class="flow__title heading-l" id="flow-title">How it <em>works</em></h2>
+    <p class="flow__note accent-note" data-handwritten-text-inview>Easier than choosing what to read next</p>
     <div class="flow__cta" data-plop-in><span class="flow__emblem" data-plop-in-item>{icon("logo")}</span>{button_alt("signup.html", "Create an account", size="small")}</div>
   </div>
   <ol class="flow__cards" data-call-out>
@@ -408,21 +486,21 @@ def home():
         </div>
       </div>
     </div>
-    <p class="open-book__note handwritten" data-book-open-note>Every book comes with a bookmark, so you never lose your page</p>
+    <p class="open-book__note accent-note" data-book-open-note>Every book comes with a bookmark, so you never lose your page</p>
     <div class="open-book__final">
       <h2 class="open-book__title" id="open-title" data-book-open-title>Get lost in <span class="open-book__mark">a good book.</span></h2>
       <div class="open-book__buttons">
         <span data-book-open-button>{button_alt("signup.html", "Sign up", "black")}</span>
         <span data-book-open-button>{button_alt("login.html", "Log in", "orange")}</span>
       </div>
-      <p class="open-book__aside handwritten" data-book-open-aside>Made by readers, for readers</p>
+      <p class="open-book__aside accent-note" data-book-open-aside>Made by readers, for readers</p>
     </div>
   </div>
 </section>
 
 <section class="genre" id="genres" aria-labelledby="genre-title" data-genre-interaction>
   <p class="genre__eyebrow" id="genre-title">Choose from</p>
-  <p class="genre__note handwritten" data-handwritten-text-inview>A book for every kind of reader</p>
+  <p class="genre__note accent-note" data-handwritten-text-inview>A book for every kind of reader</p>
   <div class="genre__wrap">
     <ul class="genre__list" data-genre-interaction-list>
 {genres}
@@ -443,17 +521,17 @@ def home():
   </div>
   <h2 class="sr-only" id="why-title">Why the Bookshelf?</h2>
   <ul class="why__stickers">
-    <li class="sticker is--magenta" data-benefits-item style="--r:-6deg">Hand-picked reads</li>
-    <li class="sticker is--orange" data-benefits-item style="--r:-3deg">Free bookmarks</li>
-    <li class="sticker is--periwinkle" data-benefits-item style="--r:4deg">Fair prices</li>
-    <li class="sticker is--cyan" data-benefits-item style="--r:7deg">New every month</li>
-    <li class="sticker is--olive" data-benefits-item style="--r:-4deg">Every genre you love</li>
+    <li class="sticker is--magenta" data-benefits-item style="--r:-6deg">{icon("sparkles", "sticker__icon")}Hand-picked reads</li>
+    <li class="sticker is--orange" data-benefits-item style="--r:-3deg">{icon("bookmark", "sticker__icon")}Free bookmarks</li>
+    <li class="sticker is--periwinkle" data-benefits-item style="--r:4deg">{icon("heart", "sticker__icon")}Fair prices</li>
+    <li class="sticker is--cyan" data-benefits-item style="--r:7deg">{icon("star", "sticker__icon")}New every month</li>
+    <li class="sticker is--olive" data-benefits-item style="--r:-4deg">{icon("layers", "sticker__icon")}Every genre you love</li>
   </ul>
 </section>
 
 <section class="faq" id="faq" aria-labelledby="faq-title">
   {bg_svg([("is--soft-blue", shapes.BLOB_A), ("is--soft-blue", shapes.BLOB_B), ("is--soft-blue", shapes.BLOB_C)], "faq__shapes", "0 0 1440 1000", small=True)}
-  <h2 class="faq__title heading-l" id="faq-title">Common questions</h2>
+  <h2 class="faq__title heading-l" id="faq-title">Common <em>questions</em></h2>
   <div class="faq__list">
 {faq}
   </div>
@@ -467,10 +545,10 @@ def home():
   </div>
   <div class="gift__grid">
     <div class="gift__content">
-      <h2 class="gift__title heading-m" id="gift-title">A gift that always fits</h2>
+      <h2 class="gift__title heading-m" id="gift-title">A gift that <em>always fits</em></h2>
       <p class="gift__text">Not sure what they like? Send a gift card and let them pick their own books. No guessing, no spying on their shelves, and they might even lend you one.</p>
       {button_alt("signup.html", "Send a gift card", size="small")}
-      <p class="gift__note handwritten" data-handwritten-text-inview>Wrapped with a ribbon. Naturally.</p>
+      <p class="gift__note accent-note" data-handwritten-text-inview>Wrapped with a ribbon. Naturally.</p>
     </div>
     <div class="gift__visual" data-gift aria-hidden="true"><div class="gift__item" data-gift-item>{book3d(2, "is--gift", "(max-width: 991px) 50vw, 22em")}<span class="gift__ribbon"></span><span class="gift__bow"></span></div></div>
   </div>
@@ -481,10 +559,10 @@ def home():
   <div class="ribbon is--cyan" data-marquee="-1"><div class="ribbon__track"><span aria-hidden="true">{e(ribbon_text * 3)}</span><span aria-hidden="true">{e(ribbon_text * 3)}</span></div></div>
 </div>
 
-<section class="favs" aria-labelledby="favs-title" data-books-slider data-emoji-rain data-emoji-rain-set="📚,✨,🎉,💛">
+<section class="favs" aria-labelledby="favs-title" data-books-slider data-confetti-rain>
   <div class="favs__head">
-    <span class="favs__heart" data-plop-in aria-hidden="true"><svg data-plop-in-item viewBox="0 0 120 110"><path d="M60 104C28 82 6 62 6 36 6 18 20 6 36 6c11 0 19 6 24 15 5-9 13-15 24-15 16 0 30 12 30 30 0 26-22 46-54 68z" fill="var(--magenta)" stroke="#000" stroke-width="5"/><ellipse cx="44" cy="46" rx="11" ry="15" fill="#fff" stroke="#000" stroke-width="4"/><ellipse cx="76" cy="46" rx="11" ry="15" fill="#fff" stroke="#000" stroke-width="4"/><circle cx="47" cy="50" r="6"/><circle cx="79" cy="50" r="6"/><path d="M48 74q12 10 24 0" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round"/></svg></span>
-    <h2 class="favs__title heading-l" id="favs-title">Readers’ favourites</h2>
+    <span class="favs__badge" data-plop-in aria-hidden="true"><svg data-plop-in-item viewBox="0 0 200 200"><defs><path id="favs-ring" d="M100 100m-70 0a70 70 0 1 1 140 0a70 70 0 1 1-140 0"/></defs><circle cx="100" cy="100" r="96" fill="var(--magenta)"/><text><textPath href="#favs-ring">Readers’ choice ✦ Readers’ choice ✦ </textPath></text><path d="{sparkle_path()}" fill="var(--yellow)" transform="translate(100 100) scale(2.4)"/></svg></span>
+    <h2 class="favs__title heading-l" id="favs-title">Readers’ <em>favourites</em></h2>
     <p class="favs__text">The books readers keep coming back to. Every one of them has been re-read, gifted, underlined or argued about.</p>
   </div>
   <div class="favs__slider" data-books-slider-viewport tabindex="0" role="region" aria-label="Readers’ favourites. Use the arrow keys to browse.">
@@ -499,27 +577,31 @@ def home():
 </section>
 
 <section class="spotlight" aria-labelledby="spot-title" data-momentum-hover>
-  <h2 class="spotlight__title heading-l" id="spot-title">Only on the Bookshelf</h2>
+  <h2 class="spotlight__title heading-l" id="spot-title">Only on the <em>Bookshelf</em></h2>
   <p class="spotlight__text">Our pick of the month. Read it slowly, then read it again.</p>
   <div class="spotlight__frame">
-    <p class="spotlight__quote is--left handwritten" data-handwritten-text-inview>“Perfect for 2 a.m. thoughts and rainy Sundays.”</p>
-    <span class="spotlight__emoji is--eyes" data-momentum-hover-element><span data-momentum-hover-target>👀</span></span>
-    <span class="spotlight__emoji is--star" data-momentum-hover-element><span data-momentum-hover-target>🤩</span></span>
-    <span class="spotlight__emoji is--sparkle" data-momentum-hover-element><span data-momentum-hover-target>✨</span></span>
+    <p class="spotlight__quote is--left accent-note" data-handwritten-text-inview>“Perfect for 2 a.m. thoughts and rainy Sundays.”</p>
+    <span class="spotlight__sticker is--moon" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="0 0 100 100"><mask id="spot-moon"><rect width="100" height="100" fill="#fff"/><circle cx="64" cy="38" r="34" fill="#000"/></mask><circle cx="50" cy="50" r="42" fill="var(--yellow)" mask="url(#spot-moon)"/></svg></span></span>
+    <span class="spotlight__sticker is--star" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="-12 -12 24 24"><path d="{sparkle_path()}" fill="var(--magenta)"/></svg></span></span>
+    <span class="spotlight__sticker is--seal" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="0 0 100 100"><path d="{burst(18, 50, 44)}" fill="var(--violet)"/><text x="50" y="47" text-anchor="middle">Staff</text><text x="50" y="66" text-anchor="middle">pick</text></svg></span></span>
     <article class="spotlight__card">
       <div class="spotlight__cover">{cover(10, "(max-width: 991px) 60vw, 20em")}</div>
       {tags(["Poetry", "Bookshelf pick"])}
       <h3 class="spotlight__book">Night Swimming</h3>
       <p class="spotlight__book-text">Poems for 2 a.m. and the moon that keeps you up, by Ruth Okafor. ₹169, down from ₹299.</p>
-      {button_alt("books.html#book-10", "See the book", size="small")}
+      {button_alt(book_url(10), "Open the book", size="small")}
     </article>
     <aside class="spotlight__facts" aria-label="Inside the book">
       <h4>Inside</h4>
       <p>Forty-two short poems about water, insomnia and the people we call at midnight.</p>
     </aside>
-    <p class="spotlight__quote is--right handwritten" data-handwritten-text-inview>“Keep a pencil handy. You will want to underline.”</p>
+    <p class="spotlight__quote is--right accent-note" data-handwritten-text-inview>“Keep a pencil handy. You will want to underline.”</p>
   </div>
 </section>"""
+
+
+def sparkle_path():
+    return "M0-10C1-3 3-1 10 0 3 1 1 3 0 10-1 3-3 1-10 0-3-1-1-3 0-10Z"
 
 
 def burst(points=14, r1=50, r2=40):
@@ -533,15 +615,14 @@ def burst(points=14, r1=50, r2=40):
 
 
 def books_page():
-    cards = "\n".join(book_card(i, "(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em", details=True)
-                      for i in range(1, 11))
+    cards = "\n".join(book_card(i, "(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em") for i in range(1, 11))
     chips = "".join(f'<li><button type="button" class="chip" aria-pressed="false" data-genre="{slug(g)}">{e(g)}</button></li>'
                     for g in sorted({g for b in BOOKS for g in b[4]}))
     return f"""<section class="hero-xs is--pale-blue" data-intro-page aria-labelledby="page-title">
   {bg_svg([("is--soft-blue", shapes.BLOB_A), ("is--soft-blue", shapes.BLOB_B)], "hero-xs__shapes", "0 0 1440 1000", small=True)}
-  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>All books</h1>
+  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>All <em>books</em></h1>
   <p class="hero-xs__text" data-hero-paragraph>The whole shelf in one place. Search by title, author or genre.</p>
-  <p class="hero-xs__note handwritten" data-hero-handwritten-text>Go on, pick three</p>
+  <p class="hero-xs__note accent-note" data-hero-handwritten-text>Go on, pick three</p>
 </section>
 <section class="catalogue" aria-label="Find a book" data-search-root>
   <form class="search" role="search" data-search-form>
@@ -571,7 +652,7 @@ def field(fid, label, ftype, autocomplete, hint="", extra=""):
 def form_page(kind):
     if kind == "login":
         fields = field("username", "Username", "text", "username") + field("password", "Password", "password", "current-password")
-        title, text, note, cta = "Welcome back", "Log in to pick up where you left off.", "We saved your spot", "Log in"
+        title, text, note, cta = "Welcome <em>back</em>", "Log in to pick up where you left off.", "We saved your spot", "Log in"
         switch = 'New here? <a href="signup.html">Create an account</a>'
         colour = "pale-pink"
     else:
@@ -579,13 +660,13 @@ def form_page(kind):
                   + field("password", "Password", "password", "new-password", "(at least 6 characters)")
                   + field("confirm", "Confirm password", "password", "new-password")
                   + field("contact", "Contact number", "tel", "tel-national", "(10 digits)", 'inputmode="numeric" maxlength="10"'))
-        title, text, note, cta = "Join the Bookshelf", "One account for your shelf, your wish list and your gift cards.", "It takes a minute", "Sign up"
+        title, text, note, cta = "Join the <em>Bookshelf</em>", "One account for your shelf, your wish list and your gift cards.", "It takes a minute", "Sign up"
         switch = 'Already have an account? <a href="login.html">Log in</a>'
         colour = "pale-periwinkle"
     return f"""<section class="hero-xs is--{colour} is--form" data-intro-page aria-labelledby="page-title">
-  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>{e(title)}</h1>
+  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>{title}</h1>
   <p class="hero-xs__text" data-hero-paragraph>{e(text)}</p>
-  <p class="hero-xs__note handwritten" data-hero-handwritten-text>{e(note)}</p>
+  <p class="hero-xs__note accent-note" data-hero-handwritten-text>{e(note)}</p>
   <form class="form-card" data-validate="{kind}" novalidate data-hero-content>
     {fields}
     {submit_alt(cta)}
@@ -609,7 +690,7 @@ NOT_FOUND = """<!DOCTYPE html>
 <body class="not-found">
 <main class="hero-xs is--yellow is--404">
   <p class="not-found__code" aria-hidden="true">404</p>
-  <h1 class="hero-xs__title heading-l">This page wandered off</h1>
+  <h1 class="hero-xs__title heading-l">This page <em>wandered off</em></h1>
   <p class="hero-xs__text">There is no book on this shelf. It may have been borrowed, or the address is wrong.</p>
   <a class="button-alt is--magenta" href="/Book-Website/"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text">Back to the shelf</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" viewBox="0 0 24 24"><path d="M4 12h15m-6-6.5L19.5 12 13 18.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
 </main>
@@ -632,3 +713,5 @@ write("login.html", page("login", "Log in | The Bookshelf", "Log in to the Books
 write("signup.html", page("signup", "Sign up | The Bookshelf", "Create a Bookshelf account.", form_page("signup"),
                           "pale-periwinkle"))
 write("404.html", NOT_FOUND)
+for n, book in enumerate(BOOKS, 1):
+    write(book_url(n), page("book", f"{book[0]} by {book[1]} | The Bookshelf", book[6], book_page(n), book[5], n))

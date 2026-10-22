@@ -1,13 +1,15 @@
 The Bookshelf includes the following third-party material. Each keeps its own license.
 
-GSAP 3.15.0 with ScrollTrigger, SplitText, CustomEase, InertiaPlugin and DrawSVGPlugin, in js/vendor: GSAP Standard
+GSAP 3.15.0 with ScrollTrigger, SplitText, CustomEase and InertiaPlugin, in js/vendor: GSAP Standard
 "No Charge" License, https://gsap.com/standard-license.
 
 Lenis 1.3.17, Barba core 2.10.3, Barba prefetch 2.2.0 and Smooothy 0.0.35, in js/vendor: MIT License. The full
 notices are in js/vendor/LICENSES.md.
 
-Bricolage Grotesque, Figtree, Caveat and Fraunces, in fonts (subset to Latin): SIL Open Font License 1.1,
-https://openfontlicense.org.
+Rubik, Instrument Sans and Instrument Serif, in fonts (subset to Latin), and Bricolage Grotesque, Figtree, Caveat
+and Fraunces, in tools/cover-fonts (used to draw the covers): SIL Open Font License 1.1, https://openfontlicense.org.
+
+Lucide icons, in tools/icons and inlined in every page: ISC License, https://lucide.dev. See tools/icons/LICENSE.
 
 Express 5, installed from npm for the optional local server: MIT License.
 

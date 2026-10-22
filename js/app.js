@@ -1,5 +1,5 @@
 /* The Bookshelf: page transitions, smooth scrolling and every animation on the site.
-   Built on GSAP (with ScrollTrigger, SplitText, CustomEase, Inertia and DrawSVG), Lenis, Barba and Smooothy.
+   Built on GSAP (with ScrollTrigger, SplitText, CustomEase and Inertia), Lenis, Barba and Smooothy.
    Each page's effects are created inside a gsap.context, so leaving a page reverts all of them in one call. */
 (() => {
   "use strict";
@@ -21,7 +21,7 @@
   }
 
   const { gsap, ScrollTrigger, SplitText, CustomEase } = window;
-  gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase, window.InertiaPlugin, window.DrawSVGPlugin);
+  gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase, window.InertiaPlugin);
   history.scrollRestoration = "manual";
 
   CustomEase.create("smooth", "0.625, 0.05, 0, 1");
@@ -32,8 +32,10 @@
   const ELASTIC_SOFT = "elastic.out(1, 0.75)";
   const header = document.querySelector("[data-header]");
   const transition = document.querySelector("[data-transition-wrap]");
-  const snake = transition.querySelector("path");
-  const transitionLogo = transition.querySelector("[data-transition-logo]");
+  const panel = transition.querySelector("[data-transition-path]");
+  const brandMark = transition.querySelector("[data-transition-mark]");
+  const brandWord = transition.querySelector("[data-transition-word]");
+  const brandCaption = transition.querySelector("[data-transition-caption]");
 
   /* ---------------- Smooth scrolling ---------------- */
 
@@ -90,7 +92,7 @@
   else window.addEventListener("scroll", onScroll, { passive: true });
 
   function setCurrentNav(namespace) {
-    const key = { home: "home", books: "books", login: "account", signup: "account" }[namespace];
+    const key = { home: "home", books: "books", book: "books", login: "account", signup: "account" }[namespace];
     document.querySelectorAll("[data-nav]").forEach((link) => {
       if (link.dataset.nav === key) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
@@ -206,7 +208,7 @@
     const note = hero.querySelector("[data-hero-handwritten-text]");
     const content = hero.querySelector("[data-hero-content]");
     const bg = hero.querySelector("[data-hero-bg]");
-    const books = home ? gsap.utils.toArray(".hero__book", hero) : [];
+    const books = gsap.utils.toArray(".hero__book, .book-hero__visual", hero);
     const noteChars = note ? scribbleIn(note) : [];
 
     gsap.set([paragraph, button].filter(Boolean), { opacity: 0, y: "-0.75em" });
@@ -227,26 +229,46 @@
     };
   }
 
-  function showLogo(tl, at, delay = 0.05) {
-    tl.fromTo(transitionLogo, { scale: 0, rotate: -64, autoAlpha: 0 },
-      { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.65, ease: ELASTIC }, at + delay);
+  /* The transition: a violet panel. Leaving, it rises from the bottom with its top edge bulging up; arriving, it
+     lifts away with its bottom edge hanging behind. The wordmark rolls up letter by letter in the middle. */
+  const edge = { y: 100, bend: 0, side: "bottom" };
+  function drawPanel() {
+    const { y, bend } = edge;
+    panel.setAttribute("d", edge.side === "bottom"
+      ? `M0 0H100V${y}Q50 ${y + bend} 0 ${y}Z`
+      : `M0 ${y}Q50 ${y - bend} 100 ${y}V100H0Z`);
   }
-  function hideLogo(tl, at, delay = 0.5) {
-    tl.to(transitionLogo, { scale: 0, rotate: 64, autoAlpha: 0, duration: 0.6, ease: "elastic.in(1, 0.72)" }, at + delay);
+  const wordChars = window.SplitText ? SplitText.create(brandWord, { type: "chars", charsClass: "split-char", aria: "none" }).chars : [];
+  gsap.set(wordChars, { display: "inline-block" });
+
+  function brandIn(tl, at) {
+    tl.set(brandWord, { autoAlpha: 1 }, at)
+      .fromTo(wordChars, { yPercent: 115 }, { yPercent: 0, duration: 0.8, ease: "power4.out", stagger: 0.035 }, at)
+      .fromTo(brandMark, { scale: 0.4, rotate: -25, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.9, ease: ELASTIC }, at + 0.05)
+      .fromTo(brandCaption, { y: "1em", autoAlpha: 0 }, { y: 0, autoAlpha: 0.75, duration: 0.6, ease: "power3.out" }, at + 0.35);
   }
-  // The squiggle slithers away from its start, uncovering the page
-  function uncover(tl, at, delay) {
-    tl.to(snake, {
-      keyframes: { "95%": { strokeWidth: "8%", ease: "circ.out" }, "100%": { drawSVG: "100% 100%" } },
-      duration: 1.25,
-    }, at + delay);
+  function brandOut(tl, at) {
+    tl.to(wordChars, { yPercent: -115, duration: 0.5, ease: "power3.in", stagger: 0.02 }, at)
+      .to([brandMark, brandCaption], { autoAlpha: 0, y: "-0.6em", duration: 0.35, ease: "power2.in" }, at + 0.1)
+      .to(brandWord, { autoAlpha: 0, duration: 0.2 }, at + 0.35);
+  }
+  function liftAway(tl, at) {
+    tl.add(() => { edge.side = "bottom"; edge.y = 100; edge.bend = 0; drawPanel(); }, at)
+      .to(edge, { y: 0, duration: 1, ease: "power3.inOut", onUpdate: drawPanel }, at)
+      .to(edge, { keyframes: [{ bend: 22, duration: 0.5, ease: "power2.in" }, { bend: 0, duration: 0.5, ease: "power2.out" }], onUpdate: drawPanel }, at);
+  }
+  function coverUp(tl, at) {
+    tl.add(() => { edge.side = "top"; edge.y = 100; edge.bend = 0; drawPanel(); }, at)
+      .to(edge, { y: 0, duration: 0.85, ease: "power3.inOut", onUpdate: drawPanel }, at)
+      .to(edge, { keyframes: [{ bend: 22, duration: 0.42, ease: "power2.in" }, { bend: 0, duration: 0.43, ease: "power2.out" }], onUpdate: drawPanel }, at);
+  }
+  function panelGone() {
+    edge.side = "bottom"; edge.y = 0; edge.bend = 0; drawPanel();
   }
 
   function runOnce(container) {
-    gsap.set(snake, { drawSVG: "0% 100%", strokeWidth: "70%" });
-    gsap.set(transitionLogo, { scale: 0, rotate: -64, autoAlpha: 0 });
     if (reducedMotion()) {
-      gsap.set(snake, { drawSVG: "0% 0%" });
+      panelGone();
       root.classList.remove("is-loading");
       return Promise.resolve();
     }
@@ -255,36 +277,32 @@
     root.classList.add("is-ready");
     root.classList.remove("is-loading");
     const tl = gsap.timeline();
-    uncover(tl, 0, 0.65);
-    showLogo(tl, 0);
-    hideLogo(tl, 0);
-    tl.to(header, { yPercent: 0, duration: 0.5, ease: "energy" }, 1.6);
-    play(tl, 1.1);
+    brandIn(tl, 0.1);
+    brandOut(tl, 1.25);
+    liftAway(tl, 1.45);
+    tl.to(header, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 2.1);
+    play(tl, 1.7);
     return tl.then();
   }
 
   function runLeave() {
     if (reducedMotion()) return Promise.resolve();
     const tl = gsap.timeline();
-    gsap.set(snake, { strokeWidth: "8%", drawSVG: "0% 0%" });
-    tl.to(snake, {
-      keyframes: { "15%": { strokeWidth: "8%" }, "90%": { drawSVG: "0% 100%" }, "100%": { strokeWidth: "70%" } },
-      duration: 1.25,
-    }, 0);
-    showLogo(tl, 0, 0.5);
+    coverUp(tl, 0);
+    brandIn(tl, 0.45);
     return tl.then();
   }
 
   function runEnter(container) {
     if (reducedMotion()) {
-      gsap.set(snake, { drawSVG: "0% 0%" });
+      panelGone();
       return Promise.resolve();
     }
     const play = pageIntro(container);
     const tl = gsap.timeline();
-    hideLogo(tl, 0, 0.1);
-    uncover(tl, 0, 0.1);
-    play(tl, 0.45);
+    brandOut(tl, 0);
+    liftAway(tl, 0.2);
+    play(tl, 0.5);
     return tl.then();
   }
 
@@ -416,6 +434,13 @@
           next?.setAttribute("aria-disabled", String(atEnd));
         },
       });
+      let downX = 0;
+      let dragged = false;
+      wrapper.addEventListener("pointerdown", (event) => { downX = event.clientX; dragged = false; });
+      wrapper.addEventListener("pointermove", (event) => { if (Math.abs(event.clientX - downX) > 6) dragged = true; });
+      wrapper.addEventListener("click", (event) => {
+        if (dragged) { event.preventDefault(); event.stopPropagation(); dragged = false; }
+      }, true);
       prev?.addEventListener("click", () => slider.goToPrev());
       next?.addEventListener("click", () => slider.goToNext());
       viewport.addEventListener("keydown", (event) => {
@@ -662,37 +687,85 @@
     });
   }
 
-  // Readers' favourites: a shower of emoji the first time you scroll down to it
-  function emojiRain(page) {
-    const container = document.querySelector("[data-emoji-rain-container]");
-    page.querySelectorAll("[data-emoji-rain]").forEach((section) => {
-      const set = section.dataset.emojiRainSet.split(",");
+  // Confetti in the brand colours: little sparkles, dots, books and squiggles
+  const confettiBox = document.querySelector("[data-confetti-container]");
+  const CONFETTI_COLOURS = ["#ffd24a", "#ff008c", "#1ce8ed", "#3b308f", "#f9a220", "#69fe6f", "#9982de"];
+  const CONFETTI_SHAPES = [
+    (c) => `<svg viewBox="-12 -12 24 24"><path fill="${c}" d="M0-10C1-3 3-1 10 0 3 1 1 3 0 10-1 3-3 1-10 0-3-1-1-3 0-10Z"/></svg>`,
+    (c) => `<svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4.2" fill="${c}"/></svg>`,
+    (c) => `<svg viewBox="0 0 10 14"><rect x="1" y="1" width="8" height="12" rx="1.2" fill="${c}"/><rect x="1" y="1" width="2" height="12" fill="rgba(0,0,0,.2)"/></svg>`,
+    (c) => `<svg viewBox="0 0 24 10"><path d="M2 6c3-4 5 4 8 0s5 4 8 0 3-2 4-2" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round"/></svg>`,
+  ];
+  function confettiBit() {
+    const bit = document.createElement("div");
+    bit.className = "confetti__bit";
+    bit.innerHTML = gsap.utils.random(CONFETTI_SHAPES)(gsap.utils.random(CONFETTI_COLOURS));
+    confettiBox.appendChild(bit);
+    return bit;
+  }
+  function confettiBurst(x, y, count = 26) {
+    if (reducedMotion()) return;
+    for (let i = 0; i < count; i++) {
+      const bit = confettiBit();
+      const angle = gsap.utils.random(-160, -20) * Math.PI / 180;
+      const speed = gsap.utils.random(140, 340);
+      gsap.timeline({ onComplete: () => bit.remove() })
+        .set(bit, { x, y, scale: gsap.utils.random(0.6, 1.2), rotation: gsap.utils.random(-90, 90) })
+        .to(bit, { x: x + Math.cos(angle) * speed, y: y + Math.sin(angle) * speed, rotation: "+=" + gsap.utils.random(-240, 240), duration: 0.6, ease: "power3.out" })
+        .to(bit, { y: "+=" + gsap.utils.random(160, 320), autoAlpha: 0, duration: gsap.utils.random(0.8, 1.3), ease: "power1.in" });
+    }
+  }
+  function confettiRain(page) {
+    page.querySelectorAll("[data-confetti-rain]").forEach((section) => {
       let running = false;
       ScrollTrigger.create({
         trigger: section, start: "top 70%",
         onEnter: (self) => {
           if (running || self.direction !== 1 || reducedMotion()) return;
           running = true;
-          const height = innerHeight;
-          const drops = Array.from({ length: 36 }, () => {
-            const drop = document.createElement("div");
-            drop.className = "emoji-rain__drop";
-            drop.style.left = `${gsap.utils.random(0, 100)}%`;
-            const inner = document.createElement("span");
-            inner.textContent = gsap.utils.random(set);
-            drop.appendChild(inner);
-            container.appendChild(drop);
-            const delay = gsap.utils.random(0, 1.25);
-            gsap.fromTo(drop, { y: height, xPercent: -50, scale: gsap.utils.random(0.4, 1.1) },
-              { y: "-110%", delay, ease: "power1.in", duration: gsap.utils.random(0.8, 1.8) });
-            const tilt = gsap.utils.random(-28, 28);
-            gsap.fromTo(inner, { xPercent: -25, rotate: tilt }, { xPercent: 25, rotate: -tilt, ease: "power1.inOut", delay, duration: 0.8, repeat: -1, yoyo: true });
-            return drop;
-          });
-          gsap.delayedCall(3.2, () => { drops.forEach((d) => { gsap.killTweensOf([d, d.firstChild]); d.remove(); }); running = false; });
+          for (let i = 0; i < 46; i++) {
+            const bit = confettiBit();
+            const delay = gsap.utils.random(0, 1.2);
+            gsap.fromTo(bit, { x: gsap.utils.random(0, innerWidth), y: -40, rotation: gsap.utils.random(0, 360), scale: gsap.utils.random(0.6, 1.3) },
+              { y: innerHeight + 60, x: "+=" + gsap.utils.random(-120, 120), rotation: "+=" + gsap.utils.random(-540, 540), delay,
+                duration: gsap.utils.random(1.6, 2.6), ease: "power1.in", onComplete: () => bit.remove() });
+          }
+          gsap.delayedCall(4, () => { running = false; });
         },
       });
     });
+  }
+
+  // Book pages: the cover leans towards the pointer and bobs gently; "Add to bag" says thanks with confetti
+  function bookPage(page) {
+    const area = page.querySelector(".book-hero");
+    const target = page.querySelector("[data-book-tilt-target]");
+    const bag = page.querySelector("[data-add-to-bag]");
+    const status = page.querySelector("[data-bag-status]");
+    const cleanups = [];
+    if (bag) {
+      const add = () => {
+        status.textContent = "Added to your bag. (A demo: nothing is ordered.)";
+        const box = bag.getBoundingClientRect();
+        confettiBurst(box.left + box.width / 2, box.top + box.height / 2);
+      };
+      bag.addEventListener("click", add);
+      cleanups.push(() => bag.removeEventListener("click", add));
+    }
+    if (target && !reducedMotion()) {
+      gsap.to(target, { y: "-1em", duration: 2.8, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      if (finePointer.matches) {
+        const turnY = gsap.quickTo(target, "rotationY", { duration: 0.8, ease: "power3" });
+        const turnX = gsap.quickTo(target, "rotationX", { duration: 0.8, ease: "power3" });
+        const move = (event) => {
+          turnY((event.clientX / innerWidth - 0.5) * 30);
+          turnX((event.clientY / innerHeight - 0.5) * -16);
+        };
+        area.addEventListener("pointermove", move);
+        cleanups.push(() => area.removeEventListener("pointermove", move));
+      }
+    }
+    return () => cleanups.forEach((fn) => fn());
   }
 
   // Emoji you brush past get flung by your pointer's speed and spin back into place
@@ -742,8 +815,7 @@
     const tl = gsap.timeline({ scrollTrigger: { trigger: footer, start: "clamp(top bottom)", end: "clamp(top top)", scrub: 0.2 } });
     tl.fromTo(footer.querySelector("[data-footer-parallax-top]"), { y: "-12.5em" }, { y: "0em", ease: "none" })
       .fromTo(footer.querySelector("[data-footer-parallax-bottom]"), { y: "-12.5em" }, { y: "0em", ease: "none" }, "<")
-      .fromTo(footer.querySelector("[data-footer-parallax-visual]"), { scale: 0.9, xPercent: -35, y: "17.5em", rotate: 30 },
-        { scale: 1, xPercent: 0, y: "0em", rotate: 0, ease: "none" }, "<");
+      .fromTo(footer.querySelector(".footer__wordmark"), { yPercent: 35 }, { yPercent: 0, ease: "none" }, "<");
   }
 
   // Sections pop up a little as they arrive
@@ -797,17 +869,6 @@
       history.replaceState(history.state, "", url);
       apply();
     }));
-    rootEl.querySelectorAll(".book-card__more").forEach((button) => {
-      const about = document.getElementById(button.getAttribute("aria-controls"));
-      button.addEventListener("click", () => {
-        const open = button.getAttribute("aria-expanded") !== "true";
-        button.setAttribute("aria-expanded", String(open));
-        button.textContent = open ? "Show less" : "Show more";
-        about.hidden = !open;
-        if (open && !reducedMotion()) gsap.from(about, { opacity: 0, y: "-0.5em", duration: 0.35, ease: "energy" });
-        ScrollTrigger.refresh();
-      });
-    });
     apply(false);
     if (!reducedMotion()) gsap.from(cards.filter((c) => !c.hidden), { y: "4em", opacity: 0, rotate: () => gsap.utils.random(-6, 6), duration: 0.9, ease: ELASTIC_SOFT, stagger: 0.05, delay: 0.6 });
   }
@@ -836,10 +897,10 @@
       taglineCurve(container);
       giftPop(container);
       ribbons(container);
-      emojiRain(container);
+      confettiRain(container);
       footerParallax(container);
       catalogue(container);
-      [floatingBooks, waveButtons, sliders, fannedCards, genreCovers, momentumHover]
+      [floatingBooks, waveButtons, sliders, fannedCards, genreCovers, momentumHover, bookPage]
         .forEach((fn) => { const undo = fn(container); if (undo) pageCleanups.push(undo); });
     }, container);
   }
@@ -883,7 +944,7 @@
     preventRunning: true,
     prevent: ({ el }) => el.hasAttribute("download") || el.target === "_blank",
     transitions: [{
-      name: "snake",
+      name: "panel",
       once: () => start(),
       leave: () => { lenis?.stop(); closeMenu(); return runLeave(); },
       afterLeave: ({ current }) => { destroyPage(); current.container.remove(); },

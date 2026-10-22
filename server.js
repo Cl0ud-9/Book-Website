@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 const site = ["index.html", "books.html", "login.html", "signup.html", "404.html", "css", "js", "image", "fonts"];
 app.use((req, res, next) => {
   const first = decodeURIComponent(req.path).split("/")[1];
-  if (first === "" || site.includes(first)) return next();
+  if (first === "" || site.includes(first) || /^book-[a-z0-9-]+\.html$/.test(first)) return next();
   res.sendStatus(404);
 });
 app.use(express.static(__dirname, { index: "index.html", dotfiles: "deny" }));

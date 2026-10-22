@@ -119,10 +119,21 @@ with sync_playwright() as p:
     page.wait_for_timeout(300)
     ok(page.locator("[data-search-empty]").is_visible(), "no-match message shows")
     page.fill("#search-box", "")
-    more = page.locator(".book-card__more").first
-    more.click()
-    ok(more.get_attribute("aria-expanded") == "true" and page.locator("#about-1").is_visible(), "show more opens")
+    page.wait_for_timeout(400)
     page.screenshot(path=f"{OUT}/books.png")
+
+    # a card opens its book's page, which has its details and an Add to bag button
+    page.locator(".book-card").first.click(position={"x": 60, "y": 60})
+    page.wait_for_timeout(3200)
+    ok(page.url.endswith("book-the-lighthouse-letters.html"), f"a card opens its book page ({page.url})")
+    ok(page.locator("h1").inner_text().strip() == "The Lighthouse Letters", "book page shows the title")
+    ok(page.locator(".book-about__facts dt").count() == 5, "book page lists the details")
+    ok(page.locator("[data-barba-namespace=book]").count() == 1, "book page swapped in without reload")
+    page.locator("[data-add-to-bag]").click()
+    page.wait_for_timeout(400)
+    ok("Added to your bag" in page.locator("[data-bag-status]").inner_text(), "Add to bag answers")
+    ok(page.locator(".book-more .book-card").count() == 3, "three related books")
+    page.screenshot(path=f"{OUT}/book.png")
 
     # to sign-up and the form
     page.evaluate("window.scrollTo(0,0)")

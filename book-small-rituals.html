@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Small Rituals by Leo Fernandes | The Bookshelf</title>
+<meta name="description" content="Keep your days, one page at a time.">
+<meta name="theme-color" content="#ffd24a">
+<meta property="og:title" content="Small Rituals by Leo Fernandes | The Bookshelf">
+<meta property="og:description" content="Keep your days, one page at a time.">
+<meta property="og:image" content="https://cl0ud-9.github.io/Book-Website/image/book-3-720.webp">
+<link rel="icon" href="image/logo.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/main.css">
+<script>(function(d){var r=d.documentElement;r.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('is-loading');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)})(document)</script>
+<script src="js/vendor/gsap.min.js" defer></script>
+<script src="js/vendor/ScrollTrigger.min.js" defer></script>
+<script src="js/vendor/SplitText.min.js" defer></script>
+<script src="js/vendor/CustomEase.min.js" defer></script>
+<script src="js/vendor/InertiaPlugin.min.js" defer></script>
+<script src="js/vendor/lenis.min.js" defer></script>
+<script src="js/vendor/barba.umd.min.js" defer></script>
+<script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
+<script src="js/vendor/smooothy.min.js" defer></script>
+<script src="js/forms.js" defer></script>
+<script src="js/app.js" defer></script>
+</head>
+<body data-barba="wrapper">
+<svg xmlns="http://www.w3.org/2000/svg" hidden>
+  <symbol id="i-logo" viewBox="0 0 48 48"><path fill="currentColor" d="M24 9.5c-4.2-3.3-10.3-4.4-17-3.5a2 2 0 0 0-1.7 2v27.6a2 2 0 0 0 2.3 2c6.2-.8 11.3.2 15.2 3.1a2 2 0 0 0 2.4 0c3.9-2.9 9-3.9 15.2-3.1a2 2 0 0 0 2.3-2V8a2 2 0 0 0-1.7-2c-6.7-.9-12.8.2-17 3.5Zm-2.2 4.2v20.9c-3.6-1.8-7.9-2.6-12.5-2.4V10c4.9-.4 9.3.8 12.5 3.7Zm4.4 0c3.2-2.9 7.6-4.1 12.5-3.7v22.2c-4.6-.2-8.9.6-12.5 2.4V13.7Z"/><path fill="currentColor" d="M33 4h5v12l-2.5-2-2.5 2z"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7" /> <path d="M12 19V5" /></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /> <path d="M12 5v14" /></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16" /> <path d="M4 12h16" /> <path d="M4 19h16" /></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-4.34-4.34" /> <circle cx="11" cy="11" r="8" /></symbol>
+  <symbol id="i-bag" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10a4 4 0 0 1-8 0" /> <path d="M3.103 6.034h17.794" /> <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z" /></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v16" /> <path d="M20.001 19A2 2 0 0022 17V5a2 2 0 00-1.999-2L16 3.002A5 5 0 0012 5a5 5 0 00-4-2H4a2 2 0 00-2 2v12a2 2 0 001.999 2H8a5 5 0 014 2 5 5 0 014-2z" /></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z" /> <path d="M20 2v4" /> <path d="M22 4h-4" /> <circle cx="4" cy="20" r="2" /></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14" /> <path d="M20 11v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8" /> <path d="M7.5 7a1 1 0 0 1 0-5A4.8 8 0 0 1 12 7a4.8 8 0 0 1 4.5-5 1 1 0 0 1 0 5" /> <rect x="3" y="7" width="18" height="4" rx="1" /></symbol>
+  <symbol id="i-bookmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2 2 0 0 1 2 2v15a1 1 0 0 1-1.496.868l-4.512-2.578a2 2 0 0 0-1.984 0l-4.512 2.578A1 1 0 0 1 5 20V5a2 2 0 0 1 2-2z" /></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" /></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z" /> <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12" /> <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17" /></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /> <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /> <path d="M2 12h20" /></symbol>
+  <symbol id="i-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /> <path d="M12 22V12" /> <polyline points="3.29 7 12 12 20.71 7" /> <path d="m7.5 4.27 9 5.15" /></symbol>
+</svg>
+<div class="transition" data-transition-wrap aria-hidden="true">
+  <svg class="transition__svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path data-transition-path d="M0 0H100V100Q50 100 0 100Z"/></svg>
+  <div class="transition__brand" data-transition-brand>
+    <svg class="transition__mark" data-transition-mark><use href="#i-logo"></use></svg>
+    <p class="transition__word" data-transition-word>Book<em>shelf</em></p>
+    <p class="transition__caption" data-transition-caption>Hand-picked books since 2023</p>
+  </div>
+</div>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="header" data-header data-scrolling-started="false">
+  <a class="header__logo" href="./" aria-label="The Bookshelf, home">
+    <svg class="header__logo-icon" aria-hidden="true"><use href="#i-logo"></use></svg>
+    <span class="header__logo-text">Book<em>shelf</em></span>
+  </a>
+  <nav class="header__nav" aria-label="Main">
+    <ul class="header__nav-list">
+      <li><a class="button" href="books.html" data-nav="books" data-button><span class="button__bg"></span><span class="button__text" data-button-text>All books</span></a></li>
+      <li><a class="button" href="index.html#genres" data-nav="genres" data-button><span class="button__bg"></span><span class="button__text" data-button-text>Genres</span></a></li>
+      <li><a class="button" href="index.html#faq" data-nav="faq" data-button><span class="button__bg"></span><span class="button__text" data-button-text>FAQ</span></a></li>
+      <li><a class="button-alt is--orange is--small" href="login.html" data-button-alt data-nav="account"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Log in / Sign up</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a></li>
+    </ul>
+  </nav>
+  <div class="header__side">
+    <a class="header__social" href="https://github.com/Cl0ud-9/Book-Website" aria-label="Source code on GitHub"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg></a>
+  </div>
+  <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
+    <span class="menu-toggle__text">Menu</span><svg class="menu-toggle__icon" aria-hidden="true"><use href="#i-menu"></use></svg>
+  </button>
+</header>
+<div class="menu" id="menu" data-menu aria-label="Menu" role="dialog" aria-modal="true" hidden>
+  <div class="menu__inner">
+    <button class="menu-toggle is--close" type="button" data-menu-close><span class="menu-toggle__text">Close</span><svg class="menu-toggle__icon" aria-hidden="true"><use href="#i-close"></use></svg></button>
+    <ul class="menu__list">
+      <li><a class="menu__link" href="./" data-nav="home">Home</a></li>
+      <li><a class="menu__link" href="books.html" data-nav="books">All books</a></li>
+      <li><a class="menu__link" href="index.html#genres">Genres</a></li>
+      <li><a class="menu__link" href="index.html#faq">FAQ</a></li>
+    </ul>
+    <div class="menu__account">
+      <a class="button-alt is--white" href="login.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Log in</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
+      <a class="button-alt is--black" href="signup.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Sign up</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
+    </div>
+    <p class="menu__note accent-note">See you between the pages!</p>
+  </div>
+</div>
+<main id="main" class="page" data-barba="container" data-barba-namespace="book" data-page-theme="pale-orange">
+<section class="book-hero" style="--card:var(--pale-orange);--ink:#000" data-intro-page aria-labelledby="page-title">
+  <svg class="book-hero__shapes" viewBox="0 0 1440 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" data-background-animation data-background-animation-small><path class="is--glow" d="M-80 120C-43.3 58.3 76.7 -30 160 -40C243.3 -50 360 3.3 420 60C480 116.7 530 233.3 520 300C510 366.7 426.7 440 360 460C293.3 480 190 441.7 120 420C50 398.3 -26.7 380 -60 330C-93.3 280 -116.7 181.7 -80 120Z"/><path class="is--glow" d="M900 420C926.7 353.3 1040 310 1120 300C1200 290 1313.3 316.7 1380 360C1446.7 403.3 1513.3 483.3 1520 560C1526.7 636.7 1483.3 770 1420 820C1356.7 870 1216.7 880 1140 860C1063.3 840 1000 773.3 960 700C920 626.7 873.3 486.7 900 420Z"/></svg>
+  <a class="book-hero__back" href="books.html"><svg class="icon" aria-hidden="true"><use href="#i-left"></use></svg> All books</a>
+  <div class="book-hero__grid">
+    <div class="book-hero__visual" data-book-tilt aria-hidden="true">
+      <div class="book-hero__float" data-book-tilt-target><div class="book3d is--large" style="--spine:#9982de"><div class="book3d__front"><img src="image/book-3-360.webp" srcset="image/book-3-180.webp 180w, image/book-3-360.webp 360w, image/book-3-720.webp 720w, image/book-3-1080.webp 1080w" sizes="(max-width: 991px) 60vw, 30em" width="360" height="574" alt="" fetchpriority="high"></div><div class="book3d__back"></div><div class="book3d__spine"></div><div class="book3d__pages"></div><div class="book3d__top"></div><div class="book3d__bottom"></div></div></div>
+      <span class="book-hero__shadow"></span>
+    </div>
+    <div class="book-hero__info">
+      <div data-hero-paragraph><ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--soft-periwinkle)">Self-help</li><li class="tag" style="--tag:var(--white)">Non-fiction</li></ul></div>
+      <h1 class="book-hero__title heading-l" id="page-title" data-hero-title>Small Rituals</h1>
+      <p class="book-hero__author" data-hero-paragraph>by Leo Fernandes</p>
+      <p class="book-hero__hook accent-note" data-hero-handwritten-text>Keep your days, one page at a time.</p>
+      <div class="book-hero__buy" data-hero-button>
+        <p class="book-hero__price">₹299 <s><span class="sr-only">was </span>₹649</s> <span class="book-hero__save">Save 54%</span></p>
+        <button type="button" class="button-alt is--black" data-button-alt data-add-to-bag><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Add to bag</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-plus"></use></svg></span></button>
+        <p class="book-hero__status" role="status" aria-live="polite" data-bag-status></p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="book-about" aria-labelledby="about-title">
+  <div class="book-about__text">
+    <h2 class="book-about__title heading-m" id="about-title">About the <em>book</em></h2>
+    <p>A gentle guide to journaling and the small daily habits that make a life feel like your own, with prompts for every season.</p>
+  </div>
+  <dl class="book-about__facts"><div><dt><svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg>Format</dt><dd>Hardback</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-layers"></use></svg>Pages</dt><dd>196</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-bookmark"></use></svg>Genre</dt><dd>Self-help and Non-fiction</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-globe"></use></svg>Language</dt><dd>English</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-package"></use></svg>Ships</dt><dd>Wrapped, with a bookmark</dd></div></dl>
+</section>
+<section class="book-more" aria-labelledby="more-title">
+  <h2 class="book-more__title heading-l" id="more-title">You might <em>also like</em></h2>
+  <div class="catalogue__grid is--three">
+<article class="book-card " id="book-1" style="--card:var(--yellow);--ink:#000" data-search="the lighthouse letters mira kapoor romance historical" data-genres="romance historical" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/book-1-360.webp" srcset="image/book-1-180.webp 180w, image/book-1-360.webp 360w, image/book-1-720.webp 720w, image/book-1-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="574" alt="The Lighthouse Letters by Mira Kapoor, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-pink)">Romance</li><li class="tag" style="--tag:var(--soft-orange)">Historical</li></ul>
+  <h3 class="book-card__title"><a class="book-card__link" href="book-the-lighthouse-letters.html" draggable="false">The Lighthouse Letters</a></h3>
+  <p class="book-card__author">Mira Kapoor</p>
+  <p class="book-card__price">₹249 <s><span class="sr-only">was </span>₹499</s></p>
+  <p class="book-card__hook">Forty years of letters, one lighthouse, and the reply that never came.</p>
+  <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
+</article>
+<article class="book-card " id="book-2" style="--card:var(--pale-green);--ink:#000" data-search="paper moons aanya rao romance contemporary" data-genres="romance contemporary" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/book-2-360.webp" srcset="image/book-2-180.webp 180w, image/book-2-360.webp 360w, image/book-2-720.webp 720w, image/book-2-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="574" alt="Paper Moons by Aanya Rao, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-pink)">Romance</li><li class="tag" style="--tag:var(--pale-green)">Contemporary</li></ul>
+  <h3 class="book-card__title"><a class="book-card__link" href="book-paper-moons.html" draggable="false">Paper Moons</a></h3>
+  <p class="book-card__author">Aanya Rao</p>
+  <p class="book-card__price">₹249 <s><span class="sr-only">was </span>₹499</s></p>
+  <p class="book-card__hook">Two strangers, one rooftop, and a string of paper moons.</p>
+  <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
+</article>
+<article class="book-card " id="book-4" style="--card:var(--olive);--ink:#fff" data-search="the hollow wood ines marlow mystery fantasy" data-genres="mystery fantasy" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/book-4-360.webp" srcset="image/book-4-180.webp 180w, image/book-4-360.webp 360w, image/book-4-720.webp 720w, image/book-4-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="574" alt="The Hollow Wood by Ines Marlow, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-blue)">Mystery</li><li class="tag" style="--tag:var(--pale-periwinkle)">Fantasy</li></ul>
+  <h3 class="book-card__title"><a class="book-card__link" href="book-the-hollow-wood.html" draggable="false">The Hollow Wood</a></h3>
+  <p class="book-card__author">Ines Marlow</p>
+  <p class="book-card__price">₹169 <s><span class="sr-only">was </span>₹299</s></p>
+  <p class="book-card__hook">Every path in this wood leads somewhere it shouldn&#x27;t.</p>
+  <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
+</article>
+  </div>
+</section>
+<footer class="footer" data-footer-parallax>
+  <div class="footer__inner">
+    <div class="footer__top" data-footer-parallax-top>
+      <form class="footer__form" data-newsletter novalidate>
+        <h2 class="footer__form-title">Letters from <em>the shelf</em></h2>
+        <p class="footer__text">One email a month: the new books, a few favourites, and nothing else.</p>
+        <div class="footer__field">
+          <label class="sr-only" for="newsletter-email">Email address</label>
+          <span class="footer__input"><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg><input class="field__input is--light" type="email" id="newsletter-email" name="email" placeholder="you@example.com" autocomplete="email" required></span>
+          <button type="submit" class="button-alt is--yellow" data-button-alt><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Subscribe</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></button>
+        </div>
+        <p class="footer__message" role="status" aria-live="polite" data-newsletter-message></p>
+      </form>
+      <nav class="footer__nav" aria-label="Footer">
+        <div class="footer__col">
+          <h2 class="footer__heading">Shop</h2>
+          <ul><li><a href="books.html">All books</a></li><li><a href="index.html#genres">Genres</a></li><li><a href="index.html#new">New this month</a></li></ul>
+        </div>
+        <div class="footer__col">
+          <h2 class="footer__heading">Account</h2>
+          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="index.html#faq">Questions</a></li></ul>
+        </div>
+        <div class="footer__col">
+          <h2 class="footer__heading">Elsewhere</h2>
+          <ul><li><a href="https://github.com/Cl0ud-9/Book-Website">Source on GitHub</a></li><li><a href="https://github.com/Cl0ud-9">More from Cloud/9</a></li></ul>
+        </div>
+      </nav>
+    </div>
+    <p class="footer__wordmark" aria-hidden="true">Book<em>shelf</em></p>
+    <div class="footer__bottom" data-footer-parallax-bottom>
+      <p>© 2023–2026 The Bookshelf</p>
+      <p>Designed and built by <a href="https://github.com/Cl0ud-9">Cloud/9</a></p>
+      <a class="footer__top-link" href="#main" data-back-to-top>Back to top <svg class="icon" aria-hidden="true"><use href="#i-up"></use></svg></a>
+    </div>
+  </div>
+</footer>
+</main>
+<div class="confetti" data-confetti-container aria-hidden="true"></div>
+</body>
+</html>

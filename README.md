@@ -16,44 +16,52 @@
 <br>
 
 <p align="center">
-  <img src="docs/img/tour.webp" alt="The opening animation: a violet squiggle covers the screen, the logo springs in, the squiggle slithers away to reveal the home page, then a click on All books plays the transition to the catalogue" width="640">
+  <img src="docs/img/tour.webp" alt="The opening: the Bookshelf wordmark rolls up on a violet panel, which lifts away on a curve to reveal the home page; then All books, and a click on a book opens its own page" width="640">
 </p>
 
-The Bookshelf is the home page of an imaginary bookshop, built to feel hand-made: chunky type, handwritten notes,
-stickers and colour cards, and motion everywhere you look. It began as a Web Technology course project and was
-rebuilt from scratch in version 2. Every book, cover and illustration on it was made for the site.
+The Bookshelf is an imaginary bookshop with a loud, warm personality: heavy type with a serif italic twist, colour
+cards, stickers and motion everywhere you look. It began as a Web Technology course project and was rebuilt from
+scratch in version 2. Every book, cover and illustration on it was made for the site.
 
 | Page | What it does |
 |---|---|
 | [Home](https://cl0ud-9.github.io/Book-Website/) | Ten new books on a draggable shelf, how it works, a book that opens as you scroll, a giant genre list, why the shop, questions, gift cards, readers' favourites and the pick of the month. |
 | [All books](https://cl0ud-9.github.io/Book-Website/books.html) | Every book, searchable by title, author or genre, with genre chips. Genre links on the home page open it already filtered. |
+| [A book](https://cl0ud-9.github.io/Book-Website/book-cities-above-the-clouds.html) | Each of the ten books has its own page: a 3D copy that leans towards the pointer, the details, Add to bag, and three related books. Every card on the site opens one. |
 | [Log in](https://cl0ud-9.github.io/Book-Website/login.html) and [Sign up](https://cl0ud-9.github.io/Book-Website/signup.html) | Forms checked in the browser, with an error beside each field. |
 
 ## The details
 
 <p align="center">
   <img src="docs/img/shelf.jpg" alt="The new books shelf: colourful cards with illustrated covers, each tilted a little differently" width="49%">
-  <img src="docs/img/genres.jpg" alt="The genre list: Fantasy under the pointer turns handwritten while four covers pop out around it" width="49%">
+  <img src="docs/img/genres.jpg" alt="The genre list: Fantasy under the pointer turns to serif italic while four covers pop out around it" width="49%">
 </p>
 
-- **Page transitions.** A fat violet squiggle draws itself across the screen, the logo springs in, the next page loads
-  behind it, and the squiggle slithers off again. Pages swap without a full reload (Barba), and the back button works.
-- **Text that arrives.** Headings stretch in word by word with an elastic snap, handwritten notes tumble in letter by
-  letter, and button letters dip and spring back when you point at them.
+- **Page transitions.** A violet panel rises with its top edge bulging, the wordmark rolls up letter by letter, the
+  next page loads behind it, and the panel lifts away with its edge trailing. Pages swap without a full reload
+  (Barba), and the back button works.
+- **Type with a twist.** Heavy Rubik headings with one word set in Instrument Serif italic. Headings stretch in word by
+  word with an elastic snap, italic notes tumble in letter by letter, and button letters dip and spring back.
 - **A shelf you can throw.** Cards tilt and dip the further they are from the middle as you drag (Smooothy), with
   arrow buttons and arrow keys too.
 - **A book that opens as you scroll.** It turns to face you, the cover swings open, three pages flip, and you fall
   into the page where the headline is waiting. All of it is CSS 3D, driven by the scroll position (ScrollTrigger).
-- **Genres with covers.** The genre under the pointer swaps to handwriting, its neighbours make room, and four covers
-  pop out around it and drift with the pointer.
+- **Genres with covers.** The genre under the pointer swaps to serif italic, its neighbours make room, and four
+  covers pop out around it and drift with the pointer.
+- **Books you can open.** Each book page has a 3D copy that follows the pointer, and Add to bag answers with a burst
+  of confetti.
 - **Little things.** Background shapes that breathe, stickers that slap on, a ring of text that turns as you scroll,
-  a tagline that runs along a curve, ribbons that reverse when you scroll up, a shower of emoji, emoji you can fling
-  with the pointer (Inertia), a footer that slides out from under the page, and a bookmark that wiggles on the
-  current menu item.
+  a tagline that runs along a curve, ribbons that reverse when you scroll up, a shower of confetti in the brand
+  colours, stickers you can fling with the pointer (Inertia), a footer that slides out from under the page with a
+  giant wordmark, and a bookmark that wiggles on the current menu item. Icons are from Lucide.
 
 <p align="center">
   <img src="docs/img/open-book.jpg" alt="The end of the scroll scene: the book has opened and the page reads Get lost in a good book" width="49%">
-  <img src="docs/img/phone.jpg" alt="On a phone: the home page, and the catalogue filtered to Fantasy" width="49%">
+  <img src="docs/img/book.jpg" alt="A book page: a 3D copy of Cities Above the Clouds beside its title, price and Add to bag" width="49%">
+</p>
+
+<p align="center">
+  <img src="docs/img/phone.jpg" alt="On a phone: the home page, and the catalogue filtered to Fantasy" width="420">
 </p>
 
 ## Built to work for everyone
@@ -64,8 +72,8 @@ rebuilt from scratch in version 2. Every book, cover and illustration on it was 
 - **Keyboard and screen readers.** A skip link, labelled fields, visible focus, sliders driven by the arrow keys, genre
   covers that follow keyboard focus, a phone menu that keeps focus inside and closes with Escape, and animated text
   that is still read out as whole sentences.
-- **Fast anyway.** Fonts and libraries are served with the site, so it makes no requests to other servers. The four
-  fonts are cut down to the characters used (122 KB together) and the covers are WebP in four widths. Lighthouse on
+- **Fast anyway.** Fonts and libraries are served with the site, so it makes no requests to other servers. The three
+  fonts are cut down to the characters used (77 KB together) and the covers are WebP in four widths. Lighthouse on
   a phone, on the live site:
 
   | Page | Performance | Accessibility | Best practices | SEO | Downloads |
@@ -94,14 +102,14 @@ An unfinished port of the original site to Angular, from the same course, is kep
 The pages are generated from one list, so a book's title, price, genres and colour are written once.
 
 ```bash
-python tools/build.py      # edit BOOKS in it first; rewrites index, books, login, signup and 404
+python tools/build.py      # edit BOOKS in it first; rewrites every page, including one per book
 python tools/covers.py     # redraws the ten covers (needs Pillow, Playwright and Google Chrome)
 python tools/check.py      # with npm start running: uses the site like a visitor and reports what fails
 ```
 
 `tools/check.py` drags the shelf, hovers the genres, opens the questions, sends the forms (including one with HTML in
-it), follows a genre link into the catalogue, searches it, and checks the phone menu, reduced motion and the site
-without JavaScript.
+it), follows a genre link into the catalogue, searches it, opens a book and adds it to the bag, and checks the phone
+menu, reduced motion and the site without JavaScript.
 
 ## How it is published
 
@@ -120,14 +128,14 @@ deploy.
 ## Project structure
 
 ```text
-index.html, books.html, login.html, signup.html, 404.html    generated by tools/build.py
+index.html, books.html, book-*.html, login.html, signup.html, 404.html    generated by tools/build.py
 css/main.css        every style: tokens, the fluid type scale, components and sections
 js/app.js           transitions, smooth scrolling and every animation, one function per effect
 js/forms.js         checks the log-in, sign-up and newsletter forms
 js/vendor/          GSAP, Lenis, Barba and Smooothy, unchanged (licences in LICENSES.md)
-fonts/              Bricolage Grotesque, Figtree, Caveat and Fraunces, Latin subset
+fonts/              Rubik, Instrument Sans and Instrument Serif italic, Latin subset
 image/              covers (book-N-180/360/720/1080.webp) and the logo
-tools/              page generator, cover renderer and the browser check
+tools/              page generator, cover renderer (with its own fonts), icons and the browser check
 server.js           optional local server (npm start)
 ```
 

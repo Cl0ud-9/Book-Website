@@ -5,6 +5,32 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [2.1.0] - 2026-10-22
+
+A cleaner, more finished pass, and every book can now be opened.
+
+### Added
+
+- A page for each of the ten books: a 3D copy that leans towards the pointer, the price and saving, Add to bag (with
+  a burst of confetti), the details, and three related books. Every card on the site opens one, and dragging a shelf
+  never opens a card by mistake.
+- A new footer: a monthly newsletter, three columns of links, a giant wordmark and a tidy sign-off with Back to top.
+- Icons from Lucide on the stickers, book details, newsletter field and Back to top.
+
+### Changed
+
+- The opening and page transitions: a violet panel with the wordmark rolling up letter by letter, which lifts away on
+  a smooth curve, replacing the round-ended squiggle. It now covers the whole screen on phones too, corners included.
+- Type: heavy Rubik headings with one word in Instrument Serif italic, Instrument Sans for text, and Instrument Serif
+  italic for the notes that were handwritten. The three fonts weigh 77 KB together.
+- Brand confetti and flingable stickers (a moon, a sparkle, a staff-pick seal) instead of emoji, and a Readers' choice
+  badge instead of the cartoon heart.
+- The hero shows two books, one leaning behind the other, instead of three scattered across the page.
+
+### Fixed
+
+- The intro left the screen's corners uncovered on phones.
+
 ## [2.0.0] - 2026-10-22
 
 A redesign: a bright, illustrated bookshop where everything moves, with a new page for the whole catalogue. On the
