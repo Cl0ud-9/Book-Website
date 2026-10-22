@@ -20,6 +20,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com), and the versi
 
 - Going back or forward on a phone showed the page and then played the transition over it, because phones already
   slide the previous page in with their back gesture. History moves now swap the page at once.
+- Going back sometimes reloaded the whole page instead of swapping it: always on some browsers, and on all of them if
+  back was pressed while the squiggle was still on screen. A back press during a transition now waits for it to end.
 - The page could be wider than a phone screen: the footer's bottom row overshot its edges, and the logo and Menu
   button did not fit beside each other below about 420 px. Nothing can widen the page now, even while animating.
 - The footer wordmark was cut off at the right edge.
