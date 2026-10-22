@@ -1323,7 +1323,8 @@ body:has(.reader) .header { display: none; }
 
 @media (max-width: 767px) {
   .reader__bar { gap: .5em; padding: .6em .75em; }
-  .reader__tool-label, .reader__back span { display: none; }
+  /* Labels hidden on screen but still read out, so each button keeps its name */
+  .reader__tool-label, .reader__back span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .reader__back, .reader__tool { width: 2.6em; padding: 0; justify-content: center; }
   .reader__title { font-size: 1.1em; }
   .reader__author { font-size: .9em; }

@@ -59,11 +59,13 @@
     document.title = `${info.title} | Reading at the Bookshelf`;
 
     // epub.js adds orientationchange and unload listeners to window and never takes them off, which kept every closed
-    // book in memory. While this book is open those are noted, and removed when it closes.
+    // book in memory. While this book is open the first are noted and removed when it closes; unload (deprecated, and
+    // only used by epub.js to tidy up, which happens here anyway) is not added at all.
     const leftovers = [];
     const add = window.addEventListener;
     window.addEventListener = function (type, ...rest) {
-      if (type === "orientationchange" || type === "unload") leftovers.push([type, ...rest]);
+      if (type === "unload") return undefined;
+      if (type === "orientationchange") leftovers.push([type, ...rest]);
       return add.call(this, type, ...rest);
     };
     const release = () => {
@@ -121,6 +123,8 @@
       store.write(PLACES, places);
     };
     rendition.on("relocated", (location) => { current = location; showProgress(); });
+    // Each page is shown in a frame of its own, which a screen reader announces by its title
+    rendition.on("rendered", (section, view) => view?.iframe?.setAttribute("title", `${info.title}, by ${info.author}`));
 
     // If the file can't be fetched (offline, or the source is busy), say so and offer the download, rather than wait
     let failed = false;
