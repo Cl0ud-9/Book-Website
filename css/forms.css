@@ -1,0 +1,95 @@
+/* The log-in and sign-up pages */
+body{
+    background-color: #f2f2f2;
+}
+
+.page-header{
+    background-color: var(--green);
+    text-align: center;
+    padding: 1.5rem 0;
+    border-radius: 0;
+}
+
+.page-header h1{
+    color: #fff;
+    margin: 0;
+    font-size: 2.8rem;
+}
+
+.card{
+    width: min(40rem, 92%);
+    margin: 4rem auto;
+    padding: 2.5rem;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: var(--box-shadow);
+}
+
+.field{
+    margin-bottom: 1.6rem;
+}
+
+.field label{
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--black);
+    margin-bottom: .5rem;
+}
+
+.field input{
+    width: 100%;
+    padding: .9rem 1rem;
+    font-size: 1.5rem;
+    color: var(--black);
+    border: .1rem solid #8a8a8a;
+    margin-bottom: 0;
+}
+
+.field input[aria-invalid="true"]{
+    border-color: #b3261e;
+}
+
+.field .error{
+    color: #b3261e;
+    font-size: 1.3rem;
+    margin: .4rem 0 0;
+    min-height: 1.6rem;
+}
+
+.card input[type="submit"]{
+    width: 100%;
+    background-color: var(--green);
+    color: #fff;
+    padding: 1rem 1.5rem;
+    font-size: 1.6rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.card input[type="submit"]:hover{
+    background-color: var(--dark-color);
+}
+
+.card .form-message{
+    font-size: 1.5rem;
+    color: var(--dark-color);
+    font-weight: bold;
+    min-height: 2rem;
+    margin-top: 1rem;
+}
+
+.card .links{
+    font-size: 1.4rem;
+    text-align: center;
+}
+
+.card .links a{
+    color: var(--dark-color);
+    text-decoration: underline;
+}
+
+.field .hint{
+    font-weight: normal;
+    color: var(--light-color);
+}

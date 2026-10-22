@@ -21,17 +21,23 @@ jobs:
       - name: Collect the site's files
         run: |
           mkdir _site
-          cp -r index.html login.html signup.html css image _site/
+          cp -r index.html login.html signup.html 404.html css js image _site/
       - name: Check every local link and image resolves
         run: |
           missing=0
           for page in _site/*.html; do
-            for ref in $(grep -oE '(href|src)="[^"#:]+"' "$page" | sed -E 's/^(href|src)="//; s/"$//'); do
-              [ -e "_site/$ref" ] || { echo "$page: missing $ref"; missing=1; }
+            # href, src, and every file in srcset lists; /Book-Website/ is the site's own root on Pages
+            refs=$(grep -oE '(href|src)="[^"#:]+"' "$page" | sed -E 's/^(href|src)="//; s/"$//')
+            sets=$(grep -oE '(srcset|imagesrcset)="[^"]+"' "$page" | sed -E 's/^[a-z]+="//; s/"$//' | tr ',' '\n' | awk '{print $1}')
+            for ref in $refs $sets; do
+              path="_site/${ref#/Book-Website/}"
+              [ -e "$path" ] || { echo "$page: missing $ref"; missing=1; }
             done
           done
-          for ref in $(grep -oE 'url\([^)]+\)' _site/css/style.css | sed -E 's/url\(//; s/\)$//; s/["'"'"']//g'); do
-            [ -e "_site/css/$ref" ] || { echo "style.css: missing $ref"; missing=1; }
+          for css in _site/css/*.css; do
+            for ref in $(grep -oE 'url\([^)]+\)' "$css" | sed -E 's/url\(//; s/\)$//; s/["'"'"']//g'); do
+              [ -e "_site/css/$ref" ] || { echo "$css: missing $ref"; missing=1; }
+            done
           done
           exit $missing
       - uses: actions/configure-pages@v6

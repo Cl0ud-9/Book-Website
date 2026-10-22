@@ -1,158 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sign up | The Bookshelf</title>
-  <link rel = "icon" href = "https://i.pinimg.com/originals/dd/64/da/dd64da585bc57cb05e5fd4d8ce873f57.png" type = "image/x-icon">
+  <meta name="description" content="Create an account on The Bookshelf, a bookshop front page built with plain HTML, CSS and JavaScript.">
+  <meta name="theme-color" content="#1e8449">
+  <link rel="icon" href="image/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
-
-<style>
-body{
-background-color: #f2f2f2;
-/* background-image: url("image/PG.jpg"); */
-background-size: cover;
-background-position: center;
-position: relative;
-}
-
-form{
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100vh;
-font-size: 20px;
-font-weight: bold;
-text-align: left;
-}
-
-table{
-background-color: white;
-padding: 2rem;
-border-radius: 20px;
-box-shadow: var(--box-shadow);
-}
-
-td{
-font-size: 1.2rem;
-color: var(--black);
-padding: .5rem 0;
-}
-
-input[type="text"], input[type="password"]{
-width: 100%;
-padding: .5rem;
-font-size: 1.2rem;
-color: var(--black);
-border: var(--border);
-border-radius: 10px;
-margin-top: .5rem;
-}
-
-input[type="submit"]{
-background-color: var(--green);
-color: white;
-padding: 1rem 1.5rem;
-border-radius: 10px;
-border: none;
-font-size: 13px;
-cursor: pointer;
-margin-top: 1rem;
-}
-
-input[type="submit"]:hover{
-background-color: var(--dark-color);
-}
-
-.header {
-    background-color: var(--green);
-    width: 100%;
-    text-align: center;
-    padding: 1rem 0;
-}
-
-h1 {
-    color: white;
-    margin: 0;
-}
-
-form {
-    width: 400px;
-    margin: 2rem auto;
-}
-</style>
+  <link rel="stylesheet" href="css/forms.css">
+  <script src="js/forms.js" defer></script>
 </head>
 <body>
-    <div class="header">
-        <h1>Sign up</h1>
-    </div>
-    <form name="myform" onsubmit="return validate()">
-        <table>
-            <tr>
-                <td>Username : </td>
-                <td><input type="text" name="uname"> </td>
-            </tr>
-            <tr>
-                <td>Password : </td>
-                <td><input type="password" name="pwd"></td>
-            </tr>
-            <tr>
-                <td>Confirm Password : </td>
-                <td><input type="password" name="cpwd"></td>
-            </tr>
-            <tr>
-                <td>Contact Number : </td>
-                <td><input type="text" name="contact"></td>
-            </tr>
-            <tr>
-                <td><input type="submit" value="Sign up"></td>
-                <td><a href="login.html">Have an account? Log in</a> · <a href="index.html">Home</a></td>
-            </tr>
-        </table>
+  <header class="page-header">
+    <h1>Sign up</h1>
+  </header>
+  <main>
+    <form class="card" data-validate="signup" novalidate>
+      <div class="field">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" autocomplete="username" aria-describedby="username-error">
+        <p class="error" id="username-error" aria-live="polite"></p>
+      </div>
+      <div class="field">
+        <label for="password">Password <span class="hint">(at least 6 characters)</span></label>
+        <input type="password" id="password" name="password" autocomplete="new-password" aria-describedby="password-error">
+        <p class="error" id="password-error" aria-live="polite"></p>
+      </div>
+      <div class="field">
+        <label for="confirm">Confirm password</label>
+        <input type="password" id="confirm" name="confirm" autocomplete="new-password" aria-describedby="confirm-error">
+        <p class="error" id="confirm-error" aria-live="polite"></p>
+      </div>
+      <div class="field">
+        <label for="contact">Contact number <span class="hint">(10 digits)</span></label>
+        <input type="tel" id="contact" name="contact" autocomplete="tel-national" inputmode="numeric" maxlength="10" aria-describedby="contact-error">
+        <p class="error" id="contact-error" aria-live="polite"></p>
+      </div>
+      <input type="submit" value="Sign up">
+      <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+      <p class="links"><a href="login.html">Have an account? Log in</a> · <a href="./">Home</a></p>
     </form>
-
-<script>
-    function validate()
-    {
-            var uname=document.myform.uname.value;
-            var pwd=document.myform.pwd.value;
-            var cpwd=document.myform.cpwd.value;
-            var contact=document.myform.contact.value;
-
-            if(uname==null||uname=="")
-            {
-                alert('Username should not be empty');
-                return false;
-            }
-            if(pwd==null||pwd=="")
-            {
-                alert('Password should not be empty');
-                return false;
-            } else if(pwd.length<6){
-                alert('Password must be at least 6 characters');
-                return false;
-            }
-            if(cpwd!=pwd)
-            {
-               alert('Password and Confirm password must match');
-                return false;
-            }
-            if(contact==null||contact=="")
-            {
-                alert('Contact number should not be empty');
-                return false;
-            } else if(!/^[0-9]{10}$/.test(contact))
-            {
-                alert('Contact number must be exactly 10 digits');
-                return false;
-            }
-            // The site has no server, so a valid form only shows this message
-            alert('Account created for ' + uname + '!');
-            return false;
-    }
-
-</script>
+  </main>
 </body>
-
 </html>

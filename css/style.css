@@ -1,6 +1,7 @@
 :root{
-    --green:#27ae60;
-    --dark-color:#219150;
+    /* Dark enough for white text to pass WCAG AA (4.7:1 and 6.1:1) */
+    --green:#1e8449;
+    --dark-color:#17703c;
     --black:#444;
     --light-color:#666;
     --border:.1rem solid rgba(0,0,0,.1);
@@ -9,15 +10,61 @@
 }
 
 *{
-    font-family: 'Poppins', sans-serif;
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
     margin:0; padding:0;
     box-sizing: border-box;
-    outline: none; border:none;
+    border:none;
     text-decoration: none;
     transition:all .2s linear;
     transition:width none;
     border-radius: 10px;
     margin-bottom: 10px;
+}
+
+[hidden]{
+    display: none !important;
+}
+
+/* Keyboard users can always see where they are */
+:focus-visible{
+    outline: 3px solid var(--dark-color);
+    outline-offset: 2px;
+}
+
+/* Read by screen readers, not shown */
+.sr-only{
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+.skip-link{
+    position: absolute;
+    left: 1rem; top: -5rem;
+    z-index: 2000;
+    padding: 1rem 1.5rem;
+    background: var(--dark-color);
+    color: #fff;
+    font-size: 1.6rem;
+    transition: none;
+}
+
+.skip-link:focus{
+    top: 1rem;
+}
+
+.icon{
+    width: 1em; height: 1em;
+    margin: 0;
+    vertical-align: -.125em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 html{
@@ -93,24 +140,17 @@ section{
 }
 
 
-.small-logo{
-    display:block;
-    width: 40px;
-    height: 40px;
-    margin-right: 0px;
-    text-align: left;
-}
-
 .header .header-1 .logo{
-    font-size: 20px;
+    font-size: 2.4rem;
     font-weight: bolder;
     text-align: left;
-    margin-left: 0.6rem;
     color:var(--black);
 }
 
-.header .header-1 .logo i{
+.header .header-1 .logo .icon{
     color:var(--green);
+    width: 1.3em; height: 1.3em;
+    vertical-align: -.3em;
 }
 
 .header .header-1 .search-form{
@@ -134,28 +174,18 @@ section{
     color:var(--black);
 }
 
-.header .header-1 .search-form label{
-    font-size: 15px;
-    padding-right: 1.5rem;
-    padding-bottom: 10px;
+.header .header-1 .search-form .search-submit{
+    font-size: 1.8rem;
+    margin: 0;
+    padding: 0 1.5rem;
+    height: 100%;
+    background: none;
     color:var(--black);
     cursor: pointer;
 }
 
-.header .header-1 .search-form label:hover{
+.header .header-1 .search-form .search-submit:hover{
     color:var(--green);
-}
-
-.header .header-1 .icons div,
-.header .header-1 .icons a{
-    font-size: 2.0rem;
-    margin-left: 1.5rem;
-    cursor: pointer;
-}
-
-.header .header-1 .icons div:hover,
-.header .header-1 .icons a:hover{
-    color:var(--black);
 }
 
 nav a.login-button,
@@ -175,10 +205,6 @@ nav a.signup-button{
 nav a.login-button:hover,
 nav a.signup-button:hover{
     transform: scale(0.9);
-}
-
-#search-btn{
-    display: none;
 }
 
 .header .header-2{
@@ -207,31 +233,8 @@ nav a.signup-button:hover{
 
 }
 
-.bottom-navbar{
-    text-align: center;
-    background:var(--green);
-    position: fixed;
-    bottom:0; left:0; right:0;
-    z-index: 1000;
-    display: none;
-}
-
-.bottom-navbar a{
-    font-size: 2.5rem;
-    padding:2rem;
-    color:#fff;
-}
-
-.bottom-navbar a:hover{
-    background:var(--dark-color);
-}
-
-.curved-border {
-    border-radius: 50px;
-}
-
 .home{
-    background: url(../image/banner-bg.jpg) no-repeat;
+    background: url(../image/banner-bg.webp) no-repeat;
     background-size: cover;
     background-position: center;
 }
@@ -244,18 +247,12 @@ nav a.signup-button:hover{
     align-content: center;
 }
 
-.home .row span{
+.home .row .badge{
     display: flex;
-    font-family: 'Poppins' sans-serif;
     font-weight: bold;
     color: black;
-    font-style:var(--border);
     margin-top: 40px;
     font-size: 30px;
-
-}
-.home .row .content{
-    flex:1 1 42rem;
 }
 
 .home .row .books-slider{
@@ -264,58 +261,24 @@ nav a.signup-button:hover{
     margin-top: 2rem;
 }
 
-.home .row .books-slider a img{
-    height: 25rem;
+.home .row .books-slider .slide{
+    display: inline-block;
+    margin: 0 .3rem;
 }
 
-.home .row .books-slider a:hover img{
+.home .row .books-slider .slide img{
+    height: 25rem;
+    width: auto;
+}
+
+.home .row .books-slider .slide:hover img{
     transform: scale(.9);
 }
 
 .home .row .books-slider .stand{
     width:100%;
+    height: auto;
     margin-top: -2rem;
-}
-
-.home .row .content h3{
-    color:var(--black);
-    font-size: 4.5rem;
-}
-
-.home .row .content p{
-    color:var(--light-color);
-    font-size: 1.4rem;
-    line-height: 2;
-    padding:1rem 0;
-}
-
-.icons-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-    gap:1.5rem;
-}
-
-.icons-container .icons{
-    display: flex;
-    align-items: center;
-    gap:1.5rem;
-    padding:2rem 0;
-}
-
-.icons-container .icons i{
-    font-size: 3.5rem;
-    color:var(--green);
-}
-
-.icons-container .icons h3{
-    font-size: 2.2rem;
-    color:var(--black);
-    padding-bottom: .5rem;
-}
-
-.icons-container .icons p{
-    font-size: 1.4rem;
-    color:var(--light-color);
 }
 
 .container {
@@ -326,8 +289,13 @@ nav a.signup-button:hover{
     transition:width none;
   }
   
+  .grid-cell {
+    margin: 0;
+  }
+
   .grid-item {
     width: 90%;
+    height: auto;
     border-radius: 15px;
     margin-bottom: 20px;
   }
@@ -337,7 +305,7 @@ nav a.signup-button:hover{
   }
 
 .newsletter{
-    background:url(../image/newsletter.jpg) no-repeat;
+    background:url(../image/newsletter.webp) no-repeat;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -351,11 +319,17 @@ nav a.signup-button:hover{
     padding:5rem 0;
 }
 
-.newsletter form h3{
+.newsletter form h2{
     font-size: 2.1rem;
     color:#fff;
     padding-bottom: .7rem;
     font-weight: normal;
+}
+
+.newsletter .form-message{
+    color: #fff;
+    font-size: 1.6rem;
+    min-height: 2rem;
 }
 
 .newsletter form .box{
@@ -366,6 +340,13 @@ nav a.signup-button:hover{
     color:var(--black);
     border-radius: .5rem;
     text-transform: none;
+}
+
+.arrivals .arrivals-slider{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(36rem, 100%), 1fr));
+    column-gap: 1.5rem;
+    align-items: start;
 }
 
 .arrivals .arrivals-slider .box{
@@ -383,6 +364,46 @@ nav a.signup-button:hover{
 
 .arrivals .arrivals-slider .box .image img{
     height:15rem;
+    width:auto;
+}
+
+.arrivals .search-status{
+    text-align: center;
+    font-size: 1.7rem;
+    color: var(--black);
+}
+
+.arrivals .arrivals-slider .box .content .author{
+    font-size: 1.6rem;
+    color: var(--light-color);
+}
+
+.arrivals .arrivals-slider .box .content .price-label{
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--black);
+    margin-bottom: 0;
+}
+
+.arrivals .arrivals-slider .box .content .show-more{
+    font-size: 1.4rem;
+    padding: .6rem 1.2rem;
+    border: .1rem solid var(--green);
+    background: #fff;
+    color: var(--green);
+    cursor: pointer;
+}
+
+.arrivals .arrivals-slider .box .content .show-more:hover{
+    background: var(--green);
+    color: #fff;
+}
+
+.arrivals .arrivals-slider .box .content .book-info{
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: var(--light-color);
+    max-width: 60rem;
 }
 
 .arrivals .arrivals-slider .box .content h3{
@@ -396,25 +417,17 @@ nav a.signup-button:hover{
     padding-bottom: .5rem;
 }
 
-.arrivals .arrivals-slider .box .content .price span{
+.arrivals .arrivals-slider .box .content .price s{
     font-size: 1.5rem;
     color:var(--light-color);
-    text-decoration: line-through;
-}
-
-.arrivals .arrivals-slider .box .content .stars i{
-    font-size: 1.5rem;
-    color:var(--green);
 }
 
 footer{
     font-size: large;
     font-weight: bold;
+    text-align: center;
+    padding: 2rem;
 }
-
-.book-info {
-    display: none;
-  }
 /* Phones: the search box gets its own full-width row under the logo and buttons */
 @media (max-width: 768px){
     .header .header-1{
@@ -425,5 +438,9 @@ footer{
     .header .header-1 .search-form{
         order: 3;
         width: 100%;
+    }
+    /* Three covers a row on the shelf instead of one tall column */
+    .home .row .books-slider .slide img{
+        height: 15rem;
     }
 }

@@ -18,17 +18,30 @@
   <img src="docs/img/home.jpg" alt="The Bookshelf home page: a header with search, a green menu, and new arrivals standing on a shelf" width="720">
 </p>
 
-The Bookshelf is the front page of an imaginary bookshop: new arrivals on a shelf, featured books whose details open
-with **show more**, a newsletter box and a list of arrivals. It began as a Web Technology course project.
+The Bookshelf is the front page of an imaginary bookshop: new arrivals on a shelf, featured covers, a newsletter box
+and a searchable list of arrivals whose details open with **show more**. It began as a Web Technology course project.
 
 | Page | What it does |
 |---|---|
-| [Home](https://cl0ud-9.github.io/Book-Website/) | Header with search, a menu that jumps to each section, a shelf of new arrivals, featured books with expandable details (jQuery), a newsletter box. |
-| [Log in](https://cl0ud-9.github.io/Book-Website/login.html) | Username and password, checked in the browser. |
-| [Sign up](https://cl0ud-9.github.io/Book-Website/signup.html) | Username, password with confirmation, and a 10-digit contact number, checked in the browser. |
+| [Home](https://cl0ud-9.github.io/Book-Website/) | A search box that filters the arrivals by title or author as you type, a menu that jumps to each section, a shelf of new arrivals, featured covers, a newsletter box, and arrivals with expandable details. |
+| [Log in](https://cl0ud-9.github.io/Book-Website/login.html) | Username and password, checked in the browser, with errors shown beside each field. |
+| [Sign up](https://cl0ud-9.github.io/Book-Website/signup.html) | Username, password with confirmation, and a 10-digit contact number, checked the same way. |
+
+### Fast and accessible
+
+The home page scores **100 in all four Lighthouse categories** (performance, accessibility, best practices and SEO) on
+a phone profile. The first cover appears in about 1.6 s and the page downloads about 0.35 MB.
+
+- **No libraries and nothing fetched from other sites.** The icons and logo are drawn in the page, and under 90 lines
+  of plain JavaScript do the rest.
+- **Right-sized images.** Every cover is WebP in three widths, the browser picks the one the screen needs, and covers
+  below the first screen load as you scroll.
+- **Usable without a mouse or a screen.** A skip link, labelled fields, described covers, visible focus, buttons that
+  announce whether they are open, and search results and form errors read out by screen readers. Text meets WCAG AA
+  contrast.
 
 <p align="center">
-  <img src="docs/img/signup.jpg" alt="The sign-up form" width="360">
+  <img src="docs/img/signup.jpg" alt="The sign-up form, with an error shown beside each field that needs fixing" width="360">
 </p>
 
 ## Run it
@@ -49,14 +62,15 @@ An unfinished port of the site to Angular, from the same course, is kept on the
 
 ## How it is published
 
-Every push to `main` runs [`.github/workflows/pages.yml`](.github/workflows/pages.yml): it copies the pages, styles
-and images, checks that every local link and image in them exists, and deploys them to GitHub Pages. A broken link
-stops the deploy.
+Every push to `main` runs [`.github/workflows/pages.yml`](.github/workflows/pages.yml): it copies the pages, styles,
+scripts and images, checks that every local link and image in them exists (including each size of every cover and
+the backgrounds named in the styles), and deploys them to GitHub Pages. A broken link stops the deploy.
 
 ## Honest limits
 
 - **No back end.** The forms check what you type and then show a message. Nothing is sent or stored, so there are no
-  accounts, and the search box does not search.
+  accounts and no real newsletter.
+- **Search covers this page only.** It filters the ten arrivals listed; there is no catalogue behind it.
 - **Sample content.** The books, covers and prices are placeholders, not a real catalogue.
 
 ## Project structure
@@ -65,8 +79,12 @@ stops the deploy.
 index.html        the home page
 login.html        log-in form
 signup.html       sign-up form
-css/style.css     styles for the home page (the forms carry their own)
-image/            covers, the shelf and backgrounds
+404.html          shown for addresses that do not exist
+css/style.css     styles shared by every page
+css/forms.css     styles for the log-in and sign-up cards
+js/main.js        search, show more and the newsletter message
+js/forms.js       checks the log-in and sign-up fields
+image/            covers (book-N-180/360/720.webp), the shelf, backgrounds and the logo
 server.js         optional local server (npm start)
 ```
 
@@ -74,7 +92,7 @@ server.js         optional local server (npm start)
 
 **Source-available**: Copyright 2023-2026 Cloud/9, all rights reserved. You can read the code, run it yourself and
 fork it to contribute back. Redistributing it, hosting copies, using it for a business or using it to train AI models
-is not allowed without written permission. See [LICENSE](LICENSE). Icons, jQuery and the sample artwork keep their own
+is not allowed without written permission. See [LICENSE](LICENSE). Express and the sample artwork keep their own
 licenses, listed in [NOTICE](NOTICE). See [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md) and
 [CHANGELOG.md](CHANGELOG.md).
 

@@ -2,338 +2,218 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Bookshelf</title>
-    <link rel = "icon" href = "https://i.pinimg.com/originals/dd/64/da/dd64da585bc57cb05e5fd4d8ce873f57.png" type = "image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <meta name="description" content="The Bookshelf: new arrivals, featured books and a newsletter, in a bookshop front page built with plain HTML, CSS and JavaScript.">
+    <meta name="theme-color" content="#1e8449">
+    <meta property="og:title" content="The Bookshelf">
+    <meta property="og:description" content="A bookshop front page with new arrivals, featured books, and log-in and sign-up forms.">
+    <meta property="og:image" content="https://cl0ud-9.github.io/Book-Website/image/book-1-720.webp">
+    <link rel="icon" href="image/logo.svg" type="image/svg+xml">
+    <link rel="preload" as="image" href="image/book-1-180.webp" imagesrcset="image/book-1-180.webp 180w, image/book-1-360.webp 360w, image/book-1-720.webp 720w" imagesizes="(max-width: 768px) 94px, 157px">
     <link rel="stylesheet" href="css/style.css">
-
+    <script src="js/main.js" defer></script>
 </head>
 <body>
-    
-<!-- header section starts  -->
+
+<svg xmlns="http://www.w3.org/2000/svg" hidden>
+    <symbol id="icon-book" viewBox="0 0 24 24"><path d="M3 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H3z"/><path d="M21 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4.5 4.5"/></symbol>
+</svg>
+
+<a class="skip-link" href="#arrivals">Skip to new arrivals</a>
 
 <header class="header">
-
     <div class="header-1">
-        <img src="https://i.pinimg.com/originals/dd/64/da/dd64da585bc57cb05e5fd4d8ce873f57.png" alt="The Logo" class="small-logo">
-        <a href="#" class="logo"><i class="fa-solid fa-book"></i>Bookshelf </a>
+        <a href="./" class="logo"><svg class="icon" aria-hidden="true"><use href="#icon-book"></use></svg> Bookshelf</a>
 
-        <form action="" class="search-form">
-            <input type="search" name="" placeholder="search here..." id="search-box">
-            <label for="search-box" class="fas fa-search"></label>
+        <form class="search-form" role="search" action="#arrivals">
+            <label for="search-box" class="sr-only">Search books by title or author</label>
+            <input type="search" id="search-box" placeholder="search books or authors..." autocomplete="off">
+            <button type="submit" class="search-submit"><svg class="icon" role="img" aria-label="Search"><use href="#icon-search"></use></svg></button>
         </form>
 
-        <div class="icons">
-            <div id="search-btn" class="fas fa-search"></div>
-            <div>
-                <nav>
-                    <a href="login.html" class="login-button">Login</a>
-                <a href="signup.html" class="signup-button">SignUp</a>
-                </nav>
-            </div>
-        </div>
-
+        <nav class="account" aria-label="Account">
+            <a href="login.html" class="login-button">Log in</a>
+            <a href="signup.html" class="signup-button">Sign up</a>
+        </nav>
     </div>
 
     <div class="header-2">
-        <nav class="navbar">
+        <nav class="navbar" aria-label="Sections">
             <a href="#home">home</a>
             <a href="#featured">featured</a>
             <a href="#arrivals">arrivals</a>
         </nav>
     </div>
-
 </header>
 
-<!-- header section ends -->
-<!-- bottom navbar  -->
+<main>
 
-<nav class="bottom-navbar">
-    <a href="#home" class="fas fa-home"></a>
-    <a href="#featured" class="fas fa-list"></a>
-    <a href="#arrivals" class="fas fa-tags"></a>
-</nav>
-
-<!-- home section starts  -->
-
-<section class="home" id="home">
-
+<section class="home" id="home" aria-labelledby="home-title">
+    <h1 id="home-title" class="sr-only">The Bookshelf</h1>
     <div class="row">
-        <div class="swiper books-slider">
-            <div class="swiper-wrapper">
-                <a href="#" class="swiper-slide"><img src="image/book-1.png" alt=""></a>
-                <a href="#" class="swiper-slide"><img src="image/book-2.png" alt=""></a>
-                <a href="#" class="swiper-slide"><img src="image/book-3.png" alt=""></a>
-                <a href="#" class="swiper-slide"><img src="image/book-4.png" alt=""></a>
-                <a href="#" class="swiper-slide"><img src="image/book-5.png" alt=""></a>
-                <!-- <a href="#" class="swiper-slide"><img src="image/book-6.png" alt=""></a> -->
+        <div class="books-slider">
+            <div class="shelf">
+                <div class="slide"><img src="image/book-1-360.webp" srcset="image/book-1-180.webp 180w, image/book-1-360.webp 360w, image/book-1-720.webp 720w" sizes="(max-width: 768px) 94px, 157px" width="360" height="574" alt="Princess by Olivia Wilson, book cover" fetchpriority="high"></div>
+                <div class="slide"><img src="image/book-2-360.webp" srcset="image/book-2-180.webp 180w, image/book-2-360.webp 360w, image/book-2-720.webp 720w" sizes="(max-width: 768px) 94px, 157px" width="360" height="574" alt="The Day We Met by Claudia Wilson, book cover"></div>
+                <div class="slide"><img src="image/book-3-360.webp" srcset="image/book-3-180.webp 180w, image/book-3-360.webp 360w, image/book-3-720.webp 720w" sizes="(max-width: 768px) 94px, 157px" width="360" height="574" alt="Guide to Journaling by Laura Goodsell, book cover"></div>
+                <div class="slide"><img src="image/book-4-360.webp" srcset="image/book-4-180.webp 180w, image/book-4-360.webp 360w, image/book-4-720.webp 720w" sizes="(max-width: 768px) 94px, 157px" width="360" height="574" alt="Forest of Secret by Cia Rodriguez, book cover"></div>
+                <div class="slide"><img src="image/book-5-360.webp" srcset="image/book-5-180.webp 180w, image/book-5-360.webp 360w, image/book-5-720.webp 720w" sizes="(max-width: 768px) 94px, 157px" width="360" height="574" alt="Diary by Olivia Wilson, book cover"></div>
             </div>
-            <img src="image/stand.png" class="stand" alt="">
+            <img src="image/stand.png" class="stand" alt="" width="1018" height="217">
         </div>
-        <div>
-            <span>New Arrival !!!</span>
-        </div>
-
+        <p class="badge">New Arrival !!!</p>
     </div>
-
 </section>
-<!-- home section ends -->
 
-<!-- featured section starts -->
-
-<section class="featured" id="featured">
-
-    <h1 class="heading"> <span>featured books</span> </h1>
-
+<section class="featured" id="featured" aria-labelledby="featured-title">
+    <h2 class="heading" id="featured-title"><span>featured books</span></h2>
     <div class="container">
-        <a href="#" class="swiper-slide"><img src="https://m.media-amazon.com/images/I/51Zu0ZwT0jL.jpg" class="grid-item"></a>
-        <a href="#" class="swiper-slide"><img src="https://m.media-amazon.com/images/I/51W-r3VQlAL.jpg" class="grid-item"></a>
-        <a href="#" class="swiper-slide"><img src="https://m.media-amazon.com/images/I/51sfWeyiskL.jpg" class="grid-item"></a>
-        <a href="#" class="swiper-slide"><img src="image/book-1.png" class="grid-item"></a>
-        <a href="#" class="swiper-slide"><img src="image/book-2.png" class="grid-item"></a>
-        <a href="#" class="swiper-slide"><img src="image/book-3.png" class="grid-item"></a>
-        <a href="#" class="swiper-slide"><img src="image/book-4.png" class="grid-item"></a>
-        <a href="#" class="swiper-slide"><img src="image/book-5.png" class="grid-item"></a>
-        <a href="#" class="swiper-slide"><img src="image/book-6.png" class="grid-item"></a>
-        <a href="#" class="swiper-slide"><img src="image/book-7.png" class="grid-item"></a>
-        <a href="#" class="swiper-slide"><img src="image/book-8.png" class="grid-item"></a>
-        <a href="#" class="swiper-slide"><img src="image/book-9.png" class="grid-item"></a>
-        <a href="#" class="swiper-slide"><img src="image/book-10.png" class="grid-item"></a>
-      </div>
-      
-
-<!-- featured section ends -->
-
-<!-- newsletter section starts -->
-
-<section class="newsletter">
-
-    <form action="">
-        <h3>subscribe for latest updates</h3>
-        <input type="email" name="" placeholder="enter your email" id="" class="box">
-        <input type="submit" value="subscribe" class="btn">
-    </form>
-
+        <figure class="grid-cell"><img src="image/book-1-360.webp" srcset="image/book-1-180.webp 180w, image/book-1-360.webp 360w, image/book-1-720.webp 720w" sizes="(max-width: 768px) 30vw, 360px" width="360" height="574" alt="Princess by Olivia Wilson, book cover" class="grid-item" loading="lazy" decoding="async"></figure>
+        <figure class="grid-cell"><img src="image/book-2-360.webp" srcset="image/book-2-180.webp 180w, image/book-2-360.webp 360w, image/book-2-720.webp 720w" sizes="(max-width: 768px) 30vw, 360px" width="360" height="574" alt="The Day We Met by Claudia Wilson, book cover" class="grid-item" loading="lazy" decoding="async"></figure>
+        <figure class="grid-cell"><img src="image/book-3-360.webp" srcset="image/book-3-180.webp 180w, image/book-3-360.webp 360w, image/book-3-720.webp 720w" sizes="(max-width: 768px) 30vw, 360px" width="360" height="574" alt="Guide to Journaling by Laura Goodsell, book cover" class="grid-item" loading="lazy" decoding="async"></figure>
+        <figure class="grid-cell"><img src="image/book-4-360.webp" srcset="image/book-4-180.webp 180w, image/book-4-360.webp 360w, image/book-4-720.webp 720w" sizes="(max-width: 768px) 30vw, 360px" width="360" height="574" alt="Forest of Secret by Cia Rodriguez, book cover" class="grid-item" loading="lazy" decoding="async"></figure>
+        <figure class="grid-cell"><img src="image/book-5-360.webp" srcset="image/book-5-180.webp 180w, image/book-5-360.webp 360w, image/book-5-720.webp 720w" sizes="(max-width: 768px) 30vw, 360px" width="360" height="574" alt="Diary by Olivia Wilson, book cover" class="grid-item" loading="lazy" decoding="async"></figure>
+        <figure class="grid-cell"><img src="image/book-6-360.webp" srcset="image/book-6-180.webp 180w, image/book-6-360.webp 360w, image/book-6-720.webp 720w" sizes="(max-width: 768px) 30vw, 360px" width="360" height="574" alt="A Story of Misty Forest by Brigitte Schwartz, book cover" class="grid-item" loading="lazy" decoding="async"></figure>
+        <figure class="grid-cell"><img src="image/book-7-360.webp" srcset="image/book-7-180.webp 180w, image/book-7-360.webp 360w, image/book-7-720.webp 720w" sizes="(max-width: 768px) 30vw, 360px" width="360" height="574" alt="Nature by Helene Paquet, book cover" class="grid-item" loading="lazy" decoding="async"></figure>
+        <figure class="grid-cell"><img src="image/book-8-360.webp" srcset="image/book-8-180.webp 180w, image/book-8-360.webp 360w, image/book-8-720.webp 720w" sizes="(max-width: 768px) 30vw, 360px" width="360" height="574" alt="Magic World from the Sky by Olivia Jameson, book cover" class="grid-item" loading="lazy" decoding="async"></figure>
+        <figure class="grid-cell"><img src="image/book-9-360.webp" srcset="image/book-9-180.webp 180w, image/book-9-360.webp 360w, image/book-9-720.webp 720w" sizes="(max-width: 768px) 30vw, 360px" width="360" height="574" alt="Beauty of Nature by Hae-won Jeon, book cover" class="grid-item" loading="lazy" decoding="async"></figure>
+        <figure class="grid-cell"><img src="image/book-10-360.webp" srcset="image/book-10-180.webp 180w, image/book-10-360.webp 360w, image/book-10-720.webp 720w" sizes="(max-width: 768px) 30vw, 360px" width="360" height="574" alt="Deeper into Dreams by Noell Morrison, book cover" class="grid-item" loading="lazy" decoding="async"></figure>
+    </div>
 </section>
 
-<!-- newsletter section ends -->
+<section class="newsletter" aria-labelledby="newsletter-title">
+    <form id="newsletter-form">
+        <h2 id="newsletter-title">subscribe for latest updates</h2>
+        <label for="newsletter-email" class="sr-only">Email address</label>
+        <input type="email" id="newsletter-email" placeholder="enter your email" class="box" required autocomplete="email">
+        <input type="submit" value="subscribe" class="btn">
+        <p class="form-message" id="newsletter-message" role="status" aria-live="polite"></p>
+    </form>
+</section>
 
-<!-- arrivals section starts  -->
-
-<section class="arrivals" id="arrivals">
-
-    <h1 class="heading"> <span>new arrivals</span> </h1>
-
-    <div class="swiper arrivals-slider">
-
-        <div class="swiper-wrapper">
-
-            <a class="swiper-slide box">
-                <div class="image">
-                  <img src="image/book-1.png" alt="">
-                </div>
+<section class="arrivals" id="arrivals" aria-labelledby="arrivals-title">
+    <h2 class="heading" id="arrivals-title"><span>new arrivals</span></h2>
+    <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
+    <div class="arrivals-slider">
+            <article class="box" data-search="princess olivia wilson">
+                <div class="image"><img src="image/book-1-360.webp" srcset="image/book-1-180.webp 180w, image/book-1-360.webp 360w, image/book-1-720.webp 720w" sizes="94px" width="360" height="574" alt="Princess by Olivia Wilson, book cover" loading="lazy" decoding="async"></div>
                 <div class="content">
-                  <h3>Princess</h3>
-                  <h4>Olivia Wilson</h4>
-                  <h5>Just At</h5>
-                  <div class="price">₹249 <span>₹499</span></div>
-                  <button class="show-more">Show more</button>
-                  <div class="book-info">
-                  <button class="show-less"> Show less</button>
-                  <p>Princess is a captivating tale of love, adventure, and self-discovery. Join the protagonist as she sets out on a journey to find herself and discover the true meaning of happiness.</p>
-                  </div>
+                    <h3>Princess</h3>
+                    <p class="author">Olivia Wilson</p>
+                    <p class="price-label">Just at</p>
+                    <p class="price">₹249 <s><span class="sr-only">was </span>₹499</s></p>
+                    <button type="button" class="show-more" aria-expanded="false" aria-controls="info-1">Show more</button>
+                    <p class="book-info" id="info-1" hidden>Princess is a captivating tale of love, adventure and self-discovery. Join the heroine as she sets out on a journey to find herself and the true meaning of happiness.</p>
                 </div>
-              </a>
-              
-
-            <a class="swiper-slide box">
-                <div class="image">
-                    <img src="image/book-2.png" alt="">
-                </div>
+            </article>
+            <article class="box" data-search="the day we met claudia wilson">
+                <div class="image"><img src="image/book-2-360.webp" srcset="image/book-2-180.webp 180w, image/book-2-360.webp 360w, image/book-2-720.webp 720w" sizes="94px" width="360" height="574" alt="The Day We Met by Claudia Wilson, book cover" loading="lazy" decoding="async"></div>
                 <div class="content">
                     <h3>The Day We Met</h3>
-                    <h4>Claudia Wilson</h4>
-                    <h5>Just At</h5>
-                    <div class="price">₹249 <span>₹499</span></div>
-                    <button class="show-more">Show more</button>
-                    <div class="book-info">
-                        <button class="show-less"> Show less</button>
-                        <p>The Day We Met by Laura Goodsell is a poignant and touching tale of love, loss, and the power of memories. Through heartwarming memories and reflections, this book explores the way in which our experiences shape who we are and the ways in which we connect with others.</p>
-                    </div>
-                    </div>
-            </a>
-
-            <a class="swiper-slide box">
-                <div class="image">
-                    <img src="image/book-3.png" alt="">
+                    <p class="author">Claudia Wilson</p>
+                    <p class="price-label">Just at</p>
+                    <p class="price">₹249 <s><span class="sr-only">was </span>₹499</s></p>
+                    <button type="button" class="show-more" aria-expanded="false" aria-controls="info-2">Show more</button>
+                    <p class="book-info" id="info-2" hidden>The Day We Met by Claudia Wilson is a poignant story of love, loss and the power of memory. Through heartfelt reflections, it explores how our experiences shape who we are and how we connect with others.</p>
                 </div>
+            </article>
+            <article class="box" data-search="guide to journaling laura goodsell">
+                <div class="image"><img src="image/book-3-360.webp" srcset="image/book-3-180.webp 180w, image/book-3-360.webp 360w, image/book-3-720.webp 720w" sizes="94px" width="360" height="574" alt="Guide to Journaling by Laura Goodsell, book cover" loading="lazy" decoding="async"></div>
                 <div class="content">
                     <h3>Guide to Journaling</h3>
-                    <h4>Laura Goodsell</h4>
-                    <h5>Just At</h5>
-                    <div class="price">₹299 <span>₹649</span></div>
-                    <button class="show-more">Show more</button>
-                    <div class="book-info">
-                        <button class="show-less"> Show less</button>
-                        <p>Guide to Journaling by Cia Wilson is a comprehensive and inspiring guide to the art of journaling, designed to help readers tap into their creativity, reflect on their experiences, and find their inner voice. Whether you are an experienced writer or a beginner, this book is a must-read for anyone looking to enhance their personal growth and well-being.
-                        </p>
-                    </div>
+                    <p class="author">Laura Goodsell</p>
+                    <p class="price-label">Just at</p>
+                    <p class="price">₹299 <s><span class="sr-only">was </span>₹649</s></p>
+                    <button type="button" class="show-more" aria-expanded="false" aria-controls="info-3">Show more</button>
+                    <p class="book-info" id="info-3" hidden>Guide to Journaling by Laura Goodsell is an inspiring guide to keeping a journal: to tap into your creativity, reflect on your experiences and keep your life organised, whether you are new to writing or not.</p>
                 </div>
-            </a>
-
-            <a class="swiper-slide box">
-                <div class="image">
-                    <img src="image/book-4.png" alt="">
-                </div>
+            </article>
+            <article class="box" data-search="forest of secret cia rodriguez">
+                <div class="image"><img src="image/book-4-360.webp" srcset="image/book-4-180.webp 180w, image/book-4-360.webp 360w, image/book-4-720.webp 720w" sizes="94px" width="360" height="574" alt="Forest of Secret by Cia Rodriguez, book cover" loading="lazy" decoding="async"></div>
                 <div class="content">
                     <h3>Forest of Secret</h3>
-                    <h4>Cia Rodriguez</h4>
-                    <h5>Just At</h5>
-                    <div class="price">₹169 <span>₹299</span></div>
-                    <button class="show-more">Show more</button>
-                    <div class="book-info">
-                        <button class="show-less"> Show less</button>
-                        <p>Forest of Secrets by Claudia Rodriguez is a mysterious and atmospheric story set in a remote and ancient forest, where secrets and danger lurk around every bend. With lush descriptions and unexpected twists, this book will keep you captivated until the very end.</p>
-                    </div>
+                    <p class="author">Cia Rodriguez</p>
+                    <p class="price-label">Just at</p>
+                    <p class="price">₹169 <s><span class="sr-only">was </span>₹299</s></p>
+                    <button type="button" class="show-more" aria-expanded="false" aria-controls="info-4">Show more</button>
+                    <p class="book-info" id="info-4" hidden>Forest of Secret by Cia Rodriguez is a mysterious, atmospheric story set in an ancient forest where secrets and danger lurk around every bend, full of lush descriptions and unexpected twists.</p>
                 </div>
-            </a>
-
-            <a class="swiper-slide box">
-                <div class="image">
-                    <img src="image/book-5.png" alt="">
-                </div>
+            </article>
+            <article class="box" data-search="diary olivia wilson">
+                <div class="image"><img src="image/book-5-360.webp" srcset="image/book-5-180.webp 180w, image/book-5-360.webp 360w, image/book-5-720.webp 720w" sizes="94px" width="360" height="574" alt="Diary by Olivia Wilson, book cover" loading="lazy" decoding="async"></div>
                 <div class="content">
                     <h3>Diary</h3>
-                    <h4>Olivia Wilson</h4>
-                    <h5>Just At</h5>
-                    <div class="price">₹69 <span>₹199</span></div>
-                    <button class="show-more">Show more</button>
-                    <div class="book-info">
-                        <button class="show-less"> Show less</button>
-                        <p>Diary by Olivia Wilson is a thought-provoking and intimate look at the life and experiences of one person, as captured in their personal diary. This book provides a unique window into the mind and heart of its author, and is sure to resonate with anyone who has ever kept a journal.</p>
-                    </div>
+                    <p class="author">Olivia Wilson</p>
+                    <p class="price-label">Just at</p>
+                    <p class="price">₹69 <s><span class="sr-only">was </span>₹199</s></p>
+                    <button type="button" class="show-more" aria-expanded="false" aria-controls="info-5">Show more</button>
+                    <p class="book-info" id="info-5" hidden>Diary by Olivia Wilson is an intimate look at one person&#x27;s life, as captured in their personal diary, and will resonate with anyone who has ever kept a journal.</p>
                 </div>
-            </a>
-
-        </div>
-
-    </div>
-
-    <div class="swiper arrivals-slider">
-
-        <div class="swiper-wrapper">
-
-            <a class="swiper-slide box">
-                <div class="image">
-                    <img src="image/book-6.png" alt="">
-                </div>
+            </article>
+            <article class="box" data-search="a story of misty forest brigitte schwartz">
+                <div class="image"><img src="image/book-6-360.webp" srcset="image/book-6-180.webp 180w, image/book-6-360.webp 360w, image/book-6-720.webp 720w" sizes="94px" width="360" height="574" alt="A Story of Misty Forest by Brigitte Schwartz, book cover" loading="lazy" decoding="async"></div>
                 <div class="content">
-                    <h3>A Story of Mistery Forest</h3>
-                    <h4>Brigitte Schwertz</h4>
-                    <h5>Just At</h5>
-                    <div class="price">₹116.9 <span>₹449</span></div>
-                    <button class="show-more">Show more</button>
-                    <div class="book-info">
-                        <button class="show-less"> Show less</button>
-                        <p>A Story of Mystery Forest by Brigitte Schwertz is a mesmerizing tale of intrigue, adventure, and discovery set in a dense and mysterious forest. With a masterful narrative, this book will keep readers on the edge of their seats as they journey through the unknown.</p>
-                    </div>
+                    <h3>A Story of Misty Forest</h3>
+                    <p class="author">Brigitte Schwartz</p>
+                    <p class="price-label">Just at</p>
+                    <p class="price">₹117 <s><span class="sr-only">was </span>₹449</s></p>
+                    <button type="button" class="show-more" aria-expanded="false" aria-controls="info-6">Show more</button>
+                    <p class="book-info" id="info-6" hidden>A Story of Misty Forest by Brigitte Schwartz is a mesmerising tale of intrigue and discovery set in a dense, mist-covered forest that keeps readers on the edge of their seats.</p>
                 </div>
-            </a>
-
-            <a class="swiper-slide box">
-                <div class="image">
-                    <img src="image/book-7.png" alt="">
-                </div>
+            </article>
+            <article class="box" data-search="nature helene paquet">
+                <div class="image"><img src="image/book-7-360.webp" srcset="image/book-7-180.webp 180w, image/book-7-360.webp 360w, image/book-7-720.webp 720w" sizes="94px" width="360" height="574" alt="Nature by Helene Paquet, book cover" loading="lazy" decoding="async"></div>
                 <div class="content">
                     <h3>Nature</h3>
-                    <h4>Helene Paquet</h4>
-                    <h5>Just At</h5>
-                    <div class="price">₹269 <span>₹479</span></div>
-                    <button class="show-more">Show more</button>
-                    <div class="book-info">
-                        <button class="show-less"> Show less</button>
-                        <p>Nature by Helene Paquet is a beautifully written tribute to the wonders of the natural world. Through evocative prose and stunning photography, this book invites readers to slow down, look around, and appreciate the simple beauty of our planet.</p>
-                    </div>
+                    <p class="author">Helene Paquet</p>
+                    <p class="price-label">Just at</p>
+                    <p class="price">₹269 <s><span class="sr-only">was </span>₹479</s></p>
+                    <button type="button" class="show-more" aria-expanded="false" aria-controls="info-7">Show more</button>
+                    <p class="book-info" id="info-7" hidden>Nature by Helene Paquet is a tribute to the wonders of the natural world. Through evocative prose and stunning photography, it invites readers to slow down and appreciate the simple beauty of our planet.</p>
                 </div>
-            </a>
-
-            <a class="swiper-slide box">
-                <div class="image">
-                    <img src="image/book-8.png" alt="">
-                </div>
+            </article>
+            <article class="box" data-search="magic world from the sky olivia jameson">
+                <div class="image"><img src="image/book-8-360.webp" srcset="image/book-8-180.webp 180w, image/book-8-360.webp 360w, image/book-8-720.webp 720w" sizes="94px" width="360" height="574" alt="Magic World from the Sky by Olivia Jameson, book cover" loading="lazy" decoding="async"></div>
                 <div class="content">
                     <h3>Magic World from the Sky</h3>
-                    <h4>Olivia Jameson</h4>
-                    <h5>Just At</h5>
-                    <div class="price">₹296 <span>₹599</span></div>
-                    <button class="show-more">Show more</button>
-                    <div class="book-info">
-                        <button class="show-less"> Show less</button>
-                        <p>Magic World from the Sky by Olivia Jameson is a thrilling adventure story set in a fantasy world where magic and wonder reign supreme. With vivid descriptions and imaginative characters, this book transports readers to a place of endless possibility.</p>
-                    </div>
+                    <p class="author">Olivia Jameson</p>
+                    <p class="price-label">Just at</p>
+                    <p class="price">₹296 <s><span class="sr-only">was </span>₹599</s></p>
+                    <button type="button" class="show-more" aria-expanded="false" aria-controls="info-8">Show more</button>
+                    <p class="book-info" id="info-8" hidden>Magic World from the Sky by Olivia Jameson is a thrilling adventure set in a fantasy world where magic and wonder reign, with vivid descriptions and imaginative characters.</p>
                 </div>
-            </a>
-
-            <a class="swiper-slide box">
-                <div class="image">
-                    <img src="image/book-9.png" alt="">
-                </div>
+            </article>
+            <article class="box" data-search="beauty of nature hae-won jeon">
+                <div class="image"><img src="image/book-9-360.webp" srcset="image/book-9-180.webp 180w, image/book-9-360.webp 360w, image/book-9-720.webp 720w" sizes="94px" width="360" height="574" alt="Beauty of Nature by Hae-won Jeon, book cover" loading="lazy" decoding="async"></div>
                 <div class="content">
                     <h3>Beauty of Nature</h3>
-                    <h4>Hae-won Jeon</h4>
-                    <h5>Just At</h5>
-                    <div class="price">₹699 <span>₹999</span></div>
-                    <button class="show-more">Show more</button>
-                    <div class="book-info">
-                        <button class="show-less"> Show less</button>
-                        <p>Beauty of Nature by Hae-won Jeon is a stunning visual experience that showcases the stunning beauty of our natural world. With breathtaking photography and insightful commentary, this book is a testament to the incredible diversity of life on our planet.</p>
-                    </div>
+                    <p class="author">Hae-won Jeon</p>
+                    <p class="price-label">Just at</p>
+                    <p class="price">₹699 <s><span class="sr-only">was </span>₹999</s></p>
+                    <button type="button" class="show-more" aria-expanded="false" aria-controls="info-9">Show more</button>
+                    <p class="book-info" id="info-9" hidden>Beauty of Nature by Hae-won Jeon is a visual journey through the natural world, with breathtaking photography and insightful commentary on the diversity of life on our planet.</p>
                 </div>
-            </a>
-
-            <a class="swiper-slide box">
-                <div class="image">
-                    <img src="image/book-10.png" alt="">
-                </div>
+            </article>
+            <article class="box" data-search="deeper into dreams noell morrison">
+                <div class="image"><img src="image/book-10-360.webp" srcset="image/book-10-180.webp 180w, image/book-10-360.webp 360w, image/book-10-720.webp 720w" sizes="94px" width="360" height="574" alt="Deeper into Dreams by Noell Morrison, book cover" loading="lazy" decoding="async"></div>
                 <div class="content">
                     <h3>Deeper into Dreams</h3>
-                    <h4>Noell Marrison</h4>
-                    <h5>Just At</h5>
-                    <div class="price">₹169 <span>299</span></div>
-                    <button class="show-more">Show more</button>
-                    <div class="book-info">
-                        <button class="show-less"> Show less</button>
-                        <p>Deeper into Dreams by Noell Marrison is a captivating read that explores the depths of the human subconscious through dream analysis. The author uses vivid imagery and expert knowledge to guide readers on a journey through the mysteries of the mind.</p>
-                    </div>
+                    <p class="author">Noell Morrison</p>
+                    <p class="price-label">Just at</p>
+                    <p class="price">₹169 <s><span class="sr-only">was </span>₹299</s></p>
+                    <button type="button" class="show-more" aria-expanded="false" aria-controls="info-10">Show more</button>
+                    <p class="book-info" id="info-10" hidden>Deeper into Dreams by Noell Morrison explores the depths of the subconscious through the dreams that inspire poetry, guiding readers through the mysteries of the mind.</p>
                 </div>
-            </a>
-
-        </div>
-
+            </article>
     </div>
-
 </section>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-      $(".show-more").click(function() {
-        $(this).closest(".content").find(".book-info").toggle();
-        $(this).toggle();
-      });
 
-      $(".show-less").click(function() {
-        $(this).closest(".content").find(".book-info").toggle();
-        $(this).closest(".content").find(".show-more").toggle();
-      });
-    });
-</script>
-<!-- arrivals section ends -->
+</main>
+
 <footer>
-    <n>
-        Books are All we Love
-    </n>
+    <p>Books are all we love</p>
 </footer>
 </body>
 </html>

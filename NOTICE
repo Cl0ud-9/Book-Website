@@ -1,12 +1,7 @@
-The Bookshelf loads or includes the following third-party material. Each keeps its own license.
-
-Font Awesome Free 6.7.2 (icons), loaded from cdnjs: icons CC BY 4.0, fonts SIL OFL 1.1, code MIT.
-https://fontawesome.com/license/free
-
-jQuery 3.6.0, loaded from code.jquery.com: MIT License. https://jquery.org/license
+The Bookshelf includes the following third-party material. Each keeps its own license.
 
 Express 5, installed from npm for the optional local server: MIT License.
 
-Book covers, the shelf picture and the background images in image/, and the logo and the three cover images the
-home page loads from Pinterest and Amazon, are sample artwork and belong to their respective owners. They illustrate
-the design and are not offered under this project's license.
+The book covers, the shelf picture and the background images in image/ are sample artwork and belong to their
+respective owners. They illustrate the design and are not offered under this project's license. The logo and the
+icons are drawn for this project.
