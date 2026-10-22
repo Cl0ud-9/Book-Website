@@ -1,7 +1,15 @@
 The Bookshelf includes the following third-party material. Each keeps its own license.
 
+GSAP 3.15.0 with ScrollTrigger, SplitText, CustomEase, InertiaPlugin and DrawSVGPlugin, in js/vendor: GSAP Standard
+"No Charge" License, https://gsap.com/standard-license.
+
+Lenis 1.3.17, Barba core 2.10.3, Barba prefetch 2.2.0 and Smooothy 0.0.35, in js/vendor: MIT License. The full
+notices are in js/vendor/LICENSES.md.
+
+Bricolage Grotesque, Figtree, Caveat and Fraunces, in fonts (subset to Latin): SIL Open Font License 1.1,
+https://openfontlicense.org.
+
 Express 5, installed from npm for the optional local server: MIT License.
 
-The book covers, the shelf picture and the background images in image/ are sample artwork and belong to their
-respective owners. They illustrate the design and are not offered under this project's license. The logo and the
-icons are drawn for this project.
+The book covers, illustrations, logo and icons were drawn for this project and are covered by its license. The books,
+authors and prices are fictional.

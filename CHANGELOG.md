@@ -5,6 +5,45 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [2.0.0] - 2026-10-22
+
+A redesign: a bright, illustrated bookshop where everything moves, with a new page for the whole catalogue.
+
+### Added
+
+- An opening animation: a violet squiggle covers the screen, the logo springs in, and the squiggle slithers away to
+  reveal the page. Moving between pages plays it in reverse, without reloading.
+- Smooth scrolling, and headings, notes and stickers that stretch, tumble and pop in as they arrive.
+- A draggable shelf of new books whose cards tilt as they move, with arrow buttons and arrow keys.
+- How it works: four cards that fan out and make room for the one under the pointer.
+- A closed book that turns to face you, opens and flips its pages as you scroll.
+- A giant genre list: the word under the pointer turns handwritten and four covers pop out around it.
+- Readers' favourites with a shower of emoji, a curved scrolling tagline, ribbons that run the other way when you
+  scroll up, emoji you can fling with the pointer, and a footer that slides out from under the page.
+- `books.html`: every book, searchable by title, author or genre, with genre chips. Genre links on the home page open
+  it already filtered.
+- Ten original covers, drawn for the site, with new fictional titles and authors.
+- A phone menu, a 404 page in the new style, and `tools/` with the page generator, the cover renderer and a browser
+  check that exercises the site on desktop, phone, reduced motion and without JavaScript.
+
+### Changed
+
+- The look: a yellow, magenta and violet palette, chunky display type, handwritten notes, rounded colour cards.
+- Fonts and libraries (GSAP, Lenis, Barba, Smooothy) are served with the site, so it still makes no requests to other
+  servers. Fonts are cut down to the characters used: 122 KB for all four.
+- The link check before each deploy also follows links with a query or fragment, and fonts named in the styles.
+
+### Removed
+
+- The old stock covers, the shelf picture and the background photos.
+
+### Accessibility
+
+- Everything that moves respects the reduced-motion setting, and without JavaScript every page is complete and
+  readable.
+- Split-up animated text is read as whole words and sentences by screen readers, sliders and genre covers work with
+  the keyboard, and the phone menu traps focus and closes with Escape.
+
 ## [1.1.0] - 2026-10-22
 
 Faster, accessible, and no longer dependent on other sites. In Lighthouse on a phone, the home page went from 67 to 100

@@ -21,13 +21,14 @@ jobs:
       - name: Collect the site's files
         run: |
           mkdir _site
-          cp -r index.html login.html signup.html 404.html css js image _site/
+          cp -r index.html books.html login.html signup.html 404.html css js image fonts _site/
       - name: Check every local link and image resolves
         run: |
           missing=0
           for page in _site/*.html; do
-            # href, src, and every file in srcset lists; /Book-Website/ is the site's own root on Pages
-            refs=$(grep -oE '(href|src)="[^"#:]+"' "$page" | sed -E 's/^(href|src)="//; s/"$//')
+            # href, src, and every file in srcset lists; /Book-Website/ is the site's own root on Pages.
+            # Links to other sites (with a colon) are skipped; ?query and #fragment are dropped before checking.
+            refs=$(grep -oE '(href|src)="[^":]+"' "$page" | sed -E 's/^(href|src)="//; s/"$//; s/[?#].*//')
             sets=$(grep -oE '(srcset|imagesrcset)="[^"]+"' "$page" | sed -E 's/^[a-z]+="//; s/"$//' | tr ',' '\n' | awk '{print $1}')
             for ref in $refs $sets; do
               path="_site/${ref#/Book-Website/}"
@@ -35,7 +36,7 @@ jobs:
             done
           done
           for css in _site/css/*.css; do
-            for ref in $(grep -oE 'url\([^)]+\)' "$css" | sed -E 's/url\(//; s/\)$//; s/["'"'"']//g'); do
+            for ref in $(grep -oE 'url\([^)]+\)' "$css" | sed -E 's/url\(//; s/\)$//; s/["'"'"']//g' | grep -v '^data:'); do
               [ -e "_site/css/$ref" ] || { echo "$css: missing $ref"; missing=1; }
             done
           done

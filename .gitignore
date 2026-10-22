@@ -4,3 +4,6 @@ _site/
 .idea/
 .DS_Store
 Thumbs.db
+_covers/
+_check/
+__pycache__/

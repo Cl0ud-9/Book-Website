@@ -5,7 +5,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Only the site's own files are served, not the server, its packages or the project docs
-const site = ["index.html", "login.html", "signup.html", "css", "js", "image"];
+const site = ["index.html", "books.html", "login.html", "signup.html", "404.html", "css", "js", "image", "fonts"];
 app.use((req, res, next) => {
   const first = decodeURIComponent(req.path).split("/")[1];
   if (first === "" || site.includes(first)) return next();

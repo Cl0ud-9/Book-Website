@@ -1,7 +1,7 @@
 {
   "name": "book-website",
-  "version": "1.1.0",
-  "description": "The Bookshelf: a responsive bookshop front page with log-in and sign-up forms.",
+  "version": "2.0.0",
+  "description": "The Bookshelf: an illustrated bookshop site with page transitions and scroll animations (GSAP, Lenis, Barba).",
   "private": true,
   "scripts": {
     "start": "node server.js"
