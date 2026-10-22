@@ -5,6 +5,35 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [2.3.0] - 2026-10-22
+
+Smoothness, measured frame by frame on a real Android phone, and the small things a finished site has.
+
+### Changed
+
+- Scrolling on a phone is much smoother: the home page drops about one frame in nine while scrolling, down from one
+  in four. Hundreds of finished letters no longer each keep a layer and a transform, the genre words only get their
+  layers while the pointer is over them, the background shapes rest while a phone scrolls, and the curved tagline
+  moves letter by letter instead of being laid out again every frame.
+- The opening does its heavy setup (fonts, measuring the page, decoding the hero's covers) while the squiggle still
+  covers a still screen, so the animation itself runs without a hitch.
+- Going back returns to where you were on the page, as on any other site.
+- On desktop, the shelf slider measures its cards before moving them and stops working while it is off screen.
+
+### Added
+
+- Link previews: a 1200 x 630 picture for the site and one for each book, the size and format every chat app and
+  social site shows, with the tags they read. Also a home-screen icon for phones, canonical addresses and a sitemap.
+- `tools/fonts.py` rebuilds the three fonts from their sources, and `tools/social.py` redraws the previews.
+
+### Fixed
+
+- The rupee sign in every price came from a different font: the cut-down Figtree had left it out. The ✦ in the ribbons
+  and badges also came from a system font; one is now drawn into Rubik, matching the confetti sparkle.
+- With reduced motion or without JavaScript, the curved tagline was not shown at all.
+- After moving to another page from halfway down one, the Menu button could stay hidden until you scrolled up.
+- The 404 page is no longer offered to search engines.
+
 ## [2.2.0] - 2026-10-22
 
 ### Changed

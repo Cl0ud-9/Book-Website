@@ -75,6 +75,11 @@ scratch in version 2. Every book, cover and illustration on it was made for the 
 - **Keyboard and screen readers.** A skip link, labelled fields, visible focus, sliders driven by the arrow keys, genre
   covers that follow keyboard focus, a phone menu that keeps focus inside and closes with Escape, and animated text
   that is still read out as whole sentences.
+- **Smooth on a phone.** Measured frame by frame on a real Android phone (Chrome, 60 Hz): scrolling the home page
+  drops about one frame in nine, down from one in four, and page changes, the menu and going back hold 60 fps. Text is
+  put back together once it has landed, only what moves gets a layer of its own, the background shapes rest while you
+  scroll, and the curved tagline moves letter by letter on the graphics card. The opening does its heavy setup while
+  the squiggle still covers a still screen.
 - **Fast anyway.** Fonts and libraries are served with the site, so it makes no requests to other servers. The three
   fonts are cut down to the characters used (50 KB together) and the covers are WebP in four widths. Lighthouse on
   a phone, on the live site:
@@ -116,11 +121,14 @@ The pages are generated from one list, so a book's title, price, genres and colo
 python tools/build.py      # edit BOOKS in it first; rewrites every page, including one per book
 python tools/covers.py     # redraws the ten covers (needs Pillow, Playwright and Google Chrome)
 python tools/check.py      # with npm start running: uses the site like a visitor and reports what fails
+python tools/social.py     # with npm start running: redraws the link previews and the home-screen icon
+python tools/fonts.py      # rebuilds the three fonts from their sources (needs fonttools and brotli)
 ```
 
 `tools/check.py` drags the shelf, hovers the genres, opens the questions, sends the forms (including one with HTML in
 it), follows a genre link into the catalogue, searches it, opens a book and adds it to the bag, goes back, and checks
-the phone menu, that no page is ever wider than a 320 px phone, reduced motion and the site without JavaScript.
+the phone menu (and that it steps aside while you read), that going back returns to where you were, that long titles
+fit their cards, that no page is ever wider than a 320 px phone, reduced motion and the site without JavaScript.
 
 ## How it is published
 
@@ -144,9 +152,10 @@ css/main.css        every style: tokens, the fluid type scale, components and se
 js/app.js           transitions, smooth scrolling and every animation, one function per effect
 js/forms.js         checks the log-in, sign-up and newsletter forms
 js/vendor/          GSAP, Lenis, Barba and Smooothy, unchanged (licences in LICENSES.md)
-fonts/              Rubik (headings), Figtree (text) and Gochi Hand (notes), Latin subset
-image/              covers (book-N-180/360/720/1080.webp) and the logo
-tools/              page generator, cover renderer (with its own fonts), icons and the browser check
+fonts/              Rubik (headings), Figtree (text) and Gochi Hand (notes), Latin subset, built by tools/fonts.py
+image/              covers (book-N-180/360/720/1080.webp), link previews (social/), the logo and home-screen icon
+sitemap.xml         every page, for search engines
+tools/              page, cover, font and preview generators, icons and the browser check
 server.js           optional local server (npm start)
 ```
 

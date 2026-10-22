@@ -258,8 +258,14 @@ BOOT = ("<script>(function(d){var r=d.documentElement;r.classList.add('js');"
         "setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)})(document)</script>")
 
 
-def page(name, title, description, body, theme="yellow", image=8):
+SITE = "https://cl0ud-9.github.io/Book-Website/"
+
+
+def page(name, path, title, description, body, theme="yellow", book=None):
     scripts = "\n".join(f'<script src="{s}" defer></script>' for s in SCRIPTS)
+    # Link previews: a 1200 x 630 JPEG (made by tools/social.py), the size and format every app shows
+    social = f"image/social/book-{book}.jpg" if book else "image/social/home.jpg"
+    alt = f"The cover of {BOOKS[book - 1][0]} on its page at the Bookshelf" if book else "The Bookshelf home page"
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -268,10 +274,19 @@ def page(name, title, description, body, theme="yellow", image=8):
 <title>{e(title)}</title>
 <meta name="description" content="{e(description)}">
 <meta name="theme-color" content="#ffd24a">
+<link rel="canonical" href="{SITE}{path}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Bookshelf">
+<meta property="og:url" content="{SITE}{path}">
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(description)}">
-<meta property="og:image" content="https://cl0ud-9.github.io/Book-Website/image/book-{image}-720.webp">
+<meta property="og:image" content="{SITE}{social}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{e(alt)}">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="image/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="image/apple-touch-icon.png">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/main.css">
@@ -543,7 +558,7 @@ def home():
 <section class="gift" aria-labelledby="gift-title">
   <div class="tagline" data-tagline-curve aria-hidden="true">
     <svg class="tagline__svg" viewBox="0 0 1600 400" preserveAspectRatio="xMidYMid meet"><path id="tagline-path" d="{shapes.TAGLINE}" fill="none"/>
-      <text class="tagline__text"><textPath href="#tagline-path" startOffset="100%" data-tagline-text>A gift that always fits</textPath></text></svg>
+      <text class="tagline__text" text-anchor="middle"><textPath href="#tagline-path" startOffset="50%" data-tagline-text>A gift that always fits</textPath></text></svg>
   </div>
   <div class="gift__grid">
     <div class="gift__content">
@@ -686,6 +701,7 @@ NOT_FOUND = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Page not found | The Bookshelf</title>
 <meta name="description" content="This page of The Bookshelf does not exist.">
+<meta name="robots" content="noindex">
 <link rel="icon" href="/Book-Website/image/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/Book-Website/css/main.css">
 </head>
@@ -706,14 +722,22 @@ def write(name, text):
     print(f"{name}: {len(text):,} bytes")
 
 
-write("index.html", page("home", "The Bookshelf: stories you can’t put down",
+write("index.html", page("home", "", "The Bookshelf: stories you can’t put down",
                          "A little online bookshop with hand-picked reads, fair prices and a fresh shelf every month.",
                          home()))
-write("books.html", page("books", "All books | The Bookshelf",
+write("books.html", page("books", "books.html", "All books | The Bookshelf",
                          "Every book on the Bookshelf, searchable by title, author and genre.", books_page(), "pale-blue"))
-write("login.html", page("login", "Log in | The Bookshelf", "Log in to the Bookshelf.", form_page("login"), "pale-pink"))
-write("signup.html", page("signup", "Sign up | The Bookshelf", "Create a Bookshelf account.", form_page("signup"),
-                          "pale-periwinkle"))
+write("login.html", page("login", "login.html", "Log in | The Bookshelf", "Log in to the Bookshelf.", form_page("login"),
+                         "pale-pink"))
+write("signup.html", page("signup", "signup.html", "Sign up | The Bookshelf", "Create a Bookshelf account.",
+                          form_page("signup"), "pale-periwinkle"))
 write("404.html", NOT_FOUND)
 for n, book in enumerate(BOOKS, 1):
-    write(book_url(n), page("book", f"{book[0]} by {book[1]} | The Bookshelf", book[6], book_page(n), book[5], n))
+    write(book_url(n), page("book", book_url(n), f"{book[0]} by {book[1]} | The Bookshelf", book[6], book_page(n),
+                            book[5], n))
+
+# For search engines: every page except the demo log-in forms. (A robots.txt only counts at the root of
+# cl0ud-9.github.io, not in this folder, so the sitemap is handed to search engines directly.)
+urls = ["", "books.html", *(book_url(n) for n in range(1, len(BOOKS) + 1))]
+write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+      + "".join(f"  <url><loc>{SITE}{u}</loc></url>\n" for u in urls) + "</urlset>\n")

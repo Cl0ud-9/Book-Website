@@ -1,10 +1,12 @@
 /* The Bookshelf
    Everything is sized in em, and the body font scales with the window, so the whole layout scales as one. */
 
-/* ---------- Fonts (SIL Open Font License, Latin subset) ---------- */
+/* ---------- Fonts (SIL Open Font License, Latin subset, built by tools/fonts.py) ---------- */
 
 @font-face { font-family: Rubik; font-weight: 700 900; font-display: swap; src: url("../fonts/rubik.woff2") format("woff2"); }
-@font-face { font-family: Figtree; font-weight: 400 700; font-display: swap; src: url("../fonts/figtree.woff2") format("woff2"); }
+@font-face { font-family: Figtree; font-weight: 500 700; font-display: swap; src: url("../fonts/figtree.woff2") format("woff2"); }
+/* Figtree has no ✦, so it borrows the one drawn into Rubik rather than falling back to a system font */
+@font-face { font-family: Figtree; font-weight: 500 700; font-display: swap; unicode-range: U+2726; src: url("../fonts/rubik.woff2") format("woff2"); }
 @font-face { font-family: "Gochi Hand"; font-weight: 400; font-display: swap; src: url("../fonts/gochi-hand.woff2") format("woff2"); }
 
 /* ---------- Tokens ---------- */
@@ -303,7 +305,13 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
   }
 }
 
-.split-char { display: inline-block; will-change: transform; }
+/* No will-change here: hundreds of letters each on a layer of their own made every scrolled frame slow on phones.
+   GSAP promotes them while they move, and finished text is put back together. */
+.split-char { display: inline-block; }
+
+/* Shapes that change every frame (the breathing backgrounds, the turning ring) get a layer of their own, so the
+   repaint stays inside them instead of spreading to the page around them */
+[data-background-animation], .why__ring { will-change: transform; }
 
 /* ---------- Header ---------- */
 
@@ -697,7 +705,9 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
   text-decoration: none; white-space: nowrap;
   transition: translate .5s var(--ease-smooth);
 }
-.genre__default, .genre__hover { grid-area: 1 / 1; transition: opacity .15s .05s var(--ease-smooth), scale .35s var(--ease-bounce), filter .25s .05s var(--ease-smooth); will-change: transform, filter; }
+.genre__default, .genre__hover { grid-area: 1 / 1; transition: opacity .15s .05s var(--ease-smooth), scale .35s var(--ease-bounce), filter .25s .05s var(--ease-smooth); }
+/* Twenty blurred layers only while the pointer is over the list, not all the time */
+.genre__list:hover :is(.genre__default, .genre__hover) { will-change: transform, filter; }
 .genre__default { font-family: var(--font-heading); font-weight: 900; font-size: 7.5em; letter-spacing: -.03em; line-height: .8; }
 .genre__hover { font-family: var(--font-hand); font-weight: 400; font-size: 8.5em; line-height: .8; opacity: 0; scale: .75 1.25; filter: blur(.0625em); }
 .genre__item:is(:hover, :focus-within) .genre__default { opacity: 0; scale: .75 1.25; filter: blur(.0625em); }
@@ -821,9 +831,20 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 /* ---------- Gift ---------- */
 
 .gift { position: relative; padding: 0 0 6em; overflow: clip; }
-.tagline { width: 100%; }
+.tagline { width: 100%; position: relative; }
 .tagline__svg { width: 100%; height: auto; overflow: visible; }
 .tagline__text { font-family: var(--font-heading); font-weight: 900; word-spacing: .25em; font-size: 168px; letter-spacing: -.03em; fill: var(--black); }
+/* Standing still (reduced motion, no JavaScript) the whole line sits in the middle of the curve, small enough that
+   neither end runs off the screen. Moving, the letters are placed on the curve one by one (taglineCurve in app.js). */
+.tagline:not(.is--letters) .tagline__text { font-size: 128px; }
+.tagline.is--letters .tagline__text { visibility: hidden; }
+.tagline__letters {
+  position: absolute; inset: 0; pointer-events: none;
+  font-family: var(--font-heading); font-weight: 900; word-spacing: .25em; letter-spacing: -.03em; line-height: 1;
+}
+.tagline__letters span { position: absolute; top: 0; left: 0; white-space: pre; will-change: transform; }
+.tagline__letters .tagline__ruler { visibility: hidden; will-change: auto; }
+.tagline__ruler i { display: inline-block; width: 0; height: 0; }
 .gift__grid { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 4em; padding: 0 8%; margin-top: -2em; }
 .gift__content { display: grid; gap: 2em; justify-items: start; }
 .gift__title { max-width: 8ch; }

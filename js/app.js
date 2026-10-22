@@ -93,6 +93,12 @@
   };
   if (lenis) lenis.on("scroll", onScroll);
   else window.addEventListener("scroll", onScroll, { passive: true });
+  // A new page starts with the header in view (the jump to its scroll position happens while Lenis is paused, unheard)
+  function resetHeader(y = 0) {
+    lastY = y;
+    header.dataset.scrollingStarted = String(y > 50);
+    header.dataset.scrollDir = "up";
+  }
 
   function setCurrentNav(namespace) {
     const key = { home: "home", books: "books", book: "books", login: "account", signup: "account" }[namespace];
@@ -173,27 +179,29 @@
   }
 
   // Headings stretch in word by word with an elastic snap
+  // Once text has landed it is put back together: hundreds of finished letters and words that each keep a transform
+  // make every later frame slower to put on screen
   function stretchWords(tl, el, position) {
     if (!el) return;
-    const { words } = SplitText.create(el, { type: "words", wordsClass: "split-word" }); // headings only
-    gsap.set(words, { display: "inline-block", transformOrigin: "top left",
+    const split = SplitText.create(el, { type: "words", wordsClass: "split-word" }); // headings only
+    gsap.set(split.words, { display: "inline-block", transformOrigin: "top left",
       yPercent: -10, xPercent: 40, scaleY: 0.1, scaleX: 0.85, rotate: 8, opacity: 0 });
-    tl.to(words,
+    tl.to(split.words,
       {
         keyframes: {
           "10%": { opacity: 1 },
           "100%": { yPercent: 0, xPercent: 0, scaleY: 1, scaleX: 1, rotate: 0, ease: ELASTIC },
         },
-        duration: 0.875, stagger: 0.088,
+        duration: 0.875, stagger: 0.088, onComplete: () => split.revert(),
       }, position);
   }
 
-  // Handwritten notes tumble in letter by letter
+  // Handwritten notes tumble in letter by letter (returns the SplitText, so a note that plays once can be put back)
   function scribbleIn(el) {
     const parts = split(el, { type: "words, chars", wordsClass: "split-word", charsClass: "split-char" });
     gsap.set(parts.words, { display: "inline-block" });
     gsap.set(parts.chars, { display: "inline-block", opacity: 0, rotate: 22, x: "-0.25em", y: "0.5em" });
-    return parts.chars;
+    return parts;
   }
   const scribbleTo = { opacity: 1, rotate: 0, x: "0em", y: "0em", ease: ELASTIC_SOFT, duration: 0.75, stagger: 0.016 };
 
@@ -212,11 +220,13 @@
     const content = hero.querySelector("[data-hero-content]");
     const bg = hero.querySelector("[data-hero-bg]");
     const books = gsap.utils.toArray(".hero__book, .book-hero__visual", hero);
-    const noteChars = note ? scribbleIn(note) : [];
+    const noteSplit = note ? scribbleIn(note) : null;
 
     gsap.set([paragraph, button].filter(Boolean), { opacity: 0, y: "-0.75em" });
     if (content) gsap.set(content, { opacity: 0, y: "5em" });
-    if (books.length) gsap.set(books, { opacity: 0, y: "6em", rotate: (i) => [-30, 40, -25][i] });
+    // Not quite 0: the browser then draws the big covers while the squiggle still hides them, instead of in the middle
+    // of the opening, where that first draw cost a couple of frames
+    if (books.length) gsap.set(books, { opacity: 0.001, y: "6em", rotate: (i) => [-30, 40, -25][i] });
     if (bg && desktop.matches) gsap.set(bg, { clipPath: "ellipse(20% 0% at 100% 100%)" });
     if (small) gsap.set(small, { y: "-5em", opacity: 0 });
 
@@ -226,7 +236,7 @@
       stretchWords(tl, title, at + 0.25);
       if (paragraph) tl.to(paragraph, { opacity: 1, y: "0em", duration: 0.35, ease: "energy" }, at + 0.45);
       if (button) tl.to(button, { opacity: 1, y: "0em", duration: 0.35, ease: "energy" }, at + 0.525);
-      if (noteChars.length) tl.to(noteChars, scribbleTo, at + 0.45);
+      if (noteSplit) tl.to(noteSplit.chars, { ...scribbleTo, onComplete: () => noteSplit.revert() }, at + 0.45);
       if (content) tl.to(content, { y: "0em", opacity: 1, duration: 0.6, ease: "energy" }, at + 0.35);
       if (books.length) tl.to(books, { opacity: 1, y: "0em", rotate: 0, duration: 0.85, ease: ELASTIC, stagger: 0.08 }, at + 0.15);
     };
@@ -266,16 +276,32 @@
     const play = pageIntro(container);
     root.classList.add("is-ready");
     root.classList.remove("is-loading");
-    const tl = gsap.timeline();
+    const tl = gsap.timeline({ paused: true });
     uncover(tl, 0, 0.65);
     showLogo(tl, 0);
     hideLogo(tl, 0);
     // The text and the header carry on by themselves: Barba treats the transition as finished when this promise
     // resolves, and while one is running it answers the back button with a full page reload
-    const intro = gsap.timeline();
+    const intro = gsap.timeline({ paused: true });
     intro.to(header, { yPercent: 0, duration: 0.5, ease: "energy" }, 1.6);
     play(intro, 1.1);
-    return tl.then();
+    // The heavy first-load work (fonts, measuring every scroll trigger, decoding the hero's covers) is done while the
+    // squiggle still covers a still screen: done during the animation, it made the opening stutter
+    return firstLoadReady(container).then(() => {
+      tl.play();
+      intro.play();
+      return tl.then();
+    });
+  }
+
+  function firstLoadReady(container) {
+    const loaded = document.readyState === "complete" ? null : new Promise((r) => addEventListener("load", r, { once: true }));
+    const covers = [...container.querySelectorAll(".hero img, .book-hero img, .hero-xs img")].map((img) => img.decode().catch(() => {}));
+    const ready = Promise.all([document.fonts?.ready, loaded, ...covers]);
+    const enough = new Promise((r) => setTimeout(r, 1200)); // a slow network never holds the opening up for long
+    return Promise.race([ready, enough])
+      .then(() => ScrollTrigger.refresh())
+      .then(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
   }
 
   // Back and forward: phones already slide the previous page in with their own gesture animation, so a squiggle on
@@ -316,8 +342,23 @@
 
   /* ---------------- Effects, one function each ---------------- */
 
-  // Background shapes slowly breathe while they are on screen
+  // Background shapes slowly breathe while they are on screen. On touch screens they also ease to a stop while the
+  // page is being scrolled: repainting them on top of the scroll cost phones about one frame in five
   function breathingShapes(page) {
+    const shapes = [];
+    let scrolling = false;
+    let rest = 0;
+    const settle = (shape) => {
+      const run = shape.onScreen && !scrolling;
+      if (run === shape.running) return;
+      shape.running = run;
+      if (run) {
+        shape.tl.play();
+        gsap.to(shape.tl, { timeScale: 1, duration: 0.4, overwrite: true });
+      } else {
+        gsap.to(shape.tl, { timeScale: 0, duration: 0.25, overwrite: true, onComplete: () => shape.tl.pause() });
+      }
+    };
     page.querySelectorAll("[data-background-animation]").forEach((svg) => {
       const paths = svg.querySelectorAll("path");
       const width = svg.hasAttribute("data-background-animation-small") ? 35 : 60;
@@ -325,11 +366,21 @@
       const tl = gsap.timeline({ paused: true, repeat: -1 })
         .to(paths, { attr: { "stroke-width": width }, rotate: 2, duration: 3, ease: "sine.inOut" })
         .to(paths, { attr: { "stroke-width": 0 }, rotate: 0, duration: 3, ease: "sine.inOut" });
+      const shape = { tl, onScreen: false, running: false };
+      shapes.push(shape);
       ScrollTrigger.create({
         trigger: svg.parentElement, start: "top bottom", end: "bottom top",
-        onToggle: (self) => (self.isActive ? tl.play() : tl.pause()),
+        onToggle: (self) => { shape.onScreen = self.isActive; settle(shape); },
       });
     });
+    if (!shapes.length || finePointer.matches) return;
+    const onScroll = () => {
+      if (!scrolling) { scrolling = true; shapes.forEach(settle); }
+      clearTimeout(rest);
+      rest = setTimeout(() => { scrolling = false; shapes.forEach(settle); }, 200);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => { window.removeEventListener("scroll", onScroll); clearTimeout(rest); };
   }
 
   // Hero books bob gently and lean towards the pointer
@@ -396,8 +447,8 @@
 
   function handwrittenInView(page) {
     page.querySelectorAll("[data-handwritten-text-inview]").forEach((note) => {
-      const chars = scribbleIn(note);
-      gsap.to(chars, { ...scribbleTo, scrollTrigger: { trigger: note, start: "top 95%" } });
+      const parts = scribbleIn(note);
+      gsap.to(parts.chars, { ...scribbleTo, onComplete: () => parts.revert(), scrollTrigger: { trigger: note, start: "top 95%" } });
     });
   }
 
@@ -429,9 +480,10 @@
           if (!slider) return;
           const box = viewport.getBoundingClientRect();
           const middle = box.left + box.width / 2;
-          settings.forEach(({ card, rotation, yOffset }) => {
-            const r = card.getBoundingClientRect();
-            const strength = Math.sin(gsap.utils.clamp(-2, 2, (r.left + r.width / 2 - middle) / (box.width / 2)) * 1.2);
+          // Measure every card before moving any: alternating the two made the browser redo its styles once per card
+          const centres = settings.map(({ card }) => { const r = card.getBoundingClientRect(); return r.left + r.width / 2; });
+          settings.forEach(({ card, rotation, yOffset }, i) => {
+            const strength = Math.sin(gsap.utils.clamp(-2, 2, (centres[i] - middle) / (box.width / 2)) * 1.2);
             card.style.transform = `translateY(${strength * yOffset}%) rotate(${strength * rotation}deg)`;
           });
           const atStart = slider.currentSlide <= 0;
@@ -455,8 +507,12 @@
         if (event.key === "ArrowRight") { event.preventDefault(); slider.goToNext(); }
         if (event.key === "ArrowLeft") { event.preventDefault(); slider.goToPrev(); }
       });
+      // The shelf only needs updating while it is on screen
       const tick = () => slider.update();
-      gsap.ticker.add(tick);
+      ScrollTrigger.create({
+        trigger: section, start: "top bottom", end: "bottom top",
+        onToggle: (self) => (self.isActive ? gsap.ticker.add(tick) : gsap.ticker.remove(tick)),
+      });
       instances.push({ slider, tick, cards });
     });
     return () => instances.forEach(({ slider, tick, cards }) => {
@@ -531,8 +587,8 @@
     gsap.set(leaves, { z: (i) => depth / 2 - 3 + i, transformOrigin: "left center" });
     gsap.set(book, { rotationX: 50, rotationZ: -24, scale: 0.72, y: "30vh", x: 0 });
 
-    const noteChars = scribbleIn(note);
-    const asideChars = scribbleIn(aside);
+    const noteChars = scribbleIn(note).chars;
+    const asideChars = scribbleIn(aside).chars;
     const noteTl = gsap.timeline({ paused: true }).to(noteChars, { ...scribbleTo, duration: 0.625, stagger: 0.011 });
     gsap.set(title, { opacity: 0, y: "1em" });
     gsap.set(buttons, { scale: 0, rotate: () => gsap.utils.random(-16, 16) });
@@ -655,16 +711,84 @@
     });
   }
 
-  // The tagline slides along its curve as you scroll
+  /* The tagline slides along its curve as you scroll. Sliding the SVG text along its path made the browser lay the
+     text out and repaint it on every frame, the heaviest thing left in a phone's scroll. Instead each letter is an
+     element of its own, placed on the curve the way SVG would place it (its middle on the path, turned to follow it)
+     and moved with a transform alone, which the graphics card handles without any layout or repaint. */
   function taglineCurve(page) {
     page.querySelectorAll("[data-tagline-curve]").forEach((wrap) => {
-      const textPath = wrap.querySelector("[data-tagline-text]");
+      const svg = wrap.querySelector("svg");
       const path = wrap.querySelector("path");
-      const textLength = textPath.getComputedTextLength();
-      const end = -(textLength / path.getTotalLength()) * 100;
-      gsap.fromTo(textPath, { attr: { startOffset: "100%" } }, {
-        attr: { startOffset: `${end}%` }, ease: "none",
-        scrollTrigger: { trigger: wrap, start: "top bottom", end: "bottom top", scrub: 0.5 },
+      const source = wrap.querySelector("[data-tagline-text]");
+      const total = path.getTotalLength();
+      // Asking the path for points is slow on a phone, so it is sampled once and read from the samples after that
+      const STEP = 4;
+      const samples = [];
+      for (let d = 0; d <= total + STEP; d += STEP) {
+        const point = path.getPointAtLength(Math.min(d, total));
+        samples.push(point.x, point.y);
+      }
+      const last = samples.length / 2 - 2;
+      const pointAt = (d) => {
+        const f = gsap.utils.clamp(0, total, d) / STEP;
+        const i = Math.min(Math.floor(f), last);
+        const t = f - i;
+        return [samples[2 * i] + (samples[2 * i + 2] - samples[2 * i]) * t,
+          samples[2 * i + 1] + (samples[2 * i + 3] - samples[2 * i + 1]) * t];
+      };
+      const layer = document.createElement("div");
+      layer.className = "tagline__letters";
+      const ruler = document.createElement("span");
+      ruler.className = "tagline__ruler";
+      ruler.textContent = source.textContent;
+      const baselineMark = document.createElement("i");
+      ruler.append(baselineMark);
+      const letters = [...source.textContent].map((char) => {
+        const letter = document.createElement("span");
+        letter.textContent = char;
+        return letter;
+      });
+      layer.append(ruler, ...letters);
+      wrap.append(layer);
+      wrap.classList.add("is--letters");
+
+      let scale = 1, length = 0, baseline = 0, starts = [], widths = [];
+      const measure = () => {
+        scale = svg.getBoundingClientRect().width / svg.viewBox.baseVal.width;
+        layer.style.fontSize = `${parseFloat(getComputedStyle(source.parentNode).fontSize) * scale}px`;
+        const box = ruler.getBoundingClientRect();
+        const range = document.createRange();
+        const text = ruler.firstChild;
+        starts = letters.map((_, i) => { range.setStart(text, i); range.setEnd(text, i + 1); return range.getBoundingClientRect().left - box.left; });
+        widths = letters.map((_, i) => { range.setStart(text, i); range.setEnd(text, i + 1); return range.getBoundingClientRect().width; });
+        length = box.width;
+        baseline = baselineMark.getBoundingClientRect().bottom - box.top;
+        letters.forEach((letter, i) => { letter.style.transformOrigin = `${widths[i] / 2}px ${baseline}px`; });
+      };
+      const place = (progress) => {
+        // From just past the end of the curve to just before its start, as the text's own startOffset used to go
+        const start = total - progress * (total + length / scale);
+        letters.forEach((letter, i) => {
+          const middle = start + (starts[i] + widths[i] / 2) / scale;
+          const off = middle < 0 || middle > total;
+          letter.style.visibility = off ? "hidden" : "";
+          if (off) return;
+          const [x, y] = pointAt(middle);
+          const ahead = pointAt(middle + STEP);
+          const behind = pointAt(middle - STEP);
+          const angle = Math.atan2(ahead[1] - behind[1], ahead[0] - behind[0]);
+          letter.style.transform = `translate(${x * scale - widths[i] / 2}px, ${y * scale - baseline}px) rotate(${angle}rad)`;
+        });
+      };
+      const state = { progress: 0 };
+      measure();
+      place(0);
+      gsap.to(state, {
+        progress: 1, ease: "none", onUpdate: () => place(state.progress),
+        scrollTrigger: {
+          trigger: wrap, start: "top bottom", end: "bottom top", scrub: 0.5,
+          onRefresh: () => { measure(); place(state.progress); },
+        },
       });
     });
   }
@@ -896,7 +1020,6 @@
       return;
     }
     pageContext = gsap.context(() => {
-      breathingShapes(container);
       handwrittenInView(container);
       sectionEntrances(container);
       plopIn(container);
@@ -908,7 +1031,7 @@
       confettiRain(container);
       footerParallax(container);
       catalogue(container);
-      [floatingBooks, waveButtons, sliders, fannedCards, genreCovers, momentumHover, bookPage]
+      [breathingShapes, floatingBooks, waveButtons, sliders, fannedCards, genreCovers, momentumHover, bookPage]
         .forEach((fn) => { const undo = fn(container); if (undo) pageCleanups.push(undo); });
     }, container);
   }
@@ -966,6 +1089,8 @@
   barba.hooks.after(replayHeldPop);
   barba.hooks.afterOnce(replayHeldPop);
 
+  const scrollMemory = new Map(); // page address -> how far down it was when you left
+
   barba.init({
     timeout: 7000,
     preventRunning: true,
@@ -974,14 +1099,30 @@
     transitions: [{
       name: "snake",
       once: () => start(),
-      leave: ({ trigger }) => { lenis?.stop(); closeMenu(); return runLeave(trigger); },
+      leave: ({ current, trigger }) => {
+        scrollMemory.set(current.url.href, lenis ? lenis.scroll : window.scrollY);
+        lenis?.stop();
+        closeMenu();
+        return runLeave(trigger);
+      },
       afterLeave: ({ current }) => { destroyPage(); current.container.remove(); },
       beforeEnter: ({ next }) => {
         scrollToTop();
+        resetHeader();
         initPage(next.container);
       },
       enter: ({ next, trigger }) => runEnter(next.container, trigger),
-      afterEnter: () => { lenis?.start(); afterEnter(); },
+      afterEnter: ({ next, trigger }) => {
+        lenis?.start();
+        afterEnter();
+        // Back and forward return to where you were on that page, as they do on any other site
+        const y = fromHistory(trigger) ? scrollMemory.get(next.url.href) : 0;
+        if (y) {
+          if (lenis) lenis.scrollTo(y, { immediate: true, force: true }); else window.scrollTo(0, y);
+          resetHeader(y);
+          ScrollTrigger.update();
+        }
+      },
     }],
   });
 })();

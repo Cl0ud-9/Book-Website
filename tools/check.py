@@ -195,6 +195,18 @@ with sync_playwright() as p:
     page.mouse.wheel(0, -300)
     page.wait_for_timeout(1200)
     ok(page.locator("[data-menu-toggle]").bounding_box()["y"] > 0, "Menu button returns on scrolling up")
+    # a page opened from halfway down another one starts with its Menu button in view
+    page.goto(BASE + "books.html", wait_until="networkidle")
+    page.wait_for_timeout(3000)
+    page.mouse.wheel(0, 900)
+    page.wait_for_timeout(1000)
+    page.locator(".book-card").nth(2).click(position={"x": 60, "y": 60})
+    page.wait_for_timeout(3200)
+    ok(page.locator("[data-menu-toggle]").bounding_box()["y"] >= 0, "a newly opened page shows the Menu button")
+    page.go_back()
+    page.wait_for_timeout(1500)
+    y = page.evaluate("scrollY")
+    ok(y > 300, f"going back returns to where you were on the page ({y:.0f}px down)")
     print("phone console:", errors or "clean")
     page.close()
 

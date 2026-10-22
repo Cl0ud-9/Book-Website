@@ -21,7 +21,7 @@ jobs:
       - name: Collect the site's files
         run: |
           mkdir _site
-          cp -r index.html books.html book-*.html login.html signup.html 404.html css js image fonts _site/
+          cp -r index.html books.html book-*.html login.html signup.html 404.html sitemap.xml css js image fonts _site/
       - name: Check every local link and image resolves
         run: |
           missing=0
@@ -33,6 +33,13 @@ jobs:
             for ref in $refs $sets; do
               path="_site/${ref#/Book-Website/}"
               [ -e "$path" ] || { echo "$page: missing $ref"; missing=1; }
+            done
+          done
+          # link previews name their image by the site's full address
+          for page in _site/*.html; do
+            for ref in $(grep -oE 'property="og:image" content="[^"]+"' "$page" | sed -E 's/.*content="//; s/"$//'); do
+              path="_site/${ref#https://cl0ud-9.github.io/Book-Website/}"
+              [ -e "$path" ] || { echo "$page: missing preview $ref"; missing=1; }
             done
           done
           for css in _site/css/*.css; do
