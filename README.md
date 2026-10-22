@@ -119,7 +119,7 @@ js/app.js           transitions, smooth scrolling and every animation, one funct
 js/forms.js         checks the log-in, sign-up and newsletter forms
 js/vendor/          GSAP, Lenis, Barba and Smooothy, unchanged (licences in LICENSES.md)
 fonts/              Bricolage Grotesque, Figtree, Caveat and Fraunces, Latin subset
-image/              covers (book-N-180/360/720.webp) and the logo
+image/              covers (book-N-180/360/720/1080.webp) and the logo
 tools/              page generator, cover renderer and the browser check
 server.js           optional local server (npm start)
 ```

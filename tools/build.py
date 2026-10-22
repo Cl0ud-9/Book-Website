@@ -68,7 +68,7 @@ DARK = {"olive", "violet"}  # card colours that need white text (both pass WCAG 
 
 def cover(i, sizes, lazy=True, cls="", priority=False, alt=None):
     title, author = BOOKS[i - 1][:2]
-    srcset = ", ".join(f"image/book-{i}-{w}.webp {w}w" for w in (180, 360, 720))
+    srcset = ", ".join(f"image/book-{i}-{w}.webp {w}w" for w in (180, 360, 720, 1080))
     attrs = [f'src="image/book-{i}-360.webp"', f'srcset="{srcset}"', f'sizes="{sizes}"',
              f'width="{W}" height="{H}"',
              f'alt="{e(alt if alt is not None else f"{title} by {author}, book cover")}"']

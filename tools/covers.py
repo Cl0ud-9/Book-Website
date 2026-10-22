@@ -1,7 +1,7 @@
 """Ten original book covers for The Bookshelf, drawn as SVG and rendered to WebP at 180, 360 and 720 pixels wide.
 
 usage: python tools/covers.py [WORK_DIR]      (needs Pillow and Playwright, and Google Chrome installed)
-Writes image/book-N-{180,360,720}.webp, and keeps the SVG sources and a contact sheet in WORK_DIR.
+Writes image/book-N-{180,360,720,1080}.webp, and keeps the SVG sources and a contact sheet in WORK_DIR.
 """
 import io
 import math
@@ -21,7 +21,7 @@ W, H = 360, 574
 DEFS = """<defs>
   <filter id="grain" x="0" y="0" width="100%" height="100%">
     <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="7" stitchTiles="stitch"/>
-    <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .22 0"/>
+    <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .11 0"/>
   </filter>
   <linearGradient id="spine" x1="0" x2="1">
     <stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset=".05" stop-color="#fff" stop-opacity=".18"/>
@@ -285,7 +285,7 @@ html, body { margin: 0; background: #fff; } svg { display: block; width: 360px; 
 WORK.mkdir(parents=True, exist_ok=True)
 with sync_playwright() as p:
     browser = p.chromium.launch(channel="chrome")
-    tab = browser.new_page(viewport={"width": W, "height": H}, device_scale_factor=2)
+    tab = browser.new_page(viewport={"width": W, "height": H}, device_scale_factor=3)
     for i, svg in COVERS.items():
         (WORK / f"cover-{i}.svg").write_text(svg, encoding="utf-8")
         html = WORK / f"cover-{i}.html"
@@ -294,10 +294,10 @@ with sync_playwright() as p:
         tab.evaluate("document.fonts.ready")
         tab.wait_for_timeout(150)
         png = tab.screenshot(clip={"x": 0, "y": 0, "width": W, "height": H})
-        im = Image.open(io.BytesIO(png)).convert("RGB")  # 720 x 1148
-        for width in (720, 360, 180):
-            out = im if width == 720 else im.resize((width, round(H * width / W)), Image.LANCZOS)
-            out.save(OUT / f"book-{i}-{width}.webp", "WEBP", quality=80, method=6)
+        im = Image.open(io.BytesIO(png)).convert("RGB")  # 1080 x 1722
+        for width in (1080, 720, 360, 180):
+            out = im if width == 1080 else im.resize((width, round(H * width / W)), Image.LANCZOS)
+            out.save(OUT / f"book-{i}-{width}.webp", "WEBP", quality=82, method=6)
         print("cover", i, "done")
     browser.close()
 
