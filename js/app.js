@@ -225,7 +225,7 @@
       if (button) tl.to(button, { opacity: 1, y: "0em", duration: 0.35, ease: "energy" }, at + 0.525);
       if (noteChars.length) tl.to(noteChars, scribbleTo, at + 0.45);
       if (content) tl.to(content, { y: "0em", opacity: 1, duration: 0.6, ease: "energy" }, at + 0.35);
-      if (books.length) tl.to(books, { opacity: 1, y: "0em", rotate: 0, duration: 0.85, ease: ELASTIC, stagger: 0.08 }, at + 0.5);
+      if (books.length) tl.to(books, { opacity: 1, y: "0em", rotate: 0, duration: 0.85, ease: ELASTIC, stagger: 0.08 }, at + 0.15);
     };
   }
 
