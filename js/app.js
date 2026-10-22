@@ -265,8 +265,11 @@
     uncover(tl, 0, 0.65);
     showLogo(tl, 0);
     hideLogo(tl, 0);
-    tl.to(header, { yPercent: 0, duration: 0.5, ease: "energy" }, 1.6);
-    play(tl, 1.1);
+    // The text and the header carry on by themselves: Barba treats the transition as finished when this promise
+    // resolves, and while one is running it answers the back button with a full page reload
+    const intro = gsap.timeline();
+    intro.to(header, { yPercent: 0, duration: 0.5, ease: "energy" }, 1.6);
+    play(intro, 1.1);
     return tl.then();
   }
 
@@ -292,15 +295,17 @@
       return Promise.resolve();
     }
     const play = pageIntro(container);
-    const tl = gsap.timeline();
+    // As in runOnce, only the squiggle holds the transition open; the text intro runs on its own timeline
+    const intro = gsap.timeline();
     if (fromHistory(trigger)) {
       hideSnake();
-      play(tl, 0);
-      return tl.then();
+      play(intro, 0);
+      return Promise.resolve();
     }
+    const tl = gsap.timeline();
     hideLogo(tl, 0, 0.1);
     uncover(tl, 0, 0.1);
-    play(tl, 0.45);
+    play(intro, 0.45);
     return tl.then();
   }
 
@@ -937,10 +942,30 @@
 
   const { barba } = window;
   if (window.barbaPrefetch) barba.use(window.barbaPrefetch, { timeout: 2500, limit: 0 });
+
+  // Barba answers a back or forward press during a transition by reloading the whole page. Registered before Barba's
+  // own listener, this holds the press until the transition ends and then replays it, so the page swaps instead
+  let heldPop = null;
+  window.addEventListener("popstate", (event) => {
+    if (!barba.transitions.isRunning) return;
+    event.stopImmediatePropagation();
+    heldPop = { state: event.state };
+  });
+  const replayHeldPop = () => {
+    if (!heldPop) return;
+    const { state } = heldPop;
+    heldPop = null;
+    // Barba marks the transition finished just after its last hook, so replay a moment later
+    requestAnimationFrame(() => setTimeout(() => window.dispatchEvent(new PopStateEvent("popstate", { state })), 0));
+  };
+  barba.hooks.after(replayHeldPop);
+  barba.hooks.afterOnce(replayHeldPop);
+
   barba.init({
     timeout: 7000,
     preventRunning: true,
-    prevent: ({ el }) => el.hasAttribute("download") || el.target === "_blank",
+    // Back and forward have no link element: without the check this threw, and Barba fell back to reloading the page
+    prevent: ({ el }) => Boolean(el) && (el.hasAttribute("download") || el.target === "_blank"),
     transitions: [{
       name: "snake",
       once: () => start(),
