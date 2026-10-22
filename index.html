@@ -11,7 +11,7 @@
 <meta property="og:image" content="https://cl0ud-9.github.io/Book-Website/image/book-8-720.webp">
 <link rel="icon" href="image/logo.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/main.css">
 <script>(function(d){var r=d.documentElement;r.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('is-loading');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)})(document)</script>
 <script src="js/vendor/gsap.min.js" defer></script>
@@ -19,6 +19,7 @@
 <script src="js/vendor/SplitText.min.js" defer></script>
 <script src="js/vendor/CustomEase.min.js" defer></script>
 <script src="js/vendor/InertiaPlugin.min.js" defer></script>
+<script src="js/vendor/DrawSVGPlugin.min.js" defer></script>
 <script src="js/vendor/lenis.min.js" defer></script>
 <script src="js/vendor/barba.umd.min.js" defer></script>
 <script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
@@ -50,18 +51,14 @@
   <symbol id="i-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /> <path d="M12 22V12" /> <polyline points="3.29 7 12 12 20.71 7" /> <path d="m7.5 4.27 9 5.15" /></symbol>
 </svg>
 <div class="transition" data-transition-wrap aria-hidden="true">
-  <svg class="transition__svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path data-transition-path d="M0 0H100V100Q50 100 0 100Z"/></svg>
-  <div class="transition__brand" data-transition-brand>
-    <svg class="transition__mark" data-transition-mark><use href="#i-logo"></use></svg>
-    <p class="transition__word" data-transition-word>Book<em>shelf</em></p>
-    <p class="transition__caption" data-transition-caption>Hand-picked books since 2023</p>
-  </div>
+  <svg class="transition__svg" viewBox="0 0 1080 1080" preserveAspectRatio="xMidYMid slice"><path d="M60 -80C56.7 -25 16.7 158.3 40 250C63.3 341.7 141.7 466.7 200 470C258.3 473.3 368.3 333.3 390 270C411.7 206.7 301.7 128.3 330 90C358.3 51.7 506.7 0 560 40C613.3 80 671.7 243.3 650 330C628.3 416.7 488.3 481.7 430 560C371.7 638.3 285 726.7 300 800C315 873.3 448.3 1006.7 520 1000C591.7 993.3 700 843.3 730 760C760 676.7 675 558.3 700 500C725 441.7 828.3 390 880 410C931.7 430 998.3 538.3 1010 620C1021.7 701.7 933.3 810 950 900C966.7 990 1083.3 1116.7 1110 1160"/></svg>
+  <div class="transition__logo" data-transition-logo><svg viewBox="0 0 48 48"><use href="#i-logo"></use></svg></div>
 </div>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="header" data-header data-scrolling-started="false">
   <a class="header__logo" href="./" aria-label="The Bookshelf, home">
     <svg class="header__logo-icon" aria-hidden="true"><use href="#i-logo"></use></svg>
-    <span class="header__logo-text">Book<em>shelf</em></span>
+    <span class="header__logo-text">Bookshelf</span><span class="header__logo-sub" aria-hidden="true">The<br>shop</span>
   </a>
   <nav class="header__nav" aria-label="Main">
     <ul class="header__nav-list">
@@ -74,13 +71,14 @@
   <div class="header__side">
     <a class="header__social" href="https://github.com/Cl0ud-9/Book-Website" aria-label="Source code on GitHub"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg></a>
   </div>
-  <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
-    <span class="menu-toggle__text">Menu</span><svg class="menu-toggle__icon" aria-hidden="true"><use href="#i-menu"></use></svg>
+  <button class="button-alt is--small menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
+    <span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text">Menu</span></span>
+    <span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-menu"></use></svg></span>
   </button>
 </header>
 <div class="menu" id="menu" data-menu aria-label="Menu" role="dialog" aria-modal="true" hidden>
   <div class="menu__inner">
-    <button class="menu-toggle is--close" type="button" data-menu-close><span class="menu-toggle__text">Close</span><svg class="menu-toggle__icon" aria-hidden="true"><use href="#i-close"></use></svg></button>
+    <button class="button-alt is--small menu-toggle is--close" type="button" data-menu-close><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text">Close</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-close"></use></svg></span></button>
     <ul class="menu__list">
       <li><a class="menu__link" href="./" data-nav="home">Home</a></li>
       <li><a class="menu__link" href="books.html" data-nav="books">All books</a></li>
@@ -98,7 +96,7 @@
 <section class="hero" data-intro-home aria-labelledby="hero-title">
   <div class="hero__bg" data-hero-bg><svg class="hero__shapes" viewBox="0 0 1440 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" data-background-animation><path class="is--pale-yellow" d="M-120 560C-76.7 460 48.3 351.7 140 330C231.7 308.3 338.3 451.7 430 430C521.7 408.3 596.7 226.7 690 200C783.3 173.3 898.3 293.3 990 270C1081.7 246.7 1145 118.3 1240 60C1335 1.7 1506.7 -125 1560 -80C1613.3 -35 1603.3 245 1560 330C1516.7 415 1383.3 386.7 1300 430C1216.7 473.3 1150 571.7 1060 590C970 608.3 850 515 760 540C670 565 605 723.3 520 740C435 756.7 356.7 608.3 250 640C143.3 671.7 -58.3 943.3 -120 930C-181.7 916.7 -163.3 660 -120 560Z"/><path class="is--pale-orange" d="M-120 1040C-400 1016.7 -173.3 936.7 -120 900C-66.7 863.3 116.7 820 200 820C283.3 820 306.7 905 380 900C453.3 895 553.3 793.3 640 790C726.7 786.7 810 878.3 900 880C990 881.7 1070 791.7 1180 800C1290 808.3 1496.7 890 1560 930C1623.3 970 1840 1021.7 1560 1040C1280 1058.3 160 1063.3 -120 1040Z"/><path class="is--orange" d="M-120 1040C-400 996.7 -158.3 845 -120 780C-81.7 715 45 648.3 110 650C175 651.7 216.7 803.3 270 790C323.3 776.7 378.3 581.7 430 570C481.7 558.3 531.7 725 580 720C628.3 715 675 543.3 720 540C765 536.7 805 688.3 850 700C895 711.7 945 598.3 990 610C1035 621.7 1073.3 763.3 1120 770C1166.7 776.7 1196.7 640 1270 650C1343.3 660 1511.7 765 1560 830C1608.3 895 1840 1005 1560 1040C1280 1075 160 1083.3 -120 1040Z"/></svg></div>
   <div class="hero__content">
-    <h1 class="hero__title heading-xxl" id="hero-title" data-hero-title>Stories you can’t <em>put down</em></h1>
+    <h1 class="hero__title heading-xxl" id="hero-title" data-hero-title>Stories you can’t put down</h1>
     <p class="hero__text" data-hero-paragraph>The Bookshelf is a little online bookshop with a big appetite for stories. Hand-picked reads, fair prices and a fresh shelf every month.</p>
     <div data-hero-button><a class="button-alt is--magenta" href="books.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Browse the shelf</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a></div>
   </div>
@@ -112,7 +110,7 @@
 <section class="books" id="new" aria-labelledby="books-title" data-books-slider>
   <div class="books__head">
     <p class="books__note accent-note" data-handwritten-text-inview>Hidden gems and page-turners</p>
-    <h2 class="books__title heading-l" id="books-title">Fresh on the <em>shelf</em></h2>
+    <h2 class="books__title heading-l" id="books-title">Fresh on the shelf</h2>
     <p class="books__text">Ten new reads for <span data-current-month>this month</span>. Drag the shelf, or use the arrows.</p>
   </div>
   <div class="slider-controls" data-books-slider-controls>
@@ -217,7 +215,7 @@
 
 <section class="flow" aria-labelledby="flow-title">
   <div class="flow__head">
-    <h2 class="flow__title heading-l" id="flow-title">How it <em>works</em></h2>
+    <h2 class="flow__title heading-l" id="flow-title">How it works</h2>
     <p class="flow__note accent-note" data-handwritten-text-inview>Easier than choosing what to read next</p>
     <div class="flow__cta" data-plop-in><span class="flow__emblem" data-plop-in-item><svg class="icon" aria-hidden="true"><use href="#i-logo"></use></svg></span><a class="button-alt is--magenta is--small" href="signup.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Create an account</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a></div>
   </div>
@@ -336,7 +334,7 @@
 
 <section class="faq" id="faq" aria-labelledby="faq-title">
   <svg class="faq__shapes" viewBox="0 0 1440 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" data-background-animation data-background-animation-small><path class="is--soft-blue" d="M-80 120C-43.3 58.3 76.7 -30 160 -40C243.3 -50 360 3.3 420 60C480 116.7 530 233.3 520 300C510 366.7 426.7 440 360 460C293.3 480 190 441.7 120 420C50 398.3 -26.7 380 -60 330C-93.3 280 -116.7 181.7 -80 120Z"/><path class="is--soft-blue" d="M900 420C926.7 353.3 1040 310 1120 300C1200 290 1313.3 316.7 1380 360C1446.7 403.3 1513.3 483.3 1520 560C1526.7 636.7 1483.3 770 1420 820C1356.7 870 1216.7 880 1140 860C1063.3 840 1000 773.3 960 700C920 626.7 873.3 486.7 900 420Z"/><path class="is--soft-blue" d="M560 760C606.7 720 703.3 653.3 760 660C816.7 666.7 890 746.7 900 800C910 853.3 870 946.7 820 980C770 1013.3 656.7 1013.3 600 1000C543.3 986.7 486.7 940 480 900C473.3 860 513.3 800 560 760Z"/></svg>
-  <h2 class="faq__title heading-l" id="faq-title">Common <em>questions</em></h2>
+  <h2 class="faq__title heading-l" id="faq-title">Common questions</h2>
   <div class="faq__list">
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">Is the Bookshelf a real shop?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
@@ -365,7 +363,7 @@
   </div>
   <div class="gift__grid">
     <div class="gift__content">
-      <h2 class="gift__title heading-m" id="gift-title">A gift that <em>always fits</em></h2>
+      <h2 class="gift__title heading-m" id="gift-title">A gift that always fits</h2>
       <p class="gift__text">Not sure what they like? Send a gift card and let them pick their own books. No guessing, no spying on their shelves, and they might even lend you one.</p>
       <a class="button-alt is--magenta is--small" href="signup.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Send a gift card</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
       <p class="gift__note accent-note" data-handwritten-text-inview>Wrapped with a ribbon. Naturally.</p>
@@ -382,7 +380,7 @@
 <section class="favs" aria-labelledby="favs-title" data-books-slider data-confetti-rain>
   <div class="favs__head">
     <span class="favs__badge" data-plop-in aria-hidden="true"><svg data-plop-in-item viewBox="0 0 200 200"><defs><path id="favs-ring" d="M100 100m-70 0a70 70 0 1 1 140 0a70 70 0 1 1-140 0"/></defs><circle cx="100" cy="100" r="96" fill="var(--magenta)"/><text><textPath href="#favs-ring">Readers’ choice ✦ Readers’ choice ✦ </textPath></text><path d="M0-10C1-3 3-1 10 0 3 1 1 3 0 10-1 3-3 1-10 0-3-1-1-3 0-10Z" fill="var(--yellow)" transform="translate(100 100) scale(2.4)"/></svg></span>
-    <h2 class="favs__title heading-l" id="favs-title">Readers’ <em>favourites</em></h2>
+    <h2 class="favs__title heading-l" id="favs-title">Readers’ favourites</h2>
     <p class="favs__text">The books readers keep coming back to. Every one of them has been re-read, gifted, underlined or argued about.</p>
   </div>
   <div class="favs__slider" data-books-slider-viewport tabindex="0" role="region" aria-label="Readers’ favourites. Use the arrow keys to browse.">
@@ -420,7 +418,7 @@
 </section>
 
 <section class="spotlight" aria-labelledby="spot-title" data-momentum-hover>
-  <h2 class="spotlight__title heading-l" id="spot-title">Only on the <em>Bookshelf</em></h2>
+  <h2 class="spotlight__title heading-l" id="spot-title">Only on the Bookshelf</h2>
   <p class="spotlight__text">Our pick of the month. Read it slowly, then read it again.</p>
   <div class="spotlight__frame">
     <p class="spotlight__quote is--left accent-note" data-handwritten-text-inview>“Perfect for 2 a.m. thoughts and rainy Sundays.”</p>
@@ -445,7 +443,7 @@
   <div class="footer__inner">
     <div class="footer__top" data-footer-parallax-top>
       <form class="footer__form" data-newsletter novalidate>
-        <h2 class="footer__form-title">Letters from <em>the shelf</em></h2>
+        <h2 class="footer__form-title">Letters from the shelf</h2>
         <p class="footer__text">One email a month: the new books, a few favourites, and nothing else.</p>
         <div class="footer__field">
           <label class="sr-only" for="newsletter-email">Email address</label>
@@ -469,7 +467,7 @@
         </div>
       </nav>
     </div>
-    <p class="footer__wordmark" aria-hidden="true">Book<em>shelf</em></p>
+    <p class="footer__wordmark" aria-hidden="true">Bookshelf</p>
     <div class="footer__bottom" data-footer-parallax-bottom>
       <p>© 2023–2026 The Bookshelf</p>
       <p>Designed and built by <a href="https://github.com/Cl0ud-9">Cloud/9</a></p>

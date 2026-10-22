@@ -11,7 +11,7 @@
 <meta property="og:image" content="https://cl0ud-9.github.io/Book-Website/image/book-10-720.webp">
 <link rel="icon" href="image/logo.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/main.css">
 <script>(function(d){var r=d.documentElement;r.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('is-loading');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)})(document)</script>
 <script src="js/vendor/gsap.min.js" defer></script>
@@ -19,6 +19,7 @@
 <script src="js/vendor/SplitText.min.js" defer></script>
 <script src="js/vendor/CustomEase.min.js" defer></script>
 <script src="js/vendor/InertiaPlugin.min.js" defer></script>
+<script src="js/vendor/DrawSVGPlugin.min.js" defer></script>
 <script src="js/vendor/lenis.min.js" defer></script>
 <script src="js/vendor/barba.umd.min.js" defer></script>
 <script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
@@ -50,18 +51,14 @@
   <symbol id="i-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" /> <path d="M12 22V12" /> <polyline points="3.29 7 12 12 20.71 7" /> <path d="m7.5 4.27 9 5.15" /></symbol>
 </svg>
 <div class="transition" data-transition-wrap aria-hidden="true">
-  <svg class="transition__svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path data-transition-path d="M0 0H100V100Q50 100 0 100Z"/></svg>
-  <div class="transition__brand" data-transition-brand>
-    <svg class="transition__mark" data-transition-mark><use href="#i-logo"></use></svg>
-    <p class="transition__word" data-transition-word>Book<em>shelf</em></p>
-    <p class="transition__caption" data-transition-caption>Hand-picked books since 2023</p>
-  </div>
+  <svg class="transition__svg" viewBox="0 0 1080 1080" preserveAspectRatio="xMidYMid slice"><path d="M60 -80C56.7 -25 16.7 158.3 40 250C63.3 341.7 141.7 466.7 200 470C258.3 473.3 368.3 333.3 390 270C411.7 206.7 301.7 128.3 330 90C358.3 51.7 506.7 0 560 40C613.3 80 671.7 243.3 650 330C628.3 416.7 488.3 481.7 430 560C371.7 638.3 285 726.7 300 800C315 873.3 448.3 1006.7 520 1000C591.7 993.3 700 843.3 730 760C760 676.7 675 558.3 700 500C725 441.7 828.3 390 880 410C931.7 430 998.3 538.3 1010 620C1021.7 701.7 933.3 810 950 900C966.7 990 1083.3 1116.7 1110 1160"/></svg>
+  <div class="transition__logo" data-transition-logo><svg viewBox="0 0 48 48"><use href="#i-logo"></use></svg></div>
 </div>
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="header" data-header data-scrolling-started="false">
   <a class="header__logo" href="./" aria-label="The Bookshelf, home">
     <svg class="header__logo-icon" aria-hidden="true"><use href="#i-logo"></use></svg>
-    <span class="header__logo-text">Book<em>shelf</em></span>
+    <span class="header__logo-text">Bookshelf</span><span class="header__logo-sub" aria-hidden="true">The<br>shop</span>
   </a>
   <nav class="header__nav" aria-label="Main">
     <ul class="header__nav-list">
@@ -74,13 +71,14 @@
   <div class="header__side">
     <a class="header__social" href="https://github.com/Cl0ud-9/Book-Website" aria-label="Source code on GitHub"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg></a>
   </div>
-  <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
-    <span class="menu-toggle__text">Menu</span><svg class="menu-toggle__icon" aria-hidden="true"><use href="#i-menu"></use></svg>
+  <button class="button-alt is--small menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
+    <span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text">Menu</span></span>
+    <span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-menu"></use></svg></span>
   </button>
 </header>
 <div class="menu" id="menu" data-menu aria-label="Menu" role="dialog" aria-modal="true" hidden>
   <div class="menu__inner">
-    <button class="menu-toggle is--close" type="button" data-menu-close><span class="menu-toggle__text">Close</span><svg class="menu-toggle__icon" aria-hidden="true"><use href="#i-close"></use></svg></button>
+    <button class="button-alt is--small menu-toggle is--close" type="button" data-menu-close><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text">Close</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-close"></use></svg></span></button>
     <ul class="menu__list">
       <li><a class="menu__link" href="./" data-nav="home">Home</a></li>
       <li><a class="menu__link" href="books.html" data-nav="books">All books</a></li>
@@ -118,13 +116,13 @@
 </section>
 <section class="book-about" aria-labelledby="about-title">
   <div class="book-about__text">
-    <h2 class="book-about__title heading-m" id="about-title">About the <em>book</em></h2>
+    <h2 class="book-about__title heading-m" id="about-title">About the book</h2>
     <p>Forty-two short poems about water, insomnia and the people we call at midnight. Quiet, funny and bright as moonlight on a lake.</p>
   </div>
   <dl class="book-about__facts"><div><dt><svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg>Format</dt><dd>Paperback</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-layers"></use></svg>Pages</dt><dd>96</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-bookmark"></use></svg>Genre</dt><dd>Poetry</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-globe"></use></svg>Language</dt><dd>English</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-package"></use></svg>Ships</dt><dd>Wrapped, with a bookmark</dd></div></dl>
 </section>
 <section class="book-more" aria-labelledby="more-title">
-  <h2 class="book-more__title heading-l" id="more-title">You might <em>also like</em></h2>
+  <h2 class="book-more__title heading-l" id="more-title">You might also like</h2>
   <div class="catalogue__grid is--three">
 <article class="book-card " id="book-1" style="--card:var(--yellow);--ink:#000" data-search="the lighthouse letters mira kapoor romance historical" data-genres="romance historical" data-books-slider-item>
   <div class="book-card__cover"><img src="image/book-1-360.webp" srcset="image/book-1-180.webp 180w, image/book-1-360.webp 360w, image/book-1-720.webp 720w, image/book-1-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="574" alt="The Lighthouse Letters by Mira Kapoor, book cover" loading="lazy" decoding="async"></div>
@@ -159,7 +157,7 @@
   <div class="footer__inner">
     <div class="footer__top" data-footer-parallax-top>
       <form class="footer__form" data-newsletter novalidate>
-        <h2 class="footer__form-title">Letters from <em>the shelf</em></h2>
+        <h2 class="footer__form-title">Letters from the shelf</h2>
         <p class="footer__text">One email a month: the new books, a few favourites, and nothing else.</p>
         <div class="footer__field">
           <label class="sr-only" for="newsletter-email">Email address</label>
@@ -183,7 +181,7 @@
         </div>
       </nav>
     </div>
-    <p class="footer__wordmark" aria-hidden="true">Book<em>shelf</em></p>
+    <p class="footer__wordmark" aria-hidden="true">Bookshelf</p>
     <div class="footer__bottom" data-footer-parallax-bottom>
       <p>© 2023–2026 The Bookshelf</p>
       <p>Designed and built by <a href="https://github.com/Cl0ud-9">Cloud/9</a></p>

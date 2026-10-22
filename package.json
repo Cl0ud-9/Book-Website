@@ -1,6 +1,6 @@
 {
   "name": "book-website",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "The Bookshelf: an illustrated bookshop site with page transitions and scroll animations (GSAP, Lenis, Barba).",
   "private": true,
   "scripts": {

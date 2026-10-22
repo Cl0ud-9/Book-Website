@@ -16,11 +16,11 @@
 <br>
 
 <p align="center">
-  <img src="docs/img/tour.webp" alt="The opening: the Bookshelf wordmark rolls up on a violet panel, which lifts away on a curve to reveal the home page; then All books, and a click on a book opens its own page" width="640">
+  <img src="docs/img/tour.webp" alt="The opening: a fat violet squiggle covers the screen, the logo springs in, and the squiggle slithers away to reveal the home page; then All books, and a click on a book opens its own page" width="640">
 </p>
 
-The Bookshelf is an imaginary bookshop with a loud, warm personality: heavy type with a serif italic twist, colour
-cards, stickers and motion everywhere you look. It began as a Web Technology course project and was rebuilt from
+The Bookshelf is an imaginary bookshop with a loud, warm personality: heavy type, handwritten notes, colour cards,
+stickers and motion everywhere you look. It began as a Web Technology course project and was rebuilt from
 scratch in version 2. Every book, cover and illustration on it was made for the site.
 
 | Page | What it does |
@@ -34,19 +34,22 @@ scratch in version 2. Every book, cover and illustration on it was made for the 
 
 <p align="center">
   <img src="docs/img/shelf.jpg" alt="The new books shelf: colourful cards with illustrated covers, each tilted a little differently" width="49%">
-  <img src="docs/img/genres.jpg" alt="The genre list: Fantasy under the pointer turns to serif italic while four covers pop out around it" width="49%">
+  <img src="docs/img/genres.jpg" alt="The genre list: Fantasy under the pointer turns handwritten while four covers pop out around it" width="49%">
 </p>
 
-- **Page transitions.** A violet panel rises with its top edge bulging, the wordmark rolls up letter by letter, the
-  next page loads behind it, and the panel lifts away with its edge trailing. Pages swap without a full reload
-  (Barba), and the back button works.
-- **Type with a twist.** Heavy Rubik headings with one word set in Instrument Serif italic. Headings stretch in word by
-  word with an elastic snap, italic notes tumble in letter by letter, and button letters dip and spring back.
+- **Page transitions.** A fat violet squiggle draws itself across the screen, the logo springs in, the next page
+  loads behind it, and the squiggle slithers off again (Barba, DrawSVG). It is scaled evenly and cropped, so its ends
+  stay round on any screen shape. Going back or forward swaps the page at once: phones already animate those moves
+  with their own gesture, and a squiggle on top would play after the page had appeared.
+- **Type.** Three roles, as on the site that inspired the design: heavy headings (Rubik 900), clean text (Figtree)
+  and handwritten notes (Gochi Hand), each the closest free match to the original's font by measured overlap.
+  Headings stretch in word by word with an elastic snap, notes tumble in letter by letter, and button letters dip and
+  spring back.
 - **A shelf you can throw.** Cards tilt and dip the further they are from the middle as you drag (Smooothy), with
   arrow buttons and arrow keys too.
 - **A book that opens as you scroll.** It turns to face you, the cover swings open, three pages flip, and you fall
   into the page where the headline is waiting. All of it is CSS 3D, driven by the scroll position (ScrollTrigger).
-- **Genres with covers.** The genre under the pointer swaps to serif italic, its neighbours make room, and four
+- **Genres with covers.** The genre under the pointer swaps to handwriting, its neighbours make room, and four
   covers pop out around it and drift with the pointer.
 - **Books you can open.** Each book page has a 3D copy that follows the pointer, and Add to bag answers with a burst
   of confetti.
@@ -73,7 +76,7 @@ scratch in version 2. Every book, cover and illustration on it was made for the 
   covers that follow keyboard focus, a phone menu that keeps focus inside and closes with Escape, and animated text
   that is still read out as whole sentences.
 - **Fast anyway.** Fonts and libraries are served with the site, so it makes no requests to other servers. The three
-  fonts are cut down to the characters used (77 KB together) and the covers are WebP in four widths. Lighthouse on
+  fonts are cut down to the characters used (50 KB together) and the covers are WebP in four widths. Lighthouse on
   a phone, on the live site:
 
   | Page | Performance | Accessibility | Best practices | SEO | Downloads |
@@ -98,6 +101,13 @@ links load the next page normally instead of playing the transition.
 An unfinished port of the original site to Angular, from the same course, is kept on the
 [`angular-port`](https://github.com/Cl0ud-9/Book-Website/tree/angular-port/angular) branch.
 
+## Using the original fonts
+
+The design follows a site set in Champ, Degular and Hello Organichand. Those are paid fonts, licensed to that site,
+so this repository uses the closest free fonts instead. With your own licence, put the font files in `fonts/` and point
+the three `@font-face` rules at the top of `css/main.css` at them; the rest of the site uses `--font-heading`,
+`--font-body` and `--font-hand` and needs no other change.
+
 ## Changing the books
 
 The pages are generated from one list, so a book's title, price, genres and colour are written once.
@@ -109,8 +119,8 @@ python tools/check.py      # with npm start running: uses the site like a visito
 ```
 
 `tools/check.py` drags the shelf, hovers the genres, opens the questions, sends the forms (including one with HTML in
-it), follows a genre link into the catalogue, searches it, opens a book and adds it to the bag, and checks the phone
-menu, reduced motion and the site without JavaScript.
+it), follows a genre link into the catalogue, searches it, opens a book and adds it to the bag, goes back, and checks
+the phone menu, that no page is ever wider than a 320 px phone, reduced motion and the site without JavaScript.
 
 ## How it is published
 
@@ -134,7 +144,7 @@ css/main.css        every style: tokens, the fluid type scale, components and se
 js/app.js           transitions, smooth scrolling and every animation, one function per effect
 js/forms.js         checks the log-in, sign-up and newsletter forms
 js/vendor/          GSAP, Lenis, Barba and Smooothy, unchanged (licences in LICENSES.md)
-fonts/              Rubik, Instrument Sans and Instrument Serif italic, Latin subset
+fonts/              Rubik (headings), Figtree (text) and Gochi Hand (notes), Latin subset
 image/              covers (book-N-180/360/720/1080.webp) and the logo
 tools/              page generator, cover renderer (with its own fonts), icons and the browser check
 server.js           optional local server (npm start)

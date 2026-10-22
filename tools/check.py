@@ -135,6 +135,13 @@ with sync_playwright() as p:
     ok(page.locator(".book-more .book-card").count() == 3, "three related books")
     page.screenshot(path=f"{OUT}/book.png")
 
+    # back: phones animate history moves themselves, so the page must appear at once with no squiggle over it
+    page.go_back()
+    page.wait_for_timeout(350)
+    ok(page.url.split("?")[0].endswith("books.html"), f"back returns to the catalogue ({page.url})")
+    covered = page.evaluate("getComputedStyle(document.querySelector('[data-transition-logo]')).opacity !== '0'")
+    ok(page.locator("#search-box").is_visible() and not covered, "going back shows the page at once, no transition")
+
     # to sign-up and the form
     page.evaluate("window.scrollTo(0,0)")
     page.wait_for_timeout(600)
@@ -174,6 +181,18 @@ with sync_playwright() as p:
     ok(wide <= 390, f"no sideways scrolling on phones ({wide}px)")
     print("phone console:", errors or "clean")
     page.close()
+
+    # ---- the smallest phones: nothing may make any page wider than the screen, even while it animates in
+    for path in ("", "books.html", "book-paper-moons.html", "signup.html"):
+        page = browser.new_page(viewport={"width": 320, "height": 700}, is_mobile=True, has_touch=True)
+        page.goto(BASE + path, wait_until="domcontentloaded")
+        widths = []
+        for _ in range(20):
+            page.wait_for_timeout(200)
+            widths.append(page.evaluate("innerWidth"))
+            page.mouse.wheel(0, 400)
+        ok(max(widths) == 320, f"/{path or 'index'} stays 320 px wide on a small phone (widest {max(widths)})")
+        page.close()
 
     # ---- reduced motion: everything visible straight away
     ctx = browser.new_context(viewport={"width": 1440, "height": 900}, reduced_motion="reduce")

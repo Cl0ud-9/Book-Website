@@ -1,5 +1,5 @@
 /* The Bookshelf: page transitions, smooth scrolling and every animation on the site.
-   Built on GSAP (with ScrollTrigger, SplitText, CustomEase and Inertia), Lenis, Barba and Smooothy.
+   Built on GSAP (with ScrollTrigger, SplitText, CustomEase, Inertia and DrawSVG), Lenis, Barba and Smooothy.
    Each page's effects are created inside a gsap.context, so leaving a page reverts all of them in one call. */
 (() => {
   "use strict";
@@ -21,7 +21,7 @@
   }
 
   const { gsap, ScrollTrigger, SplitText, CustomEase } = window;
-  gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase, window.InertiaPlugin);
+  gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase, window.InertiaPlugin, window.DrawSVGPlugin);
   history.scrollRestoration = "manual";
 
   CustomEase.create("smooth", "0.625, 0.05, 0, 1");
@@ -32,10 +32,8 @@
   const ELASTIC_SOFT = "elastic.out(1, 0.75)";
   const header = document.querySelector("[data-header]");
   const transition = document.querySelector("[data-transition-wrap]");
-  const panel = transition.querySelector("[data-transition-path]");
-  const brandMark = transition.querySelector("[data-transition-mark]");
-  const brandWord = transition.querySelector("[data-transition-word]");
-  const brandCaption = transition.querySelector("[data-transition-caption]");
+  const snake = transition.querySelector("path");
+  const transitionLogo = transition.querySelector("[data-transition-logo]");
 
   /* ---------------- Smooth scrolling ---------------- */
 
@@ -229,46 +227,33 @@
     };
   }
 
-  /* The transition: a violet panel. Leaving, it rises from the bottom with its top edge bulging up; arriving, it
-     lifts away with its bottom edge hanging behind. The wordmark rolls up letter by letter in the middle. */
-  const edge = { y: 100, bend: 0, side: "bottom" };
-  function drawPanel() {
-    const { y, bend } = edge;
-    panel.setAttribute("d", edge.side === "bottom"
-      ? `M0 0H100V${y}Q50 ${y + bend} 0 ${y}Z`
-      : `M0 ${y}Q50 ${y - bend} 100 ${y}V100H0Z`);
+  /* The transition: one fat violet squiggle. Leaving, it draws itself across the screen and swells until nothing
+     shows through, and the logo springs in; arriving, the logo springs out and the squiggle slithers away from its
+     start, thinning as it goes. */
+  const COVER = "100%"; // wide enough that no corner of any screen shows through
+  function showLogo(tl, at, delay = 0.05) {
+    tl.fromTo(transitionLogo, { scale: 0, rotate: -64, autoAlpha: 0 },
+      { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.65, ease: ELASTIC }, at + delay);
   }
-  const wordChars = window.SplitText ? SplitText.create(brandWord, { type: "chars", charsClass: "split-char", aria: "none" }).chars : [];
-  gsap.set(wordChars, { display: "inline-block" });
-
-  function brandIn(tl, at) {
-    tl.set(brandWord, { autoAlpha: 1 }, at)
-      .fromTo(wordChars, { yPercent: 115 }, { yPercent: 0, duration: 0.8, ease: "power4.out", stagger: 0.035 }, at)
-      .fromTo(brandMark, { scale: 0.4, rotate: -25, autoAlpha: 0 }, { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.9, ease: ELASTIC }, at + 0.05)
-      .fromTo(brandCaption, { y: "1em", autoAlpha: 0 }, { y: 0, autoAlpha: 0.75, duration: 0.6, ease: "power3.out" }, at + 0.35);
+  function hideLogo(tl, at, delay = 0.5) {
+    tl.to(transitionLogo, { scale: 0, rotate: 64, autoAlpha: 0, duration: 0.6, ease: "elastic.in(1, 0.72)" }, at + delay);
   }
-  function brandOut(tl, at) {
-    tl.to(wordChars, { yPercent: -115, duration: 0.5, ease: "power3.in", stagger: 0.02 }, at)
-      .to([brandMark, brandCaption], { autoAlpha: 0, y: "-0.6em", duration: 0.35, ease: "power2.in" }, at + 0.1)
-      .to(brandWord, { autoAlpha: 0, duration: 0.2 }, at + 0.35);
+  function uncover(tl, at, delay) {
+    tl.fromTo(snake, { drawSVG: "0% 100%", strokeWidth: COVER }, {
+      keyframes: { "95%": { strokeWidth: "8%", ease: "circ.out" }, "100%": { drawSVG: "100% 100%" } },
+      duration: 1.25,
+    }, at + delay);
   }
-  function liftAway(tl, at) {
-    tl.add(() => { edge.side = "bottom"; edge.y = 100; edge.bend = 0; drawPanel(); }, at)
-      .to(edge, { y: 0, duration: 1, ease: "power3.inOut", onUpdate: drawPanel }, at)
-      .to(edge, { keyframes: [{ bend: 22, duration: 0.5, ease: "power2.in" }, { bend: 0, duration: 0.5, ease: "power2.out" }], onUpdate: drawPanel }, at);
-  }
-  function coverUp(tl, at) {
-    tl.add(() => { edge.side = "top"; edge.y = 100; edge.bend = 0; drawPanel(); }, at)
-      .to(edge, { y: 0, duration: 0.85, ease: "power3.inOut", onUpdate: drawPanel }, at)
-      .to(edge, { keyframes: [{ bend: 22, duration: 0.42, ease: "power2.in" }, { bend: 0, duration: 0.43, ease: "power2.out" }], onUpdate: drawPanel }, at);
-  }
-  function panelGone() {
-    edge.side = "bottom"; edge.y = 0; edge.bend = 0; drawPanel();
+  function hideSnake() {
+    gsap.set(snake, { drawSVG: "0% 0%" });
+    gsap.set(transitionLogo, { autoAlpha: 0 });
   }
 
   function runOnce(container) {
+    gsap.set(snake, { drawSVG: "0% 100%", strokeWidth: COVER });
+    gsap.set(transitionLogo, { scale: 0, rotate: -64, autoAlpha: 0 });
     if (reducedMotion()) {
-      panelGone();
+      hideSnake();
       root.classList.remove("is-loading");
       return Promise.resolve();
     }
@@ -277,32 +262,45 @@
     root.classList.add("is-ready");
     root.classList.remove("is-loading");
     const tl = gsap.timeline();
-    brandIn(tl, 0.05);
-    brandOut(tl, 0.95);
-    liftAway(tl, 1.15);
-    tl.to(header, { yPercent: 0, duration: 0.6, ease: "power3.out" }, 1.8);
-    play(tl, 1.4);
+    uncover(tl, 0, 0.65);
+    showLogo(tl, 0);
+    hideLogo(tl, 0);
+    tl.to(header, { yPercent: 0, duration: 0.5, ease: "energy" }, 1.6);
+    play(tl, 1.1);
     return tl.then();
   }
 
-  function runLeave() {
-    if (reducedMotion()) return Promise.resolve();
+  // Back and forward: phones already slide the previous page in with their own gesture animation, so a squiggle on
+  // top would play after the page is visible. History moves swap the page at once and only the text animates in.
+  const fromHistory = (trigger) => typeof trigger === "string" && trigger !== "barba";
+
+  function runLeave(trigger) {
+    if (reducedMotion() || fromHistory(trigger)) return Promise.resolve();
     const tl = gsap.timeline();
-    coverUp(tl, 0);
-    brandIn(tl, 0.45);
+    gsap.set(snake, { strokeWidth: "8%", drawSVG: "0% 0%" });
+    tl.to(snake, {
+      keyframes: { "15%": { strokeWidth: "8%" }, "90%": { drawSVG: "0% 100%" }, "100%": { strokeWidth: COVER } },
+      duration: 1.25,
+    }, 0);
+    showLogo(tl, 0, 0.5);
     return tl.then();
   }
 
-  function runEnter(container) {
+  function runEnter(container, trigger) {
     if (reducedMotion()) {
-      panelGone();
+      hideSnake();
       return Promise.resolve();
     }
     const play = pageIntro(container);
     const tl = gsap.timeline();
-    brandOut(tl, 0);
-    liftAway(tl, 0.2);
-    play(tl, 0.5);
+    if (fromHistory(trigger)) {
+      hideSnake();
+      play(tl, 0);
+      return tl.then();
+    }
+    hideLogo(tl, 0, 0.1);
+    uncover(tl, 0, 0.1);
+    play(tl, 0.45);
     return tl.then();
   }
 
@@ -944,15 +942,15 @@
     preventRunning: true,
     prevent: ({ el }) => el.hasAttribute("download") || el.target === "_blank",
     transitions: [{
-      name: "panel",
+      name: "snake",
       once: () => start(),
-      leave: () => { lenis?.stop(); closeMenu(); return runLeave(); },
+      leave: ({ trigger }) => { lenis?.stop(); closeMenu(); return runLeave(trigger); },
       afterLeave: ({ current }) => { destroyPage(); current.container.remove(); },
       beforeEnter: ({ next }) => {
         scrollToTop();
         initPage(next.container);
       },
-      enter: ({ next }) => runEnter(next.container),
+      enter: ({ next, trigger }) => runEnter(next.container, trigger),
       afterEnter: () => { lenis?.start(); afterEnter(); },
     }],
   });

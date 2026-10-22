@@ -151,14 +151,11 @@ SPRITE = ("""<svg xmlns="http://www.w3.org/2000/svg" hidden>
   <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></symbol>
 """ + "\n".join(lucide_symbol(k, v) for k, v in ICONS.items()) + "\n</svg>")
 
-# A full-screen panel whose edge bends as it lifts away, with the wordmark in the middle
-TRANSITION = """<div class="transition" data-transition-wrap aria-hidden="true">
-  <svg class="transition__svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path data-transition-path d="M0 0H100V100Q50 100 0 100Z"/></svg>
-  <div class="transition__brand" data-transition-brand>
-    <svg class="transition__mark" data-transition-mark><use href="#i-logo"></use></svg>
-    <p class="transition__word" data-transition-word>Book<em>shelf</em></p>
-    <p class="transition__caption" data-transition-caption>Hand-picked books since 2023</p>
-  </div>
+# One fat squiggle that, drawn in full, covers the screen. "slice" scales it evenly and crops it, so its round ends stay
+# round on any screen shape instead of being squashed into points on a tall phone.
+TRANSITION = f"""<div class="transition" data-transition-wrap aria-hidden="true">
+  <svg class="transition__svg" viewBox="0 0 1080 1080" preserveAspectRatio="xMidYMid slice"><path d="{shapes.SNAKE}"/></svg>
+  <div class="transition__logo" data-transition-logo><svg viewBox="0 0 48 48"><use href="#i-logo"></use></svg></div>
 </div>"""
 
 
@@ -171,7 +168,7 @@ HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
 <header class="header" data-header data-scrolling-started="false">
   <a class="header__logo" href="./" aria-label="The Bookshelf, home">
     <svg class="header__logo-icon" aria-hidden="true"><use href="#i-logo"></use></svg>
-    <span class="header__logo-text">Book<em>shelf</em></span>
+    <span class="header__logo-text">Bookshelf</span><span class="header__logo-sub" aria-hidden="true">The<br>shop</span>
   </a>
   <nav class="header__nav" aria-label="Main">
     <ul class="header__nav-list">
@@ -184,13 +181,14 @@ HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
   <div class="header__side">
     <a class="header__social" href="https://github.com/Cl0ud-9/Book-Website" aria-label="Source code on GitHub">{icon("github")}</a>
   </div>
-  <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
-    <span class="menu-toggle__text">Menu</span>{icon("menu", "menu-toggle__icon")}
+  <button class="button-alt is--small menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
+    <span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text">Menu</span></span>
+    <span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span>{icon("menu", "button-alt__icon")}</span>
   </button>
 </header>
 <div class="menu" id="menu" data-menu aria-label="Menu" role="dialog" aria-modal="true" hidden>
   <div class="menu__inner">
-    <button class="menu-toggle is--close" type="button" data-menu-close><span class="menu-toggle__text">Close</span>{icon("close", "menu-toggle__icon")}</button>
+    <button class="button-alt is--small menu-toggle is--close" type="button" data-menu-close><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text">Close</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span>{icon("close", "button-alt__icon")}</span></button>
     <ul class="menu__list">
       <li><a class="menu__link" href="./" data-nav="home">Home</a></li>
       <li><a class="menu__link" href="books.html" data-nav="books">All books</a></li>
@@ -211,7 +209,7 @@ def footer():
   <div class="footer__inner">
     <div class="footer__top" data-footer-parallax-top>
       <form class="footer__form" data-newsletter novalidate>
-        <h2 class="footer__form-title">Letters from <em>the shelf</em></h2>
+        <h2 class="footer__form-title">Letters from the shelf</h2>
         <p class="footer__text">One email a month: the new books, a few favourites, and nothing else.</p>
         <div class="footer__field">
           <label class="sr-only" for="newsletter-email">Email address</label>
@@ -235,7 +233,7 @@ def footer():
         </div>
       </nav>
     </div>
-    <p class="footer__wordmark" aria-hidden="true">Book<em>shelf</em></p>
+    <p class="footer__wordmark" aria-hidden="true">Bookshelf</p>
     <div class="footer__bottom" data-footer-parallax-bottom>
       <p>© 2023–2026 The Bookshelf</p>
       <p>Designed and built by <a href="https://github.com/Cl0ud-9">Cloud/9</a></p>
@@ -247,7 +245,7 @@ def footer():
 
 # Served with the site: no requests to other servers. Licences are listed in NOTICE and js/vendor/LICENSES.md.
 SCRIPTS = [f"js/vendor/{name}.js" for name in (
-    "gsap.min", "ScrollTrigger.min", "SplitText.min", "CustomEase.min", "InertiaPlugin.min",
+    "gsap.min", "ScrollTrigger.min", "SplitText.min", "CustomEase.min", "InertiaPlugin.min", "DrawSVGPlugin.min",
     "lenis.min", "barba.umd.min", "barba-prefetch.umd.min", "smooothy.min")]
 
 # Hides what the intro animates in, and gives up after 4 s if the scripts never arrive
@@ -271,7 +269,7 @@ def page(name, title, description, body, theme="yellow", image=8):
 <meta property="og:image" content="https://cl0ud-9.github.io/Book-Website/image/book-{image}-720.webp">
 <link rel="icon" href="image/logo.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/main.css">
 {BOOT}
 {scripts}
@@ -354,13 +352,13 @@ def book_page(i):
 </section>
 <section class="book-about" aria-labelledby="about-title">
   <div class="book-about__text">
-    <h2 class="book-about__title heading-m" id="about-title">About the <em>book</em></h2>
+    <h2 class="book-about__title heading-m" id="about-title">About the book</h2>
     <p>{e(desc)}</p>
   </div>
   <dl class="book-about__facts">{dl}</dl>
 </section>
 <section class="book-more" aria-labelledby="more-title">
-  <h2 class="book-more__title heading-l" id="more-title">You might <em>also like</em></h2>
+  <h2 class="book-more__title heading-l" id="more-title">You might also like</h2>
   <div class="catalogue__grid is--three">
 {more}
   </div>
@@ -432,7 +430,7 @@ def home():
     return f"""<section class="hero" data-intro-home aria-labelledby="hero-title">
   <div class="hero__bg" data-hero-bg>{bg_svg([("is--pale-yellow", shapes.HERO_BAND), ("is--pale-orange", shapes.HERO_RIDGE), ("is--orange", shapes.HERO_HILLS)], "hero__shapes", "0 0 1440 1000")}</div>
   <div class="hero__content">
-    <h1 class="hero__title heading-xxl" id="hero-title" data-hero-title>Stories you can’t <em>put down</em></h1>
+    <h1 class="hero__title heading-xxl" id="hero-title" data-hero-title>Stories you can’t put down</h1>
     <p class="hero__text" data-hero-paragraph>The Bookshelf is a little online bookshop with a big appetite for stories. Hand-picked reads, fair prices and a fresh shelf every month.</p>
     <div data-hero-button>{button_alt("books.html", "Browse the shelf")}</div>
   </div>
@@ -446,7 +444,7 @@ def home():
 <section class="books" id="new" aria-labelledby="books-title" data-books-slider>
   <div class="books__head">
     <p class="books__note accent-note" data-handwritten-text-inview>Hidden gems and page-turners</p>
-    <h2 class="books__title heading-l" id="books-title">Fresh on the <em>shelf</em></h2>
+    <h2 class="books__title heading-l" id="books-title">Fresh on the shelf</h2>
     <p class="books__text">Ten new reads for <span data-current-month>this month</span>. Drag the shelf, or use the arrows.</p>
   </div>
   <div class="slider-controls" data-books-slider-controls>
@@ -462,7 +460,7 @@ def home():
 
 <section class="flow" aria-labelledby="flow-title">
   <div class="flow__head">
-    <h2 class="flow__title heading-l" id="flow-title">How it <em>works</em></h2>
+    <h2 class="flow__title heading-l" id="flow-title">How it works</h2>
     <p class="flow__note accent-note" data-handwritten-text-inview>Easier than choosing what to read next</p>
     <div class="flow__cta" data-plop-in><span class="flow__emblem" data-plop-in-item>{icon("logo")}</span>{button_alt("signup.html", "Create an account", size="small")}</div>
   </div>
@@ -531,7 +529,7 @@ def home():
 
 <section class="faq" id="faq" aria-labelledby="faq-title">
   {bg_svg([("is--soft-blue", shapes.BLOB_A), ("is--soft-blue", shapes.BLOB_B), ("is--soft-blue", shapes.BLOB_C)], "faq__shapes", "0 0 1440 1000", small=True)}
-  <h2 class="faq__title heading-l" id="faq-title">Common <em>questions</em></h2>
+  <h2 class="faq__title heading-l" id="faq-title">Common questions</h2>
   <div class="faq__list">
 {faq}
   </div>
@@ -545,7 +543,7 @@ def home():
   </div>
   <div class="gift__grid">
     <div class="gift__content">
-      <h2 class="gift__title heading-m" id="gift-title">A gift that <em>always fits</em></h2>
+      <h2 class="gift__title heading-m" id="gift-title">A gift that always fits</h2>
       <p class="gift__text">Not sure what they like? Send a gift card and let them pick their own books. No guessing, no spying on their shelves, and they might even lend you one.</p>
       {button_alt("signup.html", "Send a gift card", size="small")}
       <p class="gift__note accent-note" data-handwritten-text-inview>Wrapped with a ribbon. Naturally.</p>
@@ -562,7 +560,7 @@ def home():
 <section class="favs" aria-labelledby="favs-title" data-books-slider data-confetti-rain>
   <div class="favs__head">
     <span class="favs__badge" data-plop-in aria-hidden="true"><svg data-plop-in-item viewBox="0 0 200 200"><defs><path id="favs-ring" d="M100 100m-70 0a70 70 0 1 1 140 0a70 70 0 1 1-140 0"/></defs><circle cx="100" cy="100" r="96" fill="var(--magenta)"/><text><textPath href="#favs-ring">Readers’ choice ✦ Readers’ choice ✦ </textPath></text><path d="{sparkle_path()}" fill="var(--yellow)" transform="translate(100 100) scale(2.4)"/></svg></span>
-    <h2 class="favs__title heading-l" id="favs-title">Readers’ <em>favourites</em></h2>
+    <h2 class="favs__title heading-l" id="favs-title">Readers’ favourites</h2>
     <p class="favs__text">The books readers keep coming back to. Every one of them has been re-read, gifted, underlined or argued about.</p>
   </div>
   <div class="favs__slider" data-books-slider-viewport tabindex="0" role="region" aria-label="Readers’ favourites. Use the arrow keys to browse.">
@@ -577,7 +575,7 @@ def home():
 </section>
 
 <section class="spotlight" aria-labelledby="spot-title" data-momentum-hover>
-  <h2 class="spotlight__title heading-l" id="spot-title">Only on the <em>Bookshelf</em></h2>
+  <h2 class="spotlight__title heading-l" id="spot-title">Only on the Bookshelf</h2>
   <p class="spotlight__text">Our pick of the month. Read it slowly, then read it again.</p>
   <div class="spotlight__frame">
     <p class="spotlight__quote is--left accent-note" data-handwritten-text-inview>“Perfect for 2 a.m. thoughts and rainy Sundays.”</p>
@@ -620,7 +618,7 @@ def books_page():
                     for g in sorted({g for b in BOOKS for g in b[4]}))
     return f"""<section class="hero-xs is--pale-blue" data-intro-page aria-labelledby="page-title">
   {bg_svg([("is--soft-blue", shapes.BLOB_A), ("is--soft-blue", shapes.BLOB_B)], "hero-xs__shapes", "0 0 1440 1000", small=True)}
-  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>All <em>books</em></h1>
+  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>All books</h1>
   <p class="hero-xs__text" data-hero-paragraph>The whole shelf in one place. Search by title, author or genre.</p>
   <p class="hero-xs__note accent-note" data-hero-handwritten-text>Go on, pick three</p>
 </section>
@@ -652,7 +650,7 @@ def field(fid, label, ftype, autocomplete, hint="", extra=""):
 def form_page(kind):
     if kind == "login":
         fields = field("username", "Username", "text", "username") + field("password", "Password", "password", "current-password")
-        title, text, note, cta = "Welcome <em>back</em>", "Log in to pick up where you left off.", "We saved your spot", "Log in"
+        title, text, note, cta = "Welcome back", "Log in to pick up where you left off.", "We saved your spot", "Log in"
         switch = 'New here? <a href="signup.html">Create an account</a>'
         colour = "pale-pink"
     else:
@@ -660,7 +658,7 @@ def form_page(kind):
                   + field("password", "Password", "password", "new-password", "(at least 6 characters)")
                   + field("confirm", "Confirm password", "password", "new-password")
                   + field("contact", "Contact number", "tel", "tel-national", "(10 digits)", 'inputmode="numeric" maxlength="10"'))
-        title, text, note, cta = "Join the <em>Bookshelf</em>", "One account for your shelf, your wish list and your gift cards.", "It takes a minute", "Sign up"
+        title, text, note, cta = "Join the Bookshelf", "One account for your shelf, your wish list and your gift cards.", "It takes a minute", "Sign up"
         switch = 'Already have an account? <a href="login.html">Log in</a>'
         colour = "pale-periwinkle"
     return f"""<section class="hero-xs is--{colour} is--form" data-intro-page aria-labelledby="page-title">
@@ -690,7 +688,7 @@ NOT_FOUND = """<!DOCTYPE html>
 <body class="not-found">
 <main class="hero-xs is--yellow is--404">
   <p class="not-found__code" aria-hidden="true">404</p>
-  <h1 class="hero-xs__title heading-l">This page <em>wandered off</em></h1>
+  <h1 class="hero-xs__title heading-l">This page wandered off</h1>
   <p class="hero-xs__text">There is no book on this shelf. It may have been borrowed, or the address is wrong.</p>
   <a class="button-alt is--magenta" href="/Book-Website/"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text">Back to the shelf</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" viewBox="0 0 24 24"><path d="M4 12h15m-6-6.5L19.5 12 13 18.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
 </main>

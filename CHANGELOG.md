@@ -5,6 +5,26 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [2.2.0] - 2026-10-22
+
+### Changed
+
+- The squiggle transition is back, in place of the panel. It now scales evenly and crops instead of stretching to
+  the screen, so its ends stay round on a tall phone, and it starts wide enough to cover every corner.
+- Type follows the site that inspired the design, role for role: Rubik 900 for headings, Figtree for text and
+  Gochi Hand for the handwritten notes, the closest free matches to its fonts by measured overlap. The serif italic
+  is gone, headings are plain again, and the logo is "Bookshelf" with "The shop" beside it.
+- The phone Menu button is a split button, a text block and a square icon block, like the other buttons.
+
+### Fixed
+
+- Going back or forward on a phone showed the page and then played the transition over it, because phones already
+  slide the previous page in with their back gesture. History moves now swap the page at once.
+- The page could be wider than a phone screen: the footer's bottom row overshot its edges, and the logo and Menu
+  button did not fit beside each other below about 420 px. Nothing can widen the page now, even while animating.
+- The footer wordmark was cut off at the right edge.
+- Words in the curved tagline ran together at its bends on phones.
+
 ## [2.1.0] - 2026-10-22
 
 A cleaner, more finished pass, and every book can now be opened. On the live site every page scores 100 for
