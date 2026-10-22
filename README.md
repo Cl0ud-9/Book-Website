@@ -27,9 +27,11 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
 | Page | What it does |
 |---|---|
 | [Home](https://cl0ud-9.github.io/Book-Website/) | Where to start, on a draggable shelf; the books you are reading; how it works; a book that opens as you scroll; eleven genres; questions; the book of the month. |
-| [All books](https://cl0ud-9.github.io/Book-Website/books.html) | All 144 books, searchable by title, author or genre (accents optional), with genre chips. Genre links on the home page open it already filtered. |
+| [All books](https://cl0ud-9.github.io/Book-Website/books.html) | All 144 books, most read first, searchable by title, author or genre (accents optional), with genre chips and sorting by title or length. Genre links on the home page open it already filtered. |
+| [Genres](https://cl0ud-9.github.io/Book-Website/genres.html) | A shelf for each of the eleven genres, its most read books first, to scroll or drag sideways. |
+| [Questions](https://cl0ud-9.github.io/Book-Website/faq.html) | Every question, by topic, with a list of topics that follows you down the page and marks the one you are reading. |
 | [A book](https://cl0ud-9.github.io/Book-Website/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description and details, Read now, the EPUB download, Kindle and Kobo editions, and three related books. |
-| [The reader](https://cl0ud-9.github.io/Book-Website/read.html?book=pride-and-prejudice) | The book itself, in the page: pages to turn on a laptop and a long scroll on a phone, contents, text size, three page colours and three fonts. It remembers your place. |
+| [The reader](https://cl0ud-9.github.io/Book-Website/read.html?book=pride-and-prejudice) | The book itself, in the page: its cover swings open, then pages turn on a laptop and scroll on a phone, with contents, text size, three page colours and three fonts. It remembers your place. |
 | [Log in](https://cl0ud-9.github.io/Book-Website/login.html) and [Sign up](https://cl0ud-9.github.io/Book-Website/signup.html) | Forms checked in the browser, with an error beside each field. |
 
 ## The details
@@ -50,9 +52,13 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
 - **A real library.** The books are Standard Ebooks editions: carefully proofread, beautifully typeset and released
   into the public domain, with covers made from public-domain paintings. Every one is also out of copyright in India
   (where copyright runs for the author's life plus 60 years), so authors such as Agatha Christie are left out.
-- **A reader in the page.** epub.js shows the book itself: turn pages with the arrows, the keys or a swipe, jump
-  through the contents, and pick the text size, page colour and font. Your place is kept on your device, so the book
-  page offers to continue and the home page lists what you are reading. Its scripts load only when a book is opened.
+- **A reader in the page.** epub.js shows the book itself. It opens with the book's own cover, which swings open on
+  the desk. On a wide screen the book lies open on two facing pages with a spine between them, and each turn lifts a
+  leaf across the spine; on a phone the whole screen is the page, and the bars slip away while you read on and come
+  back when you scroll up or tap. Turn pages with the arrows, the keys or a swipe, jump through the contents (which
+  marks the chapter you are in), and pick the text size, page colour and font. Your place is kept on your device, so
+  the book page offers to continue and the home page lists what you are reading. Its scripts load only when a book
+  is opened.
 - **A shelf you can throw.** Cards tilt and dip the further they are from the middle as you drag (Smooothy), with
   arrow buttons, arrow keys and a sideways trackpad swipe too.
 - **A book that opens as you scroll.** It turns to face you, the cover swings open, three pages flip, and you fall
@@ -72,7 +78,7 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
 </p>
 
 <p align="center">
-  <img src="docs/img/reader.jpg" alt="The reader: Pride and Prejudice open on two facing pages, with the contents, text settings and progress" width="640">
+  <img src="docs/img/reader.jpg" alt="The reader: Pride and Prejudice lying open on the desk at chapter one, two facing pages with a spine between them" width="640">
 </p>
 
 <p align="center">
@@ -135,6 +141,15 @@ The shelf is one list, `CATALOGUE` in `tools/library.py`: a Standard Ebooks edit
 script fetches each book's details, cover and EPUB (slowly, and only once: they are cached), and the build writes every
 page from what it fetched. What the home page features is `FEATURED` in `tools/build.py`.
 
+**How the books are ranked.** Standard Ebooks lists its whole catalogue by how often each book is downloaded there;
+the library script records each book's place in that list (`popularity`), and the site orders by it: All books,
+every genre shelf and Where to start (the top ten) show the most read first, and Not sure where to begin? offers the
+most read book of each mood. `python tools/library.py --refresh-popularity` fetches the list again.
+
+**The book of the month** comes from the twelve most read books whose first line the library script could take from
+the EPUB, one each month in turn, so a year shows all twelve. It opens with that real first line. The site is rebuilt on the first of every month, so
+the pick changes by itself. The hero, the open book and the gift are chosen by hand, for how their covers look.
+
 ```bash
 python tools/library.py    # fetches new books into library/books.json, image/covers/ and books/ (needs Pillow)
 python tools/build.py      # rewrites every page, including one per book
@@ -145,16 +160,18 @@ python tools/fonts.py      # rebuilds the three fonts from their sources (needs 
 ```
 
 `tools/check.py` drags the shelf, hovers the genres, opens the questions, sends the forms (including one with HTML in
-it), follows a genre link into the catalogue, searches it (without accents), opens a book, checks its download, goes
-back, reads it in the reader (turning pages, changing the page colour, and coming back to "Continue"), and checks
-the phone menu (and that it steps aside while you read), that going back returns to where you were, that long titles
-fit their cards, that no page is ever wider than a 320 px phone, reduced motion and the site without JavaScript.
+it), follows a genre link into the catalogue, searches and sorts it (without accents), opens a book, checks its
+download, goes back, reads it in the reader (turning pages, changing the page colour, and coming back to "Continue"),
+opens Genres and Questions from a book's page (dragging a shelf, jumping between topics, and following a link to a
+section of another page), and checks the phone menu (and that it steps aside while you read), the reader's bars on a
+phone, that going back returns to where you were, that long titles fit their cards, that no page is ever wider than
+a 320 px phone, reduced motion and the site without JavaScript.
 
 ## How it is published
 
-Every push to `main` runs [`.github/workflows/pages.yml`](.github/workflows/pages.yml): it copies the site, checks that
-every local link, image, cover size and font it names exists, and deploys it to GitHub Pages. A broken link stops the
-deploy.
+Every push to `main` runs [`.github/workflows/pages.yml`](.github/workflows/pages.yml): it copies the site, rebuilds
+the pages for the day (for the book of the month), checks that every local link, image, cover size and font it names
+exists, and deploys it to GitHub Pages. A broken link stops the deploy. It also runs on the first of every month.
 
 ## Honest limits
 
@@ -163,15 +180,17 @@ deploy.
   device.
 - **Classics only.** Recent books, such as Colleen Hoover's, and manga such as One Piece are under copyright and
   cannot be shared for free. The site says where to borrow them instead.
-- **Big books are fetched.** The few heavily illustrated editions over 8 MB are read and downloaded straight from
-  Standard Ebooks rather than kept here, to keep the repository small.
+- **Some books are fetched.** The few heavily illustrated editions over 8 MB are read and downloaded straight from
+  Standard Ebooks rather than kept here, to keep the repository small, and so are books whose EPUB the library script
+  has not copied yet (Standard Ebooks limits how many a day it hands out).
 - **The motion takes a moment.** The opening animation runs before the page is fully shown, which costs some time on a
   slow phone. Reduced motion skips it.
 
 ## Project structure
 
 ```text
-index.html, books.html, book-*.html, read.html, login.html, signup.html, 404.html    generated by tools/build.py
+index.html, books.html, genres.html, faq.html, book-*.html, read.html,
+login.html, signup.html, 404.html    generated by tools/build.py
 css/main.css        every style: tokens, the fluid type scale, components and sections
 js/app.js           transitions, smooth scrolling and every animation, one function per effect
 js/forms.js         checks the log-in, sign-up and newsletter forms

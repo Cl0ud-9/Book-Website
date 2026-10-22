@@ -3,6 +3,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # the book of the month changes on the first, so the pages are rebuilt then
+  schedule:
+    - cron: "0 1 1 * *"
 permissions:
   contents: read
   pages: write
@@ -21,7 +24,9 @@ jobs:
       - name: Collect the site's files
         run: |
           mkdir _site
-          cp -r index.html books.html book-*.html read.html login.html signup.html 404.html sitemap.xml css js image fonts books _site/
+          cp -r index.html books.html genres.html faq.html book-*.html read.html login.html signup.html 404.html sitemap.xml css js image fonts books _site/
+      - name: Rebuild the pages for today (book of the month)
+        run: python3 tools/build.py _site
       - name: Check every local link and image resolves
         run: |
           missing=0

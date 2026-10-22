@@ -21,7 +21,7 @@
 <link rel="apple-touch-icon" href="image/apple-touch-icon.png">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=a1f0c136">
+<link rel="stylesheet" href="css/main.css?v=d46762cc">
 <script>(function(d){var r=d.documentElement;r.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('is-loading');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)})(document)</script>
 <script src="js/vendor/gsap.min.js" defer></script>
 <script src="js/vendor/ScrollTrigger.min.js" defer></script>
@@ -33,8 +33,8 @@
 <script src="js/vendor/barba.umd.min.js" defer></script>
 <script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
 <script src="js/vendor/smooothy.min.js" defer></script>
-<script src="js/forms.js?v=a1f0c136" defer></script>
-<script src="js/app.js?v=a1f0c136" defer></script>
+<script src="js/forms.js?v=d46762cc" defer></script>
+<script src="js/app.js?v=d46762cc" defer></script>
 </head>
 <body data-barba="wrapper">
 <svg xmlns="http://www.w3.org/2000/svg" hidden>
@@ -80,8 +80,8 @@
   <nav class="header__nav" aria-label="Main">
     <ul class="header__nav-list">
       <li><a class="button" href="books.html" data-nav="books" data-button><span class="button__bg"></span><span class="button__text" data-button-text>All books</span></a></li>
-      <li><a class="button" href="index.html#genres" data-nav="genres" data-button><span class="button__bg"></span><span class="button__text" data-button-text>Genres</span></a></li>
-      <li><a class="button" href="index.html#faq" data-nav="faq" data-button><span class="button__bg"></span><span class="button__text" data-button-text>FAQ</span></a></li>
+      <li><a class="button" href="genres.html" data-nav="genres" data-button><span class="button__bg"></span><span class="button__text" data-button-text>Genres</span></a></li>
+      <li><a class="button" href="faq.html" data-nav="faq" data-button><span class="button__bg"></span><span class="button__text" data-button-text>FAQ</span></a></li>
       <li><a class="button-alt is--orange is--small" href="login.html" data-button-alt data-nav="account"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Log in / Sign up</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a></li>
     </ul>
   </nav>
@@ -99,8 +99,8 @@
     <ul class="menu__list">
       <li><a class="menu__link" href="./" data-nav="home">Home</a></li>
       <li><a class="menu__link" href="books.html" data-nav="books">All books</a></li>
-      <li><a class="menu__link" href="index.html#genres">Genres</a></li>
-      <li><a class="menu__link" href="index.html#faq">FAQ</a></li>
+      <li><a class="menu__link" href="genres.html" data-nav="genres">Genres</a></li>
+      <li><a class="menu__link" href="faq.html" data-nav="faq">FAQ</a></li>
     </ul>
     <div class="menu__account">
       <a class="button-alt is--white" href="login.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Log in</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
@@ -146,7 +146,7 @@
 <section class="book-more" aria-labelledby="more-title">
   <h2 class="book-more__title heading-l" id="more-title">You might also like</h2>
   <div class="catalogue__grid is--three">
-<article class="book-card " id="book-frankenstein" style="--card:var(--pale-blue);--ink:#000" data-search="frankenstein mary shelley science fiction horror" data-genres="science-fiction horror" data-books-slider-item>
+<article class="book-card " id="book-frankenstein" style="--card:var(--pale-blue);--ink:#000" data-search="frankenstein mary shelley science fiction horror" data-genres="science-fiction horror" data-rank="1" data-words="77898" data-title="frankenstein" data-books-slider-item>
   <div class="book-card__cover"><img src="image/covers/frankenstein-360.webp" srcset="image/covers/frankenstein-180.webp 180w, image/covers/frankenstein-360.webp 360w, image/covers/frankenstein-720.webp 720w, image/covers/frankenstein-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Frankenstein by Mary Shelley, book cover" loading="lazy" decoding="async"></div>
   <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--cyan)">Science fiction</li><li class="tag" style="--tag:var(--black)">Horror</li></ul>
   <h3 class="book-card__title" style="--fit:7.16"><a class="book-card__link" href="book-frankenstein.html" draggable="false">Frankenstein</a></h3>
@@ -155,16 +155,16 @@
   <p class="book-card__hook">A tragic scientist creates a monster in his laboratory.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
-<article class="book-card " id="book-the-island-of-doctor-moreau" style="--card:var(--yellow);--ink:#000" data-search="the island of doctor moreau h. g. wells science fiction horror" data-genres="science-fiction horror" data-books-slider-item>
-  <div class="book-card__cover"><img src="image/covers/the-island-of-doctor-moreau-360.webp" srcset="image/covers/the-island-of-doctor-moreau-180.webp 180w, image/covers/the-island-of-doctor-moreau-360.webp 360w, image/covers/the-island-of-doctor-moreau-720.webp 720w, image/covers/the-island-of-doctor-moreau-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Island of Doctor Moreau by H. G. Wells, book cover" loading="lazy" decoding="async"></div>
-  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--cyan)">Science fiction</li><li class="tag" style="--tag:var(--black)">Horror</li></ul>
-  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-the-island-of-doctor-moreau.html" draggable="false">The Island of Doctor Moreau</a></h3>
-  <p class="book-card__author">H. G. Wells</p>
-  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>2 h 39 min</span></p>
-  <p class="book-card__hook">A shipwrecked man is rescued by a boat and left on a strange island owned by a physiologist who experiments in vivisection.</p>
+<article class="book-card " id="book-the-picture-of-dorian-gray" style="--card:var(--pale-blue);--ink:#000" data-search="the picture of dorian gray oscar wilde horror literary fiction" data-genres="horror literary-fiction" data-rank="12" data-words="79057" data-title="picture of dorian gray" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/covers/the-picture-of-dorian-gray-360.webp" srcset="image/covers/the-picture-of-dorian-gray-180.webp 180w, image/covers/the-picture-of-dorian-gray-360.webp 360w, image/covers/the-picture-of-dorian-gray-720.webp 720w, image/covers/the-picture-of-dorian-gray-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Picture of Dorian Gray by Oscar Wilde, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--black)">Horror</li><li class="tag" style="--tag:var(--white)">Literary fiction</li></ul>
+  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-the-picture-of-dorian-gray.html" draggable="false">The Picture of Dorian Gray</a></h3>
+  <p class="book-card__author">Oscar Wilde</p>
+  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>4 h 48 min</span></p>
+  <p class="book-card__hook">A Victorian dandy turns to a life of debauchery after a magical portrait stops him from aging.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
-<article class="book-card " id="book-the-strange-case-of-dr-jekyll-and-mr-hyde" style="--card:var(--olive);--ink:#fff" data-search="the strange case of dr. jekyll and mr. hyde robert louis stevenson horror" data-genres="horror" data-books-slider-item>
+<article class="book-card " id="book-the-strange-case-of-dr-jekyll-and-mr-hyde" style="--card:var(--olive);--ink:#fff" data-search="the strange case of dr. jekyll and mr. hyde robert louis stevenson horror" data-genres="horror" data-rank="23" data-words="25664" data-title="strange case of dr. jekyll and mr. hyde" data-books-slider-item>
   <div class="book-card__cover"><img src="image/covers/the-strange-case-of-dr-jekyll-and-mr-hyde-360.webp" srcset="image/covers/the-strange-case-of-dr-jekyll-and-mr-hyde-180.webp 180w, image/covers/the-strange-case-of-dr-jekyll-and-mr-hyde-360.webp 360w, image/covers/the-strange-case-of-dr-jekyll-and-mr-hyde-720.webp 720w, image/covers/the-strange-case-of-dr-jekyll-and-mr-hyde-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Strange Case of Dr. Jekyll and Mr. Hyde by Robert Louis Stevenson, book cover" loading="lazy" decoding="async"></div>
   <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--black)">Horror</li></ul>
   <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-the-strange-case-of-dr-jekyll-and-mr-hyde.html" draggable="false">The Strange Case of Dr. Jekyll and Mr. Hyde</a></h3>
@@ -191,11 +191,11 @@
       <nav class="footer__nav" aria-label="Footer">
         <div class="footer__col">
           <h2 class="footer__heading">Library</h2>
-          <ul><li><a href="books.html">All books</a></li><li><a href="index.html#genres">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
+          <ul><li><a href="books.html">All books</a></li><li><a href="genres.html">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Account</h2>
-          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="index.html#faq">Questions</a></li></ul>
+          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="faq.html">Questions</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Elsewhere</h2>

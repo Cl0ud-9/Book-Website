@@ -4,16 +4,19 @@ Standard Ebooks' editions are in the US public domain and its own work is dedica
 books and covers are copied here and served with the site. Downloads are cached in tools/.library-cache and spaced
 out, so a re-run only fetches what is new and never hammers their server.
 
-usage: python tools/library.py      (needs Pillow; writes library/books.json, image/covers/ and books/)
+usage: python tools/library.py [--refresh-popularity]   (needs Pillow; writes library/books.json, image/covers/, books/)
 Then run tools/build.py to regenerate the pages.
 """
 import html
+import io
 import json
 import re
+import sys
 import time
 import unicodedata
 import urllib.error
 import urllib.request
+import zipfile
 from pathlib import Path
 
 from PIL import Image
@@ -257,11 +260,54 @@ def spine_colour(im):
     return "#%02x%02x%02x" % tuple(int(c * 0.7) for c in strip[:3])
 
 
+def popularity(paths, refresh=False):
+    """Each book's place in Standard Ebooks' own popularity ranking (by how much its books are read there).
+    The listing pages are cached like everything else; pass --refresh-popularity to take a new reading."""
+    ranks, page, wanted = {}, 1, set(paths)
+    while not wanted <= ranks.keys() and page <= 40:
+        name = f"popularity-{page:02}.html"
+        if refresh:
+            (CACHE / name).unlink(missing_ok=True)
+        listing = cached(name, f"{SE[:-1]}?sort=popularity&view=list&per-page=48&page={page}")
+        found = re.findall(r'href="/ebooks/([a-z0-9-]+/[a-z0-9-]+(?:/[a-z0-9-]+)*)"', listing)
+        if not found:
+            break
+        for path in dict.fromkeys(found):
+            ranks.setdefault(path, len(ranks) + 1)
+        page += 1
+    return {p: ranks.get(p) for p in paths}
+
+
+def opening_line(epub_bytes):
+    """The first sentence of the book's first chapter, read from the EPUB (None for books not kept here)."""
+    if not epub_bytes:
+        return None
+    with zipfile.ZipFile(io.BytesIO(epub_bytes)) as z:
+        opf_path = next(n for n in z.namelist() if n.endswith(".opf"))
+        opf = z.read(opf_path).decode("utf-8")
+        items = dict(re.findall(r'<item[^>]*?id="([^"]+)"[^>]*?href="([^"]+)"', opf))
+        items.update({i: h for h, i in re.findall(r'<item[^>]*?href="([^"]+)"[^>]*?id="([^"]+)"', opf)})
+        base = opf_path.rsplit("/", 1)[0] + "/" if "/" in opf_path else ""
+        for idref in re.findall(r'<itemref[^>]*idref="([^"]+)"', opf):
+            doc = z.read(base + items[idref]).decode("utf-8")
+            if not re.search(r'epub:type="[^"]*bodymatter', doc):
+                continue
+            for p in re.findall(r"<p[^>]*>(.*?)</p>", doc, re.S):
+                # without footnote markers and the invisible joiners the editions use around dashes
+                p = re.sub(r'<a[^>]*noteref[^>]*>.*?</a>', "", p, flags=re.S)
+                line = re.sub(r"[⁠﻿​]", "", text(p))
+                if len(line) >= 40:
+                    first = re.match(r"(.{30,240}?[.!?][”’\"]?)(?:\s|$)", line)
+                    return first.group(1) if first else (line[:200].rsplit(" ", 1)[0] + "…")
+    return None
+
+
 def main():
     (ROOT / "library").mkdir(exist_ok=True)
     (ROOT / "books").mkdir(exist_ok=True)
     (ROOT / "image" / "covers").mkdir(parents=True, exist_ok=True)
     taken, books, skipped, capped = set(), [], [], []
+    ranks = popularity([path for path, _ in CATALOGUE], refresh="--refresh-popularity" in sys.argv)
     for n, (se_path, genres) in enumerate(CATALOGUE, 1):
         key = se_path.replace("/", "_")
         try:
@@ -311,6 +357,8 @@ def main():
                 epub.write_bytes(data)
             book["epub"] = f"books/{book['slug']}.epub"
         book["size"] = len(data) if data else None
+        book["popularity"] = ranks.get(se_path)
+        book["opening"] = opening_line(data if data and len(data) <= MAX_EPUB else None)
         book["kindle"] = f"{SE}{se_path}/downloads/{book['epub_name']}.azw3?source=download"
         book["kobo"] = f"{SE}{se_path}/downloads/{book['epub_name']}.kepub.epub?source=download"
         del book["epub_name"]

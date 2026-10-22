@@ -47,7 +47,9 @@
 
   function scrollToTarget(target, immediate = false) {
     if (!target) return;
-    if (lenis) lenis.scrollTo(target, { offset: -16, duration: 1.2, immediate, lock: !immediate });
+    // Stop short by the target's own scroll-margin-top, so a fixed header or a sticky bar never covers its heading
+    const offset = -(parseFloat(getComputedStyle(target).scrollMarginTop) || 16);
+    if (lenis) lenis.scrollTo(target, { offset, duration: 1.2, immediate, lock: !immediate });
     else target.scrollIntoView({ behavior: immediate || reducedMotion() ? "auto" : "smooth" });
   }
 
@@ -56,13 +58,18 @@
     window.scrollTo(0, 0);
   }
 
-  // Links to a part of the page you are already on scroll there instead of loading anything
+  // Links to a part of the page you are already on scroll there instead of loading anything. A link to a part of
+  // another page (index.html#new) is remembered here: the page change dropped the #part, and you landed at the top.
+  let pendingHash = "";
   window.addEventListener("click", (event) => {
     const link = event.target.closest("a[href]");
     if (!link || event.metaKey || event.ctrlKey || event.shiftKey) return;
     const url = new URL(link.href, location.href);
     const here = url.pathname.replace(/index\.html$/, "") === location.pathname.replace(/index\.html$/, "");
-    if (!here) return;
+    if (!here) {
+      pendingHash = url.origin === location.origin ? url.hash : "";
+      return;
+    }
     if (!url.hash) {
       if (url.search !== location.search) return;
       event.preventDefault();
@@ -101,7 +108,8 @@
   }
 
   function setCurrentNav(namespace) {
-    const key = { home: "home", books: "books", book: "books", reader: "books", login: "account", signup: "account" }[namespace];
+    const key = { home: "home", books: "books", book: "books", reader: "books", genres: "genres", faq: "faq",
+      login: "account", signup: "account" }[namespace];
     document.querySelectorAll("[data-nav]").forEach((link) => {
       if (link.dataset.nav === key) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
@@ -265,12 +273,18 @@
     gsap.set(transitionLogo, { autoAlpha: 0 });
   }
 
+  // Settled once the squiggle has uncovered most of the new page, so the reader can open its book where it is seen
+  let pageShown = Promise.resolve();
+  let showPage = () => {};
+  const awaitShown = () => { pageShown = new Promise((resolve) => { showPage = resolve; }); };
+
   function runOnce(container) {
     gsap.set(snake, { drawSVG: "0% 100%", strokeWidth: COVER });
     gsap.set(transitionLogo, { scale: 0, rotate: -64, autoAlpha: 0 });
     if (reducedMotion()) {
       hideSnake();
       root.classList.remove("is-loading");
+      showPage();
       return Promise.resolve();
     }
     gsap.set(header, { yPercent: -100 });
@@ -281,6 +295,7 @@
     uncover(tl, 0, 0.65);
     showLogo(tl, 0);
     hideLogo(tl, 0);
+    tl.call(() => showPage(), null, 1.3);
     // The text and the header carry on by themselves: Barba treats the transition as finished when this promise
     // resolves, and while one is running it answers the back button with a full page reload
     const intro = gsap.timeline({ paused: true });
@@ -324,6 +339,7 @@
   function runEnter(container, trigger) {
     if (reducedMotion()) {
       hideSnake();
+      showPage();
       return Promise.resolve();
     }
     const play = pageIntro(container);
@@ -332,11 +348,13 @@
     if (fromHistory(trigger)) {
       hideSnake();
       play(intro, 0);
+      showPage();
       return Promise.resolve();
     }
     const tl = gsap.timeline();
     hideLogo(tl, 0, 0.1);
     uncover(tl, 0, 0.1);
+    tl.call(() => showPage(), null, 0.75);
     play(intro, 0.45);
     return tl.then();
   }
@@ -672,6 +690,71 @@
   }
 
   // Genres: four covers pop out around the genre under the pointer and drift with it
+  // FAQ page: the topic you are reading lights up in the list (and, on a phone, slides into view in the pill row)
+  function faqTopics(page) {
+    const pills = [...page.querySelectorAll("[data-faq-pill]")];
+    if (!pills.length) return;
+    const row = pills[0].closest("ul");
+    const light = (id) => pills.forEach((pill) => {
+      const on = pill.getAttribute("href") === `#${id}`;
+      pill.classList.toggle("is--active", on);
+      if (on) pill.setAttribute("aria-current", "true"); else pill.removeAttribute("aria-current");
+      if (on && row.scrollWidth > row.clientWidth) row.scrollTo({ left: pill.offsetLeft - 16, behavior: "smooth" });
+    });
+    // The topic whose heading has most recently passed the upper third of the screen; short topics included
+    const groups = [...page.querySelectorAll("[data-faq-group]")];
+    let current = "";
+    const pick = () => {
+      const passed = groups.filter((g) => g.getBoundingClientRect().top < innerHeight * 0.35);
+      const id = (passed[passed.length - 1] || groups[0]).id;
+      if (id !== current) { current = id; light(id); }
+    };
+    ScrollTrigger.create({ trigger: groups[0].parentElement, start: "top bottom", end: "bottom top", onUpdate: pick, onRefresh: pick });
+    pills.forEach((pill) => pill.addEventListener("click", () => { current = pill.getAttribute("href").slice(1); light(current); }));
+    pick();
+    // The questions rise in a few at a time as they come into view
+    const questions = page.querySelectorAll(".faqs .accordion");
+    gsap.set(questions, { y: "2em", opacity: 0 });
+    ScrollTrigger.batch(questions, {
+      start: "top 94%", once: true,
+      onEnter: (batch) => gsap.to(batch, { y: "0em", opacity: 1, duration: 0.7, ease: "back.out(1.4)", stagger: 0.06 }),
+    });
+  }
+
+  // Genres page: covers drop in shelf by shelf, and a mouse can drag a shelf sideways like a phone can swipe it
+  function genreShelves(page) {
+    const rows = [...page.querySelectorAll("[data-shelf-row]")];
+    if (!rows.length) return;
+    gsap.set(page.querySelectorAll(".shelf__item"), { y: "3em", opacity: 0 });
+    ScrollTrigger.batch(page.querySelectorAll(".shelf__item"), {
+      start: "top 92%", once: true,
+      onEnter: (batch) => gsap.to(batch, { y: "0em", opacity: 1, duration: 0.8, ease: "back.out(1.4)", stagger: 0.04 }),
+    });
+    const cleanups = rows.map((row) => {
+      let startX = 0, startLeft = 0, dragging = false, moved = false;
+      const down = (event) => {
+        if (event.pointerType !== "mouse" || event.button !== 0) return;
+        dragging = true; moved = false; startX = event.clientX; startLeft = row.scrollLeft;
+        row.style.scrollSnapType = "none";
+      };
+      const move = (event) => {
+        if (!dragging) return;
+        const dx = event.clientX - startX;
+        if (Math.abs(dx) > 5) moved = true;
+        row.scrollLeft = startLeft - dx;
+      };
+      const up = () => { dragging = false; row.style.scrollSnapType = ""; };
+      const click = (event) => { if (moved) { event.preventDefault(); event.stopPropagation(); moved = false; } };
+      row.addEventListener("pointerdown", down);
+      window.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", up);
+      row.addEventListener("click", click, true);
+      row.addEventListener("dragstart", (event) => event.preventDefault());
+      return () => { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); };
+    });
+    return () => cleanups.forEach((fn) => fn());
+  }
+
   function genreCovers(page) {
     const section = page.querySelector("[data-genre-interaction]");
     if (!section) return;
@@ -999,7 +1082,7 @@
 
   // Sections pop up a little as they arrive
   function sectionEntrances(page) {
-    page.querySelectorAll(".books__title, .flow__title, .faq__title, .favs__title, .spotlight__title, .gift__title").forEach((title) => {
+    page.querySelectorAll(".books__title, .flow__title, .faq__title, .favs__title, .spotlight__title, .gift__title, .faqs__title, .shelf__name").forEach((title) => {
       const tl = gsap.timeline({ scrollTrigger: { trigger: title, start: "top 88%", once: true } });
       stretchWords(tl, title, 0);
     });
@@ -1050,6 +1133,35 @@
       apply();
     }));
     apply(false);
+    // Sorting: most read (the shelf's own order), title, or length; kept in the address so Back returns to it
+    const grid = rootEl.querySelector("[data-search-grid]");
+    const sorter = rootEl.querySelector("[data-sort]");
+    const orders = {
+      rank: (a, b) => a.dataset.rank - b.dataset.rank,
+      title: (a, b) => a.dataset.title.localeCompare(b.dataset.title),
+      short: (a, b) => a.dataset.words - b.dataset.words,
+      long: (a, b) => b.dataset.words - a.dataset.words,
+    };
+    const sortBy = (key, animate) => {
+      if (!orders[key]) return;
+      grid.append(...[...cards].sort(orders[key]));
+      if (animate && !reducedMotion()) {
+        const inView = cards.filter((c) => !c.hidden && c.getBoundingClientRect().top < innerHeight && c.getBoundingClientRect().bottom > 0);
+        gsap.fromTo(inView, { y: "2em", opacity: 0, rotate: () => gsap.utils.random(-4, 4) },
+          { y: "0em", opacity: 1, rotate: 0, duration: 0.6, ease: "back.out(1.6)", stagger: 0.03, clearProps: "rotate" });
+      }
+      ScrollTrigger.refresh();
+    };
+    if (sorter) {
+      const wanted = new URLSearchParams(location.search).get("sort");
+      if (orders[wanted]) { sorter.value = wanted; sortBy(wanted, false); }
+      sorter.addEventListener("change", () => {
+        const url = new URL(location.href);
+        if (sorter.value === "rank") url.searchParams.delete("sort"); else url.searchParams.set("sort", sorter.value);
+        history.replaceState(history.state, "", url);
+        sortBy(sorter.value, true);
+      });
+    }
     // Cards drop in as they come into view, a row or two at a time (the whole library at once took seconds)
     if (!reducedMotion()) {
       gsap.set(cards, { y: "4em", opacity: 0 });
@@ -1092,7 +1204,8 @@
     if (!root) return;
     let undo = null;
     let gone = false;
-    loadReader().then(() => { if (!gone) undo = window.BookshelfReader.open(root, libraryOf(page)); })
+    const shown = pageShown;
+    loadReader().then(() => { if (!gone) undo = window.BookshelfReader.open(root, libraryOf(page), shown); })
       .catch(() => { root.querySelector("[data-reader-message]").textContent = "The reader didn’t load. Check your connection and try again."; });
     return () => { gone = true; undo?.(); };
   }
@@ -1137,6 +1250,7 @@
   let pageCleanups = [];
 
   function initPage(container) {
+    awaitShown();
     setCurrentNav(container.dataset.barbaNamespace);
     pageCleanups.push(window.BookshelfForms?.init(container) || (() => {}));
     accordions(container);
@@ -1160,7 +1274,8 @@
       confettiRain(container);
       footerParallax(container);
       catalogue(container);
-      [breathingShapes, floatingBooks, waveButtons, sliders, fannedCards, genreCovers, momentumHover, bookPage]
+      faqTopics(container);
+      [breathingShapes, floatingBooks, waveButtons, sliders, fannedCards, genreCovers, genreShelves, momentumHover, bookPage]
         .forEach((fn) => { const undo = fn(container); if (undo) pageCleanups.push(undo); });
     }, container);
   }
@@ -1173,11 +1288,18 @@
   }
 
   function afterEnter() {
+    showPage();
     lenis?.resize();
     ScrollTrigger.refresh();
-    if (location.hash) {
-      const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
-      if (target) scrollToTarget(target, true);
+    const hash = location.hash || pendingHash;
+    pendingHash = "";
+    if (hash) {
+      const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+      if (target) {
+        if (!location.hash) history.replaceState(history.state, "", hash);
+        scrollToTarget(target, true);
+        resetHeader(lenis ? lenis.scroll : window.scrollY); // arriving lower down is not "scrolling down": keep the menu
+      }
     }
   }
 

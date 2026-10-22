@@ -21,7 +21,7 @@
 <link rel="apple-touch-icon" href="image/apple-touch-icon.png">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=a1f0c136">
+<link rel="stylesheet" href="css/main.css?v=d46762cc">
 <script>(function(d){var r=d.documentElement;r.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('is-loading');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)})(document)</script>
 <script src="js/vendor/gsap.min.js" defer></script>
 <script src="js/vendor/ScrollTrigger.min.js" defer></script>
@@ -33,8 +33,8 @@
 <script src="js/vendor/barba.umd.min.js" defer></script>
 <script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
 <script src="js/vendor/smooothy.min.js" defer></script>
-<script src="js/forms.js?v=a1f0c136" defer></script>
-<script src="js/app.js?v=a1f0c136" defer></script>
+<script src="js/forms.js?v=d46762cc" defer></script>
+<script src="js/app.js?v=d46762cc" defer></script>
 </head>
 <body data-barba="wrapper">
 <svg xmlns="http://www.w3.org/2000/svg" hidden>
@@ -80,8 +80,8 @@
   <nav class="header__nav" aria-label="Main">
     <ul class="header__nav-list">
       <li><a class="button" href="books.html" data-nav="books" data-button><span class="button__bg"></span><span class="button__text" data-button-text>All books</span></a></li>
-      <li><a class="button" href="index.html#genres" data-nav="genres" data-button><span class="button__bg"></span><span class="button__text" data-button-text>Genres</span></a></li>
-      <li><a class="button" href="index.html#faq" data-nav="faq" data-button><span class="button__bg"></span><span class="button__text" data-button-text>FAQ</span></a></li>
+      <li><a class="button" href="genres.html" data-nav="genres" data-button><span class="button__bg"></span><span class="button__text" data-button-text>Genres</span></a></li>
+      <li><a class="button" href="faq.html" data-nav="faq" data-button><span class="button__bg"></span><span class="button__text" data-button-text>FAQ</span></a></li>
       <li><a class="button-alt is--orange is--small" href="login.html" data-button-alt data-nav="account"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Log in / Sign up</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a></li>
     </ul>
   </nav>
@@ -99,8 +99,8 @@
     <ul class="menu__list">
       <li><a class="menu__link" href="./" data-nav="home">Home</a></li>
       <li><a class="menu__link" href="books.html" data-nav="books">All books</a></li>
-      <li><a class="menu__link" href="index.html#genres">Genres</a></li>
-      <li><a class="menu__link" href="index.html#faq">FAQ</a></li>
+      <li><a class="menu__link" href="genres.html" data-nav="genres">Genres</a></li>
+      <li><a class="menu__link" href="faq.html" data-nav="faq">FAQ</a></li>
     </ul>
     <div class="menu__account">
       <a class="button-alt is--white" href="login.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Log in</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
@@ -145,31 +145,31 @@
 <section class="book-more" aria-labelledby="more-title">
   <h2 class="book-more__title heading-l" id="more-title">You might also like</h2>
   <div class="catalogue__grid is--three">
-<article class="book-card " id="book-journey-to-the-center-of-the-earth" style="--card:var(--pale-pink);--ink:#000" data-search="journey to the center of the earth jules verne adventure science fiction" data-genres="adventure science-fiction" data-books-slider-item>
-  <div class="book-card__cover"><img src="image/covers/journey-to-the-center-of-the-earth-360.webp" srcset="image/covers/journey-to-the-center-of-the-earth-180.webp 180w, image/covers/journey-to-the-center-of-the-earth-360.webp 360w, image/covers/journey-to-the-center-of-the-earth-720.webp 720w, image/covers/journey-to-the-center-of-the-earth-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Journey to the Center of the Earth by Jules Verne, book cover" loading="lazy" decoding="async"></div>
-  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--orange)">Adventure</li><li class="tag" style="--tag:var(--cyan)">Science fiction</li></ul>
-  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-journey-to-the-center-of-the-earth.html" draggable="false">Journey to the Center of the Earth</a></h3>
-  <p class="book-card__author">Jules Verne</p>
-  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>4 h 23 min</span></p>
-  <p class="book-card__hook">Prompted by a mysterious Icelandic manuscript, a professor and his nephew, with the aid of a local guide, adventure to the center of the earth through the crater of a dormant volcano.</p>
+<article class="book-card " id="book-frankenstein" style="--card:var(--pale-blue);--ink:#000" data-search="frankenstein mary shelley science fiction horror" data-genres="science-fiction horror" data-rank="1" data-words="77898" data-title="frankenstein" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/covers/frankenstein-360.webp" srcset="image/covers/frankenstein-180.webp 180w, image/covers/frankenstein-360.webp 360w, image/covers/frankenstein-720.webp 720w, image/covers/frankenstein-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Frankenstein by Mary Shelley, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--cyan)">Science fiction</li><li class="tag" style="--tag:var(--black)">Horror</li></ul>
+  <h3 class="book-card__title" style="--fit:7.16"><a class="book-card__link" href="book-frankenstein.html" draggable="false">Frankenstein</a></h3>
+  <p class="book-card__author">Mary Shelley</p>
+  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>4 h 44 min</span></p>
+  <p class="book-card__hook">A tragic scientist creates a monster in his laboratory.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
-<article class="book-card " id="book-gullivers-travels" style="--card:var(--pale-orange);--ink:#000" data-search="gulliver’s travels jonathan swift adventure fantasy" data-genres="adventure fantasy" data-books-slider-item>
-  <div class="book-card__cover"><img src="image/covers/gullivers-travels-360.webp" srcset="image/covers/gullivers-travels-180.webp 180w, image/covers/gullivers-travels-360.webp 360w, image/covers/gullivers-travels-720.webp 720w, image/covers/gullivers-travels-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Gulliver’s Travels by Jonathan Swift, book cover" loading="lazy" decoding="async"></div>
-  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--orange)">Adventure</li><li class="tag" style="--tag:var(--pale-periwinkle)">Fantasy</li></ul>
-  <h3 class="book-card__title" style="--fit:6.0"><a class="book-card__link" href="book-gullivers-travels.html" draggable="false">Gulliver’s Travels</a></h3>
-  <p class="book-card__author">Jonathan Swift</p>
-  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>6 h 19 min</span></p>
-  <p class="book-card__hook">An Englishman travels to fictional islands where he meets tiny people, giants, magicians and talking horses.</p>
+<article class="book-card " id="book-alices-adventures-in-wonderland" style="--card:var(--pale-blue);--ink:#000" data-search="alice’s adventures in wonderland lewis carroll fantasy children’s" data-genres="fantasy childrens" data-rank="7" data-words="26738" data-title="alice’s adventures in wonderland" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/covers/alices-adventures-in-wonderland-360.webp" srcset="image/covers/alices-adventures-in-wonderland-180.webp 180w, image/covers/alices-adventures-in-wonderland-360.webp 360w, image/covers/alices-adventures-in-wonderland-720.webp 720w, image/covers/alices-adventures-in-wonderland-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Alice’s Adventures in Wonderland by Lewis Carroll, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-periwinkle)">Fantasy</li><li class="tag" style="--tag:var(--pale-green)">Children’s</li></ul>
+  <h3 class="book-card__title" style="--fit:6.0"><a class="book-card__link" href="book-alices-adventures-in-wonderland.html" draggable="false">Alice’s Adventures in Wonderland</a></h3>
+  <p class="book-card__author">Lewis Carroll</p>
+  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>1 h 38 min</span></p>
+  <p class="book-card__hook">A young girl follows a white rabbit into a strange land of poetry, humor, and whimsy.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
-<article class="book-card " id="book-the-lost-world" style="--card:var(--periwinkle);--ink:#000" data-search="the lost world arthur conan doyle adventure science fiction" data-genres="adventure science-fiction" data-books-slider-item>
-  <div class="book-card__cover"><img src="image/covers/the-lost-world-360.webp" srcset="image/covers/the-lost-world-180.webp 180w, image/covers/the-lost-world-360.webp 360w, image/covers/the-lost-world-720.webp 720w, image/covers/the-lost-world-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Lost World by Arthur Conan Doyle, book cover" loading="lazy" decoding="async"></div>
-  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--orange)">Adventure</li><li class="tag" style="--tag:var(--cyan)">Science fiction</li></ul>
-  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-the-lost-world.html" draggable="false">The Lost World</a></h3>
-  <p class="book-card__author">Arthur Conan Doyle</p>
-  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>4 h 37 min</span></p>
-  <p class="book-card__hook">A team of scientists and adventurers explores a prehistoric land.</p>
+<article class="book-card " id="book-the-time-machine" style="--card:var(--olive);--ink:#fff" data-search="the time machine h. g. wells science fiction" data-genres="science-fiction" data-rank="20" data-words="32429" data-title="time machine" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/covers/the-time-machine-360.webp" srcset="image/covers/the-time-machine-180.webp 180w, image/covers/the-time-machine-360.webp 360w, image/covers/the-time-machine-720.webp 720w, image/covers/the-time-machine-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Time Machine by H. G. Wells, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--cyan)">Science fiction</li></ul>
+  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-the-time-machine.html" draggable="false">The Time Machine</a></h3>
+  <p class="book-card__author">H. G. Wells</p>
+  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>1 h 58 min</span></p>
+  <p class="book-card__hook">A mysterious inventor travels to a land far off in time.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
   </div>
@@ -190,11 +190,11 @@
       <nav class="footer__nav" aria-label="Footer">
         <div class="footer__col">
           <h2 class="footer__heading">Library</h2>
-          <ul><li><a href="books.html">All books</a></li><li><a href="index.html#genres">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
+          <ul><li><a href="books.html">All books</a></li><li><a href="genres.html">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Account</h2>
-          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="index.html#faq">Questions</a></li></ul>
+          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="faq.html">Questions</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Elsewhere</h2>

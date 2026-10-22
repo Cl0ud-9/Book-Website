@@ -21,7 +21,7 @@
 <link rel="apple-touch-icon" href="image/apple-touch-icon.png">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=a1f0c136">
+<link rel="stylesheet" href="css/main.css?v=d46762cc">
 <script>(function(d){var r=d.documentElement;r.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('is-loading');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)})(document)</script>
 <script src="js/vendor/gsap.min.js" defer></script>
 <script src="js/vendor/ScrollTrigger.min.js" defer></script>
@@ -33,8 +33,8 @@
 <script src="js/vendor/barba.umd.min.js" defer></script>
 <script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
 <script src="js/vendor/smooothy.min.js" defer></script>
-<script src="js/forms.js?v=a1f0c136" defer></script>
-<script src="js/app.js?v=a1f0c136" defer></script>
+<script src="js/forms.js?v=d46762cc" defer></script>
+<script src="js/app.js?v=d46762cc" defer></script>
 </head>
 <body data-barba="wrapper">
 <svg xmlns="http://www.w3.org/2000/svg" hidden>
@@ -80,8 +80,8 @@
   <nav class="header__nav" aria-label="Main">
     <ul class="header__nav-list">
       <li><a class="button" href="books.html" data-nav="books" data-button><span class="button__bg"></span><span class="button__text" data-button-text>All books</span></a></li>
-      <li><a class="button" href="index.html#genres" data-nav="genres" data-button><span class="button__bg"></span><span class="button__text" data-button-text>Genres</span></a></li>
-      <li><a class="button" href="index.html#faq" data-nav="faq" data-button><span class="button__bg"></span><span class="button__text" data-button-text>FAQ</span></a></li>
+      <li><a class="button" href="genres.html" data-nav="genres" data-button><span class="button__bg"></span><span class="button__text" data-button-text>Genres</span></a></li>
+      <li><a class="button" href="faq.html" data-nav="faq" data-button><span class="button__bg"></span><span class="button__text" data-button-text>FAQ</span></a></li>
       <li><a class="button-alt is--orange is--small" href="login.html" data-button-alt data-nav="account"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Log in / Sign up</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a></li>
     </ul>
   </nav>
@@ -99,8 +99,8 @@
     <ul class="menu__list">
       <li><a class="menu__link" href="./" data-nav="home">Home</a></li>
       <li><a class="menu__link" href="books.html" data-nav="books">All books</a></li>
-      <li><a class="menu__link" href="index.html#genres">Genres</a></li>
-      <li><a class="menu__link" href="index.html#faq">FAQ</a></li>
+      <li><a class="menu__link" href="genres.html" data-nav="genres">Genres</a></li>
+      <li><a class="menu__link" href="faq.html" data-nav="faq">FAQ</a></li>
     </ul>
     <div class="menu__account">
       <a class="button-alt is--white" href="login.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Log in</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
@@ -145,31 +145,31 @@
 <section class="book-more" aria-labelledby="more-title">
   <h2 class="book-more__title heading-l" id="more-title">You might also like</h2>
   <div class="catalogue__grid is--three">
-<article class="book-card " id="book-tess-of-the-durbervilles" style="--card:var(--pale-green);--ink:#000" data-search="tess of the d’urbervilles thomas hardy romance literary fiction" data-genres="romance literary-fiction" data-books-slider-item>
-  <div class="book-card__cover"><img src="image/covers/tess-of-the-durbervilles-360.webp" srcset="image/covers/tess-of-the-durbervilles-180.webp 180w, image/covers/tess-of-the-durbervilles-360.webp 360w, image/covers/tess-of-the-durbervilles-720.webp 720w, image/covers/tess-of-the-durbervilles-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Tess of the d’Urbervilles by Thomas Hardy, book cover" loading="lazy" decoding="async"></div>
-  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-pink)">Romance</li><li class="tag" style="--tag:var(--white)">Literary fiction</li></ul>
-  <h3 class="book-card__title" style="--fit:7.74"><a class="book-card__link" href="book-tess-of-the-durbervilles.html" draggable="false">Tess of the d’Urbervilles</a></h3>
-  <p class="book-card__author">Thomas Hardy</p>
-  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>9 h 5 min</span></p>
-  <p class="book-card__hook">A young woman of poor and uneducated parents is driven by guilt to try to redeem her family’s fortunes.</p>
+<article class="book-card " id="book-moby-dick" style="--card:var(--cyan);--ink:#000" data-search="moby dick herman melville adventure literary fiction" data-genres="adventure literary-fiction" data-rank="5" data-words="211202" data-title="moby dick" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/covers/moby-dick-360.webp" srcset="image/covers/moby-dick-180.webp 180w, image/covers/moby-dick-360.webp 360w, image/covers/moby-dick-720.webp 720w, image/covers/moby-dick-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Moby Dick by Herman Melville, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--orange)">Adventure</li><li class="tag" style="--tag:var(--white)">Literary fiction</li></ul>
+  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-moby-dick.html" draggable="false">Moby Dick</a></h3>
+  <p class="book-card__author">Herman Melville</p>
+  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>12 h 49 min</span></p>
+  <p class="book-card__hook">Captain Ahab, having lost his leg to the white whale Moby Dick, travels the world on a quest for vengeance.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
-<article class="book-card " id="book-madame-bovary" style="--card:var(--pale-orange);--ink:#000" data-search="madame bovary gustave flaubert romance literary fiction" data-genres="romance literary-fiction" data-books-slider-item>
-  <div class="book-card__cover"><img src="image/covers/madame-bovary-360.webp" srcset="image/covers/madame-bovary-180.webp 180w, image/covers/madame-bovary-360.webp 360w, image/covers/madame-bovary-720.webp 720w, image/covers/madame-bovary-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Madame Bovary by Gustave Flaubert, book cover" loading="lazy" decoding="async"></div>
-  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-pink)">Romance</li><li class="tag" style="--tag:var(--white)">Literary fiction</li></ul>
-  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-madame-bovary.html" draggable="false">Madame Bovary</a></h3>
-  <p class="book-card__author">Gustave Flaubert</p>
-  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>7 h 1 min</span></p>
-  <p class="book-card__hook">A middle-class country wife tries to satisfy her yearnings for a luxurious life by engaging in various affairs.</p>
+<article class="book-card " id="book-crime-and-punishment" style="--card:var(--pale-green);--ink:#000" data-search="crime and punishment fyodor dostoevsky literary fiction" data-genres="literary-fiction" data-rank="9" data-words="204007" data-title="crime and punishment" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/covers/crime-and-punishment-360.webp" srcset="image/covers/crime-and-punishment-180.webp 180w, image/covers/crime-and-punishment-360.webp 360w, image/covers/crime-and-punishment-720.webp 720w, image/covers/crime-and-punishment-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Crime and Punishment by Fyodor Dostoevsky, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--white)">Literary fiction</li></ul>
+  <h3 class="book-card__title" style="--fit:6.0"><a class="book-card__link" href="book-crime-and-punishment.html" draggable="false">Crime and Punishment</a></h3>
+  <p class="book-card__author">Fyodor Dostoevsky</p>
+  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>12 h 22 min</span></p>
+  <p class="book-card__hook">Inflated by his own ambition, an ex-student murders a pawnbroker, then faces the inevitable consequences.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
-<article class="book-card " id="book-anna-karenina" style="--card:var(--cyan);--ink:#000" data-search="anna karenina leo tolstoy romance literary fiction" data-genres="romance literary-fiction" data-books-slider-item>
-  <div class="book-card__cover"><img src="image/covers/anna-karenina-360.webp" srcset="image/covers/anna-karenina-180.webp 180w, image/covers/anna-karenina-360.webp 360w, image/covers/anna-karenina-720.webp 720w, image/covers/anna-karenina-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Anna Karenina by Leo Tolstoy, book cover" loading="lazy" decoding="async"></div>
-  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-pink)">Romance</li><li class="tag" style="--tag:var(--white)">Literary fiction</li></ul>
-  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-anna-karenina.html" draggable="false">Anna Karenina</a></h3>
-  <p class="book-card__author">Leo Tolstoy</p>
-  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>21 h 14 min</span></p>
-  <p class="book-card__hook">A socialite starts an affair with a cavalry officer, against a backdrop of wealthy family life in Imperialist Russia.</p>
+<article class="book-card " id="book-the-picture-of-dorian-gray" style="--card:var(--pale-blue);--ink:#000" data-search="the picture of dorian gray oscar wilde horror literary fiction" data-genres="horror literary-fiction" data-rank="12" data-words="79057" data-title="picture of dorian gray" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/covers/the-picture-of-dorian-gray-360.webp" srcset="image/covers/the-picture-of-dorian-gray-180.webp 180w, image/covers/the-picture-of-dorian-gray-360.webp 360w, image/covers/the-picture-of-dorian-gray-720.webp 720w, image/covers/the-picture-of-dorian-gray-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Picture of Dorian Gray by Oscar Wilde, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--black)">Horror</li><li class="tag" style="--tag:var(--white)">Literary fiction</li></ul>
+  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-the-picture-of-dorian-gray.html" draggable="false">The Picture of Dorian Gray</a></h3>
+  <p class="book-card__author">Oscar Wilde</p>
+  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>4 h 48 min</span></p>
+  <p class="book-card__hook">A Victorian dandy turns to a life of debauchery after a magical portrait stops him from aging.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
   </div>
@@ -190,11 +190,11 @@
       <nav class="footer__nav" aria-label="Footer">
         <div class="footer__col">
           <h2 class="footer__heading">Library</h2>
-          <ul><li><a href="books.html">All books</a></li><li><a href="index.html#genres">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
+          <ul><li><a href="books.html">All books</a></li><li><a href="genres.html">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Account</h2>
-          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="index.html#faq">Questions</a></li></ul>
+          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="faq.html">Questions</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Elsewhere</h2>

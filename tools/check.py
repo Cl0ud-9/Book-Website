@@ -93,12 +93,10 @@ with sync_playwright() as p:
     ok("Thanks" in page.locator("[data-newsletter-message]").inner_text(), "newsletter thanks you")
 
     # hash link on the same page scrolls instead of reloading
-    page.evaluate("window.scrollTo(0,0)")
-    page.wait_for_timeout(800)
-    page.locator(".header__nav a[href='index.html#faq']").click()
-    page.wait_for_timeout(1800)
-    faq_top = page.locator("#faq").bounding_box()["y"]
-    ok(abs(faq_top) < 120, f"FAQ link scrolls to the questions (top at {faq_top:.0f})")
+    page.locator("footer a[href='index.html#new']").click()
+    page.wait_for_timeout(2200)
+    new_top = page.locator("#new").bounding_box()["y"]
+    ok(abs(new_top) < 120, f"New on the shelf link scrolls to the section (top at {new_top:.0f})")
 
     # page transition to All books via a genre link
     page.locator(".genre__link").first.scroll_into_view_if_needed()
@@ -132,10 +130,25 @@ with sync_playwright() as p:
     page.fill("#search-box", "")
     page.wait_for_timeout(400)
     ok(page.locator(".book-card").count() == len(LIBRARY), f"the catalogue has every book ({len(LIBRARY)})")
+    # sorting: by length, by title, back to most read, and the choice is kept in the address
+    order = "() => [...document.querySelectorAll('.book-card')].map(c => [c.dataset.title, +c.dataset.words, +c.dataset.rank])"
+    page.select_option("[data-sort]", "short")
+    page.wait_for_timeout(400)
+    cards = page.evaluate(order)
+    ok([c[1] for c in cards] == sorted(c[1] for c in cards) and "sort=short" in page.url, "Shortest first sorts by length")
+    page.select_option("[data-sort]", "title")
+    page.wait_for_timeout(400)
+    titles = [c[0] for c in page.evaluate(order)]
+    in_order = page.evaluate("t => t.every((x, i) => !i || t[i - 1].localeCompare(x) <= 0)", titles)
+    ok(in_order and "sort=title" in page.url, f"Title, A to Z sorts by title ({titles[:3]})")
+    page.select_option("[data-sort]", "rank")
+    page.wait_for_timeout(400)
+    cards = page.evaluate(order)
+    ok([c[2] for c in cards] == sorted(c[2] for c in cards) and "sort=" not in page.url, "Most read puts the most read first")
     page.screenshot(path=f"{OUT}/books.png")
 
     # a card opens its book's page: the details, Read now and the download
-    first = LIBRARY[0]
+    first = min(LIBRARY, key=lambda b: b["popularity"] or 10_000)  # the catalogue lists the most read first
     page.evaluate("window.scrollTo(0, 0)")
     page.wait_for_timeout(600)
     page.locator(".book-card").first.click(position={"x": 60, "y": 60})
@@ -170,6 +183,11 @@ with sync_playwright() as p:
         page.wait_for_timeout(500)
     after = page.evaluate("JSON.parse(localStorage.getItem('bookshelf:reading'))?.[" + repr(first["slug"]) + "]?.cfi")
     ok(bool(after) and after != before, "turning pages saves your place")
+    page.wait_for_timeout(1500)
+    settled = page.evaluate("""() => [document.querySelector('.reader').classList.contains('is--opening'),
+      getComputedStyle(document.querySelector('[data-reader-sheet]')).visibility,
+      getComputedStyle(document.querySelector('[data-reader-view]')).opacity]""")
+    ok(settled == [False, "hidden", "1"], f"the cover has opened and each page turn settles with the page in full view ({settled})")
     page.locator("[data-reader-toggle][aria-controls=reader-settings]").click()
     page.locator("[data-reader-theme=night]").click()
     page.wait_for_timeout(300)
@@ -200,6 +218,49 @@ with sync_playwright() as p:
     msg = page.locator("#form-message").inner_text()
     ok("Account created" in msg and page.locator("#form-message img").count() == 0, "sign-up succeeds, no HTML injection")
     page.screenshot(path=f"{OUT}/signup.png")
+
+    # from a book page, the menu's Genres and FAQ open their own pages (they used to fall back to the top of home)
+    page.goto(BASE + f"book-{first['slug']}.html", wait_until="networkidle")
+    page.wait_for_timeout(3000)
+    page.locator(".header__nav [data-nav=genres]").click()
+    page.wait_for_timeout(3200)
+    ok(page.url.endswith("genres.html") and page.locator("[data-barba-namespace=genres]").count() == 1,
+       f"Genres opens the genres page without a reload ({page.url})")
+    ok(page.locator("[data-nav=genres]").first.get_attribute("aria-current") == "page", "Genres marked current")
+    genres = sorted({g for b in LIBRARY for g in b["genres"]})
+    ok(page.locator(".shelf").count() == len(genres), f"a shelf for every genre ({page.locator('.shelf').count()}/{len(genres)})")
+    row = page.locator("[data-shelf-row]").first
+    row.scroll_into_view_if_needed()
+    page.wait_for_timeout(1500)
+    box = row.bounding_box()
+    ok(box["x"] + box["width"] <= 1440 and row.evaluate("r => r.scrollWidth > r.clientWidth"), "a shelf fits the screen and scrolls sideways")
+    page.mouse.move(box["x"] + box["width"] * 0.7, box["y"] + box["height"] / 2)
+    page.mouse.down()
+    page.mouse.move(box["x"] + box["width"] * 0.2, box["y"] + box["height"] / 2, steps=12)
+    page.mouse.up()
+    page.wait_for_timeout(400)
+    ok(row.evaluate("r => r.scrollLeft") > 100 and page.url.endswith("genres.html"), "dragging a shelf scrolls it and opens nothing")
+    page.locator(".header__nav [data-nav=faq]").click()
+    page.wait_for_timeout(3200)
+    ok(page.url.endswith("faq.html") and page.locator("[data-barba-namespace=faq]").count() == 1, f"FAQ opens the questions page ({page.url})")
+    # a topic pill jumps to its questions and lights up; scrolling on lights the next topic
+    pills = page.locator("[data-faq-pill]")
+    pills.nth(2).click()
+    page.wait_for_timeout(1800)
+    target = pills.nth(2).get_attribute("href")
+    top = page.locator(target + " h2").bounding_box()["y"]
+    ok(40 < top < 200, f"a topic pill brings its questions under the header (heading at {top:.0f})")
+    ok("is--active" in (pills.nth(2).get_attribute("class") or ""), "the pill of the topic in view is lit")
+    page.locator(pills.nth(4).get_attribute("href")).scroll_into_view_if_needed()
+    page.mouse.wheel(0, 200)
+    page.wait_for_timeout(1200)
+    lit = [i for i in range(pills.count()) if "is--active" in (pills.nth(i).get_attribute("class") or "")]
+    ok(len(lit) == 1 and lit[0] >= 3, f"scrolling lights the topic being read (pill {lit})")
+    # a link to a section of another page lands on that section
+    page.locator("footer a[href='index.html#new']").click()
+    page.wait_for_timeout(3500)
+    new_top = page.locator("#new").bounding_box()["y"]
+    ok(page.url.endswith("index.html#new") and abs(new_top) < 120, f"a link to a section of home lands on it ({new_top:.0f})")
     print("desktop console:", errors or "clean")
     page.close()
 
@@ -249,11 +310,23 @@ with sync_playwright() as p:
     page.wait_for_timeout(1500)
     y = page.evaluate("scrollY")
     ok(y > 300, f"going back returns to where you were on the page ({y:.0f}px down)")
+    # reading on a phone: the bars slip away while reading down and come back on the way up
+    page.goto(BASE + f"read.html?book={LIBRARY[0]['slug']}", wait_until="networkidle")
+    page.wait_for_selector(".reader.is--ready", timeout=20000)
+    page.wait_for_timeout(2500)
+    page.mouse.move(195, 450)
+    page.mouse.wheel(0, 1500)
+    page.wait_for_timeout(1000)
+    hidden = page.evaluate("document.querySelector('.reader').classList.contains('is--immersive')")
+    page.mouse.wheel(0, -300)
+    page.wait_for_timeout(1000)
+    shown = not page.evaluate("document.querySelector('.reader').classList.contains('is--immersive')")
+    ok(hidden and shown, f"the reader's bars hide while reading down and return on scrolling up ({hidden}, {shown})")
     print("phone console:", errors or "clean")
     page.close()
 
     # ---- the smallest phones: nothing may make any page wider than the screen, even while it animates in
-    for path in ("", "books.html", f"book-{LIBRARY[0]['slug']}.html", f"read.html?book={LIBRARY[0]['slug']}", "signup.html"):
+    for path in ("", "books.html", "genres.html", "faq.html", f"book-{LIBRARY[0]['slug']}.html", f"read.html?book={LIBRARY[0]['slug']}", "signup.html"):
         page = browser.new_page(viewport={"width": 320, "height": 700}, is_mobile=True, has_touch=True)
         page.goto(BASE + path, wait_until="domcontentloaded")
         widths = []

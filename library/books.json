@@ -18,6 +18,8 @@
   "spine": "#3e341c",
   "epub": "books/pride-and-prejudice.epub",
   "size": 831959,
+  "popularity": 2,
+  "opening": "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
   "kindle": "https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice/downloads/jane-austen_pride-and-prejudice.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice/downloads/jane-austen_pride-and-prejudice.kepub.epub?source=download"
  },
@@ -41,6 +43,8 @@
   "spine": "#534837",
   "epub": "books/sense-and-sensibility.epub",
   "size": 793296,
+  "popularity": 27,
+  "opening": "The family of Dashwood had long been settled in Sussex.",
   "kindle": "https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility/downloads/jane-austen_sense-and-sensibility.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility/downloads/jane-austen_sense-and-sensibility.kepub.epub?source=download"
  },
@@ -65,6 +69,8 @@
   "spine": "#512e0f",
   "epub": "books/emma.epub",
   "size": 798869,
+  "popularity": 48,
+  "opening": "Emma Woodhouse, handsome, clever, and rich, with a comfortable home and happy disposition, seemed to unite some of the best blessings of existence; and had lived nearly twenty-one years in the world with very little to distress or vex her.",
   "kindle": "https://standardebooks.org/ebooks/jane-austen/emma/downloads/jane-austen_emma.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/jane-austen/emma/downloads/jane-austen_emma.kepub.epub?source=download"
  },
@@ -88,6 +94,8 @@
   "spine": "#302a1c",
   "epub": "books/persuasion.epub",
   "size": 640519,
+  "popularity": 58,
+  "opening": "Sir Walter Elliot, of Kellynch Hall, in Somersetshire, was a man who, for his own amusement, never took up any book but the Baronetage; there he found occupation for an idle hour, and consolation in…",
   "kindle": "https://standardebooks.org/ebooks/jane-austen/persuasion/downloads/jane-austen_persuasion.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/jane-austen/persuasion/downloads/jane-austen_persuasion.kepub.epub?source=download"
  },
@@ -111,6 +119,8 @@
   "spine": "#667076",
   "epub": "books/northanger-abbey.epub",
   "size": 841945,
+  "popularity": 109,
+  "opening": "No one who had ever seen Catherine Morland in her infancy would have supposed her born to be an heroine.",
   "kindle": "https://standardebooks.org/ebooks/jane-austen/northanger-abbey/downloads/jane-austen_northanger-abbey.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/jane-austen/northanger-abbey/downloads/jane-austen_northanger-abbey.kepub.epub?source=download"
  },
@@ -134,6 +144,8 @@
   "spine": "#22241c",
   "epub": "books/jane-eyre.epub",
   "size": 933471,
+  "popularity": 10,
+  "opening": "There was no possibility of taking a walk that day.",
   "kindle": "https://standardebooks.org/ebooks/charlotte-bronte/jane-eyre/downloads/charlotte-bronte_jane-eyre.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/charlotte-bronte/jane-eyre/downloads/charlotte-bronte_jane-eyre.kepub.epub?source=download"
  },
@@ -157,6 +169,8 @@
   "spine": "#3c4131",
   "epub": "books/wuthering-heights.epub",
   "size": 820496,
+  "popularity": 26,
+  "opening": "1801.—I have just returned from a visit to my landlord—the solitary neighbour that I shall be troubled with.",
   "kindle": "https://standardebooks.org/ebooks/emily-bronte/wuthering-heights/downloads/emily-bronte_wuthering-heights.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/emily-bronte/wuthering-heights/downloads/emily-bronte_wuthering-heights.kepub.epub?source=download"
  },
@@ -181,6 +195,8 @@
   "spine": "#332d19",
   "epub": "books/the-tenant-of-wildfell-hall.epub",
   "size": 898318,
+  "popularity": 206,
+  "opening": "You must go back with me to the autumn of 1827.",
   "kindle": "https://standardebooks.org/ebooks/anne-bronte/the-tenant-of-wildfell-hall/downloads/anne-bronte_the-tenant-of-wildfell-hall.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/anne-bronte/the-tenant-of-wildfell-hall/downloads/anne-bronte_the-tenant-of-wildfell-hall.kepub.epub?source=download"
  },
@@ -206,6 +222,8 @@
   "spine": "#565253",
   "epub": "books/north-and-south.epub",
   "size": 896836,
+  "popularity": 215,
+  "opening": "“Edith!” said Margaret, gently, “Edith!”",
   "kindle": "https://standardebooks.org/ebooks/elizabeth-gaskell/north-and-south/downloads/elizabeth-gaskell_north-and-south.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/elizabeth-gaskell/north-and-south/downloads/elizabeth-gaskell_north-and-south.kepub.epub?source=download"
  },
@@ -229,6 +247,8 @@
   "spine": "#473325",
   "epub": "books/the-age-of-innocence.epub",
   "size": 757101,
+  "popularity": 149,
+  "opening": "On a January evening of the early seventies, Christine Nilsson was singing in Faust at the Academy of Music in New York.",
   "kindle": "https://standardebooks.org/ebooks/edith-wharton/the-age-of-innocence/downloads/edith-wharton_the-age-of-innocence.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/edith-wharton/the-age-of-innocence/downloads/edith-wharton_the-age-of-innocence.kepub.epub?source=download"
  },
@@ -253,6 +273,8 @@
   "spine": "#383934",
   "epub": "books/the-blue-castle.epub",
   "size": 786349,
+  "popularity": 275,
+  "opening": "If it had not rained on a certain May morning Valancy Stirling’s whole life would have been entirely different.",
   "kindle": "https://standardebooks.org/ebooks/l-m-montgomery/the-blue-castle/downloads/l-m-montgomery_the-blue-castle.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/l-m-montgomery/the-blue-castle/downloads/l-m-montgomery_the-blue-castle.kepub.epub?source=download"
  },
@@ -279,6 +301,8 @@
   "spine": "#4a4a3e",
   "epub": "books/tess-of-the-durbervilles.epub",
   "size": 1140324,
+  "popularity": 164,
+  "opening": "On an evening in the latter part of May a middle-aged man was walking homeward from Shaston to the village of Marlott, in the adjoining Vale of Blakemore, or Blackmoor.",
   "kindle": "https://standardebooks.org/ebooks/thomas-hardy/tess-of-the-durbervilles/downloads/thomas-hardy_tess-of-the-durbervilles.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/thomas-hardy/tess-of-the-durbervilles/downloads/thomas-hardy_tess-of-the-durbervilles.kepub.epub?source=download"
  },
@@ -306,6 +330,8 @@
   "spine": "#514b45",
   "epub": "books/madame-bovary.epub",
   "size": 765291,
+  "popularity": 180,
+  "opening": "We were in class when the headmaster came in, followed by a “new fellow,” not wearing the school uniform, and a school servant carrying a large desk.",
   "kindle": "https://standardebooks.org/ebooks/gustave-flaubert/madame-bovary/eleanor-marx-aveling/downloads/gustave-flaubert_madame-bovary_eleanor-marx-aveling.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/gustave-flaubert/madame-bovary/eleanor-marx-aveling/downloads/gustave-flaubert_madame-bovary_eleanor-marx-aveling.kepub.epub?source=download"
  },
@@ -331,6 +357,8 @@
   "spine": "#4d3e32",
   "epub": "books/anna-karenina.epub",
   "size": 1367385,
+  "popularity": 53,
+  "opening": "Happy families are all alike; every unhappy family is unhappy in its own way.",
   "kindle": "https://standardebooks.org/ebooks/leo-tolstoy/anna-karenina/constance-garnett/downloads/leo-tolstoy_anna-karenina_constance-garnett.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/leo-tolstoy/anna-karenina/constance-garnett/downloads/leo-tolstoy_anna-karenina_constance-garnett.kepub.epub?source=download"
  },
@@ -355,6 +383,8 @@
   "spine": "#34424b",
   "epub": "books/the-awakening.epub",
   "size": 520169,
+  "popularity": 205,
+  "opening": "A green and yellow parrot, which hung in a cage outside the door, kept repeating over and…",
   "kindle": "https://standardebooks.org/ebooks/kate-chopin/the-awakening/downloads/kate-chopin_the-awakening.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/kate-chopin/the-awakening/downloads/kate-chopin_the-awakening.kepub.epub?source=download"
  },
@@ -379,6 +409,8 @@
   "spine": "#070202",
   "epub": "books/the-adventures-of-sherlock-holmes.epub",
   "size": 742083,
+  "popularity": 17,
+  "opening": "To Sherlock Holmes she is always the woman.",
   "kindle": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-adventures-of-sherlock-holmes/downloads/arthur-conan-doyle_the-adventures-of-sherlock-holmes.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-adventures-of-sherlock-holmes/downloads/arthur-conan-doyle_the-adventures-of-sherlock-holmes.kepub.epub?source=download"
  },
@@ -403,6 +435,8 @@
   "spine": "#5f5f54",
   "epub": "books/a-study-in-scarlet.epub",
   "size": 616400,
+  "popularity": 30,
+  "opening": "Being a Reprint from the Reminiscences of John H.",
   "kindle": "https://standardebooks.org/ebooks/arthur-conan-doyle/a-study-in-scarlet/downloads/arthur-conan-doyle_a-study-in-scarlet.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/arthur-conan-doyle/a-study-in-scarlet/downloads/arthur-conan-doyle_a-study-in-scarlet.kepub.epub?source=download"
  },
@@ -426,6 +460,8 @@
   "spine": "#656662",
   "epub": "books/the-sign-of-the-four.epub",
   "size": 884320,
+  "popularity": 85,
+  "opening": "Sherlock Holmes took his bottle from the corner of the mantelpiece and his hypodermic syringe from its neat morocco case.",
   "kindle": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-sign-of-the-four/downloads/arthur-conan-doyle_the-sign-of-the-four.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-sign-of-the-four/downloads/arthur-conan-doyle_the-sign-of-the-four.kepub.epub?source=download"
  },
@@ -451,6 +487,8 @@
   "spine": "#685f58",
   "epub": "books/the-hound-of-the-baskervilles.epub",
   "size": 539599,
+  "popularity": 42,
+  "opening": "Mr. Sherlock Holmes, who was usually very late in the mornings, save upon those not infrequent occasions when he was up all night, was seated at the breakfast table.",
   "kindle": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-hound-of-the-baskervilles/downloads/arthur-conan-doyle_the-hound-of-the-baskervilles.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-hound-of-the-baskervilles/downloads/arthur-conan-doyle_the-hound-of-the-baskervilles.kepub.epub?source=download"
  },
@@ -475,6 +513,8 @@
   "spine": "#49361d",
   "epub": "books/the-memoirs-of-sherlock-holmes.epub",
   "size": 682186,
+  "popularity": 103,
+  "opening": "“I am afraid, Watson, that I shall have to go,” said Holmes, as we sat down together to our breakfast one morning.",
   "kindle": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-memoirs-of-sherlock-holmes/downloads/arthur-conan-doyle_the-memoirs-of-sherlock-holmes.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-memoirs-of-sherlock-holmes/downloads/arthur-conan-doyle_the-memoirs-of-sherlock-holmes.kepub.epub?source=download"
  },
@@ -500,6 +540,8 @@
   "spine": "#7c7b6a",
   "epub": "books/the-moonstone.epub",
   "size": 958081,
+  "popularity": 229,
+  "opening": "I address these lines—written in India—to my relatives in England.",
   "kindle": "https://standardebooks.org/ebooks/wilkie-collins/the-moonstone/downloads/wilkie-collins_the-moonstone.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/wilkie-collins/the-moonstone/downloads/wilkie-collins_the-moonstone.kepub.epub?source=download"
  },
@@ -523,6 +565,8 @@
   "spine": "#726b5a",
   "epub": "books/the-woman-in-white.epub",
   "size": 1162037,
+  "popularity": 133,
+  "opening": "This is the story of what a woman’s patience can endure, and what a Man’s resolution can achieve.",
   "kindle": "https://standardebooks.org/ebooks/wilkie-collins/the-woman-in-white/downloads/wilkie-collins_the-woman-in-white.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/wilkie-collins/the-woman-in-white/downloads/wilkie-collins_the-woman-in-white.kepub.epub?source=download"
  },
@@ -547,6 +591,8 @@
   "spine": "#767061",
   "epub": "books/the-maltese-falcon.epub",
   "size": 1042524,
+  "popularity": 100,
+  "opening": "Samuel Spade’s jaw was long and bony, his chin a jutting v under the more flexible v of his mouth.",
   "kindle": "https://standardebooks.org/ebooks/dashiell-hammett/the-maltese-falcon/downloads/dashiell-hammett_the-maltese-falcon.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/dashiell-hammett/the-maltese-falcon/downloads/dashiell-hammett_the-maltese-falcon.kepub.epub?source=download"
  },
@@ -570,6 +616,8 @@
   "spine": "#463219",
   "epub": "books/the-innocence-of-father-brown.epub",
   "size": 823719,
+  "popularity": 198,
+  "opening": "Between the silver ribbon of morning and the green glittering ribbon of sea, the boat touched Harwich and let loose a swarm of folk like flies, among whom the man we must follow was by no means conspicuous—nor wished to be.",
   "kindle": "https://standardebooks.org/ebooks/g-k-chesterton/the-innocence-of-father-brown/downloads/g-k-chesterton_the-innocence-of-father-brown.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/g-k-chesterton/the-innocence-of-father-brown/downloads/g-k-chesterton_the-innocence-of-father-brown.kepub.epub?source=download"
  },
@@ -593,6 +641,8 @@
   "spine": "#7d746d",
   "epub": "books/the-extraordinary-adventures-of-arsene-lupin-gentleman-burglar.epub",
   "size": 652296,
+  "popularity": 140,
+  "opening": "It was a strange ending to a voyage that had commenced in a most auspicious manner.",
   "kindle": "https://standardebooks.org/ebooks/maurice-leblanc/the-extraordinary-adventures-of-arsene-lupin-gentleman-burglar/george-morehead/downloads/maurice-leblanc_the-extraordinary-adventures-of-arsene-lupin-gentleman-burglar_george-morehead.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/maurice-leblanc/the-extraordinary-adventures-of-arsene-lupin-gentleman-burglar/george-morehead/downloads/maurice-leblanc_the-extraordinary-adventures-of-arsene-lupin-gentleman-burglar_george-morehead.kepub.epub?source=download"
  },
@@ -621,6 +671,8 @@
   "spine": "#493d30",
   "epub": "books/the-thirty-nine-steps.epub",
   "size": 657483,
+  "popularity": 174,
+  "opening": "I returned from the city about three o’clock on that May afternoon pretty well disgusted with life.",
   "kindle": "https://standardebooks.org/ebooks/john-buchan/the-thirty-nine-steps/downloads/john-buchan_the-thirty-nine-steps.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/john-buchan/the-thirty-nine-steps/downloads/john-buchan_the-thirty-nine-steps.kepub.epub?source=download"
  },
@@ -645,6 +697,8 @@
   "spine": "#6d6254",
   "epub": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-return-of-sherlock-holmes/downloads/arthur-conan-doyle_the-return-of-sherlock-holmes.epub?source=download",
   "size": null,
+  "popularity": 118,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-return-of-sherlock-holmes/downloads/arthur-conan-doyle_the-return-of-sherlock-holmes.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-return-of-sherlock-holmes/downloads/arthur-conan-doyle_the-return-of-sherlock-holmes.kepub.epub?source=download"
  },
@@ -668,6 +722,8 @@
   "spine": "#1e221c",
   "epub": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-valley-of-fear/downloads/arthur-conan-doyle_the-valley-of-fear.epub?source=download",
   "size": null,
+  "popularity": 136,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-valley-of-fear/downloads/arthur-conan-doyle_the-valley-of-fear.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-valley-of-fear/downloads/arthur-conan-doyle_the-valley-of-fear.kepub.epub?source=download"
  },
@@ -691,6 +747,8 @@
   "spine": "#5d4839",
   "epub": "https://standardebooks.org/ebooks/arthur-conan-doyle/his-last-bow/downloads/arthur-conan-doyle_his-last-bow.epub?source=download",
   "size": null,
+  "popularity": 148,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/arthur-conan-doyle/his-last-bow/downloads/arthur-conan-doyle_his-last-bow.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/arthur-conan-doyle/his-last-bow/downloads/arthur-conan-doyle_his-last-bow.kepub.epub?source=download"
  },
@@ -713,6 +771,8 @@
   "spine": "#332721",
   "epub": "https://standardebooks.org/ebooks/g-k-chesterton/the-man-who-was-thursday/downloads/g-k-chesterton_the-man-who-was-thursday.epub?source=download",
   "size": null,
+  "popularity": 213,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/g-k-chesterton/the-man-who-was-thursday/downloads/g-k-chesterton_the-man-who-was-thursday.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/g-k-chesterton/the-man-who-was-thursday/downloads/g-k-chesterton_the-man-who-was-thursday.kepub.epub?source=download"
  },
@@ -736,6 +796,8 @@
   "spine": "#4b1212",
   "epub": "books/the-count-of-monte-cristo.epub",
   "size": 1657169,
+  "popularity": 4,
+  "opening": "On the 24th of February, 1815, the lookout at Notre-Dame de la Garde signalled the three-master, the Pharaon from Smyrna, Trieste, and Naples.",
   "kindle": "https://standardebooks.org/ebooks/alexandre-dumas/the-count-of-monte-cristo/chapman-and-hall/downloads/alexandre-dumas_the-count-of-monte-cristo_chapman-and-hall.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/alexandre-dumas/the-count-of-monte-cristo/chapman-and-hall/downloads/alexandre-dumas_the-count-of-monte-cristo_chapman-and-hall.kepub.epub?source=download"
  },
@@ -762,6 +824,8 @@
   "spine": "#1c1509",
   "epub": "books/the-three-musketeers.epub",
   "size": 1120659,
+  "popularity": 95,
+  "opening": "The Three Presents of d’Artagnan the…",
   "kindle": "https://standardebooks.org/ebooks/alexandre-dumas/the-three-musketeers/william-robson/downloads/alexandre-dumas_the-three-musketeers_william-robson.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/alexandre-dumas/the-three-musketeers/william-robson/downloads/alexandre-dumas_the-three-musketeers_william-robson.kepub.epub?source=download"
  },
@@ -785,6 +849,8 @@
   "spine": "#6d656a",
   "epub": "books/treasure-island.epub",
   "size": 720634,
+  "popularity": 38,
+  "opening": "Squire Trelawney, Doctor Livesey, and the rest of these gentlemen having asked me to write down the whole particulars about Treasure Island, from the beginning to the end, keeping nothing back but…",
   "kindle": "https://standardebooks.org/ebooks/robert-louis-stevenson/treasure-island/downloads/robert-louis-stevenson_treasure-island.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/robert-louis-stevenson/treasure-island/downloads/robert-louis-stevenson_treasure-island.kepub.epub?source=download"
  },
@@ -810,6 +876,8 @@
   "spine": "#46412a",
   "epub": "books/moby-dick.epub",
   "size": 1165482,
+  "popularity": 5,
+  "opening": "Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.",
   "kindle": "https://standardebooks.org/ebooks/herman-melville/moby-dick/downloads/herman-melville_moby-dick.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/herman-melville/moby-dick/downloads/herman-melville_moby-dick.kepub.epub?source=download"
  },
@@ -833,6 +901,8 @@
   "spine": "#3a3f39",
   "epub": "books/around-the-world-in-eighty-days.epub",
   "size": 667271,
+  "popularity": 112,
+  "opening": "In which Phileas Fogg and Passepartout accept each other, the one as master, the other as man.",
   "kindle": "https://standardebooks.org/ebooks/jules-verne/around-the-world-in-eighty-days/george-makepeace-towle/downloads/jules-verne_around-the-world-in-eighty-days_george-makepeace-towle.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/jules-verne/around-the-world-in-eighty-days/george-makepeace-towle/downloads/jules-verne_around-the-world-in-eighty-days_george-makepeace-towle.kepub.epub?source=download"
  },
@@ -857,6 +927,8 @@
   "spine": "#413329",
   "epub": "books/journey-to-the-center-of-the-earth.epub",
   "size": 900388,
+  "popularity": 88,
+  "opening": "On the 24th of May, 1863, my uncle, Professor Liedenbrock, rushed into his little house, No.",
   "kindle": "https://standardebooks.org/ebooks/jules-verne/journey-to-the-center-of-the-earth/f-a-malleson/downloads/jules-verne_journey-to-the-center-of-the-earth_f-a-malleson.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/jules-verne/journey-to-the-center-of-the-earth/f-a-malleson/downloads/jules-verne_journey-to-the-center-of-the-earth_f-a-malleson.kepub.epub?source=download"
  },
@@ -880,6 +952,8 @@
   "spine": "#786b66",
   "epub": "books/the-mysterious-island.epub",
   "size": 905773,
+  "popularity": 268,
+  "opening": "The hurricane of 1865—Cries in the air—A balloon caught by a waterspout—Only the sea in sight—Five passengers—What took place in the basket—Land ahead—The end.",
   "kindle": "https://standardebooks.org/ebooks/jules-verne/the-mysterious-island/stephen-w-white/downloads/jules-verne_the-mysterious-island_stephen-w-white.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/jules-verne/the-mysterious-island/stephen-w-white/downloads/jules-verne_the-mysterious-island_stephen-w-white.kepub.epub?source=download"
  },
@@ -903,6 +977,8 @@
   "spine": "#5d534d",
   "epub": "books/the-call-of-the-wild.epub",
   "size": 478515,
+  "popularity": 79,
+  "opening": "Buck did not read the newspapers, or he would have known that trouble was brewing, not alone for himself, but for every tidewater dog, strong of muscle and with warm, long hair, from Puget Sound to San Diego.",
   "kindle": "https://standardebooks.org/ebooks/jack-london/the-call-of-the-wild/downloads/jack-london_the-call-of-the-wild.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/jack-london/the-call-of-the-wild/downloads/jack-london_the-call-of-the-wild.kepub.epub?source=download"
  },
@@ -926,6 +1002,8 @@
   "spine": "#666e68",
   "epub": "books/white-fang.epub",
   "size": 470540,
+  "popularity": 193,
+  "opening": "Dark spruce forest frowned on either side the frozen waterway.",
   "kindle": "https://standardebooks.org/ebooks/jack-london/white-fang/downloads/jack-london_white-fang.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/jack-london/white-fang/downloads/jack-london_white-fang.kepub.epub?source=download"
  },
@@ -949,6 +1027,8 @@
   "spine": "#383023",
   "epub": "books/the-adventures-of-huckleberry-finn.epub",
   "size": 807168,
+  "popularity": 81,
+  "opening": "You don’t know about me without you have read a book by the name of The Adventures of Tom Sawyer; but that ain’t no matter.",
   "kindle": "https://standardebooks.org/ebooks/mark-twain/the-adventures-of-huckleberry-finn/downloads/mark-twain_the-adventures-of-huckleberry-finn.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/mark-twain/the-adventures-of-huckleberry-finn/downloads/mark-twain_the-adventures-of-huckleberry-finn.kepub.epub?source=download"
  },
@@ -973,6 +1053,8 @@
   "spine": "#322716",
   "epub": "books/the-adventures-of-tom-sawyer.epub",
   "size": 697383,
+  "popularity": 93,
+  "opening": "“What’s gone with that boy, I wonder?",
   "kindle": "https://standardebooks.org/ebooks/mark-twain/the-adventures-of-tom-sawyer/downloads/mark-twain_the-adventures-of-tom-sawyer.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/mark-twain/the-adventures-of-tom-sawyer/downloads/mark-twain_the-adventures-of-tom-sawyer.kepub.epub?source=download"
  },
@@ -997,6 +1079,8 @@
   "spine": "#726e61",
   "epub": "books/the-life-and-adventures-of-robinson-crusoe.epub",
   "size": 666765,
+  "popularity": 141,
+  "opening": "I was born in the year 1632, in the city of York, of a good family, though not of that country, my father being a foreigner of Bremen, who settled first at Hull.",
   "kindle": "https://standardebooks.org/ebooks/daniel-defoe/the-life-and-adventures-of-robinson-crusoe/downloads/daniel-defoe_the-life-and-adventures-of-robinson-crusoe.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/daniel-defoe/the-life-and-adventures-of-robinson-crusoe/downloads/daniel-defoe_the-life-and-adventures-of-robinson-crusoe.kepub.epub?source=download"
  },
@@ -1023,6 +1107,8 @@
   "spine": "#584e3e",
   "epub": "books/gullivers-travels.epub",
   "size": 1017847,
+  "popularity": 105,
+  "opening": "The author gives some account of himself and family.",
   "kindle": "https://standardebooks.org/ebooks/jonathan-swift/gullivers-travels/downloads/jonathan-swift_gullivers-travels.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/jonathan-swift/gullivers-travels/downloads/jonathan-swift_gullivers-travels.kepub.epub?source=download"
  },
@@ -1048,6 +1134,8 @@
   "spine": "#5d634c",
   "epub": "books/king-solomons-mines.epub",
   "size": 852545,
+  "popularity": 236,
+  "opening": "It is a curious thing that at my age—fifty-five last birthday—I should find myself taking up a pen to try to write a history.",
   "kindle": "https://standardebooks.org/ebooks/h-rider-haggard/king-solomons-mines/downloads/h-rider-haggard_king-solomons-mines.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/h-rider-haggard/king-solomons-mines/downloads/h-rider-haggard_king-solomons-mines.kepub.epub?source=download"
  },
@@ -1074,6 +1162,8 @@
   "spine": "#45605f",
   "epub": "books/the-lost-world.epub",
   "size": 712660,
+  "popularity": 126,
+  "opening": "Mr. Hungerton, her father, really was the most tactless person upon earth—a fluffy, feathery, untidy cockatoo of a man, perfectly good-natured, but absolutely centered upon his own silly self.",
   "kindle": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-lost-world/downloads/arthur-conan-doyle_the-lost-world.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/arthur-conan-doyle/the-lost-world/downloads/arthur-conan-doyle_the-lost-world.kepub.epub?source=download"
  },
@@ -1101,6 +1191,8 @@
   "spine": "#45331e",
   "epub": "books/don-quixote.epub",
   "size": 1564589,
+  "popularity": 52,
+  "opening": "Idle reader: thou mayest believe me without any oath that I would this book, as it is the child of my brain, were the fairest, gayest, and cleverest that could be imagined.",
   "kindle": "https://standardebooks.org/ebooks/miguel-de-cervantes-saavedra/don-quixote/john-ormsby/downloads/miguel-de-cervantes-saavedra_don-quixote_john-ormsby.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/miguel-de-cervantes-saavedra/don-quixote/john-ormsby/downloads/miguel-de-cervantes-saavedra_don-quixote_john-ormsby.kepub.epub?source=download"
  },
@@ -1125,6 +1217,8 @@
   "spine": "#3f3627",
   "epub": "https://standardebooks.org/ebooks/lewis-carroll/alices-adventures-in-wonderland/john-tenniel/downloads/lewis-carroll_alices-adventures-in-wonderland_john-tenniel.epub?source=download",
   "size": 18398848,
+  "popularity": 7,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/lewis-carroll/alices-adventures-in-wonderland/john-tenniel/downloads/lewis-carroll_alices-adventures-in-wonderland_john-tenniel.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/lewis-carroll/alices-adventures-in-wonderland/john-tenniel/downloads/lewis-carroll_alices-adventures-in-wonderland_john-tenniel.kepub.epub?source=download"
  },
@@ -1149,6 +1243,8 @@
   "spine": "#271e17",
   "epub": "https://standardebooks.org/ebooks/lewis-carroll/through-the-looking-glass/john-tenniel/downloads/lewis-carroll_through-the-looking-glass_john-tenniel.epub?source=download",
   "size": 24709488,
+  "popularity": 108,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/lewis-carroll/through-the-looking-glass/john-tenniel/downloads/lewis-carroll_through-the-looking-glass_john-tenniel.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/lewis-carroll/through-the-looking-glass/john-tenniel/downloads/lewis-carroll_through-the-looking-glass_john-tenniel.kepub.epub?source=download"
  },
@@ -1174,6 +1270,8 @@
   "spine": "#787674",
   "epub": "books/the-wonderful-wizard-of-oz.epub",
   "size": 681182,
+  "popularity": 61,
+  "opening": "Dorothy lived in the midst of the great Kansas prairies, with Uncle Henry, who was a farmer, and Aunt Em, who was the farmer’s wife.",
   "kindle": "https://standardebooks.org/ebooks/l-frank-baum/the-wonderful-wizard-of-oz/downloads/l-frank-baum_the-wonderful-wizard-of-oz.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/l-frank-baum/the-wonderful-wizard-of-oz/downloads/l-frank-baum_the-wonderful-wizard-of-oz.kepub.epub?source=download"
  },
@@ -1198,6 +1296,8 @@
   "spine": "#525649",
   "epub": "books/peter-and-wendy.epub",
   "size": 773297,
+  "popularity": 209,
+  "opening": "All children, except one, grow up.",
   "kindle": "https://standardebooks.org/ebooks/j-m-barrie/peter-and-wendy/downloads/j-m-barrie_peter-and-wendy.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/j-m-barrie/peter-and-wendy/downloads/j-m-barrie_peter-and-wendy.kepub.epub?source=download"
  },
@@ -1221,6 +1321,8 @@
   "spine": "#16170e",
   "epub": "books/the-king-of-elflands-daughter.epub",
   "size": 741147,
+  "popularity": 214,
+  "opening": "In their ruddy jackets of leather that reached to their knees the men of Erl appeared before their lord, the stately white-haired man in his long red room.",
   "kindle": "https://standardebooks.org/ebooks/lord-dunsany/the-king-of-elflands-daughter/downloads/lord-dunsany_the-king-of-elflands-daughter.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/lord-dunsany/the-king-of-elflands-daughter/downloads/lord-dunsany_the-king-of-elflands-daughter.kepub.epub?source=download"
  },
@@ -1244,6 +1346,8 @@
   "spine": "#453722",
   "epub": "books/conan-stories.epub",
   "size": 930101,
+  "popularity": 167,
+  "opening": "A swift crashing of horses through the tall reeds; a heavy fall, a despairing cry.",
   "kindle": "https://standardebooks.org/ebooks/robert-e-howard/conan-stories/downloads/robert-e-howard_conan-stories.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/robert-e-howard/conan-stories/downloads/robert-e-howard_conan-stories.kepub.epub?source=download"
  },
@@ -1267,6 +1371,8 @@
   "spine": "#858585",
   "epub": "books/le-morte-darthur.epub",
   "size": 1716765,
+  "popularity": 261,
+  "opening": "First, How Uther Pendragon sent for the duke of Cornwall and Igraine his wife, and of their departing suddenly again.",
   "kindle": "https://standardebooks.org/ebooks/thomas-malory/le-morte-darthur/downloads/thomas-malory_le-morte-darthur.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/thomas-malory/le-morte-darthur/downloads/thomas-malory_le-morte-darthur.kepub.epub?source=download"
  },
@@ -1291,6 +1397,8 @@
   "spine": "#606260",
   "epub": "books/sir-gawain-and-the-green-knight.epub",
   "size": 612730,
+  "popularity": 223,
+  "opening": "When the siege and the assault were ceasèd at Troy, When the burg had been broken, and burnt to ashes, The wight that the trains of treason there laid Was tried for his treachery, the truest on…",
   "kindle": "https://standardebooks.org/ebooks/anonymous/sir-gawain-and-the-green-knight/s-o-andrew/downloads/anonymous_sir-gawain-and-the-green-knight_s-o-andrew.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/anonymous/sir-gawain-and-the-green-knight/s-o-andrew/downloads/anonymous_sir-gawain-and-the-green-knight_s-o-andrew.kepub.epub?source=download"
  },
@@ -1315,6 +1423,8 @@
   "spine": "#a58765",
   "epub": "books/a-princess-of-mars.epub",
   "size": 705356,
+  "popularity": 163,
+  "opening": "I am a very old man; how old I do not know.",
   "kindle": "https://standardebooks.org/ebooks/edgar-rice-burroughs/a-princess-of-mars/downloads/edgar-rice-burroughs_a-princess-of-mars.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/edgar-rice-burroughs/a-princess-of-mars/downloads/edgar-rice-burroughs_a-princess-of-mars.kepub.epub?source=download"
  },
@@ -1338,6 +1448,8 @@
   "spine": "#4b4339",
   "epub": "books/a-connecticut-yankee-in-king-arthurs-court.epub",
   "size": 1055408,
+  "popularity": 210,
+  "opening": "It was in Warwick Castle that I came across the curious stranger whom I am going to talk about.",
   "kindle": "https://standardebooks.org/ebooks/mark-twain/a-connecticut-yankee-in-king-arthurs-court/downloads/mark-twain_a-connecticut-yankee-in-king-arthurs-court.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/mark-twain/a-connecticut-yankee-in-king-arthurs-court/downloads/mark-twain_a-connecticut-yankee-in-king-arthurs-court.kepub.epub?source=download"
  },
@@ -1363,6 +1475,8 @@
   "spine": "#432421",
   "epub": "books/frankenstein.epub",
   "size": 685797,
+  "popularity": 1,
+  "opening": "You will rejoice to hear that no disaster has accompanied the commencement of an enterprise which you have regarded with such evil forebodings.",
   "kindle": "https://standardebooks.org/ebooks/mary-shelley/frankenstein/downloads/mary-shelley_frankenstein.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/mary-shelley/frankenstein/downloads/mary-shelley_frankenstein.kepub.epub?source=download"
  },
@@ -1385,6 +1499,8 @@
   "spine": "#3e3b36",
   "epub": "books/the-time-machine.epub",
   "size": 535571,
+  "popularity": 20,
+  "opening": "The Time Traveller (for so it will be convenient to speak of him) was expounding a recondite matter to us.",
   "kindle": "https://standardebooks.org/ebooks/h-g-wells/the-time-machine/downloads/h-g-wells_the-time-machine.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/h-g-wells/the-time-machine/downloads/h-g-wells_the-time-machine.kepub.epub?source=download"
  },
@@ -1408,6 +1524,8 @@
   "spine": "#3b2f1c",
   "epub": "books/the-war-of-the-worlds.epub",
   "size": 800674,
+  "popularity": 51,
+  "opening": "No one would have believed in the last years of the nineteenth century that this world was being watched keenly and closely by intelligences greater than man’s and yet as mortal as his own; that as…",
   "kindle": "https://standardebooks.org/ebooks/h-g-wells/the-war-of-the-worlds/downloads/h-g-wells_the-war-of-the-worlds.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/h-g-wells/the-war-of-the-worlds/downloads/h-g-wells_the-war-of-the-worlds.kepub.epub?source=download"
  },
@@ -1432,6 +1550,8 @@
   "spine": "#767d76",
   "epub": "books/the-invisible-man.epub",
   "size": 680180,
+  "popularity": 76,
+  "opening": "The stranger came early in February, one wintry day, through a biting wind and a driving snow, the last snowfall of the year, over the down, walking from Bramblehurst railway station, and carrying a…",
   "kindle": "https://standardebooks.org/ebooks/h-g-wells/the-invisible-man/downloads/h-g-wells_the-invisible-man.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/h-g-wells/the-invisible-man/downloads/h-g-wells_the-invisible-man.kepub.epub?source=download"
  },
@@ -1456,6 +1576,8 @@
   "spine": "#667170",
   "epub": "books/the-island-of-doctor-moreau.epub",
   "size": 608634,
+  "popularity": 152,
+  "opening": "I do not propose to add anything to what has already been written concerning the loss of the Lady Vain.",
   "kindle": "https://standardebooks.org/ebooks/h-g-wells/the-island-of-doctor-moreau/downloads/h-g-wells_the-island-of-doctor-moreau.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/h-g-wells/the-island-of-doctor-moreau/downloads/h-g-wells_the-island-of-doctor-moreau.kepub.epub?source=download"
  },
@@ -1479,6 +1601,8 @@
   "spine": "#3e352c",
   "epub": "books/we.epub",
   "size": 551328,
+  "popularity": 207,
+  "opening": "An announcement—The wisest of lines—A poem.",
   "kindle": "https://standardebooks.org/ebooks/yevgeny-zamyatin/we/gregory-zilboorg/downloads/yevgeny-zamyatin_we_gregory-zilboorg.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/yevgeny-zamyatin/we/gregory-zilboorg/downloads/yevgeny-zamyatin_we_gregory-zilboorg.kepub.epub?source=download"
  },
@@ -1502,6 +1626,8 @@
   "spine": "#4a4741",
   "epub": "books/flatland.epub",
   "size": 1006174,
+  "popularity": 157,
+  "opening": "“Be patient, for the world is broad and wide.”",
   "kindle": "https://standardebooks.org/ebooks/edwin-a-abbott/flatland/downloads/edwin-a-abbott_flatland.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/edwin-a-abbott/flatland/downloads/edwin-a-abbott_flatland.kepub.epub?source=download"
  },
@@ -1526,6 +1652,8 @@
   "spine": "#726b5f",
   "epub": "books/the-last-man.epub",
   "size": 1214367,
+  "popularity": 235,
+  "opening": "I am the native of a sea-surrounded nook, a cloud-enshadowed land, which, when the surface of the globe, with its shoreless ocean and trackless continents, presents itself to my mind, appears only as…",
   "kindle": "https://standardebooks.org/ebooks/mary-shelley/the-last-man/downloads/mary-shelley_the-last-man.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/mary-shelley/the-last-man/downloads/mary-shelley_the-last-man.kepub.epub?source=download"
  },
@@ -1549,6 +1677,8 @@
   "spine": "#4b4137",
   "epub": "https://standardebooks.org/ebooks/h-g-wells/short-fiction/downloads/h-g-wells_short-fiction.epub?source=download",
   "size": null,
+  "popularity": 201,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/h-g-wells/short-fiction/downloads/h-g-wells_short-fiction.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/h-g-wells/short-fiction/downloads/h-g-wells_short-fiction.kepub.epub?source=download"
  },
@@ -1573,6 +1703,8 @@
   "spine": "#131c19",
   "epub": "https://standardebooks.org/ebooks/edgar-rice-burroughs/pirates-of-venus/downloads/edgar-rice-burroughs_pirates-of-venus.epub?source=download",
   "size": null,
+  "popularity": 221,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/edgar-rice-burroughs/pirates-of-venus/downloads/edgar-rice-burroughs_pirates-of-venus.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/edgar-rice-burroughs/pirates-of-venus/downloads/edgar-rice-burroughs_pirates-of-venus.kepub.epub?source=download"
  },
@@ -1597,6 +1729,8 @@
   "spine": "#20201e",
   "epub": "books/dracula.epub",
   "size": 633860,
+  "popularity": 3,
+  "opening": "3 May. Bistritz.—Left Munich at 8:35 p.m., on 1st May, arriving at Vienna early next morning; should have arrived at 6:46, but train was an hour late.",
   "kindle": "https://standardebooks.org/ebooks/bram-stoker/dracula/downloads/bram-stoker_dracula.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/bram-stoker/dracula/downloads/bram-stoker_dracula.kepub.epub?source=download"
  },
@@ -1620,6 +1754,8 @@
   "spine": "#191715",
   "epub": "books/the-strange-case-of-dr-jekyll-and-mr-hyde.epub",
   "size": 492233,
+  "popularity": 23,
+  "opening": "Mr. Utterson the lawyer was a man of a rugged countenance that was never lighted by a smile; cold, scanty and embarrassed in discourse; backward in sentiment; lean, long, dusty, dreary and yet somehow lovable.",
   "kindle": "https://standardebooks.org/ebooks/robert-louis-stevenson/the-strange-case-of-dr-jekyll-and-mr-hyde/downloads/robert-louis-stevenson_the-strange-case-of-dr-jekyll-and-mr-hyde.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/robert-louis-stevenson/the-strange-case-of-dr-jekyll-and-mr-hyde/downloads/robert-louis-stevenson_the-strange-case-of-dr-jekyll-and-mr-hyde.kepub.epub?source=download"
  },
@@ -1645,6 +1781,8 @@
   "spine": "#3c464f",
   "epub": "books/edgar-allan-poe-short-fiction.epub",
   "size": 1279674,
+  "popularity": 37,
+  "opening": "Horror and fatality have been stalking abroad in all ages.",
   "kindle": "https://standardebooks.org/ebooks/edgar-allan-poe/short-fiction/downloads/edgar-allan-poe_short-fiction.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/edgar-allan-poe/short-fiction/downloads/edgar-allan-poe_short-fiction.kepub.epub?source=download"
  },
@@ -1670,6 +1808,8 @@
   "spine": "#0b0703",
   "epub": "books/h-p-lovecraft-short-fiction.epub",
   "size": 947564,
+  "popularity": 86,
+  "opening": "High up, crowning the grassy summit of a swelling mound whose sides are wooded near the base with the gnarled trees of the primeval forest, stands the old château of my ancestors.",
   "kindle": "https://standardebooks.org/ebooks/h-p-lovecraft/short-fiction/downloads/h-p-lovecraft_short-fiction.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/h-p-lovecraft/short-fiction/downloads/h-p-lovecraft_short-fiction.kepub.epub?source=download"
  },
@@ -1694,6 +1834,8 @@
   "spine": "#35374e",
   "epub": "books/at-the-mountains-of-madness.epub",
   "size": 572165,
+  "popularity": 91,
+  "opening": "I am forced into speech because men of science have refused to follow my advice without knowing why.",
   "kindle": "https://standardebooks.org/ebooks/h-p-lovecraft/at-the-mountains-of-madness/downloads/h-p-lovecraft_at-the-mountains-of-madness.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/h-p-lovecraft/at-the-mountains-of-madness/downloads/h-p-lovecraft_at-the-mountains-of-madness.kepub.epub?source=download"
  },
@@ -1717,6 +1859,8 @@
   "spine": "#565848",
   "epub": "books/the-turn-of-the-screw.epub",
   "size": 584498,
+  "popularity": 87,
+  "opening": "The story had held us, round the fire, sufficiently breathless, but except the obvious remark that it was gruesome, as, on Christmas Eve in an old house, a strange tale should essentially be, I…",
   "kindle": "https://standardebooks.org/ebooks/henry-james/the-turn-of-the-screw/downloads/henry-james_the-turn-of-the-screw.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/henry-james/the-turn-of-the-screw/downloads/henry-james_the-turn-of-the-screw.kepub.epub?source=download"
  },
@@ -1741,6 +1885,8 @@
   "spine": "#735e3e",
   "epub": "books/the-king-in-yellow.epub",
   "size": 740441,
+  "popularity": 54,
+  "opening": "“Ne raillons pas les fous; leur folie dure plus longtemps que la nôtre.",
   "kindle": "https://standardebooks.org/ebooks/robert-w-chambers/the-king-in-yellow/downloads/robert-w-chambers_the-king-in-yellow.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/robert-w-chambers/the-king-in-yellow/downloads/robert-w-chambers_the-king-in-yellow.kepub.epub?source=download"
  },
@@ -1765,6 +1911,8 @@
   "spine": "#2a1d1c",
   "epub": "books/j-sheridan-le-fanu-short-fiction.epub",
   "size": 1232217,
+  "popularity": 124,
+  "opening": "In looking over the papers of my late valued and respected friend, Francis Purcell, who for nearly fifty years discharged the arduous duties of a parish priest in the south of Ireland, I met with the following document.",
   "kindle": "https://standardebooks.org/ebooks/j-sheridan-le-fanu/short-fiction/downloads/j-sheridan-le-fanu_short-fiction.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/j-sheridan-le-fanu/short-fiction/downloads/j-sheridan-le-fanu_short-fiction.kepub.epub?source=download"
  },
@@ -1790,6 +1938,8 @@
   "spine": "#61512e",
   "epub": "books/the-phantom-of-the-opera.epub",
   "size": 757394,
+  "popularity": 172,
+  "opening": "In which the author of this singular work informs the reader how he acquired the certainty that the Opera Ghost really existed.",
   "kindle": "https://standardebooks.org/ebooks/gaston-leroux/the-phantom-of-the-opera/alexander-teixeira-de-mattos/downloads/gaston-leroux_the-phantom-of-the-opera_alexander-teixeira-de-mattos.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/gaston-leroux/the-phantom-of-the-opera/alexander-teixeira-de-mattos/downloads/gaston-leroux_the-phantom-of-the-opera_alexander-teixeira-de-mattos.kepub.epub?source=download"
  },
@@ -1814,6 +1964,8 @@
   "spine": "#58674b",
   "epub": "books/the-house-on-the-borderland.epub",
   "size": 775141,
+  "popularity": 232,
+  "opening": "Right away in the west of Ireland lies a tiny hamlet called Kraighten.",
   "kindle": "https://standardebooks.org/ebooks/william-hope-hodgson/the-house-on-the-borderland/downloads/william-hope-hodgson_the-house-on-the-borderland.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/william-hope-hodgson/the-house-on-the-borderland/downloads/william-hope-hodgson_the-house-on-the-borderland.kepub.epub?source=download"
  },
@@ -1837,6 +1989,8 @@
   "spine": "#4d4026",
   "epub": "books/the-picture-of-dorian-gray.epub",
   "size": 634177,
+  "popularity": 12,
+  "opening": "The studio was filled with the rich odour of roses, and when the light summer wind stirred amidst the trees of the garden, there came through the open door the heavy scent of the lilac, or the more…",
   "kindle": "https://standardebooks.org/ebooks/oscar-wilde/the-picture-of-dorian-gray/downloads/oscar-wilde_the-picture-of-dorian-gray.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/oscar-wilde/the-picture-of-dorian-gray/downloads/oscar-wilde_the-picture-of-dorian-gray.kepub.epub?source=download"
  },
@@ -1862,6 +2016,8 @@
   "spine": "#6f7279",
   "epub": "books/leaves-of-grass.epub",
   "size": 947026,
+  "popularity": 179,
+  "opening": "One’s-self I sing, a simple separate person, Yet utter the word Democratic, the word En-Masse.",
   "kindle": "https://standardebooks.org/ebooks/walt-whitman/leaves-of-grass/downloads/walt-whitman_leaves-of-grass.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/walt-whitman/leaves-of-grass/downloads/walt-whitman_leaves-of-grass.kepub.epub?source=download"
  },
@@ -1885,6 +2041,8 @@
   "spine": "#150d06",
   "epub": "books/the-prophet.epub",
   "size": 441479,
+  "popularity": 145,
+  "opening": "Almustafa, the chosen and the beloved, who was a dawn unto his own day, had waited twelve years in the city of Orphalese for his ship that was to return and bear him back to the isle of his birth.",
   "kindle": "https://standardebooks.org/ebooks/kahlil-gibran/the-prophet/downloads/kahlil-gibran_the-prophet.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/kahlil-gibran/the-prophet/downloads/kahlil-gibran_the-prophet.kepub.epub?source=download"
  },
@@ -1909,6 +2067,8 @@
   "spine": "#3f3720",
   "epub": "books/edgar-allan-poe-poetry.epub",
   "size": 698306,
+  "popularity": 147,
+  "opening": "Kind solace in a dying hour! Such, father, is not (now) my theme— I will not madly deem that power Of Earth may shrive me of the sin Unearthly pride hath revelled in— I have no time to dote or dream: You call it hope—that fire of fire!",
   "kindle": "https://standardebooks.org/ebooks/edgar-allan-poe/poetry/downloads/edgar-allan-poe_poetry.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/edgar-allan-poe/poetry/downloads/edgar-allan-poe_poetry.kepub.epub?source=download"
  },
@@ -1932,6 +2092,8 @@
   "spine": "#2c2417",
   "epub": "books/john-keats-poetry.epub",
   "size": 567693,
+  "popularity": 254,
+  "opening": "Now Morning from her orient chamber came, And her first footsteps touch’d a verdant hill; Crowning its lawny crest with amber flame, Silv’ring the untainted gushes of its rill; Which, pure from mossy…",
   "kindle": "https://standardebooks.org/ebooks/john-keats/poetry/downloads/john-keats_poetry.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/john-keats/poetry/downloads/john-keats_poetry.kepub.epub?source=download"
  },
@@ -1956,6 +2118,8 @@
   "spine": "#353c33",
   "epub": "books/w-b-yeats-poetry.epub",
   "size": 585372,
+  "popularity": 253,
+  "opening": "A man has a hope for heaven, But soulless a faery dies, As a leaf that is old, and withered and cold When the wint’ry vapours rise.",
   "kindle": "https://standardebooks.org/ebooks/w-b-yeats/poetry/downloads/w-b-yeats_poetry.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/w-b-yeats/poetry/downloads/w-b-yeats_poetry.kepub.epub?source=download"
  },
@@ -1979,6 +2143,8 @@
   "spine": "#796453",
   "epub": "https://standardebooks.org/ebooks/john-donne/poetry/downloads/john-donne_poetry.epub?source=download",
   "size": null,
+  "popularity": 194,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/john-donne/poetry/downloads/john-donne_poetry.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/john-donne/poetry/downloads/john-donne_poetry.kepub.epub?source=download"
  },
@@ -2003,6 +2169,8 @@
   "spine": "#4d3b1f",
   "epub": "books/paradise-lost.epub",
   "size": 793333,
+  "popularity": 67,
+  "opening": "This First Book proposes, first in brief, the whole subject, Man’s disobedience, and the loss thereupon of Paradise, wherein he was placed: then touches the prime cause of his fall, the Serpent, or…",
   "kindle": "https://standardebooks.org/ebooks/john-milton/paradise-lost/downloads/john-milton_paradise-lost.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/john-milton/paradise-lost/downloads/john-milton_paradise-lost.kepub.epub?source=download"
  },
@@ -2027,6 +2195,8 @@
   "spine": "#201c10",
   "epub": "books/the-divine-comedy.epub",
   "size": 1539040,
+  "popularity": 65,
+  "opening": "Oft have I seen at some cathedral door A laborer, pausing in the dust and heat, Lay down his burden, and with reverent feet Enter, and cross himself, and on the floor Kneel to repeat his paternoster…",
   "kindle": "https://standardebooks.org/ebooks/dante-alighieri/the-divine-comedy/henry-wadsworth-longfellow/downloads/dante-alighieri_the-divine-comedy_henry-wadsworth-longfellow.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/dante-alighieri/the-divine-comedy/henry-wadsworth-longfellow/downloads/dante-alighieri_the-divine-comedy_henry-wadsworth-longfellow.kepub.epub?source=download"
  },
@@ -2051,6 +2221,8 @@
   "spine": "#493b2b",
   "epub": "books/the-odyssey.epub",
   "size": 976128,
+  "popularity": 24,
+  "opening": "A council of the gods—Deliberations concerning Ulysses—Mercury despatched to Calypso, to bid her send Ulysses to Ithaca—Visit of Pallas, in the shape of Mentor, to Telemachus, advising him to repair…",
   "kindle": "https://standardebooks.org/ebooks/homer/the-odyssey/william-cullen-bryant/downloads/homer_the-odyssey_william-cullen-bryant.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/homer/the-odyssey/william-cullen-bryant/downloads/homer_the-odyssey_william-cullen-bryant.kepub.epub?source=download"
  },
@@ -2074,6 +2246,8 @@
   "spine": "#1e1218",
   "epub": "books/the-iliad.epub",
   "size": 803905,
+  "popularity": 73,
+  "opening": "The Contention of Achilles and…",
   "kindle": "https://standardebooks.org/ebooks/homer/the-iliad/william-cullen-bryant/downloads/homer_the-iliad_william-cullen-bryant.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/homer/the-iliad/william-cullen-bryant/downloads/homer_the-iliad_william-cullen-bryant.kepub.epub?source=download"
  },
@@ -2098,6 +2272,8 @@
   "spine": "#322d2a",
   "epub": "books/beowulf.epub",
   "size": 392351,
+  "popularity": 189,
+  "opening": "Lo! the Spear-Danes’ glory through splendid achievements The folk-kings’ former fame we have heard of, How princes displayed then their prowess-in-battle.",
   "kindle": "https://standardebooks.org/ebooks/anonymous/beowulf/john-lesslie-hall/downloads/anonymous_beowulf_john-lesslie-hall.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/anonymous/beowulf/john-lesslie-hall/downloads/anonymous_beowulf_john-lesslie-hall.kepub.epub?source=download"
  },
@@ -2122,6 +2298,8 @@
   "spine": "#634639",
   "epub": "books/meditations.epub",
   "size": 733307,
+  "popularity": 8,
+  "opening": "From my grandfather Verus I learned good morals and the government of my temper.",
   "kindle": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long/downloads/marcus-aurelius_meditations_george-long.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/marcus-aurelius/meditations/george-long/downloads/marcus-aurelius_meditations_george-long.kepub.epub?source=download"
  },
@@ -2145,6 +2323,8 @@
   "spine": "#87704f",
   "epub": "books/the-art-of-war.epub",
   "size": 592844,
+  "popularity": 31,
+  "opening": "Sun Tzǔ said: The art of war is of vital importance to the State.",
   "kindle": "https://standardebooks.org/ebooks/sun-tzu/the-art-of-war/lionel-giles/downloads/sun-tzu_the-art-of-war_lionel-giles.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/sun-tzu/the-art-of-war/lionel-giles/downloads/sun-tzu_the-art-of-war_lionel-giles.kepub.epub?source=download"
  },
@@ -2169,6 +2349,8 @@
   "spine": "#191712",
   "epub": "books/moral-letters-to-lucilius.epub",
   "size": 1076258,
+  "popularity": 35,
+  "opening": "Greetings from Seneca to his friend Lucilius.",
   "kindle": "https://standardebooks.org/ebooks/seneca/moral-letters-to-lucilius/richard-m-gummere/downloads/seneca_moral-letters-to-lucilius_richard-m-gummere.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/seneca/moral-letters-to-lucilius/richard-m-gummere/downloads/seneca_moral-letters-to-lucilius_richard-m-gummere.kepub.epub?source=download"
  },
@@ -2192,6 +2374,8 @@
   "spine": "#706851",
   "epub": "books/tao-te-ching.epub",
   "size": 803239,
+  "popularity": 47,
+  "opening": "The Tao that can be trodden is not the enduring and unchanging Tao.",
   "kindle": "https://standardebooks.org/ebooks/laozi/tao-te-ching/james-legge/downloads/laozi_tao-te-ching_james-legge.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/laozi/tao-te-ching/james-legge/downloads/laozi_tao-te-ching_james-legge.kepub.epub?source=download"
  },
@@ -2215,6 +2399,8 @@
   "spine": "#382015",
   "epub": "books/the-prince.epub",
   "size": 459478,
+  "popularity": 45,
+  "opening": "How Many Kinds of Principalities There Are, and by What Means They Are…",
   "kindle": "https://standardebooks.org/ebooks/niccolo-machiavelli/the-prince/w-k-marriott/downloads/niccolo-machiavelli_the-prince_w-k-marriott.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/niccolo-machiavelli/the-prince/w-k-marriott/downloads/niccolo-machiavelli_the-prince_w-k-marriott.kepub.epub?source=download"
  },
@@ -2237,6 +2423,8 @@
   "spine": "#5c6252",
   "epub": "books/beyond-good-and-evil.epub",
   "size": 706183,
+  "popularity": 96,
+  "opening": "The Will to Truth, which is to tempt us to many a hazardous enterprise, the famous Truthfulness of which all philosophers have hitherto spoken with respect, what questions has this Will to Truth not laid before us!",
   "kindle": "https://standardebooks.org/ebooks/friedrich-nietzsche/beyond-good-and-evil/helen-zimmern/downloads/friedrich-nietzsche_beyond-good-and-evil_helen-zimmern.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/friedrich-nietzsche/beyond-good-and-evil/helen-zimmern/downloads/friedrich-nietzsche_beyond-good-and-evil_helen-zimmern.kepub.epub?source=download"
  },
@@ -2266,6 +2454,8 @@
   "spine": "#6e5554",
   "epub": "books/thus-spake-zarathustra.epub",
   "size": 699632,
+  "popularity": 128,
+  "opening": "When Zarathustra was thirty years old, he left his home and the lake of his home, and went into the mountains.",
   "kindle": "https://standardebooks.org/ebooks/friedrich-nietzsche/thus-spake-zarathustra/thomas-common/downloads/friedrich-nietzsche_thus-spake-zarathustra_thomas-common.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/friedrich-nietzsche/thus-spake-zarathustra/thomas-common/downloads/friedrich-nietzsche_thus-spake-zarathustra_thomas-common.kepub.epub?source=download"
  },
@@ -2290,6 +2480,8 @@
   "spine": "#4f3920",
   "epub": "books/discourses.epub",
   "size": 801689,
+  "popularity": 114,
+  "opening": "Of the Things Which Are in Our Power, and Not in Our…",
   "kindle": "https://standardebooks.org/ebooks/epictetus/discourses/george-long/downloads/epictetus_discourses_george-long.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/epictetus/discourses/george-long/downloads/epictetus_discourses_george-long.kepub.epub?source=download"
  },
@@ -2315,6 +2507,8 @@
   "spine": "#586b5e",
   "epub": "https://standardebooks.org/ebooks/plato/dialogues/benjamin-jowett/downloads/plato_dialogues_benjamin-jowett.epub?source=download",
   "size": null,
+  "popularity": 60,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/plato/dialogues/benjamin-jowett/downloads/plato_dialogues_benjamin-jowett.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/plato/dialogues/benjamin-jowett/downloads/plato_dialogues_benjamin-jowett.kepub.epub?source=download"
  },
@@ -2338,6 +2532,8 @@
   "spine": "#3e3a27",
   "epub": "https://standardebooks.org/ebooks/henry-david-thoreau/walden/downloads/henry-david-thoreau_walden.epub?source=download",
   "size": null,
+  "popularity": 50,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/henry-david-thoreau/walden/downloads/henry-david-thoreau_walden.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/henry-david-thoreau/walden/downloads/henry-david-thoreau_walden.kepub.epub?source=download"
  },
@@ -2366,6 +2562,8 @@
   "spine": "#100f0e",
   "epub": "https://standardebooks.org/ebooks/boethius/the-consolation-of-philosophy/h-r-james/downloads/boethius_the-consolation-of-philosophy_h-r-james.epub?source=download",
   "size": null,
+  "popularity": 245,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/boethius/the-consolation-of-philosophy/h-r-james/downloads/boethius_the-consolation-of-philosophy_h-r-james.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/boethius/the-consolation-of-philosophy/h-r-james/downloads/boethius_the-consolation-of-philosophy_h-r-james.kepub.epub?source=download"
  },
@@ -2390,6 +2588,8 @@
   "spine": "#7c7468",
   "epub": "https://standardebooks.org/ebooks/mahatma-gandhi/the-story-of-my-experiments-with-truth/mahadev-desai/downloads/mahatma-gandhi_the-story-of-my-experiments-with-truth_mahadev-desai.epub?source=download",
   "size": null,
+  "popularity": 238,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/mahatma-gandhi/the-story-of-my-experiments-with-truth/mahadev-desai/downloads/mahatma-gandhi_the-story-of-my-experiments-with-truth_mahadev-desai.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/mahatma-gandhi/the-story-of-my-experiments-with-truth/mahadev-desai/downloads/mahatma-gandhi_the-story-of-my-experiments-with-truth_mahadev-desai.kepub.epub?source=download"
  },
@@ -2415,6 +2615,8 @@
   "spine": "#3c272a",
   "epub": "https://standardebooks.org/ebooks/hermann-hesse/siddhartha/various-translators/downloads/hermann-hesse_siddhartha_various-translators.epub?source=download",
   "size": null,
+  "popularity": 104,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/hermann-hesse/siddhartha/various-translators/downloads/hermann-hesse_siddhartha_various-translators.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/hermann-hesse/siddhartha/various-translators/downloads/hermann-hesse_siddhartha_various-translators.kepub.epub?source=download"
  },
@@ -2439,6 +2641,8 @@
   "spine": "#565b41",
   "epub": "https://standardebooks.org/ebooks/frances-hodgson-burnett/the-secret-garden/downloads/frances-hodgson-burnett_the-secret-garden.epub?source=download",
   "size": null,
+  "popularity": 89,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/frances-hodgson-burnett/the-secret-garden/downloads/frances-hodgson-burnett_the-secret-garden.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/frances-hodgson-burnett/the-secret-garden/downloads/frances-hodgson-burnett_the-secret-garden.kepub.epub?source=download"
  },
@@ -2462,6 +2666,8 @@
   "spine": "#2a231d",
   "epub": "https://standardebooks.org/ebooks/frances-hodgson-burnett/a-little-princess/downloads/frances-hodgson-burnett_a-little-princess.epub?source=download",
   "size": null,
+  "popularity": 251,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/frances-hodgson-burnett/a-little-princess/downloads/frances-hodgson-burnett_a-little-princess.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/frances-hodgson-burnett/a-little-princess/downloads/frances-hodgson-burnett_a-little-princess.kepub.epub?source=download"
  },
@@ -2484,6 +2690,8 @@
   "spine": "#59553c",
   "epub": "https://standardebooks.org/ebooks/l-m-montgomery/anne-of-green-gables/downloads/l-m-montgomery_anne-of-green-gables.epub?source=download",
   "size": null,
+  "popularity": 77,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/l-m-montgomery/anne-of-green-gables/downloads/l-m-montgomery_anne-of-green-gables.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/l-m-montgomery/anne-of-green-gables/downloads/l-m-montgomery_anne-of-green-gables.kepub.epub?source=download"
  },
@@ -2509,6 +2717,8 @@
   "spine": "#603c25",
   "epub": "https://standardebooks.org/ebooks/louisa-may-alcott/little-women/downloads/louisa-may-alcott_little-women.epub?source=download",
   "size": null,
+  "popularity": 55,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/louisa-may-alcott/little-women/downloads/louisa-may-alcott_little-women.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/louisa-may-alcott/little-women/downloads/louisa-may-alcott_little-women.kepub.epub?source=download"
  },
@@ -2532,6 +2742,8 @@
   "spine": "#6a542f",
   "epub": "https://standardebooks.org/ebooks/a-a-milne/winnie-the-pooh/downloads/a-a-milne_winnie-the-pooh.epub?source=download",
   "size": null,
+  "popularity": 116,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/a-a-milne/winnie-the-pooh/downloads/a-a-milne_winnie-the-pooh.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/a-a-milne/winnie-the-pooh/downloads/a-a-milne_winnie-the-pooh.kepub.epub?source=download"
  },
@@ -2555,6 +2767,8 @@
   "spine": "#776646",
   "epub": "https://standardebooks.org/ebooks/kenneth-grahame/the-wind-in-the-willows/downloads/kenneth-grahame_the-wind-in-the-willows.epub?source=download",
   "size": null,
+  "popularity": 117,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/kenneth-grahame/the-wind-in-the-willows/downloads/kenneth-grahame_the-wind-in-the-willows.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/kenneth-grahame/the-wind-in-the-willows/downloads/kenneth-grahame_the-wind-in-the-willows.kepub.epub?source=download"
  },
@@ -2577,6 +2791,8 @@
   "spine": "#716a62",
   "epub": "https://standardebooks.org/ebooks/anna-sewell/black-beauty/downloads/anna-sewell_black-beauty.epub?source=download",
   "size": null,
+  "popularity": 196,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/anna-sewell/black-beauty/downloads/anna-sewell_black-beauty.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/anna-sewell/black-beauty/downloads/anna-sewell_black-beauty.kepub.epub?source=download"
  },
@@ -2602,6 +2818,8 @@
   "spine": "#1d150a",
   "epub": "https://standardebooks.org/ebooks/hugh-lofting/the-story-of-doctor-dolittle/downloads/hugh-lofting_the-story-of-doctor-dolittle.epub?source=download",
   "size": null,
+  "popularity": 220,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/hugh-lofting/the-story-of-doctor-dolittle/downloads/hugh-lofting_the-story-of-doctor-dolittle.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/hugh-lofting/the-story-of-doctor-dolittle/downloads/hugh-lofting_the-story-of-doctor-dolittle.kepub.epub?source=download"
  },
@@ -2626,6 +2844,8 @@
   "spine": "#4a4020",
   "epub": "https://standardebooks.org/ebooks/rudyard-kipling/the-jungle-book/downloads/rudyard-kipling_the-jungle-book.epub?source=download",
   "size": null,
+  "popularity": 135,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/rudyard-kipling/the-jungle-book/downloads/rudyard-kipling_the-jungle-book.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/rudyard-kipling/the-jungle-book/downloads/rudyard-kipling_the-jungle-book.kepub.epub?source=download"
  },
@@ -2649,6 +2869,8 @@
   "spine": "#39382e",
   "epub": "https://standardebooks.org/ebooks/aesop/fables/v-s-vernon-jones/downloads/aesop_fables_v-s-vernon-jones.epub?source=download",
   "size": null,
+  "popularity": 182,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/aesop/fables/v-s-vernon-jones/downloads/aesop_fables_v-s-vernon-jones.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/aesop/fables/v-s-vernon-jones/downloads/aesop_fables_v-s-vernon-jones.kepub.epub?source=download"
  },
@@ -2673,6 +2895,8 @@
   "spine": "#333123",
   "epub": "https://standardebooks.org/ebooks/oscar-wilde/childrens-stories/downloads/oscar-wilde_childrens-stories.epub?source=download",
   "size": null,
+  "popularity": 265,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/oscar-wilde/childrens-stories/downloads/oscar-wilde_childrens-stories.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/oscar-wilde/childrens-stories/downloads/oscar-wilde_childrens-stories.kepub.epub?source=download"
  },
@@ -2697,6 +2921,8 @@
   "spine": "#322f17",
   "epub": "https://standardebooks.org/ebooks/william-shakespeare/hamlet/downloads/william-shakespeare_hamlet.epub?source=download",
   "size": null,
+  "popularity": 64,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/william-shakespeare/hamlet/downloads/william-shakespeare_hamlet.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/william-shakespeare/hamlet/downloads/william-shakespeare_hamlet.kepub.epub?source=download"
  },
@@ -2721,6 +2947,8 @@
   "spine": "#151a1d",
   "epub": "https://standardebooks.org/ebooks/william-shakespeare/macbeth/downloads/william-shakespeare_macbeth.epub?source=download",
   "size": null,
+  "popularity": 72,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/william-shakespeare/macbeth/downloads/william-shakespeare_macbeth.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/william-shakespeare/macbeth/downloads/william-shakespeare_macbeth.kepub.epub?source=download"
  },
@@ -2746,6 +2974,8 @@
   "spine": "#151009",
   "epub": "https://standardebooks.org/ebooks/william-shakespeare/romeo-and-juliet/downloads/william-shakespeare_romeo-and-juliet.epub?source=download",
   "size": null,
+  "popularity": 131,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/william-shakespeare/romeo-and-juliet/downloads/william-shakespeare_romeo-and-juliet.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/william-shakespeare/romeo-and-juliet/downloads/william-shakespeare_romeo-and-juliet.kepub.epub?source=download"
  },
@@ -2770,6 +3000,8 @@
   "spine": "#3e3727",
   "epub": "https://standardebooks.org/ebooks/william-shakespeare/othello/downloads/william-shakespeare_othello.epub?source=download",
   "size": null,
+  "popularity": 181,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/william-shakespeare/othello/downloads/william-shakespeare_othello.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/william-shakespeare/othello/downloads/william-shakespeare_othello.kepub.epub?source=download"
  },
@@ -2795,6 +3027,8 @@
   "spine": "#4e3e2a",
   "epub": "https://standardebooks.org/ebooks/william-shakespeare/a-midsummer-nights-dream/downloads/william-shakespeare_a-midsummer-nights-dream.epub?source=download",
   "size": null,
+  "popularity": 183,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/william-shakespeare/a-midsummer-nights-dream/downloads/william-shakespeare_a-midsummer-nights-dream.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/william-shakespeare/a-midsummer-nights-dream/downloads/william-shakespeare_a-midsummer-nights-dream.kepub.epub?source=download"
  },
@@ -2822,6 +3056,8 @@
   "spine": "#2f1b10",
   "epub": "https://standardebooks.org/ebooks/william-shakespeare/king-lear/downloads/william-shakespeare_king-lear.epub?source=download",
   "size": null,
+  "popularity": 173,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/william-shakespeare/king-lear/downloads/william-shakespeare_king-lear.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/william-shakespeare/king-lear/downloads/william-shakespeare_king-lear.kepub.epub?source=download"
  },
@@ -2847,6 +3083,8 @@
   "spine": "#361e15",
   "epub": "https://standardebooks.org/ebooks/william-shakespeare/the-tempest/downloads/william-shakespeare_the-tempest.epub?source=download",
   "size": null,
+  "popularity": 230,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/william-shakespeare/the-tempest/downloads/william-shakespeare_the-tempest.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/william-shakespeare/the-tempest/downloads/william-shakespeare_the-tempest.kepub.epub?source=download"
  },
@@ -2870,6 +3108,8 @@
   "spine": "#352b1c",
   "epub": "https://standardebooks.org/ebooks/oscar-wilde/the-importance-of-being-earnest/downloads/oscar-wilde_the-importance-of-being-earnest.epub?source=download",
   "size": null,
+  "popularity": 119,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/oscar-wilde/the-importance-of-being-earnest/downloads/oscar-wilde_the-importance-of-being-earnest.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/oscar-wilde/the-importance-of-being-earnest/downloads/oscar-wilde_the-importance-of-being-earnest.kepub.epub?source=download"
  },
@@ -2898,6 +3138,8 @@
   "spine": "#06354c",
   "epub": "https://standardebooks.org/ebooks/f-scott-fitzgerald/the-great-gatsby/downloads/f-scott-fitzgerald_the-great-gatsby.epub?source=download",
   "size": null,
+  "popularity": 13,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/f-scott-fitzgerald/the-great-gatsby/downloads/f-scott-fitzgerald_the-great-gatsby.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/f-scott-fitzgerald/the-great-gatsby/downloads/f-scott-fitzgerald_the-great-gatsby.kepub.epub?source=download"
  },
@@ -2921,6 +3163,8 @@
   "spine": "#24232a",
   "epub": "https://standardebooks.org/ebooks/fyodor-dostoevsky/crime-and-punishment/constance-garnett/downloads/fyodor-dostoevsky_crime-and-punishment_constance-garnett.epub?source=download",
   "size": null,
+  "popularity": 9,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/fyodor-dostoevsky/crime-and-punishment/constance-garnett/downloads/fyodor-dostoevsky_crime-and-punishment_constance-garnett.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/fyodor-dostoevsky/crime-and-punishment/constance-garnett/downloads/fyodor-dostoevsky_crime-and-punishment_constance-garnett.kepub.epub?source=download"
  },
@@ -2944,6 +3188,8 @@
   "spine": "#121519",
   "epub": "https://standardebooks.org/ebooks/fyodor-dostoevsky/the-brothers-karamazov/constance-garnett/downloads/fyodor-dostoevsky_the-brothers-karamazov_constance-garnett.epub?source=download",
   "size": null,
+  "popularity": 25,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/fyodor-dostoevsky/the-brothers-karamazov/constance-garnett/downloads/fyodor-dostoevsky_the-brothers-karamazov_constance-garnett.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/fyodor-dostoevsky/the-brothers-karamazov/constance-garnett/downloads/fyodor-dostoevsky_the-brothers-karamazov_constance-garnett.kepub.epub?source=download"
  },
@@ -2970,6 +3216,8 @@
   "spine": "#2d2523",
   "epub": "https://standardebooks.org/ebooks/fyodor-dostoevsky/notes-from-underground/constance-garnett/downloads/fyodor-dostoevsky_notes-from-underground_constance-garnett.epub?source=download",
   "size": null,
+  "popularity": 63,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/fyodor-dostoevsky/notes-from-underground/constance-garnett/downloads/fyodor-dostoevsky_notes-from-underground_constance-garnett.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/fyodor-dostoevsky/notes-from-underground/constance-garnett/downloads/fyodor-dostoevsky_notes-from-underground_constance-garnett.kepub.epub?source=download"
  },
@@ -2995,6 +3243,8 @@
   "spine": "#262318",
   "epub": "https://standardebooks.org/ebooks/charles-dickens/great-expectations/downloads/charles-dickens_great-expectations.epub?source=download",
   "size": null,
+  "popularity": 43,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/charles-dickens/great-expectations/downloads/charles-dickens_great-expectations.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/charles-dickens/great-expectations/downloads/charles-dickens_great-expectations.kepub.epub?source=download"
  },
@@ -3018,6 +3268,8 @@
   "spine": "#3a2e25",
   "epub": "https://standardebooks.org/ebooks/charles-dickens/a-tale-of-two-cities/downloads/charles-dickens_a-tale-of-two-cities.epub?source=download",
   "size": null,
+  "popularity": 57,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/charles-dickens/a-tale-of-two-cities/downloads/charles-dickens_a-tale-of-two-cities.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/charles-dickens/a-tale-of-two-cities/downloads/charles-dickens_a-tale-of-two-cities.kepub.epub?source=download"
  },
@@ -3042,6 +3294,8 @@
   "spine": "#281510",
   "epub": "https://standardebooks.org/ebooks/charles-dickens/a-christmas-carol/downloads/charles-dickens_a-christmas-carol.epub?source=download",
   "size": null,
+  "popularity": 69,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/charles-dickens/a-christmas-carol/downloads/charles-dickens_a-christmas-carol.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/charles-dickens/a-christmas-carol/downloads/charles-dickens_a-christmas-carol.kepub.epub?source=download"
  },
@@ -3066,6 +3320,8 @@
   "spine": "#392229",
   "epub": "https://standardebooks.org/ebooks/charles-dickens/oliver-twist/downloads/charles-dickens_oliver-twist.epub?source=download",
   "size": null,
+  "popularity": 102,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/charles-dickens/oliver-twist/downloads/charles-dickens_oliver-twist.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/charles-dickens/oliver-twist/downloads/charles-dickens_oliver-twist.kepub.epub?source=download"
  },
@@ -3092,6 +3348,8 @@
   "spine": "#544d3b",
   "epub": "https://standardebooks.org/ebooks/george-eliot/middlemarch/downloads/george-eliot_middlemarch.epub?source=download",
   "size": null,
+  "popularity": 34,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/george-eliot/middlemarch/downloads/george-eliot_middlemarch.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/george-eliot/middlemarch/downloads/george-eliot_middlemarch.kepub.epub?source=download"
  },
@@ -3117,6 +3375,8 @@
   "spine": "#6a6c4d",
   "epub": "https://standardebooks.org/ebooks/virginia-woolf/to-the-lighthouse/downloads/virginia-woolf_to-the-lighthouse.epub?source=download",
   "size": null,
+  "popularity": 41,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/virginia-woolf/to-the-lighthouse/downloads/virginia-woolf_to-the-lighthouse.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/virginia-woolf/to-the-lighthouse/downloads/virginia-woolf_to-the-lighthouse.kepub.epub?source=download"
  },
@@ -3141,6 +3401,8 @@
   "spine": "#7f7461",
   "epub": "https://standardebooks.org/ebooks/virginia-woolf/mrs-dalloway/downloads/virginia-woolf_mrs-dalloway.epub?source=download",
   "size": null,
+  "popularity": 99,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/virginia-woolf/mrs-dalloway/downloads/virginia-woolf_mrs-dalloway.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/virginia-woolf/mrs-dalloway/downloads/virginia-woolf_mrs-dalloway.kepub.epub?source=download"
  },
@@ -3168,6 +3430,8 @@
   "spine": "#2c271e",
   "epub": "https://standardebooks.org/ebooks/virginia-woolf/orlando/downloads/virginia-woolf_orlando.epub?source=download",
   "size": null,
+  "popularity": 78,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/virginia-woolf/orlando/downloads/virginia-woolf_orlando.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/virginia-woolf/orlando/downloads/virginia-woolf_orlando.kepub.epub?source=download"
  },
@@ -3191,6 +3455,8 @@
   "spine": "#4a3c2e",
   "epub": "https://standardebooks.org/ebooks/james-joyce/dubliners/downloads/james-joyce_dubliners.epub?source=download",
   "size": null,
+  "popularity": 155,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/james-joyce/dubliners/downloads/james-joyce_dubliners.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/james-joyce/dubliners/downloads/james-joyce_dubliners.kepub.epub?source=download"
  },
@@ -3217,6 +3483,8 @@
   "spine": "#41342a",
   "epub": "https://standardebooks.org/ebooks/ernest-hemingway/the-sun-also-rises/downloads/ernest-hemingway_the-sun-also-rises.epub?source=download",
   "size": null,
+  "popularity": 94,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/ernest-hemingway/the-sun-also-rises/downloads/ernest-hemingway_the-sun-also-rises.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/ernest-hemingway/the-sun-also-rises/downloads/ernest-hemingway_the-sun-also-rises.kepub.epub?source=download"
  },
@@ -3243,6 +3511,8 @@
   "spine": "#13201a",
   "epub": "https://standardebooks.org/ebooks/ernest-hemingway/a-farewell-to-arms/downloads/ernest-hemingway_a-farewell-to-arms.epub?source=download",
   "size": null,
+  "popularity": 68,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/ernest-hemingway/a-farewell-to-arms/downloads/ernest-hemingway_a-farewell-to-arms.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/ernest-hemingway/a-farewell-to-arms/downloads/ernest-hemingway_a-farewell-to-arms.kepub.epub?source=download"
  },
@@ -3266,6 +3536,8 @@
   "spine": "#1d2017",
   "epub": "https://standardebooks.org/ebooks/joseph-conrad/heart-of-darkness/downloads/joseph-conrad_heart-of-darkness.epub?source=download",
   "size": null,
+  "popularity": 59,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/joseph-conrad/heart-of-darkness/downloads/joseph-conrad_heart-of-darkness.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/joseph-conrad/heart-of-darkness/downloads/joseph-conrad_heart-of-darkness.kepub.epub?source=download"
  },
@@ -3292,6 +3564,8 @@
   "spine": "#51463c",
   "epub": "https://standardebooks.org/ebooks/nathaniel-hawthorne/the-scarlet-letter/downloads/nathaniel-hawthorne_the-scarlet-letter.epub?source=download",
   "size": null,
+  "popularity": 120,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/nathaniel-hawthorne/the-scarlet-letter/downloads/nathaniel-hawthorne_the-scarlet-letter.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/nathaniel-hawthorne/the-scarlet-letter/downloads/nathaniel-hawthorne_the-scarlet-letter.kepub.epub?source=download"
  },
@@ -3316,6 +3590,8 @@
   "spine": "#615f59",
   "epub": "https://standardebooks.org/ebooks/thomas-hardy/jude-the-obscure/downloads/thomas-hardy_jude-the-obscure.epub?source=download",
   "size": null,
+  "popularity": 255,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/thomas-hardy/jude-the-obscure/downloads/thomas-hardy_jude-the-obscure.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/thomas-hardy/jude-the-obscure/downloads/thomas-hardy_jude-the-obscure.kepub.epub?source=download"
  },
@@ -3341,6 +3617,8 @@
   "spine": "#604834",
   "epub": "https://standardebooks.org/ebooks/william-makepeace-thackeray/vanity-fair/downloads/william-makepeace-thackeray_vanity-fair.epub?source=download",
   "size": null,
+  "popularity": 226,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/william-makepeace-thackeray/vanity-fair/downloads/william-makepeace-thackeray_vanity-fair.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/william-makepeace-thackeray/vanity-fair/downloads/william-makepeace-thackeray_vanity-fair.kepub.epub?source=download"
  },
@@ -3369,6 +3647,8 @@
   "spine": "#17150c",
   "epub": "https://standardebooks.org/ebooks/henry-james/the-portrait-of-a-lady/downloads/henry-james_the-portrait-of-a-lady.epub?source=download",
   "size": null,
+  "popularity": 227,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/henry-james/the-portrait-of-a-lady/downloads/henry-james_the-portrait-of-a-lady.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/henry-james/the-portrait-of-a-lady/downloads/henry-james_the-portrait-of-a-lady.kepub.epub?source=download"
  },
@@ -3392,6 +3672,8 @@
   "spine": "#151112",
   "epub": "https://standardebooks.org/ebooks/voltaire/candide/the-modern-library/downloads/voltaire_candide_the-modern-library.epub?source=download",
   "size": null,
+  "popularity": 187,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/voltaire/candide/the-modern-library/downloads/voltaire_candide_the-modern-library.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/voltaire/candide/the-modern-library/downloads/voltaire_candide_the-modern-library.kepub.epub?source=download"
  },
@@ -3416,6 +3698,8 @@
   "spine": "#2e2a26",
   "epub": "https://standardebooks.org/ebooks/anton-chekhov/short-fiction/constance-garnett/downloads/anton-chekhov_short-fiction_constance-garnett.epub?source=download",
   "size": null,
+  "popularity": 178,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/anton-chekhov/short-fiction/constance-garnett/downloads/anton-chekhov_short-fiction_constance-garnett.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/anton-chekhov/short-fiction/constance-garnett/downloads/anton-chekhov_short-fiction_constance-garnett.kepub.epub?source=download"
  },
@@ -3439,6 +3723,8 @@
   "spine": "#5d5446",
   "epub": "https://standardebooks.org/ebooks/o-henry/short-fiction/downloads/o-henry_short-fiction.epub?source=download",
   "size": null,
+  "popularity": 170,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/o-henry/short-fiction/downloads/o-henry_short-fiction.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/o-henry/short-fiction/downloads/o-henry_short-fiction.kepub.epub?source=download"
  },
@@ -3464,6 +3750,8 @@
   "spine": "#4f646f",
   "epub": "https://standardebooks.org/ebooks/jerome-k-jerome/three-men-in-a-boat/downloads/jerome-k-jerome_three-men-in-a-boat.epub?source=download",
   "size": null,
+  "popularity": 143,
+  "opening": null,
   "kindle": "https://standardebooks.org/ebooks/jerome-k-jerome/three-men-in-a-boat/downloads/jerome-k-jerome_three-men-in-a-boat.azw3?source=download",
   "kobo": "https://standardebooks.org/ebooks/jerome-k-jerome/three-men-in-a-boat/downloads/jerome-k-jerome_three-men-in-a-boat.kepub.epub?source=download"
  }

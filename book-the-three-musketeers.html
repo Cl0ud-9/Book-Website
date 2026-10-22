@@ -21,7 +21,7 @@
 <link rel="apple-touch-icon" href="image/apple-touch-icon.png">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=a1f0c136">
+<link rel="stylesheet" href="css/main.css?v=d46762cc">
 <script>(function(d){var r=d.documentElement;r.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('is-loading');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)})(document)</script>
 <script src="js/vendor/gsap.min.js" defer></script>
 <script src="js/vendor/ScrollTrigger.min.js" defer></script>
@@ -33,8 +33,8 @@
 <script src="js/vendor/barba.umd.min.js" defer></script>
 <script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
 <script src="js/vendor/smooothy.min.js" defer></script>
-<script src="js/forms.js?v=a1f0c136" defer></script>
-<script src="js/app.js?v=a1f0c136" defer></script>
+<script src="js/forms.js?v=d46762cc" defer></script>
+<script src="js/app.js?v=d46762cc" defer></script>
 </head>
 <body data-barba="wrapper">
 <svg xmlns="http://www.w3.org/2000/svg" hidden>
@@ -80,8 +80,8 @@
   <nav class="header__nav" aria-label="Main">
     <ul class="header__nav-list">
       <li><a class="button" href="books.html" data-nav="books" data-button><span class="button__bg"></span><span class="button__text" data-button-text>All books</span></a></li>
-      <li><a class="button" href="index.html#genres" data-nav="genres" data-button><span class="button__bg"></span><span class="button__text" data-button-text>Genres</span></a></li>
-      <li><a class="button" href="index.html#faq" data-nav="faq" data-button><span class="button__bg"></span><span class="button__text" data-button-text>FAQ</span></a></li>
+      <li><a class="button" href="genres.html" data-nav="genres" data-button><span class="button__bg"></span><span class="button__text" data-button-text>Genres</span></a></li>
+      <li><a class="button" href="faq.html" data-nav="faq" data-button><span class="button__bg"></span><span class="button__text" data-button-text>FAQ</span></a></li>
       <li><a class="button-alt is--orange is--small" href="login.html" data-button-alt data-nav="account"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Log in / Sign up</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a></li>
     </ul>
   </nav>
@@ -99,8 +99,8 @@
     <ul class="menu__list">
       <li><a class="menu__link" href="./" data-nav="home">Home</a></li>
       <li><a class="menu__link" href="books.html" data-nav="books">All books</a></li>
-      <li><a class="menu__link" href="index.html#genres">Genres</a></li>
-      <li><a class="menu__link" href="index.html#faq">FAQ</a></li>
+      <li><a class="menu__link" href="genres.html" data-nav="genres">Genres</a></li>
+      <li><a class="menu__link" href="faq.html" data-nav="faq">FAQ</a></li>
     </ul>
     <div class="menu__account">
       <a class="button-alt is--white" href="login.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Log in</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
@@ -148,16 +148,7 @@
 <section class="book-more" aria-labelledby="more-title">
   <h2 class="book-more__title heading-l" id="more-title">You might also like</h2>
   <div class="catalogue__grid is--three">
-<article class="book-card " id="book-the-thirty-nine-steps" style="--card:var(--pale-pink);--ink:#000" data-search="the thirty-nine steps john buchan mystery adventure" data-genres="mystery adventure" data-books-slider-item>
-  <div class="book-card__cover"><img src="image/covers/the-thirty-nine-steps-360.webp" srcset="image/covers/the-thirty-nine-steps-180.webp 180w, image/covers/the-thirty-nine-steps-360.webp 360w, image/covers/the-thirty-nine-steps-720.webp 720w, image/covers/the-thirty-nine-steps-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Thirty-Nine Steps by John Buchan, book cover" loading="lazy" decoding="async"></div>
-  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-blue)">Mystery</li><li class="tag" style="--tag:var(--orange)">Adventure</li></ul>
-  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-the-thirty-nine-steps.html" draggable="false">The Thirty-Nine Steps</a></h3>
-  <p class="book-card__author">John Buchan</p>
-  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>2 h 30 min</span></p>
-  <p class="book-card__hook">An expatriate returning to England after many years in South Africa is accused of a murder he did not commit, and has to flee from the police and other more dangerous pursuers.</p>
-  <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
-</article>
-<article class="book-card " id="book-the-count-of-monte-cristo" style="--card:var(--yellow);--ink:#000" data-search="the count of monte cristo alexandre dumas adventure" data-genres="adventure" data-books-slider-item>
+<article class="book-card " id="book-the-count-of-monte-cristo" style="--card:var(--yellow);--ink:#000" data-search="the count of monte cristo alexandre dumas adventure" data-genres="adventure" data-rank="4" data-words="461521" data-title="count of monte cristo" data-books-slider-item>
   <div class="book-card__cover"><img src="image/covers/the-count-of-monte-cristo-360.webp" srcset="image/covers/the-count-of-monte-cristo-180.webp 180w, image/covers/the-count-of-monte-cristo-360.webp 360w, image/covers/the-count-of-monte-cristo-720.webp 720w, image/covers/the-count-of-monte-cristo-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Count of Monte Cristo by Alexandre Dumas, book cover" loading="lazy" decoding="async"></div>
   <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--orange)">Adventure</li></ul>
   <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-the-count-of-monte-cristo.html" draggable="false">The Count of Monte Cristo</a></h3>
@@ -166,13 +157,22 @@
   <p class="book-card__hook">A man seeks revenge for having been falsely imprisoned years earlier.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
-<article class="book-card " id="book-treasure-island" style="--card:var(--pale-orange);--ink:#000" data-search="treasure island robert louis stevenson adventure" data-genres="adventure" data-books-slider-item>
-  <div class="book-card__cover"><img src="image/covers/treasure-island-360.webp" srcset="image/covers/treasure-island-180.webp 180w, image/covers/treasure-island-360.webp 360w, image/covers/treasure-island-720.webp 720w, image/covers/treasure-island-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Treasure Island by Robert Louis Stevenson, book cover" loading="lazy" decoding="async"></div>
-  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--orange)">Adventure</li></ul>
-  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-treasure-island.html" draggable="false">Treasure Island</a></h3>
-  <p class="book-card__author">Robert Louis Stevenson</p>
-  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>4 h 9 min</span></p>
-  <p class="book-card__hook">A young boy finds adventure on the high seas as he battles bloodthirsty pirates in search of a long-lost treasure.</p>
+<article class="book-card " id="book-moby-dick" style="--card:var(--cyan);--ink:#000" data-search="moby dick herman melville adventure literary fiction" data-genres="adventure literary-fiction" data-rank="5" data-words="211202" data-title="moby dick" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/covers/moby-dick-360.webp" srcset="image/covers/moby-dick-180.webp 180w, image/covers/moby-dick-360.webp 360w, image/covers/moby-dick-720.webp 720w, image/covers/moby-dick-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Moby Dick by Herman Melville, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--orange)">Adventure</li><li class="tag" style="--tag:var(--white)">Literary fiction</li></ul>
+  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-moby-dick.html" draggable="false">Moby Dick</a></h3>
+  <p class="book-card__author">Herman Melville</p>
+  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>12 h 49 min</span></p>
+  <p class="book-card__hook">Captain Ahab, having lost his leg to the white whale Moby Dick, travels the world on a quest for vengeance.</p>
+  <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
+</article>
+<article class="book-card " id="book-the-odyssey" style="--card:var(--pale-pink);--ink:#000" data-search="the odyssey homer poetry adventure" data-genres="poetry adventure" data-rank="24" data-words="119502" data-title="odyssey" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/covers/the-odyssey-360.webp" srcset="image/covers/the-odyssey-180.webp 180w, image/covers/the-odyssey-360.webp 360w, image/covers/the-odyssey-720.webp 720w, image/covers/the-odyssey-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Odyssey by Homer, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-yellow)">Poetry</li><li class="tag" style="--tag:var(--orange)">Adventure</li></ul>
+  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-the-odyssey.html" draggable="false">The Odyssey</a></h3>
+  <p class="book-card__author">Homer</p>
+  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>7 h 15 min</span></p>
+  <p class="book-card__hook">An epic poem following a Greek hero trying to return home after the Trojan war.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
   </div>
@@ -193,11 +193,11 @@
       <nav class="footer__nav" aria-label="Footer">
         <div class="footer__col">
           <h2 class="footer__heading">Library</h2>
-          <ul><li><a href="books.html">All books</a></li><li><a href="index.html#genres">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
+          <ul><li><a href="books.html">All books</a></li><li><a href="genres.html">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Account</h2>
-          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="index.html#faq">Questions</a></li></ul>
+          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="faq.html">Questions</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Elsewhere</h2>

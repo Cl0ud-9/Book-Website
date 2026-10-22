@@ -5,9 +5,13 @@
 
 /* Standard Ebooks hides some headings by moving them 999em to the left (the title page shows its title as artwork).
    epub.js counts that distance as page width and made dozens of blank pages, so they are hidden in place instead,
-   still there for screen readers. */
+   still there for screen readers. In place means where they would stand (left: auto), inside the page's margins:
+   at the very left edge they still widened the page past one screen, and left a blank page after the title. */
 section.epub-type-contains-word-titlepage h1, section.epub-type-contains-word-titlepage p,
 section.epub-type-contains-word-colophon h2, section.epub-type-contains-word-imprint h2 {
-  position: absolute !important; left: 0 !important; width: 1px !important; height: 1px !important;
+  position: absolute !important; left: auto !important; margin: 0 !important; width: 1px !important; height: 1px !important;
   overflow: hidden !important; clip-path: inset(50%) !important; white-space: nowrap !important;
 }
+
+/* Justified lines on a narrow page opened wide gaps between words: long words now break at the line's end instead */
+p { -webkit-hyphens: auto; hyphens: auto; }

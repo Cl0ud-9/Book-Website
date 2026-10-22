@@ -21,7 +21,7 @@
 <link rel="apple-touch-icon" href="image/apple-touch-icon.png">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=a1f0c136">
+<link rel="stylesheet" href="css/main.css?v=d46762cc">
 <script>(function(d){var r=d.documentElement;r.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('is-loading');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)})(document)</script>
 <script src="js/vendor/gsap.min.js" defer></script>
 <script src="js/vendor/ScrollTrigger.min.js" defer></script>
@@ -33,8 +33,8 @@
 <script src="js/vendor/barba.umd.min.js" defer></script>
 <script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
 <script src="js/vendor/smooothy.min.js" defer></script>
-<script src="js/forms.js?v=a1f0c136" defer></script>
-<script src="js/app.js?v=a1f0c136" defer></script>
+<script src="js/forms.js?v=d46762cc" defer></script>
+<script src="js/app.js?v=d46762cc" defer></script>
 </head>
 <body data-barba="wrapper">
 <svg xmlns="http://www.w3.org/2000/svg" hidden>
@@ -80,8 +80,8 @@
   <nav class="header__nav" aria-label="Main">
     <ul class="header__nav-list">
       <li><a class="button" href="books.html" data-nav="books" data-button><span class="button__bg"></span><span class="button__text" data-button-text>All books</span></a></li>
-      <li><a class="button" href="index.html#genres" data-nav="genres" data-button><span class="button__bg"></span><span class="button__text" data-button-text>Genres</span></a></li>
-      <li><a class="button" href="index.html#faq" data-nav="faq" data-button><span class="button__bg"></span><span class="button__text" data-button-text>FAQ</span></a></li>
+      <li><a class="button" href="genres.html" data-nav="genres" data-button><span class="button__bg"></span><span class="button__text" data-button-text>Genres</span></a></li>
+      <li><a class="button" href="faq.html" data-nav="faq" data-button><span class="button__bg"></span><span class="button__text" data-button-text>FAQ</span></a></li>
       <li><a class="button-alt is--orange is--small" href="login.html" data-button-alt data-nav="account"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Log in / Sign up</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a></li>
     </ul>
   </nav>
@@ -99,8 +99,8 @@
     <ul class="menu__list">
       <li><a class="menu__link" href="./" data-nav="home">Home</a></li>
       <li><a class="menu__link" href="books.html" data-nav="books">All books</a></li>
-      <li><a class="menu__link" href="index.html#genres">Genres</a></li>
-      <li><a class="menu__link" href="index.html#faq">FAQ</a></li>
+      <li><a class="menu__link" href="genres.html" data-nav="genres">Genres</a></li>
+      <li><a class="menu__link" href="faq.html" data-nav="faq">FAQ</a></li>
     </ul>
     <div class="menu__account">
       <a class="button-alt is--white" href="login.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Log in</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
@@ -146,31 +146,31 @@
 <section class="book-more" aria-labelledby="more-title">
   <h2 class="book-more__title heading-l" id="more-title">You might also like</h2>
   <div class="catalogue__grid is--three">
-<article class="book-card " id="book-sir-gawain-and-the-green-knight" style="--card:var(--cyan);--ink:#000" data-search="sir gawain and the green knight anonymous fantasy poetry" data-genres="fantasy poetry" data-books-slider-item>
-  <div class="book-card__cover"><img src="image/covers/sir-gawain-and-the-green-knight-360.webp" srcset="image/covers/sir-gawain-and-the-green-knight-180.webp 180w, image/covers/sir-gawain-and-the-green-knight-360.webp 360w, image/covers/sir-gawain-and-the-green-knight-720.webp 720w, image/covers/sir-gawain-and-the-green-knight-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Sir Gawain and the Green Knight by Anonymous, book cover" loading="lazy" decoding="async"></div>
-  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-periwinkle)">Fantasy</li><li class="tag" style="--tag:var(--pale-yellow)">Poetry</li></ul>
-  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-sir-gawain-and-the-green-knight.html" draggable="false">Sir Gawain and the Green Knight</a></h3>
-  <p class="book-card__author">Anonymous</p>
-  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>1 h 28 min</span></p>
-  <p class="book-card__hook">A knight accepts a supernatural challenge and faces tests of honesty, loyalty, and honor.</p>
+<article class="book-card " id="book-the-odyssey" style="--card:var(--pale-pink);--ink:#000" data-search="the odyssey homer poetry adventure" data-genres="poetry adventure" data-rank="24" data-words="119502" data-title="odyssey" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/covers/the-odyssey-360.webp" srcset="image/covers/the-odyssey-180.webp 180w, image/covers/the-odyssey-360.webp 360w, image/covers/the-odyssey-720.webp 720w, image/covers/the-odyssey-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Odyssey by Homer, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-yellow)">Poetry</li><li class="tag" style="--tag:var(--orange)">Adventure</li></ul>
+  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-the-odyssey.html" draggable="false">The Odyssey</a></h3>
+  <p class="book-card__author">Homer</p>
+  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>7 h 15 min</span></p>
+  <p class="book-card__hook">An epic poem following a Greek hero trying to return home after the Trojan war.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
-<article class="book-card " id="book-leaves-of-grass" style="--card:var(--olive);--ink:#fff" data-search="leaves of grass walt whitman poetry" data-genres="poetry" data-books-slider-item>
-  <div class="book-card__cover"><img src="image/covers/leaves-of-grass-360.webp" srcset="image/covers/leaves-of-grass-180.webp 180w, image/covers/leaves-of-grass-360.webp 360w, image/covers/leaves-of-grass-720.webp 720w, image/covers/leaves-of-grass-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Leaves of Grass by Walt Whitman, book cover" loading="lazy" decoding="async"></div>
+<article class="book-card " id="book-the-divine-comedy" style="--card:var(--periwinkle);--ink:#000" data-search="the divine comedy dante alighieri poetry" data-genres="poetry" data-rank="65" data-words="115027" data-title="divine comedy" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/covers/the-divine-comedy-360.webp" srcset="image/covers/the-divine-comedy-180.webp 180w, image/covers/the-divine-comedy-360.webp 360w, image/covers/the-divine-comedy-720.webp 720w, image/covers/the-divine-comedy-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Divine Comedy by Dante Alighieri, book cover" loading="lazy" decoding="async"></div>
   <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-yellow)">Poetry</li></ul>
-  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-leaves-of-grass.html" draggable="false">Leaves of Grass</a></h3>
-  <p class="book-card__author">Walt Whitman</p>
-  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>7 h 57 min</span></p>
-  <p class="book-card__hook">The definitive collection of Walt Whitman’s poetry.</p>
+  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-the-divine-comedy.html" draggable="false">The Divine Comedy</a></h3>
+  <p class="book-card__author">Dante Alighieri</p>
+  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>6 h 59 min</span></p>
+  <p class="book-card__hook">Dante journeys through Hell, Purgatory, and Heaven in order to receive salvation and to find divine love.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
-<article class="book-card " id="book-the-prophet" style="--card:var(--violet);--ink:#fff" data-search="the prophet kahlil gibran poetry philosophy" data-genres="poetry philosophy" data-books-slider-item>
-  <div class="book-card__cover"><img src="image/covers/the-prophet-360.webp" srcset="image/covers/the-prophet-180.webp 180w, image/covers/the-prophet-360.webp 360w, image/covers/the-prophet-720.webp 720w, image/covers/the-prophet-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Prophet by Kahlil Gibran, book cover" loading="lazy" decoding="async"></div>
-  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-yellow)">Poetry</li><li class="tag" style="--tag:var(--soft-orange)">Philosophy</li></ul>
-  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-the-prophet.html" draggable="false">The Prophet</a></h3>
-  <p class="book-card__author">Kahlil Gibran</p>
-  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>45 min</span></p>
-  <p class="book-card__hook">A collection of prose poetry on themes such as love, beauty, and religion.</p>
+<article class="book-card " id="book-paradise-lost" style="--card:var(--cyan);--ink:#000" data-search="paradise lost john milton poetry" data-genres="poetry" data-rank="67" data-words="82188" data-title="paradise lost" data-books-slider-item>
+  <div class="book-card__cover"><img src="image/covers/paradise-lost-360.webp" srcset="image/covers/paradise-lost-180.webp 180w, image/covers/paradise-lost-360.webp 360w, image/covers/paradise-lost-720.webp 720w, image/covers/paradise-lost-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Paradise Lost by John Milton, book cover" loading="lazy" decoding="async"></div>
+  <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-yellow)">Poetry</li></ul>
+  <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-paradise-lost.html" draggable="false">Paradise Lost</a></h3>
+  <p class="book-card__author">John Milton</p>
+  <p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>4 h 59 min</span></p>
+  <p class="book-card__hook">A dramatic imagining in blank verse of the rebellion of Satan against God, Satan’s overthrow, and the Fall of Man.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
   </div>
@@ -191,11 +191,11 @@
       <nav class="footer__nav" aria-label="Footer">
         <div class="footer__col">
           <h2 class="footer__heading">Library</h2>
-          <ul><li><a href="books.html">All books</a></li><li><a href="index.html#genres">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
+          <ul><li><a href="books.html">All books</a></li><li><a href="genres.html">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Account</h2>
-          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="index.html#faq">Questions</a></li></ul>
+          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="faq.html">Questions</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Elsewhere</h2>

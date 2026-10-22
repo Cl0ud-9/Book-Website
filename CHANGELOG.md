@@ -5,6 +5,40 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [3.1.0] - 2026-10-23
+
+### Added
+
+- A Genres page: a shelf for each of the eleven genres, most read first, to scroll or drag sideways.
+- A Questions page: every question by topic, with a list of topics that stays in view and marks the one you are
+  reading (a bar of topic pills on a phone). Ranking and the book of the month are among the answers.
+- All books can be sorted by most read, title, or length, and the choice is kept in the address.
+- The books are ranked by how often they are read at Standard Ebooks, and every shelf shows the most read first.
+- The book of the month takes turns among the twelve most read books, opens with its real first line, and changes
+  by itself: the site is rebuilt on the first of every month.
+- The reader opens with the book's cover, which swings open on the desk once the first page is ready.
+- On a wide screen the book lies open on the desk with a spine between its pages, and each turn lifts a leaf across
+  it; on a narrower one the words slide on. On a phone the bars slip away while you read on and come back when you
+  scroll up or tap. The contents mark the chapter you are in, and a new chapter's name rises into the footer.
+
+### Changed
+
+- Genres and Questions in the menu and footer open their own pages.
+- "Made by readers, for readers" now sits on the page under the open book's buttons.
+- The reader's page colours fade into each other, and long words break at the line's end so justified text on a
+  phone has no wide gaps.
+
+### Fixed
+
+- Genres and Questions, clicked anywhere but the home page (in the reader, say), opened the top of the home page:
+  a link to a section of another page now lands on that section.
+- "Made by readers, for readers" sat on the dark edge of the open book on a laptop, where it could not be read.
+- On a phone the topic pills wrapped onto two and three lines, and the genre shelves were wider than the screen.
+- On a tablet, the title page and the imprint were each followed by a blank page.
+- The home page still said the library ran "from Austen to Asimov", though Asimov is not in it.
+- The book of the month rounded down: a book of 1 hour 58 minutes was "about 1 hour" long. It now says 2 hours.
+- On a phone, the moon sticker covered the end of the book of the month's first line.
+
 ## [3.0.0] - 2026-10-22
 
 The Bookshelf is now a free library of the classics. The look, the motion and every animation stay; the made-up books,
