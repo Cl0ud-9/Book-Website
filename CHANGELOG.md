@@ -5,6 +5,19 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [3.1.1] - 2026-10-23
+
+### Changed
+
+- Every book except the two illustrated Alice editions (over 8 MB) is now kept on the site, so reading and
+  downloading no longer depend on Standard Ebooks being reachable. 142 of the 144 books open the book of the month
+  with their real first line.
+
+### Fixed
+
+- Adding books could change the book of the month in the middle of a month. Each month's pick is now written down
+  in `library/picks.json` a year ahead, and a month never changes once it has been shown.
+
 ## [3.1.0] - 2026-10-23
 
 ### Added

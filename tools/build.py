@@ -23,6 +23,7 @@ e = html.escape
 # Every book: title, author, translator, abstract, description (paragraphs), words, reading_time, language,
 # standard_ebooks, slug, genres, spine, epub, kindle, kobo
 LIBRARY = json.loads((ROOT / "library" / "books.json").read_text(encoding="utf-8"))
+PICKS = json.loads((ROOT / "library" / "picks.json").read_text(encoding="utf-8"))  # "YYYY-MM": book
 BOOK = {b["slug"]: b for b in LIBRARY}
 GENRES = ["Romance", "Mystery", "Adventure", "Fantasy", "Science fiction", "Horror", "Poetry", "Philosophy",
           "Children’s", "Plays", "Literary fiction"]
@@ -57,8 +58,14 @@ def about(reading_time):
 
 
 def book_of_the_month(today):
-    # The twelve most read books with an opening line take a month each, in turn, so it changes on the first of every
-    # month by itself (the deploy workflow rebuilds the site then)
+    # Each month's pick is written down in library/picks.json, so a month never changes once it has been shown (adding
+    # books or opening lines used to reshuffle the rotation mid-month). The deploy workflow rebuilds the site on the
+    # first of every month. A month missing from the list falls back to the twelve most read books with an opening line,
+    # one a month in turn.
+    month = f"{today.year}-{today.month:02}"
+    if PICKS.get(month) in BOOK and BOOK[PICKS[month]]["opening"]:
+        return PICKS[month]
+    print(f"note: no pick for {month} in library/picks.json, so the rotation chose one")
     picks = [b["slug"] for b in POPULAR if b["opening"]][:12]
     return picks[(today.year * 12 + today.month - 1) % len(picks)]
 

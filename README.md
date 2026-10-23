@@ -148,7 +148,8 @@ most read book of each mood. `python tools/library.py --refresh-popularity` fetc
 
 **The book of the month** comes from the twelve most read books whose first line the library script could take from
 the EPUB, one each month in turn, so a year shows all twelve. It opens with that real first line. The site is rebuilt on the first of every month, so
-the pick changes by itself. The hero, the open book and the gift are chosen by hand, for how their covers look.
+the pick changes by itself. Each month's pick is written down a year ahead in `library/picks.json` (edit it to choose
+a different book), so adding books never changes a month that is already showing. The hero, the open book and the gift are chosen by hand, for how their covers look.
 
 ```bash
 python tools/library.py    # fetches new books into library/books.json, image/covers/ and books/ (needs Pillow)
