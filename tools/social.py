@@ -42,4 +42,12 @@ with sync_playwright() as p:
     icon.set_content(f"<style>html,body{{margin:0}}svg{{display:block;width:180px;height:180px}}</style>{logo}")
     (ROOT / "image" / "apple-touch-icon.png").write_bytes(icon.screenshot())
     print("image/apple-touch-icon.png")
+    # The app icons in manifest.webmanifest: the logo at 192 and 512, and a "maskable" 512 with the logo inside the middle
+    # 80%, so a phone may crop it to a circle or a squircle without cutting the book
+    for size, pad, name in ((192, 0, "icon-192.png"), (512, 0, "icon-512.png"), (512, 0.1, "icon-maskable.png")):
+        icon.set_viewport_size({"width": size, "height": size})
+        icon.set_content(f"<style>html,body{{margin:0;background:#3b308f}}svg{{display:block;width:{size * (1 - 2 * pad)}px;"
+                         f"height:{size * (1 - 2 * pad)}px;margin:{size * pad}px}}</style>{logo}")
+        (ROOT / "image" / name).write_bytes(icon.screenshot())
+        print(f"image/{name}")
     browser.close()

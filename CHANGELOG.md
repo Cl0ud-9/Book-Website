@@ -5,6 +5,28 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [3.3.0] - 2026-10-24
+
+### Added
+
+- Highlights and notes in the reader. Select any words to highlight them in one of four colours, underline them, add
+  a note, copy them or look up a word's meaning (from Wiktionary). The Notes panel lists them by chapter, opens the book
+  at each one and exports them as Markdown. A removed highlight comes back with Undo. They stay in this browser.
+- Reading offline: Keep for offline reading on a book's page, or in the reader's Text settings, stores the book on the
+  device, and it opens with no connection. The site can be installed as an app, with its own icon.
+- Your reading: your week of reading as a chart, a streak, the books you are reading and have finished, all your notes,
+  the books kept offline, and Back up, Restore and Clear everything.
+- A free LibriVox audiobook on 110 books' pages.
+- On a phone, each of the reader's tools has a label under its icon, and Download sits in Text settings.
+
+### Changed
+
+- The header, the menu, the footer and the home page's buttons lead to Your reading and the books, instead of the
+  log-in and sign-up previews, which did nothing. "Talk about it" in How it works is now "Make it yours", as there are
+  no discussions yet.
+- The four How it works cards overlap only slightly, so none hides the end of another's lines.
+- The Questions page answers how to read offline and how to move your notes to another device.
+
 ## [3.2.0] - 2026-10-24
 
 ### Added

@@ -30,9 +30,10 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
 | [All books](https://cl0ud-9.github.io/Book-Website/books.html) | All 144 books, most read first, searchable by title, author or genre (accents optional), with genre chips and sorting by title or length. Genre links on the home page open it already filtered. |
 | [Genres](https://cl0ud-9.github.io/Book-Website/genres.html) | A shelf for each of the eleven genres, its most read books first, to scroll or drag sideways. |
 | [Questions](https://cl0ud-9.github.io/Book-Website/faq.html) | Every question, by topic, with a list of topics that follows you down the page and marks the one you are reading. |
-| [A book](https://cl0ud-9.github.io/Book-Website/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description and details, Read now, the EPUB download, Kindle and Kobo editions, and three related books. |
-| [The reader](https://cl0ud-9.github.io/Book-Website/read.html?book=pride-and-prejudice) | The book itself, in the page: its cover swings open, then pages turn on a laptop and scroll on a phone, with contents, text size, three page colours and three fonts. It remembers your place. |
-| [Log in](https://cl0ud-9.github.io/Book-Website/login.html) and [Sign up](https://cl0ud-9.github.io/Book-Website/signup.html) | Forms checked in the browser, with an error beside each field. |
+| [A book](https://cl0ud-9.github.io/Book-Website/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description and details, Read now, the EPUB download, Kindle and Kobo editions, a free LibriVox audiobook where there is one, Keep for offline reading, and three related books. |
+| [The reader](https://cl0ud-9.github.io/Book-Website/read.html?book=pride-and-prejudice) | The book itself, in the page: its cover swings open, then pages turn on a laptop and scroll on a phone, with contents, highlights and notes, a word's meaning, text size, three page colours and three fonts. It remembers your place. |
+| [Your reading](https://cl0ud-9.github.io/Book-Website/reading.html) | What this device keeps for you: your week of reading, the books you are reading, your notes, the books kept for offline reading and the ones you finished, with Back up and Restore to move them to another device. |
+| [Log in](https://cl0ud-9.github.io/Book-Website/login.html) and [Sign up](https://cl0ud-9.github.io/Book-Website/signup.html) | A preview of accounts, which are not here yet: forms checked in the browser. Nothing links to them. |
 
 ## The details
 
@@ -59,6 +60,15 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
   marks the chapter you are in), and pick the text size, page colour and font. Your place is kept on your device, so
   the book page offers to continue and the home page lists what you are reading. Its scripts load only when a book
   is opened.
+- **Highlights and notes.** Select any words to highlight them in one of four colours, underline them, add a note,
+  copy them, or look up a word's meaning (from Wiktionary). The Notes panel lists them by chapter and exports them as
+  Markdown, and a removed one comes back with Undo. They are kept in this browser (IndexedDB) with the words around
+  them, so a highlight finds its place again when Standard Ebooks corrects an edition.
+- **Reading offline.** Keep for offline reading stores a book, its page and its cover on the device, and a service
+  worker (`sw.js`, written by the build) opens it with no connection. The site can be installed as an app.
+- **Your reading.** Time spent reading (counted only while you are actually turning pages), a streak, the books in
+  progress and finished, every note, and the books kept offline. Back up saves it all to one file, and Restore merges
+  it on another device: there are no accounts, so this is how your reading moves with you.
 - **A shelf you can throw.** Cards tilt and dip the further they are from the middle as you drag (Smooothy), with
   arrow buttons, arrow keys and a sideways trackpad swipe too.
 - **A book that opens as you scroll.** It turns to face you, the cover swings open, three pages flip, and you fall
@@ -158,6 +168,7 @@ python tools/check.py      # with npm start running: uses the site like a visito
 python tools/effects.py    # with npm start running: checks every hover effect after links, Back and Forward
 python tools/social.py     # with npm start running: redraws the link previews and the home-screen icon
 python tools/fonts.py      # rebuilds the three fonts from their sources (needs fonttools and brotli)
+python tools/listen.py     # finds each book's free LibriVox audiobook (library/librivox.json)
 ```
 
 `tools/check.py` drags the shelf, hovers the genres, opens the questions, sends the forms (including one with HTML in
@@ -165,14 +176,16 @@ it), follows a genre link into the catalogue, searches and sorts it (without acc
 download, goes back, reads it in the reader (turning pages, changing the page colour, and coming back to "Continue"),
 opens Genres and Questions from a book's page (dragging a shelf, jumping between topics, and following a link to a
 section of another page), and checks the phone menu (and that it steps aside while you read), the reader's bars on a
-phone, that going back returns to where you were, that long titles fit their cards, that no page is ever wider than
-a 320 px phone, reduced motion and the site without JavaScript.
+phone, a Contents jump on a phone (the bars stay, the saved place stays, the next chapter loads and Back to returns),
+a narrowing window, highlighting and Undo, keeping a book offline, Your reading and its backup, that going back
+returns to where you were, that long titles fit their cards, that no page is ever wider than a 320 px phone, reduced
+motion and the site without JavaScript.
 
 ## How it is published
 
 Every push to `main` runs [`.github/workflows/pages.yml`](.github/workflows/pages.yml): it copies the site, rebuilds
 the pages for the day (for the book of the month), checks that every local link, image, cover size and font it names
-exists, runs Lighthouse in its phone mode on five pages (three runs each, budgets in
+exists, runs Lighthouse in its phone mode on six pages (three runs each, budgets in
 [`.lighthouserc.json`](.lighthouserc.json)), and deploys it to GitHub Pages. A broken link, or a page that falls below
 its speed or accessibility budget, stops the deploy. It also runs on the first of every month.
 
@@ -184,9 +197,11 @@ not to be tracked are not counted at all.
 
 ## Honest limits
 
-- **No back end.** The forms check what you type and show a message. Nothing is sent or stored, so there are no real
-  accounts or newsletter yet; your place in a book is kept in your own browser, so it does not follow you to another
-  device.
+- **No back end.** There are no accounts or newsletter yet: the forms check what you type and stop there. Your place,
+  notes and reading time are kept in your own browser; Back up and Restore on Your reading move them to another
+  device by hand. Clearing the browser's data for the site removes them.
+- **No discussions yet.** Talking about a book needs accounts and someone to look after the conversation. The plan
+  for them (posts tied to the chapters you have read, so nothing is spoiled) waits for both.
 - **Classics only.** Recent books, such as Colleen Hoover's, and manga such as One Piece are under copyright and
   cannot be shared for free. The site says where to borrow them instead.
 - **Some books are fetched.** The few heavily illustrated editions over 8 MB are read and downloaded straight from
@@ -198,13 +213,18 @@ not to be tracked are not counted at all.
 ## Project structure
 
 ```text
-index.html, books.html, genres.html, faq.html, book-*.html, read.html,
-login.html, signup.html, 404.html    generated by tools/build.py
+index.html, books.html, genres.html, faq.html, book-*.html, read.html, reading.html,
+login.html, signup.html, 404.html, manifest.webmanifest, sw.js    generated by tools/build.py
 css/main.css        every style: tokens, the fluid type scale, components and sections
 js/app.js           transitions, smooth scrolling and every animation, one function per effect
 js/forms.js         checks the log-in, sign-up and newsletter forms
 js/vendor/          GSAP, Lenis, Barba, Smooothy, epub.js and JSZip, unchanged (licences in LICENSES.md)
 js/reader.js        the reader (with js/vendor/epub.min.js and jszip.min.js, loaded only on read.html)
+js/reader-notes.js  highlights, notes, a word's meaning and opening a book at a line: a plug-in for the reader
+js/notes-store.js   your highlights and notes, kept in this browser (IndexedDB)
+js/your-reading.js  the Your reading page
+library/picks.json  the book of the month, a year ahead
+library/librivox.json  each book's free LibriVox audiobook, found by tools/listen.py
 library/books.json  every book's details, written by tools/library.py
 books/              the EPUB files (bigger illustrated editions are fetched from Standard Ebooks instead)
 fonts/              Rubik (headings), Figtree (text) and Gochi Hand (notes), Latin subset, built by tools/fonts.py

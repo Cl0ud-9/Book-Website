@@ -25,6 +25,8 @@ e = html.escape
 # standard_ebooks, slug, genres, spine, epub, kindle, kobo
 LIBRARY = json.loads((ROOT / "library" / "books.json").read_text(encoding="utf-8"))
 PICKS = json.loads((ROOT / "library" / "picks.json").read_text(encoding="utf-8"))  # "YYYY-MM": book
+# Free audiobooks: each book's recording on LibriVox, found by tools/listen.py
+LISTEN = json.loads((ROOT / "library" / "librivox.json").read_text(encoding="utf-8")) if (ROOT / "library" / "librivox.json").exists() else {}
 BOOK = {b["slug"]: b for b in LIBRARY}
 GENRES = ["Romance", "Mystery", "Adventure", "Fantasy", "Science fiction", "Horror", "Poetry", "Philosophy",
           "Children’s", "Plays", "Literary fiction"]
@@ -134,6 +136,12 @@ def submit_alt(text, colour="magenta"):
             f'{icon("arrow", "button-alt__icon")}</span></button>')
 
 
+# Keep a book for offline reading, or see that it is kept and remove it (js/app.js offlineButtons)
+OFFLINE_CONTROLS = (f'<button type="button" class="offline-row__keep" data-offline-keep>{icon("save")}<span data-offline-label>Keep for offline reading</span></button>'
+                    f'<span class="offline-row__kept" data-offline-kept hidden>{icon("check")}Kept on this device</span>'
+                    '<button type="button" class="offline-row__remove" data-offline-remove hidden>Remove</button>')
+
+
 def reading_time(b):
     # "7 hours 24 minutes" reads as "7 h 24 min" on a card
     short = b["reading_time"].replace(" hours", " h").replace(" hour", " h").replace(" minutes", " min").replace(" minute", " min")
@@ -170,7 +178,11 @@ ICONS = {"arrow": "arrow-right", "left": "arrow-left", "up": "arrow-up", "plus":
          "search": "search", "book": "book-open", "sparkles": "sparkles", "gift": "gift",
          "bookmark": "bookmark", "heart": "heart", "mail": "mail", "star": "star", "layers": "layers", "globe": "globe",
          "package": "package", "clock": "clock", "download": "download", "contents": "list-ordered", "type": "type",
-         "sun": "sun", "moon": "moon", "prev": "chevron-left", "next": "chevron-right", "read": "book-marked"}
+         "sun": "sun", "moon": "moon", "prev": "chevron-left", "next": "chevron-right", "read": "book-marked",
+         "highlight": "highlighter", "note": "notebook-pen", "trash": "trash-2", "copy": "copy", "share": "share-2",
+         "listen": "headphones", "offline": "wifi-off", "save": "hard-drive-download", "chart": "chart-column",
+         "flame": "flame", "define": "book-a", "pencil": "pencil", "check": "check", "underline": "underline",
+         "library": "library", "flag": "flag"}
 
 
 def lucide_symbol(name, file):
@@ -209,7 +221,7 @@ HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
       {nav_button("books.html", "All books", "books")}
       {nav_button("genres.html", "Genres", "genres")}
       {nav_button("faq.html", "FAQ", "faq")}
-      <li>{button_alt("login.html", "Log in / Sign up", "orange", 'data-nav="account"', "small")}</li>
+      <li>{button_alt("reading.html", "Your reading", "orange", 'data-nav="reading"', "small")}</li>
     </ul>
   </nav>
   <div class="header__side">
@@ -230,8 +242,8 @@ HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
       <li><a class="menu__link" href="faq.html" data-nav="faq">FAQ</a></li>
     </ul>
     <div class="menu__account">
-      {button_alt("login.html", "Log in", "white")}
-      {button_alt("signup.html", "Sign up", "black")}
+      {button_alt("reading.html", "Your reading", "white")}
+      {button_alt("books.html", "Find a book", "black")}
     </div>
     <p class="menu__note accent-note">See you between the pages!</p>
   </div>
@@ -258,8 +270,8 @@ def footer():
           <ul><li><a href="books.html">All books</a></li><li><a href="genres.html">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
         </div>
         <div class="footer__col">
-          <h2 class="footer__heading">Account</h2>
-          <ul><li><a href="login.html">Log in</a></li><li><a href="signup.html">Sign up</a></li><li><a href="faq.html">Questions</a></li></ul>
+          <h2 class="footer__heading">Yours</h2>
+          <ul><li><a href="reading.html">Your reading</a></li><li><a href="reading.html#notes">Your notes</a></li><li><a href="faq.html">Questions</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Elsewhere</h2>
@@ -304,7 +316,8 @@ COUNTER = (f"""<script data-goatcounter="https://{GOATCOUNTER}.goatcounter.com/c
            if re.fullmatch(r"[a-z0-9-]+", GOATCOUNTER) else "")
 # The site's own CSS and scripts are linked with ?v=<a hash of them>, so a browser never keeps last week's copy after a
 # deploy (GitHub Pages lets them cache files for ten minutes). app.js passes the same version on to the reader's files.
-ASSETS = ["css/main.css", "css/reader-content.css", "js/app.js", "js/forms.js", "js/reader.js"]
+ASSETS = ["css/main.css", "css/reader-content.css", "js/app.js", "js/forms.js", "js/reader.js", "js/notes-store.js", "js/reader-notes.js",
+          "js/your-reading.js"]
 VERSION = hashlib.sha1(b"".join((ROOT / a).read_bytes() for a in ASSETS)).hexdigest()[:8]
 
 
@@ -334,6 +347,7 @@ def page(name, path, title, description, body, theme="yellow", book=None, with_f
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="image/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="image/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/main.css?v={VERSION}">
@@ -413,6 +427,7 @@ def book_page(s):
         facts.append(("type", "Translated by", b["translator"]))
     dl = "".join(f"<div><dt>{icon(ic)}{a}</dt><dd>{e(v)}</dd></div>" for ic, a, v in facts)
     about = "\n    ".join(f"<p>{e(p)}</p>" for p in b["description"])
+    listen = f'\n        <p class="book-hero__listen"><a href="{e(LISTEN[s])}">{icon("listen")}Listen free on LibriVox</a></p>' if s in LISTEN else ""
     return f"""<section class="book-hero" style="--card:var(--{b["colour"]});--ink:{ink(b["colour"])}" data-intro-page aria-labelledby="page-title">
   {bg_svg([("is--glow", shapes.BLOB_A), ("is--glow", shapes.BLOB_B)], "book-hero__shapes", "0 0 1440 1000", small=True)}
   <a class="book-hero__back" href="books.html">{icon("left")} All books</a>
@@ -432,7 +447,8 @@ def book_page(s):
           {icon_button("a", f'href="read.html?book={s}" data-read-button="{s}"', "Read now", "black", "read")}
           {icon_button("a", f'href="{b["epub"]}" download', "Download EPUB", "white", "download")}
         </div>
-        <p class="book-hero__formats">Also for <a href="{b["kindle"]}">Kindle</a> and <a href="{b["kobo"]}">Kobo</a></p>
+        <p class="book-hero__formats">Also for <a href="{b["kindle"]}">Kindle</a> and <a href="{b["kobo"]}">Kobo</a></p>{listen}
+        <p class="offline-row book-hero__offline" data-offline-row data-offline-book="{s}" data-offline-epub="{e(b["epub"])}" hidden>{OFFLINE_CONTROLS}</p>
       </div>
     </div>
   </div>
@@ -463,7 +479,7 @@ STEPS = [
     ("cyan", "browse", "Browse the shelf", "Over a hundred classics, from Austen and Dickens to Sherlock Holmes and Shakespeare."),
     ("pale-pink", "pick", "Pick your reads", "Every book is free. No sign-up, no ads, no catch."),
     ("yellow", "parcel", "Read anywhere", "Right here in your browser, or download it for your phone, Kindle or Kobo."),
-    ("periwinkle", "talk", "Talk about it", "Share what you thought, and find your next favourite from other readers."),
+    ("periwinkle", "talk", "Make it yours", "Highlight the lines you love, keep notes and see how far you have read, all on your own device."),
 ]
 
 
@@ -558,7 +574,7 @@ def home():
   <div class="flow__head">
     <h2 class="flow__title heading-l" id="flow-title">How it works</h2>
     <p class="flow__note accent-note" data-handwritten-text-inview>Easier than choosing what to read next</p>
-    <div class="flow__cta" data-plop-in><span class="flow__emblem" data-plop-in-item>{icon("logo")}</span>{button_alt("signup.html", "Create an account", size="small")}</div>
+    <div class="flow__cta" data-plop-in><span class="flow__emblem" data-plop-in-item>{icon("logo")}</span>{button_alt("books.html", "Start reading", size="small")}</div>
   </div>
   <ol class="flow__cards" data-call-out>
 {steps}
@@ -584,8 +600,8 @@ def home():
     <div class="open-book__final">
       <h2 class="open-book__title" id="open-title" data-book-open-title>Get lost in <span class="open-book__mark">a good book.</span></h2>
       <div class="open-book__buttons">
-        <span data-book-open-button>{button_alt("signup.html", "Sign up", "black")}</span>
-        <span data-book-open-button>{button_alt("login.html", "Log in", "orange")}</span>
+        <span data-book-open-button>{button_alt("books.html", "Start reading", "black")}</span>
+        <span data-book-open-button>{button_alt("reading.html", "Your reading", "orange")}</span>
       </div>
       <p class="open-book__aside accent-note" data-book-open-aside>Made by readers, for readers</p>
     </div>
@@ -749,7 +765,8 @@ FAQ_TOPICS = [
          "Press Text in the reader: make the type bigger or smaller, choose a Paper, Sepia or Night page, and read in "
          "the book's own font, a serif or a sans."),
         ("Does it work without the internet?",
-         "The reader needs a connection to open a book. Downloaded books work anywhere, with no connection at all."),
+         "Yes, for the books you keep on this device: press Keep for offline reading on a book's page, or in the "
+         "reader's Text settings, and it opens with no connection at all. Downloaded books work anywhere too."),
     ]),
     ("downloads", "Downloads", "pale-green", "download", [
         ("Can I keep a book?",
@@ -792,10 +809,11 @@ FAQ_TOPICS = [
     ]),
     ("account", "Your account", "pale-yellow", "sparkles", [
         ("Do I need an account?",
-         "No. Reading, downloading and keeping your place all work without one."),
-        ("What does signing up do?",
-         "Not much yet: accounts are on their way, and the sign-up form is a preview of them. Until then your place "
-         "in each book is kept on your own device."),
+         "No. Reading, downloading, your place in each book, your highlights, notes and reading time all work "
+         "without one. They are kept on your own device, and Your reading shows them all."),
+        ("Can I move my notes to another phone or laptop?",
+         "Yes. On Your reading, Back up saves everything to one small file; open Your reading on the other device "
+         "and choose Restore with that file. There are no accounts yet, so nothing about you is stored anywhere else."),
     ]),
     ("contact", "Contact", "soft-orange", "mail", [
         ("How can I get in touch?",
@@ -849,6 +867,68 @@ def faq_page():
   {button_alt("books.html", "Browse all books")}
   <p class="faqs-cta__note accent-note" data-handwritten-text-inview>Made by readers, for readers</p>
 </section>"""
+
+
+def reading_page():
+    # Your reading: what this device keeps (places, notes, reading time, books kept offline), filled in by
+    # js/your-reading.js. Without JavaScript there is nothing on the device to show, and the page says so.
+    return f"""<section class="hero-xs is--pale-yellow" data-intro-page aria-labelledby="page-title">
+  {bg_svg([("is--yellow", shapes.BLOB_A), ("is--yellow", shapes.BLOB_B)], "hero-xs__shapes", "0 0 1440 1000", small=True)}
+  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>Your reading</h1>
+  <p class="hero-xs__text" data-hero-paragraph>Your books, highlights, notes and reading time. All of it lives on this device, and none of it is sent anywhere.</p>
+  <p class="hero-xs__note accent-note" data-hero-handwritten-text>Just for you</p>
+</section>
+<div class="mine" data-your-reading>
+  <noscript><p class="mine__empty">Your reading needs JavaScript: it shows what this browser keeps for you.</p></noscript>
+  <section class="mine__section" id="week" aria-labelledby="week-title">
+    <h2 class="mine__title heading-m" id="week-title">Your week</h2>
+    <div class="mine__stats">
+      <p class="mine__stat"><span class="mine__stat-value" data-stat="week">0 min</span><span class="mine__stat-label">read in the last 7 days</span></p>
+      <p class="mine__stat"><span class="mine__stat-value" data-stat="streak">0 days</span><span class="mine__stat-label">in a row, up to today</span></p>
+      <p class="mine__stat"><span class="mine__stat-value" data-stat="finished">0</span><span class="mine__stat-label">books finished</span></p>
+      <p class="mine__stat"><span class="mine__stat-value" data-stat="total">0 min</span><span class="mine__stat-label">read here, in all</span></p>
+    </div>
+    <figure class="mine__chart">
+      <div class="mine__bars" data-chart></div>
+      <figcaption class="mine__caption">Minutes read on each of the last seven days. Time counts while a book is open and you are turning its pages.</figcaption>
+    </figure>
+  </section>
+  <section class="mine__section" id="books" aria-labelledby="books-title">
+    <h2 class="mine__title heading-m" id="books-title">Reading now</h2>
+    <ol class="mine__books" data-reading-list></ol>
+    <p class="mine__empty" data-reading-empty hidden>Books you open in the reader show up here, with how far you got. <a href="books.html">Find a book</a>.</p>
+  </section>
+  <section class="mine__section" id="notes" aria-labelledby="notes-title">
+    <h2 class="mine__title heading-m" id="notes-title">Your notes</h2>
+    <label class="mine__search" data-notes-find hidden><span class="sr-only">Find in your notes</span>{icon("search")}<input type="search" placeholder="Find in your notes" autocomplete="off" data-notes-search></label>
+    <div class="mine__notes" data-notes-all></div>
+    <p class="mine__empty" data-notes-none hidden>Select any words in a book to highlight them or add a note. They will all be here.</p>
+    <p class="mine__actions" data-notes-actions hidden><button type="button" class="mine__button" data-notes-export>{icon("download")}Export all notes</button></p>
+  </section>
+  <section class="mine__section" id="offline" aria-labelledby="offline-title">
+    <h2 class="mine__title heading-m" id="offline-title">Kept for offline</h2>
+    <ul class="mine__books is--compact" data-offline-list></ul>
+    <p class="mine__empty" data-offline-empty hidden>Press Keep for offline reading on a book's page, and it opens here with no connection.</p>
+    <p class="mine__empty" data-offline-unsupported hidden>This browser cannot keep books for offline reading. You can still download any book.</p>
+  </section>
+  <section class="mine__section" id="finished" aria-labelledby="finished-title">
+    <h2 class="mine__title heading-m" id="finished-title">Finished</h2>
+    <ul class="mine__books is--compact" data-finished-list></ul>
+    <p class="mine__empty" data-finished-empty hidden>Books you read to the end are kept here.</p>
+  </section>
+  <section class="mine__section" id="backup" aria-labelledby="backup-title">
+    <h2 class="mine__title heading-m" id="backup-title">Back up and restore</h2>
+    <p class="mine__text">Everything on this page is kept in this browser only. Back up saves it to one small file, to keep safe or to restore on another phone or laptop. Clearing your browser's data for this site removes it.</p>
+    <p class="mine__actions">
+      <button type="button" class="mine__button" data-backup>{icon("save")}Back up</button>
+      <label class="mine__button">{icon("up")}Restore<input class="sr-only" type="file" accept="application/json,.json" data-restore></label>
+      <button type="button" class="mine__button is--quiet" data-clear>{icon("trash")}Clear everything</button>
+    </p>
+    <p class="mine__message" role="status" data-backup-message></p>
+  </section>
+  <div class="mine__toast" role="status" data-mine-toast hidden><span data-toast-text></span><button type="button" class="mine__toast-undo" data-toast-undo hidden>Undo</button></div>
+</div>
+{library_data()}"""
 
 
 def sparkle_path():
@@ -946,6 +1026,7 @@ def reader_page():
     <div class="reader__titles"><h1 class="reader__title" data-reader-title>Opening the book…</h1><p class="reader__author" data-reader-author></p></div>
     <div class="reader__tools">
       <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-contents">{icon("contents")}<span class="reader__tool-label">Contents</span></button>
+      <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-notes">{icon("highlight")}<span class="reader__tool-label">Notes</span></button>
       <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-settings">{icon("type")}<span class="reader__tool-label">Text</span></button>
       <a class="reader__tool" href="books.html" data-reader-download download>{icon("download")}<span class="reader__tool-label">Download</span></a>
     </div>
@@ -980,7 +1061,39 @@ def reader_page():
     <p class="reader__setting"><span>Size</span><button type="button" class="reader__choice" data-reader-size="-1" aria-label="Smaller text">A−</button><span class="reader__size" data-reader-size-value>100%</span><button type="button" class="reader__choice" data-reader-size="1" aria-label="Bigger text">A+</button></p>
     <p class="reader__setting"><span>Page</span>{themes}</p>
     <p class="reader__setting"><span>Font</span>{fonts}</p>
+    <div class="reader__setting is--book"><span>Book</span><a class="reader__choice" href="books.html" data-reader-download download>{icon("download")}Download EPUB</a><span class="offline-row" data-offline-row hidden>{OFFLINE_CONTROLS}</span></div>
   </div>
+  <div class="reader__panel is--notes" id="reader-notes" role="region" aria-label="Notes" data-reader-panel hidden>
+    <h2 class="reader__panel-title">Notes</h2>
+    <p class="reader__notes-empty" data-notes-empty>Select any words in the book to highlight them, underline them or add a note. They stay on this device.</p>
+    <ol class="reader__notes" data-notes-list></ol>
+    <p class="reader__notes-actions"><button type="button" class="reader__choice" data-notes-export hidden>{icon("download")}Export these notes</button><a class="reader__choice" href="reading.html#notes">{icon("library")}All your notes</a></p>
+    <p class="reader__notes-warning" data-notes-warning hidden>This browser is not keeping data, so notes last only until this tab closes.</p>
+  </div>
+  <div class="reader__select" role="toolbar" aria-label="Highlight the selected words" data-select-bar hidden>
+    <button type="button" class="reader__swatch is--yellow" data-style="yellow" aria-label="Yellow highlight"></button>
+    <button type="button" class="reader__swatch is--green" data-style="green" aria-label="Green highlight"></button>
+    <button type="button" class="reader__swatch is--blue" data-style="blue" aria-label="Blue highlight"></button>
+    <button type="button" class="reader__swatch is--pink" data-style="pink" aria-label="Pink highlight"></button>
+    <button type="button" class="reader__select-tool" data-style="underline" aria-label="Underline">{icon("underline")}</button>
+    <span class="reader__select-gap" aria-hidden="true"></span>
+    <button type="button" class="reader__select-tool" data-select-note aria-label="Add a note">{icon("note")}</button>
+    <button type="button" class="reader__select-tool" data-select-define aria-label="Look up this word">{icon("define")}</button>
+    <button type="button" class="reader__select-tool" data-select-copy aria-label="Copy">{icon("copy")}</button>
+    <button type="button" class="reader__select-tool" data-select-delete aria-label="Remove this highlight" hidden>{icon("trash")}</button>
+  </div>
+  <div class="reader__popup is--note" role="dialog" aria-label="Your note" data-note-editor hidden>
+    <blockquote class="reader__popup-quote" data-note-quote></blockquote>
+    <label class="sr-only" for="reader-note-text">Your note</label>
+    <textarea id="reader-note-text" rows="4" maxlength="4000" placeholder="Your thoughts on these words" data-note-text></textarea>
+    <p class="reader__popup-actions"><button type="button" class="reader__choice" data-note-cancel>Cancel</button><button type="button" class="reader__choice is--strong" data-note-save>Save note</button></p>
+  </div>
+  <div class="reader__popup is--define" role="dialog" aria-label="Meaning" data-define hidden>
+    <p class="reader__define-word" data-define-word></p>
+    <div class="reader__define-body" data-define-body></div>
+    <p class="reader__popup-actions"><span class="reader__define-more">From <a data-define-more target="_blank" rel="noopener">Wiktionary</a>, under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span><button type="button" class="reader__choice" data-define-close>Close</button></p>
+  </div>
+  <div class="reader__toast" role="status" data-reader-toast hidden><span data-toast-text></span><button type="button" class="reader__toast-undo" data-toast-undo hidden>Undo</button></div>
 </section>
 {library_data()}"""
 
@@ -1032,7 +1145,26 @@ write("login.html", page("login", "login.html", "Log in | The Bookshelf", "Log i
                          "pale-pink"))
 write("signup.html", page("signup", "signup.html", "Sign up | The Bookshelf", "Create a Bookshelf account.",
                           form_page("signup"), "pale-periwinkle"))
+write("reading.html", page("reading", "reading.html", "Your reading | The Bookshelf",
+                           "Your books, highlights, notes and reading time, kept on your own device.", reading_page()))
 write("404.html", NOT_FOUND)
+
+# The app: installable from the browser's menu, and with books you keep readable offline (sw.js)
+write("manifest.webmanifest", json.dumps({
+    "name": "The Bookshelf", "short_name": "Bookshelf", "description": f"A free library of {len(LIBRARY)} classics.",
+    "start_url": "./", "scope": "./", "display": "standalone", "background_color": "#3b308f", "theme_color": "#ffd24a",
+    "icons": [{"src": "image/icon-192.png", "sizes": "192x192", "type": "image/png"},
+              {"src": "image/icon-512.png", "sizes": "512x512", "type": "image/png"},
+              {"src": "image/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}],
+}, indent=2) + "\n")
+# What the service worker keeps from the start: everything the reader and Your reading need, so a kept book opens offline
+SHELL = ["read.html", "reading.html", f"css/main.css?v={VERSION}", f"css/reader-content.css?v={VERSION}",
+         *(f"{a}?v={VERSION}" for a in ASSETS if a.endswith(".js")), *SCRIPTS, "js/vendor/jszip.min.js", "js/vendor/epub.min.js",
+         "fonts/rubik.woff2", "fonts/figtree.woff2", "fonts/gochi-hand.woff2", "image/logo.svg", "manifest.webmanifest"]
+SHELL_VERSION = hashlib.sha1(b"".join((ROOT / f.split("?")[0]).read_bytes() for f in SHELL if not f.endswith(".html") and f != "manifest.webmanifest")
+                             + VERSION.encode()).hexdigest()[:8]
+write("sw.js", (ROOT / "tools" / "sw.template.js").read_text(encoding="utf-8")
+      .replace("__VERSION__", SHELL_VERSION).replace("__SHELL__", json.dumps(SHELL)))
 for b in LIBRARY:
     write(book_url(b["slug"]), page("book", book_url(b["slug"]), f"{b['title']} by {b['author']}, free | The Bookshelf",
                                     b["abstract"], book_page(b["slug"]), b["colour"], b["slug"]), quiet=True)
@@ -1045,6 +1177,6 @@ for old in OUT.glob("book-*.html"):
 
 # For search engines: every page except the demo log-in forms and the reader. (A robots.txt only counts at the root
 # of cl0ud-9.github.io, not in this folder, so the sitemap is handed to search engines directly.)
-urls = ["", "books.html", "genres.html", "faq.html", *(book_url(b["slug"]) for b in LIBRARY)]
+urls = ["", "books.html", "genres.html", "faq.html", "reading.html", *(book_url(b["slug"]) for b in LIBRARY)]
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
       + "".join(f"  <url><loc>{SITE}{u}</loc></url>\n" for u in urls) + "</urlset>\n")

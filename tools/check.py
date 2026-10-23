@@ -363,8 +363,56 @@ with sync_playwright() as p:
     print("phone console:", errors or "clean")
     page.close()
 
+    # ---- your own reading: highlights and notes, keeping a book offline, and Your reading with its backup
+    ctx = browser.new_context(viewport={"width": 1440, "height": 900}, accept_downloads=True)
+    page = ctx.new_page()
+    errors = []
+    watch(page, errors)
+    book = "dracula"
+    page.goto(BASE + f"book-{book}.html", wait_until="networkidle")
+    page.wait_for_timeout(2500)
+    page.locator(".book-hero [data-offline-keep]").click()
+    page.wait_for_selector(".book-hero [data-offline-kept]:not([hidden])", timeout=20000)
+    ok(page.locator(".book-hero [data-offline-remove]").is_visible(), "a book can be kept for offline reading, and shows Remove once kept")
+    ok(page.locator(".book-hero__listen a").count() == 1, "a book's page links its free LibriVox audiobook")
+    page.goto(BASE + f"read.html?book={book}")
+    page.wait_for_selector(".reader.is--ready", timeout=20000)
+    page.wait_for_timeout(2500)
+    page.locator("[aria-controls=reader-contents]").click()
+    page.wait_for_timeout(500)
+    page.locator("#reader-contents [data-reader-toc-list] .reader__toc-link").nth(3).click()
+    page.wait_for_timeout(2500)
+    picked = page.evaluate("""() => { const f = [...document.querySelectorAll('.epub-container iframe')].find(fr => { const r = fr.getBoundingClientRect(); return r.right > 0 && r.left < innerWidth; });
+      const d = f.contentDocument, w = d.createTreeWalker(d.body, NodeFilter.SHOW_TEXT); let n;
+      while ((n = w.nextNode())) { if (n.nodeValue.trim().length > 30) { const r = d.createRange(); const i = n.nodeValue.indexOf(n.nodeValue.trim());
+        r.setStart(n, i); r.setEnd(n, i + 20); const s = f.contentWindow.getSelection(); s.removeAllRanges(); s.addRange(r); return r.toString(); } } return ''; }""")
+    page.wait_for_timeout(900)
+    ok(page.locator("[data-select-bar]").is_visible(), f"selecting words shows the highlight bar ({picked!r})")
+    page.locator("[data-select-bar] [data-style=blue]").click()
+    page.wait_for_timeout(800)
+    marks = page.evaluate("[...document.querySelectorAll('.epub-container g[data-id]')].filter(g => g.childNodes.length).length")
+    ok(marks == 1, f"the highlight is drawn on the page ({marks})")
+    page.locator("[aria-controls=reader-notes]").click()
+    page.wait_for_timeout(600)
+    ok(page.locator("[data-notes-list] .reader__note").count() == 1, "the Notes panel lists the highlight")
+    page.locator("[data-notes-list] .reader__note-act[aria-label=Remove]").click()
+    page.wait_for_timeout(500)
+    page.locator("[data-reader-toast] [data-toast-undo]").click()
+    page.wait_for_timeout(800)
+    ok(page.locator("[data-notes-list] .reader__note").count() == 1, "a removed highlight comes back with Undo")
+    page.goto(BASE + "reading.html", wait_until="networkidle")
+    page.wait_for_timeout(3000)
+    ok(page.locator("[data-reading-list] .mine__book").count() == 1 and page.locator("[data-notes-all] .mine__note").count() == 1
+       and page.locator("[data-offline-list] .mine__book").count() == 1, "Your reading lists the book being read, the note and the kept book")
+    with page.expect_download() as download:
+        page.locator("[data-backup]").click()
+    backup = json.loads(Path(download.value.path()).read_text(encoding="utf-8"))
+    ok(backup.get("app") == "The Bookshelf" and len(backup["notes"]) == 1 and book in backup["places"], "Back up saves the places and notes in one file")
+    print("your reading console:", errors or "clean")
+    ctx.close()
+
     # ---- the smallest phones: nothing may make any page wider than the screen, even while it animates in
-    for path in ("", "books.html", "genres.html", "faq.html", f"book-{LIBRARY[0]['slug']}.html", f"read.html?book={LIBRARY[0]['slug']}", "signup.html"):
+    for path in ("", "books.html", "genres.html", "faq.html", "reading.html", f"book-{LIBRARY[0]['slug']}.html", f"read.html?book={LIBRARY[0]['slug']}", "signup.html"):
         page = browser.new_page(viewport={"width": 320, "height": 700}, is_mobile=True, has_touch=True)
         page.goto(BASE + path, wait_until="domcontentloaded")
         widths = []

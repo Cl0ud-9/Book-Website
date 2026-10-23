@@ -109,7 +109,7 @@
 
   function setCurrentNav(namespace) {
     const key = { home: "home", books: "books", book: "books", reader: "books", genres: "genres", faq: "faq",
-      login: "account", signup: "account" }[namespace];
+      login: "reading", signup: "reading", reading: "reading" }[namespace];
     document.querySelectorAll("[data-nav]").forEach((link) => {
       if (link.dataset.nav === key) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
@@ -1147,7 +1147,7 @@
 
   // Sections pop up a little as they arrive
   function sectionEntrances(page) {
-    page.querySelectorAll(".books__title, .flow__title, .faq__title, .favs__title, .spotlight__title, .gift__title, .faqs__title, .shelf__name").forEach((title) => whenNear(title, () => {
+    page.querySelectorAll(".books__title, .flow__title, .faq__title, .favs__title, .spotlight__title, .gift__title, .faqs__title, .shelf__name, .mine__title").forEach((title) => whenNear(title, () => {
       const tl = gsap.timeline({ scrollTrigger: { trigger: title, start: "top 88%", once: true } });
       stretchWords(tl, title, 0);
     }));
@@ -1254,7 +1254,9 @@
       s.onerror = reject;
       document.head.append(s);
     });
-    readerScripts ||= load("js/vendor/jszip.min.js").then(() => load("js/vendor/epub.min.js")).then(() => load(`js/reader.js?${version}`));
+    readerScripts ||= load("js/vendor/jszip.min.js").then(() => load("js/vendor/epub.min.js"))
+      .then(() => Promise.all([load(`js/notes-store.js?${version}`), load(`js/reader-notes.js?${version}`)]))
+      .then(() => load(`js/reader.js?${version}`));
     return readerScripts;
   }
 
@@ -1293,6 +1295,106 @@
     section.hidden = false;
   }
 
+  /* ---------------- Books kept for offline reading ---------------- */
+
+  // The service worker (sw.js, written by tools/build.py) serves the pages, the reader and kept books when there is no
+  // connection. Keeping a book stores its file, its page and its cover in the browser's cache; the list of kept books
+  // is in localStorage, and checked against the cache, which a browser may empty when space runs short.
+  const offlineReady = "caches" in window && "serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost");
+  if (offlineReady) navigator.serviceWorker.register("sw.js").catch(() => {});
+  const KEPT = "bookshelf:offline";
+  const readKept = () => { try { return JSON.parse(localStorage.getItem(KEPT)) || {}; } catch { return {}; } };
+  const writeKept = (kept) => { try { localStorage.setItem(KEPT, JSON.stringify(kept)); } catch { /* not kept */ } };
+  window.BookshelfOffline = {
+    supported: offlineReady,
+    async list() {
+      const kept = readKept();
+      if (!offlineReady) return [];
+      const books = await caches.open("books");
+      const here = await Promise.all(Object.entries(kept).map(async ([slug, info]) => ((await books.match(info.epub, { ignoreSearch: true })) ? [slug, info] : null)));
+      const still = Object.fromEntries(here.filter(Boolean));
+      if (Object.keys(still).length !== Object.keys(kept).length) writeKept(still);
+      return Object.entries(still).map(([slug, info]) => ({ slug, ...info }));
+    },
+    async has(slug) { return (await this.list()).some((b) => b.slug === slug); },
+    async keep(slug, epub) {
+      const [books, pages, images] = await Promise.all(["books", "pages", "images"].map((name) => caches.open(name)));
+      const response = await fetch(epub, { mode: "cors" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      await books.put(epub, response);
+      await Promise.allSettled([pages.add(`book-${slug}.html`), images.add(`image/covers/${slug}-360.webp`), images.add(`image/covers/${slug}-180.webp`)]);
+      navigator.storage?.persist?.().catch(() => {});
+      writeKept({ ...readKept(), [slug]: { epub, at: Date.now() } });
+    },
+    async drop(slug) {
+      const kept = readKept();
+      const epub = kept[slug]?.epub;
+      if (epub) await (await caches.open("books")).delete(epub, { ignoreSearch: true });
+      delete kept[slug];
+      writeKept(kept);
+    },
+  };
+  // Every "Keep for offline reading" row on a page: on a book's page, and in the reader's Text settings. It shows a
+  // Keep button, or that the book is kept with a Remove button beside it.
+  function offlineButtons(page) {
+    page.querySelectorAll("[data-offline-row]").forEach((row) => {
+      if (!offlineReady) return;
+      const keep = row.querySelector("[data-offline-keep]");
+      const label = row.querySelector("[data-offline-label]");
+      const kept = row.querySelector("[data-offline-kept]");
+      const remove = row.querySelector("[data-offline-remove]");
+      const show = (isKept) => {
+        keep.hidden = isKept;
+        kept.hidden = !isKept;
+        remove.hidden = !isKept;
+        label.textContent = "Keep for offline reading";
+      };
+      const refresh = () => { if (row.dataset.offlineBook) window.BookshelfOffline.has(row.dataset.offlineBook).then(show); };
+      row.hidden = false;
+      refresh();
+      keep.addEventListener("click", async () => {
+        if (keep.disabled || !row.dataset.offlineBook) return;
+        keep.disabled = true;
+        label.textContent = "Keeping…";
+        try {
+          await window.BookshelfOffline.keep(row.dataset.offlineBook, row.dataset.offlineEpub);
+          show(true);
+          remove.focus();
+        } catch {
+          label.textContent = navigator.onLine === false ? "You’re offline. Try again later" : "Couldn’t keep it. Try again";
+        } finally {
+          keep.disabled = false;
+        }
+      });
+      remove.addEventListener("click", async () => {
+        await window.BookshelfOffline.drop(row.dataset.offlineBook);
+        show(false);
+        keep.focus();
+      });
+      row.addEventListener("bookshelf:offline-book", refresh); // the reader names its book once it knows it
+    });
+  }
+
+  // Your reading: its script (and the notes store) load only on that page
+  function yourReading(page) {
+    const root = page.querySelector("[data-your-reading]");
+    if (!root) return null;
+    let undo = null;
+    let gone = false;
+    const load = (src) => new Promise((resolve, reject) => {
+      if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
+      const s = document.createElement("script");
+      s.src = src;
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.append(s);
+    });
+    Promise.all([load(`js/notes-store.js?${version}`), load(`js/your-reading.js?${version}`)])
+      .then(() => { if (!gone) undo = window.BookshelfYourReading.init(root, libraryOf(page)); })
+      .catch(() => { root.prepend(Object.assign(document.createElement("p"), { className: "mine__empty", textContent: "This page didn’t load. Check your connection and try again." })); });
+    return () => { gone = true; undo?.(); };
+  }
+
   // A book you have started: its Read button says where you are
   function readButton(page) {
     const button = page.querySelector("[data-read-button]");
@@ -1315,6 +1417,9 @@
     accordions(container);
     continueReading(container);
     readButton(container);
+    offlineButtons(container);
+    const closeYours = yourReading(container);
+    if (closeYours) pageCleanups.push(closeYours);
     const closeReader = readerPage(container);
     if (closeReader) pageCleanups.push(closeReader);
     if (reducedMotion()) {

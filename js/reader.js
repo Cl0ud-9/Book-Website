@@ -5,6 +5,7 @@
 
   const PLACES = "bookshelf:reading"; // { slug: { cfi, percent, at, furthest, spine, seen: { chapter2, finished } } }
   const PREFS = "bookshelf:reader"; // { theme, size, font }
+  const STATS = "bookshelf:stats"; // { days: { "2026-10-24": seconds }, books: { slug: seconds } }
 
   // Saved places live in this browser only. Private windows and blocked storage simply keep nothing.
   const store = {
@@ -105,7 +106,14 @@
     $("[data-reader-title]").textContent = info.title;
     $("[data-reader-author]").textContent = info.author;
     $("[data-reader-back]").href = `book-${slug}.html`;
-    $("[data-reader-download]").href = info.epub;
+    root.querySelectorAll("[data-reader-download]").forEach((link) => { link.href = info.epub; });
+    // Text settings: keep this book for offline reading (js/app.js wires the row)
+    const offline = $("[data-offline-row]");
+    if (offline) {
+      offline.dataset.offlineBook = slug;
+      offline.dataset.offlineEpub = info.epub;
+      offline.dispatchEvent(new Event("bookshelf:offline-book"));
+    }
     document.title = `${info.title} | Reading at the Bookshelf`;
 
     // epub.js adds orientationchange and unload listeners to window and never takes them off, which kept every closed
@@ -261,7 +269,7 @@
       });
       // The site's own Figtree, for the Sans option
       rendition.hooks.content.register((contents) => contents.addStylesheet(new URL(`css/reader-content.css?${window.bookshelfVersion || ""}`, location.href).href));
-      rendition.on("relocated", (location) => { current = location; showProgress(); ctx.emit("relocated", location); });
+      rendition.on("relocated", (location) => { current = location; lastActive = Date.now(); showProgress(); ctx.emit("relocated", location); });
       // Each page is shown in a frame of its own, which a screen reader announces by its title
       rendition.on("rendered", (section, v) => { v?.iframe?.setAttribute("title", `${info.title}, by ${info.author}`); nudge(); });
       rendition.on("keyup", keys);
@@ -509,6 +517,32 @@
     };
     view.addEventListener("scroll", immersive, { capture: true, passive: true });
 
+    /* ---------- Time spent reading, for Your reading ---------- */
+
+    // A five-second tick counts while the page is showing and you have turned, scrolled, tapped or typed in the last
+    // two minutes, so a book left open on the desk does not count. Kept by day and by book, on this device only.
+    let lastActive = Date.now();
+    let unsaved = 0;
+    const active = () => { lastActive = Date.now(); };
+    const saveTime = () => {
+      if (!unsaved) return;
+      const stats = store.read(STATS, {});
+      const day = new Date();
+      const key = `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
+      stats.days = { ...(stats.days || {}), [key]: (stats.days?.[key] || 0) + unsaved };
+      stats.books = { ...(stats.books || {}), [slug]: (stats.books?.[slug] || 0) + unsaved };
+      store.write(STATS, stats);
+      unsaved = 0;
+    };
+    const tick = setInterval(() => {
+      if (document.visibilityState !== "visible" || Date.now() - lastActive > 120000 || !root.classList.contains("is--ready")) return;
+      unsaved += 5;
+      if (unsaved >= 30) saveTime();
+    }, 5000);
+    ["keydown", "pointerdown", "wheel", "touchstart"].forEach((type) => root.addEventListener(type, active, { passive: true }));
+    view.addEventListener("scroll", active, { capture: true, passive: true });
+    document.addEventListener("visibilitychange", saveTime);
+
     /* ---------- What plug-ins (notes, word look-up) can use ---------- */
 
     const listeners = {};
@@ -527,8 +561,8 @@
     const plugins = (window.BookshelfReaderPlugins || []).map((plugin) => plugin(ctx)).filter(Boolean);
 
     makeRendition();
-    // Opened from a quote or a note: ?at=<words>&in=<chapter file> opens the book at those words, as a look
-    const at = params.get("at");
+    // Opened from a quote or a note (?at=<words>&in=<chapter file>, ?note=<id>): the notes plug-in looks for it once the
+    // book is showing
     const saved = placeOf(slug);
     const first = saved?.cfi || undefined;
     show(first).then(() => {
@@ -536,7 +570,7 @@
       if (failed) return;
       message.textContent = "";
       reveal();
-      if (at) ctx.emit("open-at", at, params.get("in"));
+      ctx.emit("ready", params);
     }).catch(fail);
     // Percentages need the whole book measured once, which can take a moment for a long one
     book.ready.then(() => book.locations.generate(1600)).then(showProgress).catch(() => {});
@@ -550,6 +584,11 @@
       if (gsap) gsap.killTweensOf([intro, introBook, introCover, pages, view, sheet, chapter, ...panels()]);
       turning?.kill();
       root.classList.remove("is--opening", "is--immersive");
+      clearInterval(tick);
+      saveTime();
+      ["keydown", "pointerdown", "wheel", "touchstart"].forEach((type) => root.removeEventListener(type, active));
+      view.removeEventListener("scroll", active, { capture: true });
+      document.removeEventListener("visibilitychange", saveTime);
       view.removeEventListener("scroll", immersive, { capture: true });
       window.removeEventListener("resize", onResize);
       document.removeEventListener("keydown", keys);

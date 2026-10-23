@@ -1,6 +1,6 @@
 {
   "name": "book-website",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "The Bookshelf: a free library of classics to read in the browser or download, with page transitions and scroll animations (GSAP, Lenis, Barba, epub.js).",
   "private": true,
   "scripts": {

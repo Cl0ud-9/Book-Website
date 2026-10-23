@@ -24,7 +24,7 @@ jobs:
       - name: Collect the site's files
         run: |
           mkdir _site
-          cp -r index.html books.html genres.html faq.html book-*.html read.html login.html signup.html 404.html sitemap.xml css js image fonts books _site/
+          cp -r index.html books.html genres.html faq.html book-*.html read.html reading.html login.html signup.html 404.html sitemap.xml manifest.webmanifest sw.js css js image fonts books _site/
       - name: Rebuild the pages for today (book of the month)
         # GOATCOUNTER: the site's GoatCounter code, a repository variable; empty means nothing is counted
         env:

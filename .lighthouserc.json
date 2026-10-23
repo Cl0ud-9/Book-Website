@@ -7,6 +7,7 @@
         "http://localhost/books.html",
         "http://localhost/genres.html",
         "http://localhost/faq.html",
+        "http://localhost/reading.html",
         "http://localhost/book-frankenstein.html"
       ],
       "numberOfRuns": 3,
