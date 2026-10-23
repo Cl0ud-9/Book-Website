@@ -1231,6 +1231,17 @@ html.is-loading .transition, html.is-ready .transition { visibility: visible; }
 }
 .catalogue__grid .book-card { rotate: calc(var(--tilt, 0) * 1deg); transition: rotate .4s var(--ease-bounce), scale .4s var(--ease-bounce); }
 .catalogue__grid .book-card:hover { rotate: 0deg; scale: 1.02; }
+/* The browser skips laying out cards far below the screen until you scroll near them: with the whole library on one
+   page, laying out every card held a phone's main thread for about a second */
+.catalogue__grid .book-card { content-visibility: auto; contain-intrinsic-size: auto 28em; }
+.shelves .shelf { content-visibility: auto; contain-intrinsic-size: auto 36em; }
+/* Waiting below the screen, then rising into place (app.js riseIn) */
+.is--waiting { opacity: 0; translate: 0 4em; }
+.is--rising { transition: opacity .45s ease-out var(--rise-delay, 0s), translate .9s var(--ease-bounce) var(--rise-delay, 0s); }
+.catalogue__grid .book-card.is--rising {
+  transition: rotate .4s var(--ease-bounce), scale .4s var(--ease-bounce),
+    opacity .45s ease-out var(--rise-delay, 0s), translate .9s var(--ease-bounce) var(--rise-delay, 0s);
+}
 .catalogue__grid .book-card:nth-child(odd) { --tilt: -1.5; }
 .catalogue__grid .book-card:nth-child(3n) { --tilt: 2; }
 .catalogue__grid .book-card:target { outline: .3em solid var(--black); outline-offset: .3em; }
@@ -1446,6 +1457,33 @@ body:has(.reader) .header { display: none; }
 .reader__toc-link { width: 100%; text-align: left; padding: .5em .75em .5em calc(.75em + var(--depth, 0) * 1em); border-radius: .6em; font-weight: 500; color: inherit; transition: background-color .2s, translate .3s var(--ease-smooth); }
 .reader__toc-link:hover, .reader__toc-link:focus-visible { background: var(--r-soft); translate: .25em 0; }
 .reader__toc-link[aria-current="true"] { font-weight: 700; background: var(--r-soft); }
+/* Chapters you have read get a tick; a part whose chapter matches a search stays, dimmed */
+.reader__toc-link.is--read::after { content: "✓"; float: right; margin-left: .75em; opacity: .55; font-weight: 700; }
+.reader__toc-link.is--dim { opacity: .5; }
+.reader__toc .reader__toc { margin: 0; padding: 0; }
+.reader__toc-search { display: block; margin: 0 0 .75em; }
+.reader__toc-search[hidden] { display: none; }
+.reader__toc-search input {
+  width: 100%; height: 2.6em; padding: 0 1em; border-radius: 10em; border: 1px solid var(--r-line);
+  background: var(--r-soft); color: inherit; font: inherit; font-weight: 500;
+}
+.reader__toc-search input:focus-visible { outline: .15em solid var(--magenta-ink); outline-offset: .1em; }
+.reader__toc-empty { padding: .5em .75em; opacity: .7; }
+.reader__toc-about { margin-top: .75em; border-top: 1px solid var(--r-line); padding-top: .5em; }
+.reader__toc-about > summary { cursor: pointer; padding: .5em .75em; border-radius: .6em; font-weight: 600; opacity: .8; }
+.reader__toc-about > summary:hover, .reader__toc-about > summary:focus-visible { background: var(--r-soft); opacity: 1; }
+/* After a jump: the way back to your place, floating at the foot of the page */
+.reader__return {
+  position: absolute; z-index: 4; left: 50%; bottom: 1.25em; translate: -50% 0;
+  display: inline-flex; align-items: center; gap: .5em; max-width: calc(100% - 2em); height: 2.75em; padding: 0 1.25em;
+  border-radius: 10em; background: var(--r-fg); color: var(--r-bg); font-weight: 600; white-space: nowrap;
+  box-shadow: 0 .75em 1.5em -.75em rgba(0, 0, 0, .5); transition: scale .15s var(--ease-click);
+}
+.reader__return span { overflow: hidden; text-overflow: ellipsis; }
+.reader__return .icon { width: 1.1em; height: 1.1em; flex: none; }
+.reader__return:active { scale: .96; }
+.reader__return[hidden] { display: none; }
+.reader.is--scrolled .reader__return { bottom: 4.5em; }
 .reader__setting { display: flex; flex-wrap: wrap; align-items: center; gap: .5em; padding: .5em 0; }
 .reader__setting > span:first-child { width: 3.5em; font-weight: 700; }
 .reader__size { min-width: 3.5em; text-align: center; font-weight: 600; }

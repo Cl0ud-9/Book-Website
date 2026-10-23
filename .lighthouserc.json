@@ -1,0 +1,27 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "./_site",
+      "url": [
+        "http://localhost/index.html",
+        "http://localhost/books.html",
+        "http://localhost/genres.html",
+        "http://localhost/faq.html",
+        "http://localhost/book-frankenstein.html"
+      ],
+      "numberOfRuns": 3,
+      "settings": { "onlyCategories": ["performance", "accessibility", "seo"] }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.8, "aggregationMethod": "median-run" }],
+        "categories:accessibility": ["error", { "minScore": 0.95, "aggregationMethod": "median-run" }],
+        "categories:seo": ["error", { "minScore": 0.95, "aggregationMethod": "median-run" }],
+        "largest-contentful-paint": ["error", { "maxNumericValue": 4000, "aggregationMethod": "median-run" }],
+        "total-blocking-time": ["error", { "maxNumericValue": 400, "aggregationMethod": "median-run" }],
+        "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1, "aggregationMethod": "median-run" }]
+      }
+    },
+    "upload": { "target": "filesystem", "outputDir": "./.lighthouseci" }
+  }
+}

@@ -5,6 +5,38 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [3.2.0] - 2026-10-24
+
+### Added
+
+- Contents marks the chapters you have read, groups the edition's own pages (title page, imprint, colophon, licence)
+  under "About this edition", calls bare numbers "Chapter I", and offers a search box in books with 25 or more
+  entries, such as The Count of Monte Cristo.
+- After a jump through Contents, a "Back to …" button returns you to where you were.
+- A speed and accessibility check on every deploy: Lighthouse, in its phone mode, three runs per page, with budgets in
+  `.lighthouserc.json`. A page that drops below them stops the deploy.
+- Optional counting with GoatCounter (no cookies, nothing personal), turned on by a `GOATCOUNTER` repository variable.
+  Browsers that ask not to be tracked are never counted. A new question on the Questions page says what is counted.
+
+### Changed
+
+- The opening squiggle plays only when a visit starts on the home page. Every other page, however you arrive, shows
+  straight away.
+- Effects further down a page are built as you come near them, and cards and shelves rise in using the browser's
+  own tools, so pages are ready to use much sooner on a slow phone. On a slowed phone CPU the main thread is blocked
+  for 147 ms instead of 2.1 s on All books, 273 ms instead of 707 ms on Genres, and 667 ms instead of 1.5 s on home.
+- The reader switches between one page, two pages and scrolling when the window changes size, at the same place.
+
+### Fixed
+
+- On a phone, after jumping to a chapter through Contents, the book could not be scrolled any further: the next
+  chapter never loaded.
+- On a phone, the top bar hid itself after a Contents jump, so Contents could not be opened again.
+- Looking at a chapter through Contents moved your saved place, so "Continue reading" started wherever you had looked.
+- Choosing Colophon in Contents named the next section instead.
+- Narrowing the window after opening a book left the two-page spine shadow running through a single page.
+- The Questions page never told Chrome when its main text appeared, so its speed could not be measured.
+
 ## [3.1.1] - 2026-10-23
 
 ### Changed

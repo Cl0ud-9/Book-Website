@@ -230,13 +230,14 @@
     const books = gsap.utils.toArray(".hero__book, .book-hero__visual", hero);
     const noteSplit = note ? scribbleIn(note) : null;
 
-    gsap.set([paragraph, button].filter(Boolean), { opacity: 0, y: "-0.75em" });
-    if (content) gsap.set(content, { opacity: 0, y: "5em" });
-    // Not quite 0: the browser then draws the big covers while the squiggle still hides them, instead of in the middle
-    // of the opening, where that first draw cost a couple of frames
+    // Not quite 0: the browser then draws the text and the big covers while the squiggle still hides them. At 0 the
+    // covers' first draw cost a couple of frames mid-opening, and Chrome did not count the text as shown until the
+    // animation ended, which made the pages look slow to Lighthouse and to Google.
+    gsap.set([paragraph, button].filter(Boolean), { opacity: 0.001, y: "-0.75em" });
+    if (content) gsap.set(content, { opacity: 0.001, y: "5em" });
     if (books.length) gsap.set(books, { opacity: 0.001, y: "6em" });
     if (bg && desktop.matches) gsap.set(bg, { clipPath: "ellipse(20% 0% at 100% 100%)" });
-    if (small) gsap.set(small, { y: "-5em", opacity: 0 });
+    if (small) gsap.set(small, { y: "-5em", opacity: 0.001 });
 
     return (tl, at) => {
       if (small) tl.to(small, { y: "0em", opacity: 1, duration: 0.4, ease: "energy" }, at + 0.1);
@@ -281,11 +282,17 @@
   function runOnce(container) {
     gsap.set(snake, { drawSVG: "0% 100%", strokeWidth: COVER });
     gsap.set(transitionLogo, { scale: 0, rotate: -64, autoAlpha: 0 });
-    if (reducedMotion()) {
+    // The page's first script (build.py's boot) decided whether the squiggle opens this visit: only on the home page,
+    // on the first page of a visit. Everywhere else the page is already showing as it arrived, so nothing is hidden
+    // and played in again.
+    const covered = root.classList.contains("is-loading");
+    try { sessionStorage.setItem("bookshelf:opened", "1"); } catch { /* no storage */ }
+    if (reducedMotion() || !covered) {
       hideSnake();
       root.classList.remove("is-loading");
+      if (!reducedMotion()) root.classList.add("is-ready");
       showPage();
-      return Promise.resolve();
+      return reducedMotion() ? Promise.resolve() : firstLoadReady(container);
     }
     gsap.set(header, { yPercent: -100 });
     const play = pageIntro(container);
@@ -478,11 +485,66 @@
     return () => cleanups.forEach((fn) => fn());
   }
 
+  // Cards below the screen wait, lowered and clear, and rise into place as they come into view. The browser does the
+  // work (an IntersectionObserver and a CSS transition) instead of one scroll trigger per card: with 144 cards, setting
+  // those up held a phone's main thread for over a second. Cards already on screen are never hidden.
+  function riseIn(items, stagger = 0.05) {
+    if (reducedMotion() || !items.length || !("IntersectionObserver" in window)) return null;
+    const below = items.filter((el) => el.getBoundingClientRect().top > innerHeight);
+    below.forEach((el) => el.classList.add("is--waiting"));
+    const done = (el) => { el.classList.remove("is--rising"); el.style.removeProperty("--rise-delay"); };
+    const io = new IntersectionObserver((entries) => {
+      entries.filter((entry) => entry.isIntersecting).forEach((entry, i) => {
+        const el = entry.target;
+        io.unobserve(el);
+        el.style.setProperty("--rise-delay", `${i * stagger}s`);
+        el.classList.add("is--rising");
+        el.classList.remove("is--waiting");
+        const end = (event) => { if (event.target === el && event.propertyName === "translate") { done(el); el.removeEventListener("transitionend", end); } };
+        el.addEventListener("transitionend", end);
+        setTimeout(() => done(el), 2000 + i * stagger * 1000);
+      });
+    }, { rootMargin: "0px 0px -5% 0px" });
+    below.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }
+
+  // Builds an effect only when its element comes within half a screen of view. Splitting every note and heading on the
+  // page into letters at load held up the first screen on a phone for work that was screens away. One shared
+  // IntersectionObserver watches them (a scroll trigger each measured the page every time one was made), and the
+  // effects are built one per task, so a page with several near the top never blocks the phone for long. (Not for
+  // effects that pin: a pin adds height, so it has to be in place before anything below it is measured.)
+  const nearJobs = new Map();
+  const buildQueue = [];
+  let nearObserver = null;
+  const nextBuild = () => {
+    const job = buildQueue.shift();
+    if (!job) return;
+    job();
+    if (buildQueue.length) setTimeout(nextBuild, 0);
+  };
+  function whenNear(el, build) {
+    let undo = null;
+    const run = () => { if (nearJobs.get(el) === run) nearJobs.delete(el); undo = build(); };
+    if (!("IntersectionObserver" in window)) { run(); return; }
+    nearObserver ||= new IntersectionObserver((entries) => entries.forEach((entry) => {
+      const job = nearJobs.get(entry.target);
+      if (!entry.isIntersecting || !job) return;
+      nearObserver.unobserve(entry.target);
+      const context = pageContext;
+      buildQueue.push(() => { if (nearJobs.get(entry.target) === job) (context ? context.add(job) : job()); });
+      if (buildQueue.length === 1) setTimeout(nextBuild, 0);
+    }), { rootMargin: "0px 0px 50% 0px" });
+    nearJobs.set(el, run);
+    nearObserver.observe(el);
+    pageCleanups.push(() => { nearJobs.delete(el); nearObserver.unobserve(el); if (typeof undo === "function") undo(); });
+  }
+
   function handwrittenInView(page) {
-    page.querySelectorAll("[data-handwritten-text-inview]").forEach((note) => {
+    page.querySelectorAll("[data-handwritten-text-inview]").forEach((note) => whenNear(note, () => {
       const parts = scribbleIn(note);
       gsap.to(parts.chars, { ...scribbleTo, onComplete: () => parts.revert(), scrollTrigger: { trigger: note, start: "top 95%" } });
-    });
+    }));
   }
 
   // Smooothy's destroy() removes new functions rather than the ones it added to window, so its mousemove, mouseup and
@@ -695,11 +757,16 @@
     const pills = [...page.querySelectorAll("[data-faq-pill]")];
     if (!pills.length) return;
     const row = pills[0].closest("ul");
+    let settled = false;
     const light = (id) => pills.forEach((pill) => {
       const on = pill.getAttribute("href") === `#${id}`;
       pill.classList.toggle("is--active", on);
       if (on) pill.setAttribute("aria-current", "true"); else pill.removeAttribute("aria-current");
-      if (on && row.scrollWidth > row.clientWidth) row.scrollTo({ left: pill.offsetLeft - 16, behavior: "smooth" });
+      // Only when the lit pill is out of sight, and never while the page loads: a scroll then (even one made by the
+      // page) made Chrome stop measuring when the page's main text appeared
+      if (on && settled && (pill.offsetLeft < row.scrollLeft || pill.offsetLeft + pill.offsetWidth > row.scrollLeft + row.clientWidth)) {
+        row.scrollTo({ left: pill.offsetLeft - 16, behavior: "smooth" });
+      }
     });
     // The topic whose heading has most recently passed the upper third of the screen; short topics included
     const groups = [...page.querySelectorAll("[data-faq-group]")];
@@ -712,6 +779,7 @@
     ScrollTrigger.create({ trigger: groups[0].parentElement, start: "top bottom", end: "bottom top", onUpdate: pick, onRefresh: pick });
     pills.forEach((pill) => pill.addEventListener("click", () => { current = pill.getAttribute("href").slice(1); light(current); }));
     pick();
+    settled = true;
     // The questions rise in a few at a time as they come into view
     const questions = page.querySelectorAll(".faqs .accordion");
     gsap.set(questions, { y: "2em", opacity: 0 });
@@ -725,11 +793,8 @@
   function genreShelves(page) {
     const rows = [...page.querySelectorAll("[data-shelf-row]")];
     if (!rows.length) return;
-    gsap.set(page.querySelectorAll(".shelf__item"), { y: "3em", opacity: 0 });
-    ScrollTrigger.batch(page.querySelectorAll(".shelf__item"), {
-      start: "top 92%", once: true,
-      onEnter: (batch) => gsap.to(batch, { y: "0em", opacity: 1, duration: 0.8, ease: "back.out(1.4)", stagger: 0.04 }),
-    });
+    const stop = riseIn([...page.querySelectorAll(".shelf__item")], 0.04);
+    if (stop) pageCleanups.push(stop);
     const cleanups = rows.map((row) => {
       let startX = 0, startLeft = 0, dragging = false, moved = false;
       const down = (event) => {
@@ -847,7 +912,7 @@
      element of its own, placed on the curve the way SVG would place it (its middle on the path, turned to follow it)
      and moved with a transform alone, which the graphics card handles without any layout or repaint. */
   function taglineCurve(page) {
-    page.querySelectorAll("[data-tagline-curve]").forEach((wrap) => {
+    page.querySelectorAll("[data-tagline-curve]").forEach((wrap) => whenNear(wrap, () => {
       const svg = wrap.querySelector("svg");
       const path = wrap.querySelector("path");
       const source = wrap.querySelector("[data-tagline-text]");
@@ -921,7 +986,7 @@
           onRefresh: () => { measure(); place(state.progress); },
         },
       });
-    });
+    }));
   }
 
   function giftPop(page) {
@@ -1082,10 +1147,10 @@
 
   // Sections pop up a little as they arrive
   function sectionEntrances(page) {
-    page.querySelectorAll(".books__title, .flow__title, .faq__title, .favs__title, .spotlight__title, .gift__title, .faqs__title, .shelf__name").forEach((title) => {
+    page.querySelectorAll(".books__title, .flow__title, .faq__title, .favs__title, .spotlight__title, .gift__title, .faqs__title, .shelf__name").forEach((title) => whenNear(title, () => {
       const tl = gsap.timeline({ scrollTrigger: { trigger: title, start: "top 88%", once: true } });
       stretchWords(tl, title, 0);
-    });
+    }));
   }
 
   // All books: search, genre chips, and show more
@@ -1121,7 +1186,7 @@
         gsap.fromTo(shown, { scale: 0.6, opacity: 0, rotate: () => gsap.utils.random(-8, 8) },
           { scale: 1, opacity: 1, rotate: 0, duration: 0.7, ease: ELASTIC_SOFT, stagger: 0.04, clearProps: "scale,rotate" });
       }
-      ScrollTrigger.refresh();
+      if (animate) ScrollTrigger.refresh();
     };
     input.addEventListener("input", () => apply());
     rootEl.querySelector("[data-search-form]").addEventListener("submit", (event) => event.preventDefault());
@@ -1162,15 +1227,9 @@
         sortBy(sorter.value, true);
       });
     }
-    // Cards drop in as they come into view, a row or two at a time (the whole library at once took seconds)
-    if (!reducedMotion()) {
-      gsap.set(cards, { y: "4em", opacity: 0 });
-      ScrollTrigger.batch(cards, {
-        start: "top 95%", once: true,
-        onEnter: (batch) => gsap.to(batch, { y: "0em", opacity: 1, rotate: 0, duration: 0.9, ease: ELASTIC_SOFT, stagger: 0.05,
-          startAt: { rotate: () => gsap.utils.random(-6, 6) } }),
-      });
-    }
+    // Cards rise in as they come into view, a row or two at a time
+    const stop = riseIn(cards);
+    if (stop) pageCleanups.push(stop);
   }
 
   /* ---------------- The library: reading, and coming back to a book ---------------- */
@@ -1287,7 +1346,28 @@
     pageContext = null;
   }
 
+  /* ---------------- Counting (only when the site has GoatCounter turned on) ---------------- */
+
+  // Page views and a few reading moments (a book opened, its second chapter reached, finished, downloaded), with no
+  // cookies and no names, so the book of the month can learn what people actually read. Browsers that ask not to be
+  // tracked (Do Not Track, Global Privacy Control) are not counted at all.
+  const counter = document.querySelector("script[data-goatcounter]");
+  const optedOut = navigator.globalPrivacyControl === true || navigator.doNotTrack === "1";
+  const waiting = [];
+  window.bookshelfTrack = (path, title, event = true) => {
+    if (!counter || optedOut) return;
+    const send = () => window.goatcounter.count({ path, title, event });
+    if (window.goatcounter?.count) send(); else waiting.push(send);
+  };
+  counter?.addEventListener("load", () => waiting.splice(0).forEach((send) => send()));
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest?.("a[download]");
+    const book = link?.getAttribute("href")?.match(/([a-z0-9-]+)\.epub/)?.[1];
+    if (book) window.bookshelfTrack(`download/${book}`, document.title);
+  });
+
   function afterEnter() {
+    window.bookshelfTrack(location.pathname + location.search, document.title, false);
     showPage();
     lenis?.resize();
     ScrollTrigger.refresh();

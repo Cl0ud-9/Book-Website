@@ -194,6 +194,16 @@ with sync_playwright() as p:
     ok(page.locator(".reader").get_attribute("data-theme") == "night", "the Night page works")
     page.keyboard.press("Escape")
     page.screenshot(path=f"{OUT}/reader.png")
+    # a narrower window (split screen, a turned tablet) changes two pages to one, at the same place
+    chapter_before = page.locator("[data-reader-chapter]").inner_text()
+    page.set_viewport_size({"width": 860, "height": 900})
+    page.wait_for_timeout(3000)
+    one = "is--spread" not in page.locator(".reader").get_attribute("class")
+    page.set_viewport_size({"width": 1440, "height": 900})
+    page.wait_for_timeout(3000)
+    two = "is--spread" in page.locator(".reader").get_attribute("class")
+    ok(one and two and page.locator("[data-reader-chapter]").inner_text() == chapter_before,
+       "narrowing the window turns two pages into one and back, at the same chapter")
     page.locator("[data-reader-back]").click()
     page.wait_for_timeout(3200)
     ok("Continue (" in page.locator("[data-read-button]").inner_text(), "the book page offers to continue where you were")
@@ -322,6 +332,34 @@ with sync_playwright() as p:
     page.wait_for_timeout(1000)
     shown = not page.evaluate("document.querySelector('.reader').classList.contains('is--immersive')")
     ok(hidden and shown, f"the reader's bars hide while reading down and return on scrolling up ({hidden}, {shown})")
+    # Contents on a phone: a jump keeps the bars, leaves your saved place alone, lets you read on, and offers the way back
+    saved = "(s) => JSON.parse(localStorage.getItem('bookshelf:reading'))[s]?.cfi"
+    slug = LIBRARY[0]["slug"]
+    page.evaluate("document.querySelector('.reader').classList.remove('is--immersive')")
+    page.wait_for_timeout(600)
+    place = page.evaluate(saved, slug)
+    page.locator("[aria-controls=reader-contents]").click()
+    page.wait_for_timeout(700)
+    links = page.locator("#reader-contents [data-reader-toc-list] .reader__toc-link")
+    target = links.nth(min(8, links.count() - 1))
+    label = target.inner_text()
+    target.click()
+    page.wait_for_timeout(3000)
+    ok(page.locator("[aria-controls=reader-contents]").is_visible(), "after a Contents jump the reader's bars stay in view")
+    ok(page.evaluate(saved, slug) == place, "a Contents jump does not move your saved place")
+    ok(page.locator("[data-reader-chapter]").inner_text() == label, f"the footer names the chapter you jumped to ({label})")
+    ok(page.locator("[data-reader-return]").is_visible(), "a Back to … button offers the way back")
+    # epub.js drops chapters above the screen as you read down, which lowers scrollTop, so the distance is added up
+    page.evaluate("""() => { const c = document.querySelector('.epub-container'); let last = c.scrollTop; window.__moved = 0;
+      c.addEventListener('scroll', () => { const d = c.scrollTop - last; if (Math.abs(d) < 1500) window.__moved += Math.abs(d); last = c.scrollTop; }); }""")
+    page.mouse.move(195, 450)
+    for _ in range(8):
+        page.mouse.wheel(0, 500)
+        page.wait_for_timeout(250)
+    page.wait_for_timeout(800)
+    moved = page.evaluate("window.__moved")
+    ok(moved > 1500, f"you can scroll on after a jump; the next chapter loads ({moved:.0f}px)")
+    ok(page.evaluate(saved, slug) != place and page.locator("[data-reader-return]").is_hidden(), "reading on after a jump makes it your place")
     print("phone console:", errors or "clean")
     page.close()
 

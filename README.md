@@ -172,7 +172,15 @@ a 320 px phone, reduced motion and the site without JavaScript.
 
 Every push to `main` runs [`.github/workflows/pages.yml`](.github/workflows/pages.yml): it copies the site, rebuilds
 the pages for the day (for the book of the month), checks that every local link, image, cover size and font it names
-exists, and deploys it to GitHub Pages. A broken link stops the deploy. It also runs on the first of every month.
+exists, runs Lighthouse in its phone mode on five pages (three runs each, budgets in
+[`.lighthouserc.json`](.lighthouserc.json)), and deploys it to GitHub Pages. A broken link, or a page that falls below
+its speed or accessibility budget, stops the deploy. It also runs on the first of every month.
+
+**Counting visits (optional).** Create a free site at [GoatCounter](https://www.goatcounter.com) and put its code (the
+`bookshelf` in `bookshelf.goatcounter.com`) in a repository variable named `GOATCOUNTER` (Settings, Secrets and
+variables, Actions, Variables). The next deploy adds the counter: page views, and each book opened, reaching its
+second chapter, finished or downloaded. GoatCounter uses no cookies and keeps nothing personal, and browsers that ask
+not to be tracked are not counted at all.
 
 ## Honest limits
 

@@ -26,6 +26,9 @@ jobs:
           mkdir _site
           cp -r index.html books.html genres.html faq.html book-*.html read.html login.html signup.html 404.html sitemap.xml css js image fonts books _site/
       - name: Rebuild the pages for today (book of the month)
+        # GOATCOUNTER: the site's GoatCounter code, a repository variable; empty means nothing is counted
+        env:
+          GOATCOUNTER: ${{ vars.GOATCOUNTER }}
         run: python3 tools/build.py _site
       - name: Check every local link and image resolves
         run: |
@@ -53,6 +56,15 @@ jobs:
             done
           done
           exit $missing
+      - name: Check speed, accessibility and search basics on a phone (Lighthouse, budgets in .lighthouserc.json)
+        run: npx --yes @lhci/cli@0.14.0 autorun --config=.lighthouserc.json
+      - name: Keep the Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci
+          if-no-files-found: ignore
       - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:

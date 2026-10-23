@@ -9,3 +9,4 @@ _check/
 __pycache__/
 tools/.font-src/
 tools/.library-cache/
+.lighthouseci/

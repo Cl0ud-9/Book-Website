@@ -8,6 +8,7 @@ import datetime
 import hashlib
 import html
 import json
+import os
 import re
 import sys
 import unicodedata
@@ -281,13 +282,26 @@ SCRIPTS = [f"js/vendor/{name}.js" for name in (
     "gsap.min", "ScrollTrigger.min", "SplitText.min", "CustomEase.min", "InertiaPlugin.min", "DrawSVGPlugin.min",
     "lenis.min", "barba.umd.min", "barba-prefetch.umd.min", "smooothy.min")]
 
-# Hides what the intro animates in, and gives up after 4 s if the scripts never arrive
-BOOT = ("<script>(function(d){var r=d.documentElement;r.classList.add('js');"
-        "if(!matchMedia('(prefers-reduced-motion: reduce)').matches)r.classList.add('is-loading');"
-        "setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)})(document)</script>")
+# The opening squiggle covers the home page on the first page of a visit (not a reload later in the visit, and not when
+# the address points at a section). Every other page, however you arrive, shows straight away: the scripts arrive a
+# second or two after the page on a slow phone, and waiting for them made every page look slow. With the squiggle, the
+# page hides what the intro animates in, and gives up after 4 s if the scripts never arrive.
+def boot(name):
+    cover = ("if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!location.hash){var o;"
+             "try{o=sessionStorage.getItem('bookshelf:opened')}catch(e){}"
+             "if(o!=='1'){r.classList.add('is-loading');"
+             "setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)}}") if name == "home" else ""
+    return f"<script>(function(d){{var r=d.documentElement;r.classList.add('js');{cover}}})(document)</script>"
 
 
 SITE = "https://cl0ud-9.github.io/Book-Website/"
+# Counting visits, if it is turned on: a GoatCounter site code (the "bookshelf" in bookshelf.goatcounter.com), set as
+# the repository variable GOATCOUNTER for the deploy. No code, no script: nothing is counted. GoatCounter uses no
+# cookies and keeps no personal data; js/app.js also counts nothing for browsers that ask not to be tracked.
+GOATCOUNTER = os.environ.get("GOATCOUNTER", "").strip()
+COUNTER = (f"""<script data-goatcounter="https://{GOATCOUNTER}.goatcounter.com/count" data-goatcounter-settings='{{"no_onload": true}}' async src="https://gc.zgo.at/count.js"></script>
+"""
+           if re.fullmatch(r"[a-z0-9-]+", GOATCOUNTER) else "")
 # The site's own CSS and scripts are linked with ?v=<a hash of them>, so a browser never keeps last week's copy after a
 # deploy (GitHub Pages lets them cache files for ten minutes). app.js passes the same version on to the reader's files.
 ASSETS = ["css/main.css", "css/reader-content.css", "js/app.js", "js/forms.js", "js/reader.js"]
@@ -323,11 +337,11 @@ def page(name, path, title, description, body, theme="yellow", book=None, with_f
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/main.css?v={VERSION}">
-{BOOT}
+{boot(name)}
 {scripts}
 <script src="js/forms.js?v={VERSION}" defer></script>
 <script src="js/app.js?v={VERSION}" defer></script>
-</head>
+{COUNTER}</head>
 <body data-barba="wrapper">
 {SPRITE}
 {TRANSITION}
@@ -352,7 +366,9 @@ def ink(colour):
 
 def library_data():
     # What the reader and "Continue reading" need to know about each book, read by app.js
-    data = {b["slug"]: {"title": b["title"], "author": b["author"], "epub": b["epub"]} for b in LIBRARY}
+    # verse: numbered poems keep their bare numbers in the reader's contents, where chapters become "Chapter I"
+    data = {b["slug"]: {"title": b["title"], "author": b["author"], "epub": b["epub"], **({"verse": 1} if "Poetry" in b["genres"] else {})}
+            for b in LIBRARY}
     return f'<script type="application/json" data-library>{json.dumps(data, ensure_ascii=False, separators=(",", ":"))}</script>'
 
 
@@ -768,6 +784,11 @@ FAQ_TOPICS = [
         ("Are they free where I live?",
          "Every book here is in the public domain in the United States and in India, where copyright lasts for the "
          "author's life and sixty years. Most are free almost everywhere, but check your country's rules."),
+        ("Do you track what I read?",
+         "We count, without cookies and without knowing who you are, how often each page is visited and how often "
+         "each book is opened, reaches its second chapter, is finished or is downloaded. That is how the book of the "
+         "month learns what people enjoy. If your browser asks sites not to track you, we count nothing at all. Your "
+         "place in each book stays on your own device."),
     ]),
     ("account", "Your account", "pale-yellow", "sparkles", [
         ("Do I need an account?",
@@ -943,10 +964,17 @@ def reader_page():
     </div>
     <button class="reader__turn is--next" type="button" data-reader-next aria-label="Next page">{icon("next")}</button>
     <p class="reader__message" role="status" data-reader-message>Opening the book…</p>
+    <button class="reader__return" type="button" data-reader-return hidden>{icon("left")}<span>Back to <span data-reader-return-label>where you were</span></span></button>
     <noscript><p class="reader__message">The reader needs JavaScript. Every book can also be downloaded from its page in <a href="books.html">All books</a>.</p></noscript>
   </div>
   <div class="reader__foot"><span class="reader__chapter" data-reader-chapter></span><span class="reader__progress"><span data-reader-bar></span></span><span class="reader__percent" data-reader-percent></span></div>
-  <nav class="reader__panel" id="reader-contents" aria-label="Contents" data-reader-panel hidden><h2 class="reader__panel-title">Contents</h2><ol class="reader__toc" data-reader-toc-list></ol></nav>
+  <nav class="reader__panel" id="reader-contents" aria-label="Contents" data-reader-panel hidden>
+    <h2 class="reader__panel-title">Contents</h2>
+    <label class="reader__toc-search" data-reader-toc-find hidden><span class="sr-only">Find a chapter</span><input type="search" placeholder="Find a chapter" autocomplete="off" data-reader-toc-search></label>
+    <ol class="reader__toc" data-reader-toc-list></ol>
+    <p class="reader__toc-empty" data-reader-toc-empty hidden>No chapter by that name.</p>
+    <details class="reader__toc-about" data-reader-toc-about hidden><summary>About this edition</summary><ol class="reader__toc" data-reader-toc-about-list></ol></details>
+  </nav>
   <div class="reader__panel is--settings" id="reader-settings" role="group" aria-label="Text settings" data-reader-panel hidden>
     <h2 class="reader__panel-title">Text</h2>
     <p class="reader__setting"><span>Size</span><button type="button" class="reader__choice" data-reader-size="-1" aria-label="Smaller text">A−</button><span class="reader__size" data-reader-size-value>100%</span><button type="button" class="reader__choice" data-reader-size="1" aria-label="Bigger text">A+</button></p>
