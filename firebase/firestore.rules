@@ -36,11 +36,12 @@ service cloud.firestore {
       allow read, delete: if me(uid);
       allow create, update: if me(uid)
         && request.resource.data.keys().hasOnly(['handle', 'name', 'colour', 'mark', 'since', 'public', 'showLines',
-                                                   'places', 'devices', 'updated'])
+                                                   'places', 'devices', 'prefs', 'updated'])
         && (!('handle' in request.resource.data) || (goodHandle(request.resource.data.handle) && owns(request.resource.data.handle)))
         && (!('name' in request.resource.data) || goodName(request.resource.data.name))
         && (!('public' in request.resource.data) || request.resource.data.public is bool)
         && (!('places' in request.resource.data) || request.resource.data.places is map)
+        && (!('prefs' in request.resource.data) || (request.resource.data.prefs is map && request.resource.data.prefs.size() <= 4))
         && (!('devices' in request.resource.data) || (request.resource.data.devices is map && request.resource.data.devices.size() <= 50));
 
       // Their highlights and notes (a removed one is kept as { deleted: true } so other devices remove it too)

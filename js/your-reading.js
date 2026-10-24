@@ -325,7 +325,7 @@
       armed = 0;
       const wasIn = signedIn();
       if (wasIn) await account.signOut(false).catch(() => {});
-      [...Object.values(KEYS), OTHERS, "bookshelf:removed"].forEach((key) => { try { localStorage.removeItem(key); } catch { /* none */ } });
+      [...Object.values(KEYS), OTHERS, "bookshelf:removed", "bookshelf:owner"].forEach((key) => { try { localStorage.removeItem(key); } catch { /* none */ } });
       await Promise.all((await store.all()).map((n) => store.forget(n.id)));
       if (offline?.supported) await caches.delete("books");
       notes = [];
@@ -343,14 +343,25 @@
       banner.replaceChildren();
       const link = el("a", null, "");
       link.href = "account.html";
+      banner.classList.toggle("is--out", now.state !== "in");
       if (now.state === "in") {
         banner.append(account.avatar(now.profile, "small"), el("span", null, `Kept in your account, @${now.profile.handle}${now.lastSync ? "" : " (keeping it now…)"}. `));
         link.textContent = "Your account";
+        banner.append(link);
+      } else if (now.state === "merge" || now.state === "setup") {
+        banner.append(el("span", null, "You’re signed in, with one step left before this is kept in your account. "));
+        link.textContent = "Finish it";
+        banner.append(link);
       } else {
-        banner.append(el("span", null, "Kept on this device only. "));
-        link.textContent = "Sign in to have it on all your devices";
+        banner.append(el("span", "mine__account-text", "Kept on this device only. Sign in to have it on every device, and never lose your place."));
+        const actions = el("span", "mine__account-actions");
+        const signIn = el("a", "mine__button is--small", "Sign in");
+        signIn.href = "login.html";
+        const signUp = el("a", "mine__button is--small is--quiet", "Create an account");
+        signUp.href = "signup.html";
+        actions.append(signIn, signUp);
+        banner.append(actions);
       }
-      banner.append(link);
       if (!armed) clear.lastChild.textContent = clearLabel();
     };
     const stopAccount = account?.subscribe(showAccount);

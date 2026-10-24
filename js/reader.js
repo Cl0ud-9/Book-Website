@@ -455,12 +455,18 @@
           { opacity: 0, y: 8, duration: 0.4, stagger: 0.025, delay: 0.05, ease: "power3.out", clearProps: "transform,opacity" });
       }
     });
-    root.querySelectorAll("[data-reader-theme]").forEach((b) => b.addEventListener("click", () => { prefs.theme = b.dataset.readerTheme; apply(); }));
-    root.querySelectorAll("[data-reader-font]").forEach((b) => b.addEventListener("click", () => { prefs.font = b.dataset.readerFont; apply(); }));
+    // A choice is dated, so your account keeps the latest one for your other devices (js/account.js)
+    const choose = () => {
+      prefs.at = Date.now();
+      apply();
+      window.dispatchEvent(new Event("bookshelf:changed"));
+    };
+    root.querySelectorAll("[data-reader-theme]").forEach((b) => b.addEventListener("click", () => { prefs.theme = b.dataset.readerTheme; choose(); }));
+    root.querySelectorAll("[data-reader-font]").forEach((b) => b.addEventListener("click", () => { prefs.font = b.dataset.readerFont; choose(); }));
     root.querySelectorAll("[data-reader-size]").forEach((b) => b.addEventListener("click", () => {
       const i = SIZES.indexOf(prefs.size) + Number(b.dataset.readerSize);
       prefs.size = SIZES[Math.max(0, Math.min(SIZES.length - 1, i < 0 ? 2 : i))];
-      apply();
+      choose();
     }));
 
     /* ---------- Turning pages ---------- */

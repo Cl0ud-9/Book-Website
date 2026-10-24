@@ -24,7 +24,7 @@
 <link rel="alternate" type="application/atom+xml" title="The Bookshelf: book of the month" href="feed.xml">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=432f7c4e">
+<link rel="stylesheet" href="css/main.css?v=e82a66b6">
 <script>(function(d){var r=d.documentElement;r.classList.add('js');var c;try{c=+sessionStorage.getItem('bookshelf:covered');sessionStorage.removeItem('bookshelf:covered')}catch(e){}if(c&&Date.now()-c<30000&&!matchMedia('(prefers-reduced-motion: reduce)').matches){r.classList.add('is-loading','is-carried');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading','is-carried')},4000)}})(document)</script>
 <script src="js/vendor/gsap.min.js" defer></script>
 <script src="js/vendor/ScrollTrigger.min.js" defer></script>
@@ -36,8 +36,8 @@
 <script src="js/vendor/barba.umd.min.js" defer></script>
 <script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
 <script src="js/vendor/smooothy.min.js" defer></script>
-<script src="js/account.js?v=432f7c4e" defer></script>
-<script src="js/app.js?v=432f7c4e" defer></script>
+<script src="js/account.js?v=e82a66b6" defer></script>
+<script src="js/app.js?v=e82a66b6" defer></script>
 </head>
 <body data-barba="wrapper">
 <svg xmlns="http://www.w3.org/2000/svg" hidden>
@@ -116,7 +116,6 @@
     </ul>
   </nav>
   <div class="header__side">
-    <a class="account-chip" href="account.html" data-account-chip data-nav="account" hidden><svg class="icon" aria-hidden="true"><use href="#i-user"></use></svg><span data-account-chip-label>Sign in</span></a>
     <a class="header__social" href="https://github.com/Cl0ud-9/Book-Website" aria-label="Source code on GitHub"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg></a>
   </div>
   <button class="button-alt is--small menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
@@ -137,7 +136,7 @@
       <a class="button-alt is--white" href="reading.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Your reading</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
       <a class="button-alt is--black" href="books.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Find a book</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
     </div>
-    <a class="account-chip is--menu" href="account.html" data-account-chip data-account-chip-out="Sign in or create an account" hidden><svg class="icon" aria-hidden="true"><use href="#i-user"></use></svg><span data-account-chip-label>Sign in</span></a>
+    
     <p class="menu__note accent-note">See you between the pages!</p>
   </div>
 </div>
@@ -154,25 +153,19 @@
   <p class="mine__empty acct__checking" data-acct-checking><svg class="icon" aria-hidden="true"><use href="#i-sync"></use></svg>Checking whether you’re signed in…</p>
 
   <section class="mine__section acct__out" data-acct-out hidden aria-labelledby="out-title">
-    <h2 class="mine__title" id="out-title" data-acct-out-title>Sign in</h2>
-    <button type="button" class="acct__google" data-acct-google><svg class="acct__g" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span>Continue with Google</span></button>
-    <p class="acct__or"><span>or with your email</span></p>
-    <div class="acct__tabs" role="tablist" aria-label="Sign in or create an account">
-      <button type="button" role="tab" id="acct-tab-in" aria-controls="acct-form" aria-selected="true" data-acct-mode="in">I have an account</button>
-      <button type="button" role="tab" id="acct-tab-up" aria-controls="acct-form" aria-selected="false" tabindex="-1" data-acct-mode="up">I’m new here</button>
-    </div>
-    <form class="acct__form" id="acct-form" role="tabpanel" aria-labelledby="acct-tab-in" data-acct-email novalidate>
-      <label class="acct__field"><span class="acct__label">Email</span><input class="acct__input" type="email" name="email" autocomplete="email" inputmode="email" required></label>
-      <label class="acct__field"><span class="acct__label">Password <span class="acct__hint" data-acct-password-hint hidden>(at least 8 characters)</span></span>
-        <span class="acct__password"><input class="acct__input" type="password" name="password" autocomplete="current-password" required minlength="8">
-        <button type="button" class="acct__show" data-acct-show aria-pressed="false" aria-label="Show the password"><svg class="icon" aria-hidden="true"><use href="#i-eye"></use></svg></button></span></label>
-      <button type="submit" class="acct__submit" data-acct-submit>Sign in</button>
-      <button type="button" class="acct__link" data-acct-forgot>Forgot your password?</button>
-    </form>
-    <p class="acct__message" role="status" aria-live="polite" data-acct-message></p>
-    <p class="acct__small">Your email is used only to sign you in. <a href="privacy.html">What an account keeps</a>.</p>
+    <h2 class="mine__title" id="out-title">You’re not signed in</h2>
+    <p class="mine__text">Sign in to see your account, or make one: it’s free, and everything works without one too.</p>
+    <p class="mine__actions"><a class="button-alt is--magenta" href="login.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Sign in</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a><a class="button-alt is--black" href="signup.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Create an account</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a></p>
+    <p class="acct__message is--good" role="status" aria-live="polite" data-acct-message></p>
   </section>
 
+  <section class="mine__section acct__merge" data-acct-merge hidden aria-labelledby="merge-title">
+    <h2 class="mine__title" id="merge-title">The reading on this device</h2>
+    <p class="mine__text" data-acct-merge-text></p>
+    <p class="mine__actions"><button type="button" class="mine__button is--primary" data-acct-merge-keep><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>Add it to my account</button><button type="button" class="mine__button is--quiet" data-acct-merge-drop>Leave it out</button></p>
+    <p class="mine__text is--small">Leaving it out removes it from this device, and your account’s reading takes its place.</p>
+    <p class="acct__message" role="status" aria-live="polite" data-acct-merge-message></p>
+  </section>
   <form class="mine__section acct__setup" data-acct-setup hidden novalidate aria-labelledby="setup-title">
     <h2 class="mine__title" id="setup-title" data-acct-setup-title>Make it yours</h2>
     <p class="mine__text">Your name and username are shown on your reader page, if you choose to share it. Nothing else about you is.</p>
@@ -181,10 +174,9 @@
     <label class="acct__field"><span class="acct__label">Username</span><span class="acct__at"><span aria-hidden="true">@</span><input class="acct__input" name="handle" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" required aria-describedby="acct-handle-note"></span><span class="acct__note" id="acct-handle-note" data-acct-handle-note>3 to 20 small letters, numbers or _</span></label>
     <fieldset class="acct__choices"><legend class="acct__label">Colour</legend><div class="acct__options"><label class="acct__swatch" title="Yellow"><input type="radio" name="colour" value="yellow" checked><span style="--c:var(--yellow)"></span><span class="sr-only">Yellow</span></label><label class="acct__swatch" title="Orange"><input type="radio" name="colour" value="orange"><span style="--c:var(--orange)"></span><span class="sr-only">Orange</span></label><label class="acct__swatch" title="Pink"><input type="radio" name="colour" value="magenta"><span style="--c:var(--magenta)"></span><span class="sr-only">Pink</span></label><label class="acct__swatch" title="Blue"><input type="radio" name="colour" value="cyan"><span style="--c:var(--cyan)"></span><span class="sr-only">Blue</span></label><label class="acct__swatch" title="Violet"><input type="radio" name="colour" value="violet"><span style="--c:var(--violet)"></span><span class="sr-only">Violet</span></label><label class="acct__swatch" title="Lilac"><input type="radio" name="colour" value="periwinkle"><span style="--c:var(--periwinkle)"></span><span class="sr-only">Lilac</span></label><label class="acct__swatch" title="Green"><input type="radio" name="colour" value="pale-green"><span style="--c:var(--pale-green)"></span><span class="sr-only">Green</span></label><label class="acct__swatch" title="Olive"><input type="radio" name="colour" value="olive"><span style="--c:var(--olive)"></span><span class="sr-only">Olive</span></label></div></fieldset>
     <fieldset class="acct__choices"><legend class="acct__label">Mark</legend><div class="acct__options"><label class="acct__mark" title="Book"><input type="radio" name="mark" value="book" checked><span><svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg></span><span class="sr-only">Book</span></label><label class="acct__mark" title="Star"><input type="radio" name="mark" value="star"><span><svg class="icon" aria-hidden="true"><use href="#i-star"></use></svg></span><span class="sr-only">Star</span></label><label class="acct__mark" title="Moon"><input type="radio" name="mark" value="moon"><span><svg class="icon" aria-hidden="true"><use href="#i-moon"></use></svg></span><span class="sr-only">Moon</span></label><label class="acct__mark" title="Sun"><input type="radio" name="mark" value="sun"><span><svg class="icon" aria-hidden="true"><use href="#i-sun"></use></svg></span><span class="sr-only">Sun</span></label><label class="acct__mark" title="Leaf"><input type="radio" name="mark" value="leaf"><span><svg class="icon" aria-hidden="true"><use href="#i-leaf"></use></svg></span><span class="sr-only">Leaf</span></label><label class="acct__mark" title="Feather"><input type="radio" name="mark" value="feather"><span><svg class="icon" aria-hidden="true"><use href="#i-feather"></use></svg></span><span class="sr-only">Feather</span></label><label class="acct__mark" title="Coffee"><input type="radio" name="mark" value="coffee"><span><svg class="icon" aria-hidden="true"><use href="#i-coffee"></use></svg></span><span class="sr-only">Coffee</span></label><label class="acct__mark" title="Cat"><input type="radio" name="mark" value="cat"><span><svg class="icon" aria-hidden="true"><use href="#i-cat"></use></svg></span><span class="sr-only">Cat</span></label></div></fieldset>
-    <p class="mine__actions"><button type="submit" class="mine__button is--primary" data-acct-save><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>Save</button><button type="button" class="mine__button is--quiet" data-acct-cancel hidden>Cancel</button></p>
+    <p class="mine__actions"><button type="submit" class="mine__button is--primary" data-acct-save><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg><span data-acct-save-label>Save</span></button><button type="button" class="mine__button is--quiet" data-acct-cancel hidden>Cancel</button></p>
     <p class="acct__message" role="status" aria-live="polite" data-acct-setup-message></p>
   </form>
-
   <div class="acct__in" data-acct-in hidden>
     <section class="mine__section acct__me" aria-labelledby="me-name">
       <div class="acct__card"><span data-acct-avatar></span><div class="acct__card-text"><h2 class="acct__name" id="me-name" data-acct-name></h2><p class="acct__handle" data-acct-handle></p><p class="acct__since" data-acct-since></p></div></div>

@@ -353,20 +353,6 @@ html.is-carried .transition__logo { opacity: 1; }
 .header__nav-list { display: flex; align-items: center; gap: .5em; }
 .header__nav-list > li { display: flex; }
 .header__side { justify-self: end; display: flex; align-items: center; gap: .5em; }
-/* Your account: "Sign in", or your mark and first name once you are signed in */
-.account-chip {
-  display: inline-flex; align-items: center; gap: .45em; height: 2.75em; padding: 0 1.1em 0 .9em; border-radius: 10em;
-  background: var(--white); color: var(--black); font-size: 1.125em; font-weight: 600; text-decoration: none; white-space: nowrap;
-  box-shadow: inset 0 0 0 .1em rgba(0, 0, 0, .12); transition: scale .15s var(--ease-click), box-shadow .2s;
-}
-.account-chip[hidden] { display: none; }
-.account-chip > .icon { width: 1.15em; height: 1.15em; }
-.account-chip.is--in { padding-left: .3em; }
-.account-chip.is--in > .icon { display: none; }
-.account-chip:hover { box-shadow: inset 0 0 0 .12em var(--black); }
-.account-chip:active { scale: .96; }
-.account-chip[aria-current="page"] { box-shadow: inset 0 0 0 .14em var(--magenta-ink); }
-.account-chip.is--menu { align-self: flex-start; font-size: 1.25em; }
 .header__social {
   display: grid; place-items: center; width: 2.75em; height: 2.75em; border-radius: 50%;
   background: var(--black); color: var(--white); font-size: 1.125em;
@@ -402,6 +388,9 @@ html.is-carried .transition__logo { opacity: 1; }
 }
 .menu__link[aria-current="page"] { color: var(--magenta-ink); }
 .menu__account { display: flex; flex-wrap: wrap; gap: .75em; margin-top: auto; }
+.menu__me { display: grid; justify-items: start; gap: .6em; }
+.menu__me-text { font-size: 1.125em; font-weight: 600; }
+.menu__me-text a { font-weight: 800; }
 .menu__note { text-align: center; rotate: -4deg; }
 
 @media (max-width: 991px) {
@@ -439,6 +428,14 @@ html.is-carried .transition__logo { opacity: 1; }
 .is--soft-blue { fill: var(--soft-blue); stroke: var(--soft-blue); }
 .is--pale-periwinkle { fill: var(--pale-periwinkle); stroke: var(--pale-periwinkle); }
 .is--pale-blue { fill: var(--pale-blue); stroke: var(--pale-blue); }
+.is--violet-glow { fill: #4a3fa6; stroke: #4a3fa6; }
+
+/* Signed in or out (accounts): build.py's first script marks the page before anything is drawn, js/account.js after */
+html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { display: none !important; }
+/* Signed in, the header's orange button is you: your first name, and your mark where the arrow was */
+.button-alt.is--me .avatar { position: relative; width: 1.9em; height: 1.9em; box-shadow: 0 0 0 .12em rgba(255, 255, 255, .55); }
+.button-alt.is--me .avatar__mark { width: 58%; height: 58%; }
+.button-alt.is--me .button-alt__text { max-width: 9em; overflow: hidden; text-overflow: ellipsis; }
 
 .tags { display: flex; flex-wrap: wrap; gap: .3em; }
 .tag {
@@ -1431,7 +1428,10 @@ html.is-carried .transition__logo { opacity: 1; }
 
 .mine__account { display: flex; flex-wrap: wrap; align-items: center; gap: .5em .6em; padding: .8em 1.1em; border-radius: 1.25em; background: var(--soft-grey); font-size: 1.125em; font-weight: 600; }
 .mine__account[hidden] { display: none; }
-.mine__account a { color: var(--black); font-weight: 700; }
+.mine__account > a { color: var(--black); font-weight: 700; }
+.mine__account.is--out { justify-content: space-between; gap: .75em 1.25em; padding: 1em 1.25em; background: var(--soft-periwinkle); }
+.mine__account-text { max-width: 30em; line-height: 1.4; }
+.mine__account-actions { display: flex; flex-wrap: wrap; gap: .5em; }
 .mine__stats.is--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .mine__stats[hidden] { display: none; }
 .mine__text.is--small { font-size: 1.0625em; color: var(--ink-soft); }
@@ -1544,6 +1544,55 @@ html.is-carried .transition__logo { opacity: 1; }
 .acct__hero-avatar:empty { display: none; }
 .line__from { font-weight: 600; color: var(--ink-soft); }
 .line__from a { color: var(--black); font-weight: 700; }
+
+/* Sign in and sign up: what an account gives you, on violet, beside a white card */
+.auth {
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: var(--gap);
+  margin: 0 var(--gap); min-height: 100svh; padding-bottom: var(--gap);
+}
+.auth__art {
+  position: relative; overflow: clip; display: grid; align-content: start; gap: 1.25em;
+  padding: calc(var(--header-height) + 4em) 4em 3em; border-radius: 0 0 var(--radius) var(--radius);
+  background: var(--violet); color: var(--white);
+}
+.auth__shapes { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
+.auth__art > :not(.auth__shapes) { position: relative; }
+.auth__eyebrow { color: var(--yellow); rotate: -3deg; justify-self: start; }
+.auth__title { font-family: var(--font-heading); font-weight: 900; font-size: var(--font-size-heading-l); letter-spacing: -.035em; line-height: .92; max-width: 8ch; }
+.auth__lead { font-size: var(--font-size-paragraph); font-weight: 600; max-width: 22em; line-height: 1.35; opacity: .92; }
+.auth__perks { display: grid; gap: .8em; margin-top: .75em; font-size: 1.25em; font-weight: 600; }
+.auth__perks li { display: flex; align-items: center; gap: .75em; }
+.auth__perks .icon { flex: none; width: 2.2em; height: 2.2em; padding: .5em; border-radius: 50%; background: rgba(255, 255, 255, .12); color: var(--yellow); }
+.auth__covers { position: relative; height: 13em; margin-top: auto; }
+.auth__cover { position: absolute; bottom: 0; width: 8.5em; height: auto; aspect-ratio: 2 / 3; border-radius: .4em; box-shadow: 0 1.5em 2.5em -1em rgba(0, 0, 0, .5); }
+.auth__cover:nth-child(1) { left: 0; rotate: -10deg; }
+.auth__cover:nth-child(2) { left: 6em; bottom: 1.2em; rotate: 2deg; z-index: 1; }
+.auth__cover:nth-child(3) { left: 12em; rotate: 12deg; }
+.auth__card {
+  align-self: start; margin-top: calc(var(--header-height) + 2em); display: grid; gap: 1em;
+  padding: 2.75em; border-radius: var(--radius); background: var(--white); box-shadow: 0 2em 4em -2.5em rgba(0, 0, 0, .35);
+  border: 1px solid rgba(0, 0, 0, .08); font-size: 1.125em; max-width: 34em; width: 100%; justify-self: center;
+}
+.auth__step { display: grid; gap: 1.1em; justify-items: stretch; }
+.auth__step[hidden] { display: none; }
+.auth__card .acct__google, .auth__card .acct__or, .auth__card .acct__form, .auth__card .acct__field { width: 100%; }
+.auth__card-title { font-family: var(--font-heading); font-weight: 900; font-size: 2.1em; letter-spacing: -.03em; line-height: 1; }
+.auth__card .acct__submit { display: inline-flex; align-items: center; justify-content: center; gap: .5em; min-height: 3.3em; font-size: 1.125em; }
+.auth__card .acct__submit .icon { width: 1.1em; height: 1.1em; transition: translate .2s var(--ease-smooth); }
+.auth__card .acct__submit:hover .icon { translate: .2em 0; }
+.auth__switch { font-weight: 600; text-align: center; }
+.auth__switch a { color: var(--magenta-ink); font-weight: 800; }
+.auth__card .mine__title { font-size: 2.1em; }
+.auth__card .mine__text { font-size: 1.05em; }
+.auth__done { justify-items: center; text-align: center; }
+.auth__done .mine__actions { justify-content: center; }
+@media (max-width: 991px) {
+  .auth { grid-template-columns: minmax(0, 1fr); min-height: 0; padding-bottom: 2.5em; }
+  .auth__art { padding: calc(var(--header-height) + 2.5em) 1.5em 2em; }
+  .auth__perks { font-size: 1.05em; }
+  .auth__covers { display: none; }
+  .auth__card { margin-top: 0; padding: 1.75em 1.25em; font-size: 1em; }
+}
 
 /* The privacy page */
 .prose { max-width: 46em; margin: 0 auto; padding: 4em 2.5em 7em; font-size: 1.25em; line-height: 1.55; }

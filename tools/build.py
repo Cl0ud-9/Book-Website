@@ -264,10 +264,50 @@ TRANSITION = f"""<div class="transition" data-transition-wrap aria-hidden="true"
 </div>"""
 
 
+# Accounts (js/account.js), if they are turned on: the web app's Firebase configuration as JSON, set as the repository
+# variable FIREBASE_CONFIG (README: "Turning on accounts"). These values are not secrets: every Firebase web app sends
+# them to the browser, and firebase/firestore.rules decides what each signed-in reader may do. Without it there are no
+# accounts and the site says nothing about them. {"emulator": "localhost"} points the site at Firebase's local emulators.
+def accounts_config():
+    raw = os.environ.get("FIREBASE_CONFIG", "").strip()
+    if not raw:
+        return None
+    try:
+        given = json.loads(raw)
+    except json.JSONDecodeError:
+        sys.exit("FIREBASE_CONFIG is not JSON: copy the firebaseConfig object from the Firebase console, keys in quotes")
+    keep = {k: str(given[k]) for k in ("apiKey", "authDomain", "projectId", "appId", "emulator") if given.get(k)}
+    missing = [k for k in ("apiKey", "authDomain", "projectId") if k not in keep]
+    if missing:
+        sys.exit(f"FIREBASE_CONFIG is missing {', '.join(missing)}")
+    return keep
+
+
+ACCOUNTS = accounts_config()
+
+
 def nav_button(href, text, key):
     return (f'<li><a class="button" href="{href}" data-nav="{key}" data-button>'
             f'<span class="button__bg"></span><span class="button__text" data-button-text>{e(text)}</span></a></li>')
 
+
+def me_button(cls="is--small"):
+    # Signed in: your mark and first name, in the same split button as Sign in (js/account.js fills them in)
+    return (f'<a class="button-alt is--orange {cls + " " if cls else ""}is--me" href="account.html" data-button-alt data-nav="account" data-when="in">'
+            f'<span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-account-me-name>Your account</span></span>'
+            f'<span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><span class="avatar is--chip" data-account-me-avatar>{icon("user", "avatar__mark")}</span></span></a>')
+
+
+# The end of the header's row: with accounts, Your reading joins the other links and the orange button is Sign in, or,
+# once you are, your mark and name. Without accounts it stays as it was.
+if ACCOUNTS:
+    HEADER_END = (nav_button("reading.html", "Your reading", "reading")
+                  + '<li data-when="out">' + button_alt("login.html", "Sign in", "orange", 'data-nav="account"', "small") + "</li>"
+                  + '<li data-when="in">' + me_button() + "</li>")
+else:
+    HEADER_END = "<li>" + button_alt("reading.html", "Your reading", "orange", 'data-nav="reading"', "small") + "</li>"
+MENU_ACCOUNT = f"""<div class="menu__me" data-when="out">{button_alt("login.html", "Sign in", "orange")}<p class="menu__me-text">New here? <a href="signup.html">Create a free account</a></p></div>
+    <div class="menu__me" data-when="in">{me_button("")}</div>""" if ACCOUNTS else ""
 
 HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
 <header class="header" data-header data-scrolling-started="false">
@@ -280,11 +320,10 @@ HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
       {nav_button("books.html", "All books", "books")}
       {nav_button("genres.html", "Genres", "genres")}
       {nav_button("faq.html", "FAQ", "faq")}
-      <li>{button_alt("reading.html", "Your reading", "orange", 'data-nav="reading"', "small")}</li>
+      {HEADER_END}
     </ul>
   </nav>
   <div class="header__side">
-    <a class="account-chip" href="account.html" data-account-chip data-nav="account" hidden>{icon("user")}<span data-account-chip-label>Sign in</span></a>
     <a class="header__social" href="https://github.com/Cl0ud-9/Book-Website" aria-label="Source code on GitHub">{icon("github")}</a>
   </div>
   <button class="button-alt is--small menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
@@ -305,7 +344,7 @@ HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
       {button_alt("reading.html", "Your reading", "white")}
       {button_alt("books.html", "Find a book", "black")}
     </div>
-    <a class="account-chip is--menu" href="account.html" data-account-chip data-account-chip-out="Sign in or create an account" hidden>{icon("user")}<span data-account-chip-label>Sign in</span></a>
+    {MENU_ACCOUNT}
     <p class="menu__note accent-note">See you between the pages!</p>
   </div>
 </div>"""
@@ -363,31 +402,13 @@ def boot(name):
              "try{o=sessionStorage.getItem('bookshelf:opened')}catch(e){}"
              "if(o!=='1'){r.classList.add('is-loading');"
              "setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)}}") if name == "home" else ""
-    accounts = f"window.bookshelfAccounts={json.dumps(ACCOUNTS, separators=(',', ':'))};" if ACCOUNTS else ""
+    accounts = (f"window.bookshelfAccounts={json.dumps(ACCOUNTS, separators=(',', ':'))};"
+                "try{var a=JSON.parse(localStorage.getItem('bookshelf:account'));if(a&&a.handle)document.documentElement.classList.add('is-signed-in')}catch(e){}"
+                ) if ACCOUNTS else ""
     return f"<script>{accounts}(function(d){{var r=d.documentElement;r.classList.add('js');{carried}{cover}}})(document)</script>"
 
 
 SITE = "https://cl0ud-9.github.io/Book-Website/"
-# Accounts (js/account.js), if they are turned on: the web app's Firebase configuration as JSON, set as the repository
-# variable FIREBASE_CONFIG (README: "Turning on accounts"). These values are not secrets: every Firebase web app sends
-# them to the browser, and firebase/firestore.rules decides what each signed-in reader may do. Without it there are no
-# accounts and the site says nothing about them. {"emulator": "localhost"} points the site at Firebase's local emulators.
-def accounts_config():
-    raw = os.environ.get("FIREBASE_CONFIG", "").strip()
-    if not raw:
-        return None
-    try:
-        given = json.loads(raw)
-    except json.JSONDecodeError:
-        sys.exit("FIREBASE_CONFIG is not JSON: copy the firebaseConfig object from the Firebase console, keys in quotes")
-    keep = {k: str(given[k]) for k in ("apiKey", "authDomain", "projectId", "appId", "emulator") if given.get(k)}
-    missing = [k for k in ("apiKey", "authDomain", "projectId") if k not in keep]
-    if missing:
-        sys.exit(f"FIREBASE_CONFIG is missing {', '.join(missing)}")
-    return keep
-
-
-ACCOUNTS = accounts_config()
 # Counting visits, if it is turned on: a GoatCounter site code (the "bookshelf" in bookshelf.goatcounter.com), set as
 # the repository variable GOATCOUNTER for the deploy. No code, no script: nothing is counted. GoatCounter uses no
 # cookies and keeps no personal data; js/app.js also counts nothing for browsers that ask not to be tracked.
@@ -727,7 +748,9 @@ def home():
       <h2 class="open-book__title" id="open-title" data-book-open-title>Get lost in <span class="open-book__mark">a good book.</span></h2>
       <div class="open-book__buttons">
         <span data-book-open-button>{button_alt("books.html", "Start reading", "black")}</span>
-        <span data-book-open-button>{button_alt("reading.html", "Your reading", "orange")}</span>
+        {('<span data-book-open-button data-when="out">' + button_alt("signup.html", "Create a free account", "orange") + '</span>'
+          '<span data-book-open-button data-when="in">' + button_alt("reading.html", "Your reading", "orange") + '</span>')
+         if ACCOUNTS else '<span data-book-open-button>' + button_alt("reading.html", "Your reading", "orange") + '</span>'}
       </div>
       <p class="open-book__aside accent-note" data-book-open-aside>Made by readers, for readers</p>
     </div>
@@ -1057,12 +1080,89 @@ AVATAR_MARKS = [("book", "Book"), ("star", "Star"), ("moon", "Moon"), ("sun", "S
                 ("coffee", "Coffee"), ("cat", "Cat")]
 
 
-def account_page():
-    # Your account (js/account-page.js): sign in or create one, choose a name, and manage what it keeps
+def setup_form(cls=""):
+    # Your name, username, colour and mark: after making an account, and to change them later (js/account-page.js)
     colours = "".join(f'<label class="acct__swatch" title="{label}"><input type="radio" name="colour" value="{c}"{" checked" if i == 0 else ""}>'
                       f'<span style="--c:var(--{c})"></span><span class="sr-only">{label}</span></label>' for i, (c, label) in enumerate(AVATAR_COLOURS))
     marks = "".join(f'<label class="acct__mark" title="{label}"><input type="radio" name="mark" value="{m}"{" checked" if i == 0 else ""}>'
                     f'<span>{icon(m)}</span><span class="sr-only">{label}</span></label>' for i, (m, label) in enumerate(AVATAR_MARKS))
+    return f"""  <form class="{cls} acct__setup" data-acct-setup hidden novalidate aria-labelledby="setup-title">
+    <h2 class="mine__title" id="setup-title" data-acct-setup-title>Make it yours</h2>
+    <p class="mine__text">Your name and username are shown on your reader page, if you choose to share it. Nothing else about you is.</p>
+    <div class="acct__preview" aria-hidden="true"><span data-acct-preview-avatar></span><span class="acct__preview-text"><strong data-acct-preview-name>Your name</strong><span data-acct-preview-handle>@username</span></span></div>
+    <label class="acct__field"><span class="acct__label">Name</span><input class="acct__input" name="name" maxlength="40" autocomplete="name" required aria-describedby="acct-name-note"><span class="acct__note" id="acct-name-note" data-acct-name-note></span></label>
+    <label class="acct__field"><span class="acct__label">Username</span><span class="acct__at"><span aria-hidden="true">@</span><input class="acct__input" name="handle" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" required aria-describedby="acct-handle-note"></span><span class="acct__note" id="acct-handle-note" data-acct-handle-note>3 to 20 small letters, numbers or _</span></label>
+    <fieldset class="acct__choices"><legend class="acct__label">Colour</legend><div class="acct__options">{colours}</div></fieldset>
+    <fieldset class="acct__choices"><legend class="acct__label">Mark</legend><div class="acct__options">{marks}</div></fieldset>
+    <p class="mine__actions"><button type="submit" class="mine__button is--primary" data-acct-save>{icon("check")}<span data-acct-save-label>Save</span></button><button type="button" class="mine__button is--quiet" data-acct-cancel hidden>Cancel</button></p>
+    <p class="acct__message" role="status" aria-live="polite" data-acct-setup-message></p>
+  </form>"""
+
+
+def merge_panel():
+    # Signing in on a device that already has reading on it, read signed out or by another account: add it, or not
+    return f"""  <section class="mine__section acct__merge" data-acct-merge hidden aria-labelledby="merge-title">
+    <h2 class="mine__title" id="merge-title">The reading on this device</h2>
+    <p class="mine__text" data-acct-merge-text></p>
+    <p class="mine__actions"><button type="button" class="mine__button is--primary" data-acct-merge-keep>{icon("check")}Add it to my account</button><button type="button" class="mine__button is--quiet" data-acct-merge-drop>Leave it out</button></p>
+    <p class="mine__text is--small">Leaving it out removes it from this device, and your account’s reading takes its place.</p>
+    <p class="acct__message" role="status" aria-live="polite" data-acct-merge-message></p>
+  </section>"""
+
+
+def auth_page(mode):
+    # Sign in (login.html) and sign up (signup.html): what an account gives you, beside the form (js/account-page.js).
+    # After a new account is made, the same card asks for a name and a mark.
+    up = mode == "up"
+    perks = "".join(f"<li>{icon(i)}<span>{t}</span></li>" for i, t in (
+        ("bookmark", "Your place in every book, on every device"), ("highlight", "Highlights and notes that follow you"),
+        ("chart", "Your reading time and streak, all in one place"), ("user", "A reader page to share, if you want one")))
+    covers = "".join(f'<img class="auth__cover" src="image/covers/{s_}-360.webp" alt="" width="360" height="540" loading="lazy">'
+                     for s_ in ("pride-and-prejudice", "frankenstein", "the-great-gatsby"))
+    return f"""<section class="auth is--{mode}" data-auth-page data-auth-mode="{mode}" aria-labelledby="page-title">
+  <div class="auth__art" data-intro-page>
+    {bg_svg([("is--violet-glow", shapes.BLOB_A), ("is--violet-glow", shapes.BLOB_B)], "auth__shapes", "0 0 1440 1000", small=True)}
+    <p class="auth__eyebrow accent-note" data-hero-handwritten-text>{"Free, forever" if up else "Welcome back"}</p>
+    <h1 class="auth__title" id="page-title" data-hero-title>{"Create your account" if up else "Sign in"}</h1>
+    <p class="auth__lead" data-hero-paragraph>{"One account for all your reading. It takes a minute, and you can delete it whenever you like." if up else "Pick up every book where you left it, on this device or any other."}</p>
+    <ul class="auth__perks">{perks}</ul>
+    <div class="auth__covers" aria-hidden="true">{covers}</div>
+  </div>
+  <div class="auth__card" data-auth-card>
+    <noscript><p class="mine__empty">Signing in needs JavaScript.</p></noscript>
+    <p class="mine__empty" data-acct-off hidden>Accounts aren’t switched on for this copy of the Bookshelf. Everything still works on this device: see <a href="reading.html">Your reading</a>.</p>
+    <p class="mine__empty acct__checking" data-acct-checking>{icon("sync")}One moment…</p>
+    <div class="auth__step" data-acct-out hidden>
+      <h2 class="auth__card-title">{"Start your shelf" if up else "Sign in to the Bookshelf"}</h2>
+      <button type="button" class="acct__google" data-acct-google>{GOOGLE_G}<span>{"Sign up with Google" if up else "Continue with Google"}</span></button>
+      <p class="acct__or"><span>or with your email</span></p>
+      <form class="acct__form" data-acct-email novalidate>
+        <label class="acct__field"><span class="acct__label">Email</span><input class="acct__input" type="email" name="email" autocomplete="email" inputmode="email" required></label>
+        <label class="acct__field"><span class="acct__label">Password{' <span class="acct__hint">(at least 8 characters)</span>' if up else ""}</span>
+          <span class="acct__password"><input class="acct__input" type="password" name="password" autocomplete="{"new-password" if up else "current-password"}" required minlength="8">
+          <button type="button" class="acct__show" data-acct-show aria-pressed="false" aria-label="Show the password">{icon("eye")}</button></span></label>
+        <button type="submit" class="acct__submit" data-acct-submit>{"Create my account" if up else "Sign in"}{icon("arrow")}</button>
+        {"" if up else '<button type="button" class="acct__link" data-acct-forgot>Forgot your password?</button>'}
+      </form>
+      <p class="acct__message" role="status" aria-live="polite" data-acct-message></p>
+      <p class="auth__switch">{'Already have an account? <a href="login.html">Sign in</a>' if up else 'New here? <a href="signup.html">Create a free account</a>'}</p>
+      <p class="acct__small">Your email is used only to sign you in. <a href="privacy.html">What an account keeps</a>.</p>
+    </div>
+{setup_form("auth__step")}
+{merge_panel().replace('mine__section acct__merge', 'auth__step acct__merge')}
+    <div class="auth__step auth__done" data-auth-done hidden>
+      <span data-auth-done-avatar></span>
+      <h2 class="auth__card-title" data-auth-done-title>You’re all set</h2>
+      <p class="mine__text" data-auth-done-text></p>
+      <p class="mine__actions">{button_alt("reading.html", "Your reading", "magenta")}{button_alt("books.html", "Find a book", "black")}</p>
+      <p class="acct__small"><a href="account.html">Your account</a>: your name and mark, your reader page, signing out.</p>
+    </div>
+  </div>
+</section>"""
+
+
+def account_page():
+    # Your account (js/account-page.js): manage what it keeps (signing in is login.html and signup.html)
     return f"""<section class="hero-xs is--soft-periwinkle" data-intro-page aria-labelledby="page-title">
   {bg_svg([("is--pale-periwinkle", shapes.BLOB_A), ("is--pale-periwinkle", shapes.BLOB_B)], "hero-xs__shapes", "0 0 1440 1000", small=True)}
   <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>Your account</h1>
@@ -1075,37 +1175,14 @@ def account_page():
   <p class="mine__empty acct__checking" data-acct-checking>{icon("sync")}Checking whether you’re signed in…</p>
 
   <section class="mine__section acct__out" data-acct-out hidden aria-labelledby="out-title">
-    <h2 class="mine__title" id="out-title" data-acct-out-title>Sign in</h2>
-    <button type="button" class="acct__google" data-acct-google>{GOOGLE_G}<span>Continue with Google</span></button>
-    <p class="acct__or"><span>or with your email</span></p>
-    <div class="acct__tabs" role="tablist" aria-label="Sign in or create an account">
-      <button type="button" role="tab" id="acct-tab-in" aria-controls="acct-form" aria-selected="true" data-acct-mode="in">I have an account</button>
-      <button type="button" role="tab" id="acct-tab-up" aria-controls="acct-form" aria-selected="false" tabindex="-1" data-acct-mode="up">I’m new here</button>
-    </div>
-    <form class="acct__form" id="acct-form" role="tabpanel" aria-labelledby="acct-tab-in" data-acct-email novalidate>
-      <label class="acct__field"><span class="acct__label">Email</span><input class="acct__input" type="email" name="email" autocomplete="email" inputmode="email" required></label>
-      <label class="acct__field"><span class="acct__label">Password <span class="acct__hint" data-acct-password-hint hidden>(at least 8 characters)</span></span>
-        <span class="acct__password"><input class="acct__input" type="password" name="password" autocomplete="current-password" required minlength="8">
-        <button type="button" class="acct__show" data-acct-show aria-pressed="false" aria-label="Show the password">{icon("eye")}</button></span></label>
-      <button type="submit" class="acct__submit" data-acct-submit>Sign in</button>
-      <button type="button" class="acct__link" data-acct-forgot>Forgot your password?</button>
-    </form>
-    <p class="acct__message" role="status" aria-live="polite" data-acct-message></p>
-    <p class="acct__small">Your email is used only to sign you in. <a href="privacy.html">What an account keeps</a>.</p>
+    <h2 class="mine__title" id="out-title">You’re not signed in</h2>
+    <p class="mine__text">Sign in to see your account, or make one: it’s free, and everything works without one too.</p>
+    <p class="mine__actions">{button_alt("login.html", "Sign in", "magenta")}{button_alt("signup.html", "Create an account", "black")}</p>
+    <p class="acct__message is--good" role="status" aria-live="polite" data-acct-message></p>
   </section>
 
-  <form class="mine__section acct__setup" data-acct-setup hidden novalidate aria-labelledby="setup-title">
-    <h2 class="mine__title" id="setup-title" data-acct-setup-title>Make it yours</h2>
-    <p class="mine__text">Your name and username are shown on your reader page, if you choose to share it. Nothing else about you is.</p>
-    <div class="acct__preview" aria-hidden="true"><span data-acct-preview-avatar></span><span class="acct__preview-text"><strong data-acct-preview-name>Your name</strong><span data-acct-preview-handle>@username</span></span></div>
-    <label class="acct__field"><span class="acct__label">Name</span><input class="acct__input" name="name" maxlength="40" autocomplete="name" required aria-describedby="acct-name-note"><span class="acct__note" id="acct-name-note" data-acct-name-note></span></label>
-    <label class="acct__field"><span class="acct__label">Username</span><span class="acct__at"><span aria-hidden="true">@</span><input class="acct__input" name="handle" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" required aria-describedby="acct-handle-note"></span><span class="acct__note" id="acct-handle-note" data-acct-handle-note>3 to 20 small letters, numbers or _</span></label>
-    <fieldset class="acct__choices"><legend class="acct__label">Colour</legend><div class="acct__options">{colours}</div></fieldset>
-    <fieldset class="acct__choices"><legend class="acct__label">Mark</legend><div class="acct__options">{marks}</div></fieldset>
-    <p class="mine__actions"><button type="submit" class="mine__button is--primary" data-acct-save>{icon("check")}Save</button><button type="button" class="mine__button is--quiet" data-acct-cancel hidden>Cancel</button></p>
-    <p class="acct__message" role="status" aria-live="polite" data-acct-setup-message></p>
-  </form>
-
+{merge_panel()}
+{setup_form("mine__section")}
   <div class="acct__in" data-acct-in hidden>
     <section class="mine__section acct__me" aria-labelledby="me-name">
       <div class="acct__card"><span data-acct-avatar></span><div class="acct__card-text"><h2 class="acct__name" id="me-name" data-acct-name></h2><p class="acct__handle" data-acct-handle></p><p class="acct__since" data-acct-since></p></div></div>
@@ -1509,8 +1586,16 @@ write("faq.html", page("faq", "faq.html", "Common questions | The Bookshelf",
                        faq_page(), "pale-blue"))
 write("read.html", page("reader", "read.html", "Reading | The Bookshelf", "Read a free classic in your browser.",
                         reader_page(), "pale-yellow", with_footer=False))
-write("login.html", redirect_page("account.html" if ACCOUNTS else "reading.html"))
-write("signup.html", redirect_page("account.html" if ACCOUNTS else "reading.html"))
+if ACCOUNTS:
+    write("login.html", page("login", "login.html", "Sign in | The Bookshelf",
+                             "Sign in to the Bookshelf to pick up every book where you left it, on any device.", auth_page("in"),
+                             "soft-periwinkle", index=False))
+    write("signup.html", page("signup", "signup.html", "Create your account | The Bookshelf",
+                              "A free account keeps your place, highlights, notes and reading time on every device.", auth_page("up"),
+                              "soft-periwinkle", index=False))
+else:
+    write("login.html", redirect_page("reading.html"))
+    write("signup.html", redirect_page("reading.html"))
 write("account.html", page("account", "account.html", "Your account | The Bookshelf",
                            "Sign in to keep your place, highlights, notes and reading time on every device.", account_page(),
                            "soft-periwinkle", index=False))

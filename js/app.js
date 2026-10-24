@@ -108,7 +108,7 @@
 
   function setCurrentNav(namespace) {
     const key = { home: "home", books: "books", book: "books", reader: "books", genres: "genres", faq: "faq",
-      reading: "reading", account: "account", profile: "account", privacy: "faq" }[namespace];
+      reading: "reading", account: "account", profile: "account", login: "account", signup: "account", privacy: "faq" }[namespace];
     document.querySelectorAll("[data-nav]").forEach((link) => {
       if (link.dataset.nav === key) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
@@ -476,23 +476,32 @@
     scope.querySelectorAll("[data-button-text], [data-button-alt-text]").forEach((text) => {
       if (text.dataset.waved || !finePointer.matches || reducedMotion()) return;
       text.dataset.waved = "true";
-      const parts = split(text, { type: "chars", charsClass: "split-char" });
-      gsap.set(parts.chars, { display: "inline-block", transformOrigin: "center center" });
-      const tl = gsap.timeline({ paused: true }).to(parts.chars, {
-        keyframes: {
-          "0%": { yPercent: 0, scaleY: 1, rotate: 0 },
-          "20%": { yPercent: 55, scaleY: 0.3, rotate: 17, ease: "power2.in" },
-          "100%": { yPercent: 0, scaleY: 1, rotate: 0, ease: "elastic.out(1, 0.4)" },
-        },
-        duration: 0.725, stagger: { amount: 0.225 },
-      });
+      // The letters are split the first time the button is pointed at, when it is surely on screen: split while hidden
+      // (a sign-in step not shown yet, Sign in once signed in), the spaces between words landed in the wrong places
+      let tl = null;
+      let parts = null;
+      const ready = () => {
+        if (tl) return tl;
+        parts = split(text, { type: "chars", charsClass: "split-char" });
+        gsap.set(parts.chars, { display: "inline-block", transformOrigin: "center center" });
+        tl = gsap.timeline({ paused: true }).to(parts.chars, {
+          keyframes: {
+            "0%": { yPercent: 0, scaleY: 1, rotate: 0 },
+            "20%": { yPercent: 55, scaleY: 0.3, rotate: 17, ease: "power2.in" },
+            "100%": { yPercent: 0, scaleY: 1, rotate: 0, ease: "elastic.out(1, 0.4)" },
+          },
+          duration: 0.725, stagger: { amount: 0.225 },
+        });
+        return tl;
+      };
       const hover = text.closest("a, button");
-      const enter = () => tl.restart();
+      const enter = () => ready().restart();
       const leave = () => {
+        if (!tl) return;
         tl.pause();
         gsap.to(parts.chars, { yPercent: 0, scaleY: 1, rotate: 0, duration: 0.2, ease: "power2.out", overwrite: "auto" });
       };
-      const focusIn = () => { if (hover.matches(":focus-visible")) tl.restart(); };
+      const focusIn = () => { if (hover.matches(":focus-visible")) ready().restart(); };
       hover.addEventListener("mouseenter", enter);
       hover.addEventListener("mouseleave", leave);
       hover.addEventListener("focusin", focusIn);
@@ -1392,7 +1401,7 @@
   // The service worker (sw.js, written by tools/build.py) serves the pages, the reader and kept books when there is no
   // connection. Keeping a book stores its file, its page and its cover in the browser's cache; the list of kept books
   // is in localStorage, and checked against the cache, which a browser may empty when space runs short.
-  const offlineReady = "caches" in window && "serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost");
+  const offlineReady = "caches" in window && "serviceWorker" in navigator && window.isSecureContext;
   if (offlineReady) navigator.serviceWorker.register("sw.js").catch(() => {});
   const KEPT = "bookshelf:offline";
   const readKept = () => { try { return JSON.parse(localStorage.getItem(KEPT)) || {}; } catch { return {}; } };
@@ -1487,9 +1496,9 @@
     return () => { gone = true; undo?.(); };
   }
 
-  // Your account and readers' pages (js/account-page.js, with js/account.js already on every page)
+  // Signing in and up, your account and readers' pages (js/account-page.js, with js/account.js on every page)
   function accountPages(page) {
-    const root = page.querySelector("[data-account-page], [data-profile-page]");
+    const root = page.querySelector("[data-account-page], [data-profile-page], [data-auth-page]");
     if (!root) return null;
     let undo = null;
     let gone = false;

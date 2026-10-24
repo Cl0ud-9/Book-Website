@@ -22,6 +22,8 @@
     places: "bookshelf:reading",
     stats: "bookshelf:stats",
     others: "bookshelf:stats-others", // reading time on your other devices, added up
+    prefs: "bookshelf:reader", // how you like the text: page colour, size, typeface (with "at", when you last chose)
+    owner: "bookshelf:owner", // whose account this device's reading was last kept in
   };
   const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
   const write = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* not kept */ } };
@@ -104,13 +106,39 @@
     return loading;
   }
 
+  // Signing in on a device that already holds reading (read signed out, or kept in another account): it is added to the
+  // account only when the reader says so. Their own account's copy, or reading done before making a brand new account,
+  // is simply kept.
+  let pending = null; // { books, notes, other }: the reading here, waiting for an answer
+
   const state = () => {
     if (!config) return "off";
     if (!profile && !checked) return loading ? "checking" : "out";
     if (!profile) return "out";
     if (!profile.handle) return "setup";
+    if (pending) return "merge";
     return "in";
   };
+  async function whoseReading(uid, isNew) {
+    const owner = read(KEYS.owner, null);
+    if (owner === uid) return null;
+    const books = Object.keys(read(KEYS.places, {})).length;
+    const notes = (await (await notesStore()).all()).length;
+    if ((!books && !notes) || (!owner && isNew)) {
+      write(KEYS.owner, uid);
+      return null;
+    }
+    return { books, notes, other: Boolean(owner) };
+  }
+  // The reader's answer: add this device's reading to the account, or leave it out (this device then takes the account's)
+  async function settleReading(keep) {
+    if (!pending || !user) return;
+    if (!keep) await clearDevice();
+    write(KEYS.owner, user.uid);
+    pending = null;
+    emit();
+    await sync("settled");
+  }
   function emit() {
     paintChips();
     const now = api.current();
@@ -141,9 +169,10 @@
       since: data?.since || Date.now(), public: Boolean(data?.public), showLines: Boolean(data?.showLines),
       suggestion: { name: u.displayName || "", handle: suggest(u.displayName || u.email) },
     });
+    pending = await whoseReading(u.uid, !data);
     checked = true;
     emit();
-    if (profile.handle) sync("signed in");
+    if (profile.handle && !pending) sync("signed in");
   }
 
   /* ---------- Signing in and out ---------- */
@@ -196,10 +225,14 @@
   function forgetDevice(clear) {
     drop(KEYS.sync);
     drop(KEYS.others);
-    if (clear) {
-      [KEYS.places, KEYS.stats, "bookshelf:removed"].forEach(drop);
-      window.BookshelfNotes?.all().then((notes) => Promise.all(notes.map((n) => window.BookshelfNotes.forget(n.id))));
-    }
+    pending = null;
+    if (clear) clearDevice();
+  }
+  // This device's reading, gone (not the account's): places, reading time, notes, and whose they were
+  async function clearDevice() {
+    [KEYS.places, KEYS.stats, KEYS.others, KEYS.sync, KEYS.owner, "bookshelf:removed"].forEach(drop);
+    const store = await notesStore();
+    await Promise.all((await store.all()).map((n) => store.forget(n.id)));
   }
 
   /* ---------- Your profile ---------- */
@@ -274,6 +307,7 @@
     await batch.commit();
     await fb.deleteUser(auth.currentUser);
     forgetDevice(false);
+    drop(KEYS.owner); // what stays on the device is nobody's account's now
   }
   // Asked for before deleting an account that signed in a while ago
   const reauthenticate = (password) => sdk().then(() => (profile.provider === "google"
@@ -323,7 +357,7 @@
   let lastError = "";
 
   function sync(reason = "") {
-    if (!config || !profile?.handle) return Promise.resolve(false);
+    if (!config || !profile?.handle || pending) return Promise.resolve(false);
     if (running) { again = true; return running; }
     clearTimeout(timer);
     running = (async () => {
@@ -345,6 +379,11 @@
       Object.entries(remote.devices || {}).forEach(([id, stats]) => { if (id !== me) addStats(others, stats); });
       write(KEYS.others, others);
       const mine = read(KEYS.stats, { days: {}, books: {} });
+      // How you like the text: the one chosen more recently wins
+      const prefs = read(KEYS.prefs, null);
+      let prefsUp = false;
+      if (remote.prefs && (remote.prefs.at || 0) > (prefs?.at || 0)) write(KEYS.prefs, { ...(prefs || {}), ...remote.prefs });
+      else if (prefs?.at && prefs.at > (remote.prefs?.at || 0)) prefsUp = true;
 
       // Highlights and notes: those changed in the account since the last time come down, the newer copy wins
       const store = await notesStore();
@@ -392,11 +431,16 @@
         writes.slice(i, i + 400).forEach((w) => w(batch));
         await batch.commit();
       }
+      // on their own, so a database whose rules predate them refuses only them
+      if (prefsUp) {
+        await fb.setDoc(userRef, { prefs: { theme: prefs.theme, size: prefs.size, font: prefs.font, at: prefs.at } }, { merge: true }).catch(() => {});
+      }
       up.forEach((n) => { known[n.id] = n.updated; });
       store.removedSynced(removed.map(([id]) => id));
       lastSync = Date.now();
       write(KEYS.sync, { ...read(KEYS.sync, {}), at: lastSync, pulled: newest, notes: known });
       lastError = "";
+      write(KEYS.owner, uid);
       await publish(false);
       if (down.docs.length || reason === "signed in") window.dispatchEvent(new CustomEvent("bookshelf:synced", { detail: { reason } }));
       return true;
@@ -471,34 +515,29 @@
   });
   document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden" && dirty && state() === "in") sync("leaving"); });
 
-  /* ---------- The header's account button ---------- */
+  /* ---------- The header: Sign in, or your mark and name ---------- */
 
   function paintChips() {
-    document.querySelectorAll("[data-account-chip]").forEach((chip) => {
-      chip.hidden = !config;
-      if (!config) return;
-      const signedIn = Boolean(profile?.handle);
-      chip.classList.toggle("is--in", signedIn);
-      const label = chip.querySelector("[data-account-chip-label]");
-      chip.querySelector(".avatar")?.remove();
-      if (signedIn) {
-        chip.prepend(avatar(profile, "small"));
-        label.textContent = profile.name.split(" ")[0] || `@${profile.handle}`;
-        chip.setAttribute("aria-label", `Your account, ${profile.name}`);
-      } else {
-        label.textContent = chip.dataset.accountChipOut || "Sign in";
-        chip.removeAttribute("aria-label");
-      }
+    if (!config) return;
+    const signedIn = Boolean(profile?.handle);
+    document.documentElement.classList.toggle("is-signed-in", signedIn);
+    if (!signedIn) return;
+    document.querySelectorAll("[data-account-me-name]").forEach((name) => { name.textContent = profile.name.split(" ")[0] || `@${profile.handle}`; });
+    document.querySelectorAll("[data-account-me-avatar]").forEach((spot) => {
+      const mark = avatar(profile, "chip");
+      spot.replaceWith(mark);
+      mark.setAttribute("data-account-me-avatar", "");
     });
+    document.querySelectorAll(".button-alt.is--me").forEach((button) => button.setAttribute("aria-label", `Your account, ${profile.name}`));
   }
 
   const api = {
     get enabled() { return Boolean(config); },
-    current: () => ({ state: state(), profile, syncing: Boolean(running), dirty, lastSync, error: lastError }),
+    current: () => ({ state: state(), profile, pending, syncing: Boolean(running), dirty, lastSync, error: lastError }),
     subscribe(fn) { subscribers.add(fn); fn(api.current()); return () => subscribers.delete(fn); },
     start: () => sdk().then(() => api.current()),
     google, signIn, signUp, resetPassword, verifyAgain, refresh, signOut: signOutNow, saveProfile, setSharing, deleteAccount,
-    reauthenticate, handleFree, loadProfile, sync: () => sync("asked"), explain, checkHandle, checkName, suggest, avatar,
+    reauthenticate, handleFree, loadProfile, sync: () => sync("asked"), settleReading, explain, checkHandle, checkName, suggest, avatar,
     COLOURS, MARKS, MARK_NAMES,
     url: (handle) => new URL(`profile.html?u=${encodeURIComponent(handle)}`, document.baseURI).href,
   };

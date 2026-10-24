@@ -216,7 +216,10 @@ with sync_playwright() as p:
     page.goto(BASE + "signup.html", wait_until="networkidle")
     page.wait_for_timeout(1500)
     accounts_on = page.evaluate("Boolean(window.bookshelfAccounts)")
-    ok(page.url.endswith("account.html" if accounts_on else "reading.html"), f"the old sign-up address leads on ({page.url})")
+    if accounts_on:
+        ok(page.locator("[data-auth-page][data-auth-mode=up]").count() == 1, "with accounts on, signup.html is the sign-up page")
+    else:
+        ok(page.url.endswith("reading.html"), f"without accounts, the old sign-up address leads on ({page.url})")
     page.goto(BASE + "account.html", wait_until="networkidle")
     page.wait_for_timeout(2500)
     if not accounts_on:
