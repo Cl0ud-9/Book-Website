@@ -10,3 +10,7 @@ __pycache__/
 tools/.font-src/
 tools/.library-cache/
 .lighthouseci/
+_accounts/
+tools/.picks-cache/
+firebase-debug.log
+firestore-debug.log

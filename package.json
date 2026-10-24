@@ -1,15 +1,21 @@
 {
   "name": "book-website",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "description": "The Bookshelf: a free library of classics to read in the browser or download, with page transitions and scroll animations (GSAP, Lenis, Barba, epub.js).",
   "private": true,
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "vendor:firebase": "esbuild tools/firebase/entry.js --bundle --format=esm --minify --legal-comments=none --target=es2020 --outfile=js/vendor/firebase.mjs",
+    "emulators": "npx --yes firebase-tools@15.34.1 emulators:start --only auth,firestore --project demo-bookshelf"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
     "express": "5.1.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "firebase": "12.19.0"
   }
 }

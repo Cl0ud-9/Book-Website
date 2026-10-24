@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Maltese Falcon by Dashiell Hammett, free | The Bookshelf</title>
 <meta name="description" content="A detective becomes embroiled in a series of murders and intrigues, all seemingly related to a mysterious figurine.">
+
 <meta name="theme-color" content="#ffd24a">
 <link rel="canonical" href="https://cl0ud-9.github.io/Book-Website/book-the-maltese-falcon.html">
 <meta property="og:type" content="website">
@@ -20,10 +21,11 @@
 <link rel="icon" href="image/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="image/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="alternate" type="application/atom+xml" title="The Bookshelf: book of the month" href="feed.xml">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=d082e687">
-<script>(function(d){var r=d.documentElement;r.classList.add('js');})(document)</script>
+<link rel="stylesheet" href="css/main.css?v=432f7c4e">
+<script>(function(d){var r=d.documentElement;r.classList.add('js');var c;try{c=+sessionStorage.getItem('bookshelf:covered');sessionStorage.removeItem('bookshelf:covered')}catch(e){}if(c&&Date.now()-c<30000&&!matchMedia('(prefers-reduced-motion: reduce)').matches){r.classList.add('is-loading','is-carried');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading','is-carried')},4000)}})(document)</script>
 <script src="js/vendor/gsap.min.js" defer></script>
 <script src="js/vendor/ScrollTrigger.min.js" defer></script>
 <script src="js/vendor/SplitText.min.js" defer></script>
@@ -34,13 +36,24 @@
 <script src="js/vendor/barba.umd.min.js" defer></script>
 <script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
 <script src="js/vendor/smooothy.min.js" defer></script>
-<script src="js/forms.js?v=d082e687" defer></script>
-<script src="js/app.js?v=d082e687" defer></script>
+<script src="js/account.js?v=432f7c4e" defer></script>
+<script src="js/app.js?v=432f7c4e" defer></script>
 </head>
 <body data-barba="wrapper">
 <svg xmlns="http://www.w3.org/2000/svg" hidden>
   <symbol id="i-logo" viewBox="0 0 48 48"><path fill="currentColor" d="M24 9.5c-4.2-3.3-10.3-4.4-17-3.5a2 2 0 0 0-1.7 2v27.6a2 2 0 0 0 2.3 2c6.2-.8 11.3.2 15.2 3.1a2 2 0 0 0 2.4 0c3.9-2.9 9-3.9 15.2-3.1a2 2 0 0 0 2.3-2V8a2 2 0 0 0-1.7-2c-6.7-.9-12.8.2-17 3.5Zm-2.2 4.2v20.9c-3.6-1.8-7.9-2.6-12.5-2.4V10c4.9-.4 9.3.8 12.5 3.7Zm4.4 0c3.2-2.9 7.6-4.1 12.5-3.7v22.2c-4.6-.2-8.9.6-12.5 2.4V13.7Z"/><path fill="currentColor" d="M33 4h5v12l-2.5-2-2.5 2z"/></symbol>
   <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5" /> <path d="M21 12H9" /> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></symbol>
+  <symbol id="i-feather" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.086 18.412A2 2 0 0112.67 19H5v-7.672a2 2 0 01.586-1.414L11.75 3.75a6 6 0 118.49 8.49z" /> <path d="M16 8 2 22" /> <path d="M17.488 15H9" /></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20a10 10 0 0010-10 25.9 25.9 0 00-1.04-7.281 1 1 0 00-1.755-.325C15.833 5.5 13 5.5 9.8 6.1A7 7 0 0011 20" /> <path d="M2 21a5 5 0 012.911-4.544C7.613 15.212 8.351 15.24 11 13" /></symbol>
+  <symbol id="i-coffee" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></symbol>
+  <symbol id="i-cat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0 1 12 5Z" /> <path d="M8 14v.5" /> <path d="M16 14v.5" /> <path d="M11.25 16.25h1.5L12 17l-.75-.75Z" /></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /> <circle cx="12" cy="12" r="3" /></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" /> <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" /> <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" /> <path d="m2 2 20 20" /></symbol>
+  <symbol id="i-sync" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /> <path d="M21 3v5h-5" /> <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /> <path d="M8 16H3v5" /></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 15-5.5 5.5L9 18" /> <path d="M5.516 16.07A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 3.501 7.327" /></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></symbol>
   <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></symbol>
   <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7" /> <path d="M12 19V5" /></symbol>
@@ -103,6 +116,7 @@
     </ul>
   </nav>
   <div class="header__side">
+    <a class="account-chip" href="account.html" data-account-chip data-nav="account" hidden><svg class="icon" aria-hidden="true"><use href="#i-user"></use></svg><span data-account-chip-label>Sign in</span></a>
     <a class="header__social" href="https://github.com/Cl0ud-9/Book-Website" aria-label="Source code on GitHub"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg></a>
   </div>
   <button class="button-alt is--small menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
@@ -123,6 +137,7 @@
       <a class="button-alt is--white" href="reading.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Your reading</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
       <a class="button-alt is--black" href="books.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Find a book</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
     </div>
+    <a class="account-chip is--menu" href="account.html" data-account-chip data-account-chip-out="Sign in or create an account" hidden><svg class="icon" aria-hidden="true"><use href="#i-user"></use></svg><span data-account-chip-label>Sign in</span></a>
     <p class="menu__note accent-note">See you between the pages!</p>
   </div>
 </div>
@@ -160,12 +175,12 @@
     <p>The Maltese Falcon is a jewel in the crown of the “hardboiled” crime genre, and one of its best-known works. Hammett writes a tight and lean story in which no character, not even the hero or the police, can be said to be “good.”</p>
     <p>It was first serialized in Black Mask magazine in 1929, before undergoing edits for publication as a novel in 1930. The novel was adapted into several movies, including the 1941 film starring Humphrey Bogart, in which his portrayal of Sam Spade went on to become the core archetype for all film noir detectives to come.</p>
   </div>
-  <dl class="book-about__facts"><div><dt><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>Reading time</dt><dd>4 hours 4 minutes</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-layers"></use></svg>Length</dt><dd>67,019 words</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-bookmark"></use></svg>Genre</dt><dd>Mystery</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-globe"></use></svg>Language</dt><dd>English</dd></div></dl>
+  <dl class="book-about__facts"><div><dt><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg>Reading time</dt><dd>4 hours 4 minutes</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-layers"></use></svg>Length</dt><dd>67,019 words</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-bookmark"></use></svg>Genre</dt><dd>Mystery</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-globe"></use></svg>Language</dt><dd>English</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-sparkles"></use></svg>Mood</dt><dd>Gripping, Dark</dd></div><div><dt><svg class="icon" aria-hidden="true"><use href="#i-book"></use></svg>Edition</dt><dd><a href="https://standardebooks.org/ebooks/dashiell-hammett/the-maltese-falcon">Standard Ebooks</a></dd></div></dl>
 </section>
 <section class="book-more" aria-labelledby="more-title">
   <h2 class="book-more__title heading-l" id="more-title">You might also like</h2>
   <div class="catalogue__grid is--three">
-<article class="book-card " id="book-the-adventures-of-sherlock-holmes" style="--card:var(--pale-pink);--ink:#000" data-search="the adventures of sherlock holmes arthur conan doyle mystery" data-genres="mystery" data-rank="17" data-words="104582" data-title="adventures of sherlock holmes" data-books-slider-item>
+<article class="book-card " id="book-the-adventures-of-sherlock-holmes" style="--card:var(--pale-pink);--ink:#000" data-search="the adventures of sherlock holmes arthur conan doyle mystery gripping adventurous" data-genres="mystery" data-book-kind="fiction" data-moods="gripping adventurous" data-collections="" data-minutes="380" data-rank="17" data-words="104582" data-title="adventures of sherlock holmes" data-books-slider-item>
   <div class="book-card__cover"><img src="image/covers/the-adventures-of-sherlock-holmes-360.webp" srcset="image/covers/the-adventures-of-sherlock-holmes-180.webp 180w, image/covers/the-adventures-of-sherlock-holmes-360.webp 360w, image/covers/the-adventures-of-sherlock-holmes-720.webp 720w, image/covers/the-adventures-of-sherlock-holmes-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="The Adventures of Sherlock Holmes by Arthur Conan Doyle, book cover" loading="lazy" decoding="async"></div>
   <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--pale-blue)">Mystery</li></ul>
   <h3 class="book-card__title" style="--fit:6.0"><a class="book-card__link" href="book-the-adventures-of-sherlock-holmes.html" draggable="false">The Adventures of Sherlock Holmes</a></h3>
@@ -174,7 +189,7 @@
   <p class="book-card__hook">The world’s first consulting detective investigates a variety of intriguing cases in the first Holmes short story collection.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
-<article class="book-card " id="book-a-study-in-scarlet" style="--card:var(--pale-blue);--ink:#000" data-search="a study in scarlet arthur conan doyle mystery" data-genres="mystery" data-rank="30" data-words="43367" data-title="study in scarlet" data-books-slider-item>
+<article class="book-card " id="book-a-study-in-scarlet" style="--card:var(--pale-blue);--ink:#000" data-search="a study in scarlet arthur conan doyle mystery gripping" data-genres="mystery" data-book-kind="fiction" data-moods="gripping" data-collections="" data-minutes="158" data-rank="30" data-words="43367" data-title="study in scarlet" data-books-slider-item>
   <div class="book-card__cover"><img src="image/covers/a-study-in-scarlet-360.webp" srcset="image/covers/a-study-in-scarlet-180.webp 180w, image/covers/a-study-in-scarlet-360.webp 360w, image/covers/a-study-in-scarlet-720.webp 720w, image/covers/a-study-in-scarlet-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="A Study in Scarlet by Arthur Conan Doyle, book cover" loading="lazy" decoding="async"></div>
   <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--white)">Mystery</li></ul>
   <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-a-study-in-scarlet.html" draggable="false">A Study in Scarlet</a></h3>
@@ -183,7 +198,7 @@
   <p class="book-card__hook">The self-declared world’s first consulting detective unravels a mysterious case of murder and revenge.</p>
   <span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>
 </article>
-<article class="book-card " id="book-edgar-allan-poe-short-fiction" style="--card:var(--violet);--ink:#fff" data-search="short fiction edgar allan poe horror mystery" data-genres="horror mystery" data-rank="37" data-words="318069" data-title="short fiction" data-books-slider-item>
+<article class="book-card " id="book-edgar-allan-poe-short-fiction" style="--card:var(--olive);--ink:#fff" data-search="short fiction edgar allan poe horror mystery eerie dark" data-genres="horror mystery" data-book-kind="fiction" data-moods="eerie dark" data-collections="" data-minutes="1157" data-rank="37" data-words="318069" data-title="short fiction" data-books-slider-item>
   <div class="book-card__cover"><img src="image/covers/edgar-allan-poe-short-fiction-360.webp" srcset="image/covers/edgar-allan-poe-short-fiction-180.webp 180w, image/covers/edgar-allan-poe-short-fiction-360.webp 360w, image/covers/edgar-allan-poe-short-fiction-720.webp 720w, image/covers/edgar-allan-poe-short-fiction-1080.webp 1080w" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="Short Fiction by Edgar Allan Poe, book cover" loading="lazy" decoding="async"></div>
   <ul class="tags" aria-label="Genres"><li class="tag" style="--tag:var(--black)">Horror</li><li class="tag" style="--tag:var(--pale-blue)">Mystery</li></ul>
   <h3 class="book-card__title" style="--fit:5.8"><a class="book-card__link" href="book-edgar-allan-poe-short-fiction.html" draggable="false">Short Fiction</a></h3>
@@ -197,16 +212,11 @@
 <footer class="footer" data-footer-parallax>
   <div class="footer__inner">
     <div class="footer__top" data-footer-parallax-top>
-      <form class="footer__form" data-newsletter novalidate>
-        <h2 class="footer__form-title">Letters from the shelf</h2>
-        <p class="footer__text">One email a month: the classics we added, a few favourites, and nothing else.</p>
-        <div class="footer__field">
-          <label class="sr-only" for="newsletter-email">Email address</label>
-          <span class="footer__input"><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg><input class="field__input is--light" type="email" id="newsletter-email" name="email" placeholder="you@example.com" autocomplete="email" required></span>
-          <button type="submit" class="button-alt is--yellow" data-button-alt><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Subscribe</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></button>
-        </div>
-        <p class="footer__message" role="status" aria-live="polite" data-newsletter-message></p>
-      </form>
+      <div class="footer__form">
+        <h2 class="footer__form-title">New on the shelf</h2>
+        <p class="footer__text">A new book of the month on the first of every month. Follow it in any feed reader (Feedly, Inoreader, NetNewsWire) and it comes to you.</p>
+        <p class="footer__field"><a class="button-alt is--yellow" href="feed.xml" data-button-alt type="application/atom+xml"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Follow the feed</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a></p>
+      </div>
       <nav class="footer__nav" aria-label="Footer">
         <div class="footer__col">
           <h2 class="footer__heading">Library</h2>
@@ -214,7 +224,7 @@
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Yours</h2>
-          <ul><li><a href="reading.html">Your reading</a></li><li><a href="reading.html#notes">Your notes</a></li><li><a href="faq.html">Questions</a></li></ul>
+          <ul><li><a href="reading.html">Your reading</a></li><li><a href="reading.html#notes">Your notes</a></li><li><a href="faq.html">Questions</a></li><li><a href="privacy.html">Privacy</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Elsewhere</h2>

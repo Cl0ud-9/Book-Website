@@ -1,6 +1,6 @@
 <h1 align="center">The Bookshelf</h1>
 
-<p align="center"><strong>A free library of 144 classics to read in your browser or download, in a bright, playful site where everything moves.</strong></p>
+<p align="center"><strong>A free library of 161 classics to read in your browser or download, in a bright, playful site where everything moves.</strong></p>
 
 <p align="center">
   <a href="https://cl0ud-9.github.io/Book-Website/"><img src="https://img.shields.io/badge/Live%20site-cl0ud--9.github.io%2FBook--Website-ff008c?style=for-the-badge" alt="Live site" height="34"></a>
@@ -20,20 +20,22 @@
 </p>
 
 The Bookshelf is a free library of the classics with a loud, warm personality: heavy type, handwritten notes,
-colour cards, stickers and motion everywhere you look. 144 books, from Austen and the Brontës to Sherlock Holmes,
-Frankenstein and Gatsby, can be read right in the browser or downloaded for a phone, Kindle or Kobo. It began as a
+colour cards, stickers and motion everywhere you look. 161 books, from Austen and the Brontës to Sherlock Holmes,
+Frankenstein, Tagore and Marcus Aurelius, can be read right in the browser or downloaded for a phone, Kindle or Kobo. It began as a
 Web Technology course project, was rebuilt as an animated bookshop in version 2, and became a library in version 3.
 
 | Page | What it does |
 |---|---|
-| [Home](https://cl0ud-9.github.io/Book-Website/) | Where to start, on a draggable shelf; the books you are reading; how it works; a book that opens as you scroll; eleven genres; questions; the book of the month. |
-| [All books](https://cl0ud-9.github.io/Book-Website/books.html) | All 144 books, most read first, searchable by title, author or genre (accents optional), with genre chips and sorting by title or length. Genre links on the home page open it already filtered. |
-| [Genres](https://cl0ud-9.github.io/Book-Website/genres.html) | A shelf for each of the eleven genres, its most read books first, to scroll or drag sideways. |
+| [Home](https://cl0ud-9.github.io/Book-Website/) | Where to start, on a draggable shelf; the books you are reading; a line of the day; how it works; a book that opens as you scroll; the genres; questions; the book of the month and why it was chosen. |
+| [All books](https://cl0ud-9.github.io/Book-Website/books.html) | All 161 books, most read first: fiction or non-fiction, a genre or the From India shelf, a mood and a length, searchable by title, author or genre (accents optional), sorted by title or length. The choice is kept in the address, so it can be shared. |
+| [Genres](https://cl0ud-9.github.io/Book-Website/genres.html) | A shelf for each genre, fiction and non-fiction, and one of classics from India, its most read books first, to scroll or drag sideways. |
 | [Questions](https://cl0ud-9.github.io/Book-Website/faq.html) | Every question, by topic, with a list of topics that follows you down the page and marks the one you are reading. |
-| [A book](https://cl0ud-9.github.io/Book-Website/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description and details, Read now, the EPUB download, Kindle and Kobo editions, a free LibriVox audiobook where there is one, Keep for offline reading, and three related books. |
-| [The reader](https://cl0ud-9.github.io/Book-Website/read.html?book=pride-and-prejudice) | The book itself, in the page: its cover swings open, then pages turn on a laptop and scroll on a phone, with contents, highlights and notes, a word's meaning, text size, three page colours and three fonts. It remembers your place. |
-| [Your reading](https://cl0ud-9.github.io/Book-Website/reading.html) | What this device keeps for you: your week of reading, the books you are reading, your notes, the books kept for offline reading and the ones you finished, with Back up and Restore to move them to another device. |
-| [Log in](https://cl0ud-9.github.io/Book-Website/login.html) and [Sign up](https://cl0ud-9.github.io/Book-Website/signup.html) | A preview of accounts, which are not here yet: forms checked in the browser. Nothing links to them. |
+| [A book](https://cl0ud-9.github.io/Book-Website/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description, details and edition, Read now, the EPUB download, Kindle and Kobo editions, a free LibriVox audiobook where there is one, Keep for offline reading, Before you start (who's who and what to know, with no spoilers) and Lines worth knowing for the most read books, and three related books. |
+| [The reader](https://cl0ud-9.github.io/Book-Website/read.html?book=pride-and-prejudice) | The book itself, in the page: its cover swings open, then pages turn on a laptop and scroll on a phone, with contents, highlights and notes, a word's meaning, text size, three page colours and three typefaces (Literata, made for reading on screens, by default). It remembers your place. |
+| [Your reading](https://cl0ud-9.github.io/Book-Website/reading.html) | Your week of reading, the books you are reading, your notes, the books kept for offline reading and the ones you finished, with Back up and Restore. |
+| [Your account](https://cl0ud-9.github.io/Book-Website/account.html) | Optional, and only once accounts are switched on (see below): sign in with Google or an email address, choose a name, a colour and a mark, and your reading is on every device you sign in on. |
+| [A reader's page](https://cl0ud-9.github.io/Book-Website/profile.html) | For readers who share it: their name and mark, what they are reading and have finished, their reading time and, if they choose, the lines they highlighted. Never their notes. |
+| [Privacy](https://cl0ud-9.github.io/Book-Website/privacy.html) | What is kept about you, where, and how to remove it. |
 
 ## The details
 
@@ -46,13 +48,17 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
   loads behind it, and the squiggle slithers off again (Barba, DrawSVG). It is scaled evenly and cropped, so its ends
   stay round on any screen shape. Going back or forward swaps the page at once: phones already animate those moves
   with their own gesture, and a squiggle on top would play after the page had appeared.
-- **Type.** Three roles, as on the site that inspired the design: heavy headings (Rubik 900), clean text (Figtree)
-  and handwritten notes (Gochi Hand), each the closest free match to the original's font by measured overlap.
-  Headings stretch in word by word with an elastic snap, notes tumble in letter by letter, and button letters dip and
-  spring back.
-- **A real library.** The books are Standard Ebooks editions: carefully proofread, beautifully typeset and released
-  into the public domain, with covers made from public-domain paintings. Every one is also out of copyright in India
-  (where copyright runs for the author's life plus 60 years), so authors such as Agatha Christie are left out.
+- **Type.** Three roles, as on the site that inspired the design: heavy headings (Rubik 900), clean text (Figtree,
+  with its own italic) and handwritten notes (Gochi Hand), each the closest free match to the original's font by
+  measured overlap. Books are set in Literata, a serif drawn for long reading on screens. Headings stretch in word by
+  word, notes tumble in letter by letter, and button letters dip and spring back; fades never use the springy easing,
+  which made things flicker out and back.
+- **A real library.** Almost all the books are Standard Ebooks editions: carefully proofread, beautifully typeset and
+  released into the public domain, with covers made from public-domain paintings. A few classics from India come from
+  Project Gutenberg. Every one is also out of copyright in India (the author's life plus 60 years), and so are its
+  translator, illustrator and cover painter: `tools/rights.py` checks each of them, and where a cover painting is still
+  under copyright in India the book gets a cover drawn here (`tools/covers.py`). So authors such as Agatha Christie,
+  and Seneca's letters in a translation by a man who died in 1969, are left out.
 - **A reader in the page.** epub.js shows the book itself. It opens with the book's own cover, which swings open on
   the desk. On a wide screen the book lies open on two facing pages with a spine between them, and each turn lifts a
   leaf across the spine; on a phone the whole screen is the page, and the bars slip away while you read on and come
@@ -61,18 +67,30 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
   the book page offers to continue and the home page lists what you are reading. Its scripts load only when a book
   is opened.
 - **Highlights and notes.** Select any words to highlight them in one of four colours, underline them, add a note,
-  copy them, or look up a word's meaning (from Wiktionary). The Notes panel lists them by chapter and exports them as
-  Markdown, and a removed one comes back with Undo. They are kept in this browser (IndexedDB) with the words around
-  them, so a highlight finds its place again when Standard Ebooks corrects an edition.
+  copy them, or look up a word's meaning (from Wiktionary). On a laptop the bar floats by the words; on a phone it sits
+  across the top, clear of the words, the selection's handles and the phone's own menus, and every tool is named. The
+  Notes panel lists them by chapter and exports them as Markdown, and a removed one comes back with Undo. They are kept
+  in this browser (IndexedDB) with the words around them, so a highlight finds its place again when Standard Ebooks
+  corrects an edition.
 - **Reading offline.** Keep for offline reading stores a book, its page and its cover on the device, and a service
   worker (`sw.js`, written by the build) opens it with no connection. The site can be installed as an app.
 - **Your reading.** Time spent reading (counted only while you are actually turning pages), a streak, the books in
   progress and finished, every note, and the books kept offline. Back up saves it all to one file, and Restore merges
-  it on another device: there are no accounts, so this is how your reading moves with you.
+  it on another device.
+- **Accounts, if you want one.** Sign in with Google or an email address and a password, choose a name, a colour and
+  one of eight marks (no photos, so there is nothing to moderate), and your place in each book, your highlights and
+  notes, and your reading time follow you to every device. Everything is kept on the device first and the account is a
+  copy: the site works the same signed out, and a long read costs the account a few writes, not hundreds. You can
+  share a reader page, sign out (keeping or clearing the device's copy) and delete the account and everything in it.
+  Accounts run on Firebase's free plan; its SDK loads only when you are signed in or open the account page.
+- **Lines from the books.** Lines worth knowing on the most read books' pages, and a line of the day on the home page,
+  each checked word for word against the edition here (`tools/quotes.py`): Open at this line opens the reader on it,
+  and Share makes a picture of it to post.
 - **A shelf you can throw.** Cards tilt and dip the further they are from the middle as you drag (Smooothy), with
   arrow buttons, arrow keys and a sideways trackpad swipe too.
 - **A book that opens as you scroll.** It turns to face you, the cover swings open, three pages flip, and you fall
-  into the page where the headline is waiting. All of it is CSS 3D, driven by the scroll position (ScrollTrigger).
+  into the page; only once the page fills the screen does the headline arrive. All of it is CSS 3D, driven by the
+  scroll position (ScrollTrigger).
 - **Genres with covers.** The genre under the pointer swaps to handwriting, its neighbours make room, and four
   covers pop out around it and drift with the pointer.
 - **Books you can open.** Each book page has a 3D copy that follows the pointer, and downloading a book sets off a
@@ -109,9 +127,9 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
   put back together once it has landed, only what moves gets a layer of its own, the background shapes rest while you
   scroll, and the curved tagline moves letter by letter on the graphics card. The opening does its heavy setup while
   the squiggle still covers a still screen.
-- **Fast anyway.** Fonts and libraries are served with the site, so it makes no requests to other servers. The three
-  fonts are cut down to the characters used (50 KB together) and the covers are WebP in four widths. Lighthouse on
-  a phone, on the live site:
+- **Fast anyway.** Fonts and libraries are served with the site, so it makes no requests to other servers (only
+  signing in talks to Firebase). The site's fonts are cut down to the characters used (50 KB together), the reader's
+  Literata loads only with a book, and the covers are WebP in four widths. Lighthouse on a phone, on the live site:
 
   | Page | Performance | Accessibility | Best practices | SEO | Downloads |
   |---|---|---|---|---|---|
@@ -119,7 +137,6 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
   | All books | 89 to 91 | 100 | 100 | 100 | 545 KB |
   | A book page | 70 to 98 | 100 | 100 | 100 | 489 KB |
   | The reader | 70 to 97 | 100 | 100 | 100 | 1,073 KB, most of it the book |
-  | Log in, Sign up | 99 | 100 | 100 | 100 | 197 KB |
 
   Performance swings from run to run on GitHub Pages; the painted covers weigh more than the old flat drawings did.
 
@@ -156,23 +173,34 @@ the library script records each book's place in that list (`popularity`), and th
 every genre shelf and Where to start (the top ten) show the most read first, and Not sure where to begin? offers the
 most read book of each mood. `python tools/library.py --refresh-popularity` fetches the list again.
 
-**The book of the month** comes from the twelve most read books whose first line the library script could take from
-the EPUB, one each month in turn, so a year shows all twelve. It opens with that real first line. The site is rebuilt on the first of every month, so
-the pick changes by itself. Each month's pick is written down a year ahead in `library/picks.json` (edit it to choose
-a different book), so adding books never changes a month that is already showing. The hero, the open book and the gift are chosen by hand, for how their covers look.
+**The book of the month** is chosen a year ahead by `tools/picks.py` and written into `library/picks.json`, with a
+line saying why, which the home page shows. Each book is scored on how much it is read (Standard Ebooks' ranking, and
+readers and ratings on Open Library), whether interest in it is rising (its Wikipedia article's views), the time of year
+(love stories in February, Shakespeare in April, Tagore in May, adventures in the summer, ghost stories in October, A
+Christmas Carol in December) and, once the site counts visits, how many readers here carry on past its first chapter.
+Then the best is taken month by month: no book twice within a year, no author twice within six months, never the same
+genre two months running, and a short book every third month. A month that has begun never changes; edit the file to
+choose a different book. The site is rebuilt on the first of every month, so the pick changes by itself. The hero, the
+open book and the gift are chosen by hand, for how their covers look.
 
 ```bash
 python tools/library.py    # fetches new books into library/books.json, image/covers/ and books/ (needs Pillow)
 python tools/build.py      # rewrites every page, including one per book
+python tools/picks.py      # chooses the books of the month for the year ahead (library/picks.json)
+python tools/rights.py     # checks every author, translator, illustrator and cover painter is free in India too
+python tools/quotes.py     # finds each line in library/quotes.json in its book, for "Open at this line"
+python tools/covers.py     # draws covers for books whose painting is not yet free in India
+python tools/listen.py     # finds each book's free LibriVox audiobook (library/librivox.json)
+python tools/fonts.py      # rebuilds the fonts from their sources (needs fonttools and brotli)
 python tools/check.py      # with npm start running: uses the site like a visitor and reports what fails
 python tools/effects.py    # with npm start running: checks every hover effect after links, Back and Forward
+python tools/reader_check.py   # with npm start running: page colours, and highlighting on a phone and a laptop
+python tools/library_check.py  # with npm start running: the filters, the shelves, lines and guides
 python tools/social.py     # with npm start running: redraws the link previews and the home-screen icon
-python tools/fonts.py      # rebuilds the three fonts from their sources (needs fonttools and brotli)
-python tools/listen.py     # finds each book's free LibriVox audiobook (library/librivox.json)
 ```
 
-`tools/check.py` drags the shelf, hovers the genres, opens the questions, sends the forms (including one with HTML in
-it), follows a genre link into the catalogue, searches and sorts it (without accents), opens a book, checks its
+`tools/check.py` drags the shelf, hovers the genres, opens the questions, checks the feed, the account and privacy
+pages, follows a genre link into the catalogue, searches and sorts it (without accents), opens a book, checks its
 download, goes back, reads it in the reader (turning pages, changing the page colour, and coming back to "Continue"),
 opens Genres and Questions from a book's page (dragging a shelf, jumping between topics, and following a link to a
 section of another page), and checks the phone menu (and that it steps aside while you read), the reader's bars on a
@@ -180,6 +208,20 @@ phone, a Contents jump on a phone (the bars stay, the saved place stays, the nex
 a narrowing window, highlighting and Undo, keeping a book offline, Your reading and its backup, that going back
 returns to where you were, that long titles fit their cards, that no page is ever wider than a 320 px phone, reduced
 motion and the site without JavaScript.
+
+**Trying accounts locally.** Firebase's emulators run accounts on your own computer, with nothing to sign up for
+(they need Java):
+
+```bash
+npm run emulators          # in a second terminal: sign-in and the database, on ports 9099 and 8080
+FIREBASE_CONFIG='{"apiKey":"demo-key","authDomain":"demo-bookshelf.firebaseapp.com","projectId":"demo-bookshelf","emulator":"127.0.0.1"}' python tools/build.py _accounts
+python tools/accounts_check.py   # serves that copy at http://127.0.0.1:4600/ and tests accounts end to end
+```
+
+`tools/accounts_check.py` makes an account on a phone, chooses a name, highlights a line and keeps it, shares a reader
+page and reads it as a visitor, signs in on a laptop and finds the highlight there, removes it there and sees it go on
+the phone, signs in with Google, checks that the database refuses another account's reads and writes, and edits, signs
+out and deletes.
 
 ## How it is published
 
@@ -189,6 +231,26 @@ exists, runs Lighthouse in its phone mode on six pages (three runs each, budgets
 [`.lighthouserc.json`](.lighthouserc.json)), and deploys it to GitHub Pages. A broken link, or a page that falls below
 its speed or accessibility budget, stops the deploy. It also runs on the first of every month.
 
+**Turning on accounts (optional, free).** Accounts stay off, and the site says nothing about them, until it has a
+Firebase project:
+
+1. At [console.firebase.google.com](https://console.firebase.google.com), add a project (Google Analytics is not
+   needed). It stays on the free Spark plan.
+2. **Authentication**, Get started, then under Sign-in method switch on **Google** and **Email/Password**. Under
+   Settings, Authorized domains, add `cl0ud-9.github.io`.
+3. **Firestore Database**, Create database, in production mode, in the region nearest your readers.
+4. In Firestore's **Rules** tab, replace the rules with [`firebase/firestore.rules`](firebase/firestore.rules) and
+   Publish. (They keep each reader's data their own; without them the database refuses everything.)
+5. Project settings, Your apps, add a **Web** app. Copy its `firebaseConfig`, with every key in double quotes, into a
+   repository variable named `FIREBASE_CONFIG`, for example
+   `{"apiKey":"AIza…","authDomain":"your-project.firebaseapp.com","projectId":"your-project","appId":"1:…"}`.
+   These values are not secrets: every Firebase web app sends them to the browser, and the rules decide what anyone
+   may do.
+6. Run the deploy again (Actions, Deploy to GitHub Pages, Run workflow). The header gets Sign in.
+
+The free plan allows 50,000 reads and 20,000 writes a day, which is a few thousand readers a day as the site uses them.
+Password reset emails are limited to 150 a day.
+
 **Counting visits (optional).** Create a free site at [GoatCounter](https://www.goatcounter.com) and put its code (the
 `bookshelf` in `bookshelf.goatcounter.com`) in a repository variable named `GOATCOUNTER` (Settings, Secrets and
 variables, Actions, Variables). The next deploy adds the counter: page views, and each book opened, reaching its
@@ -197,37 +259,46 @@ not to be tracked are not counted at all.
 
 ## Honest limits
 
-- **No back end.** There are no accounts or newsletter yet: the forms check what you type and stop there. Your place,
-  notes and reading time are kept in your own browser; Back up and Restore on Your reading move them to another
-  device by hand. Clearing the browser's data for the site removes them.
-- **No discussions yet.** Talking about a book needs accounts and someone to look after the conversation. The plan
-  for them (posts tied to the chapters you have read, so nothing is spoiled) waits for both.
+- **Accounts need a Firebase project.** Until one is set up (above), there are no accounts: reading is kept in your
+  own browser, and Back up and Restore move it to another device by hand. No newsletter either; the footer offers a
+  feed of the book of the month instead (`feed.xml`), which any feed reader can follow.
+- **No discussions yet.** Talking about a book needs someone to look after the conversation. The plan for them (posts
+  tied to the chapters you have read, so nothing is spoiled) waits for that. Reader pages show only names chosen
+  within strict rules, marks rather than photos, and lines from the books themselves, so they need no moderator; each
+  has a Report link.
 - **Classics only.** Recent books, such as Colleen Hoover's, and manga such as One Piece are under copyright and
   cannot be shared for free. The site says where to borrow them instead.
-- **Some books are fetched.** The few heavily illustrated editions over 8 MB are read and downloaded straight from
-  Standard Ebooks rather than kept here, to keep the repository small, and so are books whose EPUB the library script
-  has not copied yet (Standard Ebooks limits how many a day it hands out).
+- **Illustrated editions are lighter here.** Standard Ebooks gives each illustration twice, once at double
+  resolution, and its two Alice books came to 18 and 24 MB, which took minutes to open. The copies here keep the
+  ordinary illustrations only (3.7 and 4.1 MB); the text is untouched. A book whose EPUB the library script has not
+  copied yet is read from Standard Ebooks (it limits how many a day it hands out).
 - **The motion takes a moment.** The opening animation runs before the page is fully shown, which costs some time on a
   slow phone. Reduced motion skips it.
 
 ## Project structure
 
 ```text
-index.html, books.html, genres.html, faq.html, book-*.html, read.html, reading.html,
-login.html, signup.html, 404.html, manifest.webmanifest, sw.js    generated by tools/build.py
+index.html, books.html, genres.html, faq.html, book-*.html, read.html, reading.html, account.html, profile.html,
+privacy.html, login.html and signup.html (they lead on), 404.html, feed.xml, manifest.webmanifest, sw.js
+                    generated by tools/build.py
 css/main.css        every style: tokens, the fluid type scale, components and sections
+css/reader-content.css  added inside a book while it is read: Literata, the page colours' details
 js/app.js           transitions, smooth scrolling and every animation, one function per effect
-js/forms.js         checks the log-in, sign-up and newsletter forms
-js/vendor/          GSAP, Lenis, Barba, Smooothy, epub.js and JSZip, unchanged (licences in LICENSES.md)
+js/account.js       accounts: signing in, your profile, keeping your reading in step with your account
+js/account-page.js  the Your account page and readers' pages
+js/vendor/          GSAP, Lenis, Barba, Smooothy, epub.js and JSZip, unchanged, and the parts of Firebase the site uses
+                    (firebase.mjs, made by npm run vendor:firebase); licences in LICENSES.md
+firebase/firestore.rules  who may read and write what in the accounts database
 js/reader.js        the reader (with js/vendor/epub.min.js and jszip.min.js, loaded only on read.html)
 js/reader-notes.js  highlights, notes, a word's meaning and opening a book at a line: a plug-in for the reader
 js/notes-store.js   your highlights and notes, kept in this browser (IndexedDB)
 js/your-reading.js  the Your reading page
-library/picks.json  the book of the month, a year ahead
+library/picks.json  the book of the month, a year ahead, and why (tools/picks.py)
 library/librivox.json  each book's free LibriVox audiobook, found by tools/listen.py
 library/books.json  every book's details, written by tools/library.py
-books/              the EPUB files (bigger illustrated editions are fetched from Standard Ebooks instead)
-fonts/              Rubik (headings), Figtree (text) and Gochi Hand (notes), Latin subset, built by tools/fonts.py
+books/              the EPUB files
+fonts/              Rubik (headings), Figtree (text) and Gochi Hand (notes), Latin subset, and Literata (books),
+                    built by tools/fonts.py
 image/              covers (covers/<book>-180/360/720/1080.webp), link previews (social/), the logo and home-screen icon
 sitemap.xml         every page, for search engines
 tools/              library, page, font and preview generators, icons and the browser checks

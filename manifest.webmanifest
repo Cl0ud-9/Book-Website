@@ -1,7 +1,7 @@
 {
   "name": "The Bookshelf",
   "short_name": "Bookshelf",
-  "description": "A free library of 144 classics.",
+  "description": "A free library of 161 classics.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

@@ -1,5 +1,5 @@
 """Write The Bookshelf's pages from the library (library/books.json, made by tools/library.py) and shared parts:
-the home page, All books, a page for every book, the reader, log in, sign up and 404.
+the home page, All books, a page for every book, the reader, Your reading, your account, reader pages, privacy and 404.
 
 usage: python tools/build.py [OUTPUT_DIR]      (default: the repository root)
 Change the shelf in tools/library.py, and what the home page features in FEATURED below.
@@ -12,6 +12,7 @@ import os
 import re
 import sys
 import unicodedata
+import urllib.parse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -25,14 +26,38 @@ e = html.escape
 # standard_ebooks, slug, genres, spine, epub, kindle, kobo
 LIBRARY = json.loads((ROOT / "library" / "books.json").read_text(encoding="utf-8"))
 PICKS = json.loads((ROOT / "library" / "picks.json").read_text(encoding="utf-8"))  # "YYYY-MM": book
+# Lines from the books, each checked against our edition by tools/quotes.py ("in": its chapter file, "at": how far
+# in). Only lines from the first 70% of a book are used, so opening one never lands near the ending.
+QUOTES = {slug_: [q for q in items if q.get("in") and q.get("at", 1) <= 0.7]
+          for slug_, items in json.loads((ROOT / "library" / "quotes.json").read_text(encoding="utf-8")).items() if not slug_.startswith("_")}
+# Before you start: spoiler-free notes for the most read books
+GUIDES = {k: v for k, v in json.loads((ROOT / "library" / "guides.json").read_text(encoding="utf-8")).items() if not k.startswith("_")}
 # Free audiobooks: each book's recording on LibriVox, found by tools/listen.py
 LISTEN = json.loads((ROOT / "library" / "librivox.json").read_text(encoding="utf-8")) if (ROOT / "library" / "librivox.json").exists() else {}
 BOOK = {b["slug"]: b for b in LIBRARY}
-GENRES = ["Romance", "Mystery", "Adventure", "Fantasy", "Science fiction", "Horror", "Poetry", "Philosophy",
-          "Children’s", "Plays", "Literary fiction"]
+# Genres come in two families. A book is non-fiction when its first genre is one of the non-fiction ones.
+FICTION = ["Romance", "Mystery", "Adventure", "Fantasy", "Science fiction", "Horror", "Poetry", "Children’s", "Plays",
+           "Literary fiction"]
+NONFICTION = ["Philosophy", "Lives and memoirs", "History and politics", "Science and nature", "Essays and letters"]
+GENRES = FICTION + NONFICTION
+MOODS = ["Funny", "Romantic", "Adventurous", "Dark", "Eerie", "Thoughtful", "Heartwarming", "Gripping"]
+# Collections cut across genres; for now, the books from India
+COLLECTIONS = {"india": "From India"}
+LENGTHS = [("short", "Under 3 hours", 0, 180), ("medium", "3 to 8 hours", 180, 480), ("long", "Over 8 hours", 480, 10**6)]
+_moods = json.loads((ROOT / "library" / "moods.json").read_text(encoding="utf-8"))
+for b in LIBRARY:
+    b["kind"] = "nonfiction" if b["genres"][0] in NONFICTION else "fiction"
+    b["moods"] = _moods.get(b["slug"], [])
+    b["minutes"] = round(b["words"] / 275)
+    b.setdefault("collections", [])
+    missing = [g for g in b["genres"] if g not in GENRES] + [m for m in b["moods"] if m not in MOODS]
+    if missing or not b["moods"]:
+        raise SystemExit(f"{b['slug']}: unknown genre or mood {missing}, or no mood in library/moods.json")
 TAG_COLOURS = {"Romance": "pale-pink", "Mystery": "pale-blue", "Adventure": "orange", "Fantasy": "pale-periwinkle",
                "Science fiction": "cyan", "Horror": "black", "Poetry": "pale-yellow", "Philosophy": "soft-orange",
                "Children’s": "pale-green", "Plays": "soft-periwinkle", "Literary fiction": "white",
+               "Lives and memoirs": "pale-orange", "History and politics": "soft-pink", "Science and nature": "soft-blue",
+               "Essays and letters": "yellow", "From India": "pale-orange",
                "Book of the month": "magenta"}
 CARD_COLOURS = ["yellow", "pale-green", "pale-orange", "cyan", "periwinkle", "pale-pink", "pale-blue", "olive",
                 "violet", "magenta"]
@@ -60,14 +85,23 @@ def about(reading_time):
     return f"about {n} hour{'s' if n != 1 else ''}"
 
 
+def pick_book(pick):
+    return pick["book"] if isinstance(pick, dict) else pick
+
+
+def pick_why(pick):
+    return pick.get("why", "") if isinstance(pick, dict) else ""
+
+
 def book_of_the_month(today):
     # Each month's pick is written down in library/picks.json, so a month never changes once it has been shown (adding
     # books or opening lines used to reshuffle the rotation mid-month). The deploy workflow rebuilds the site on the
     # first of every month. A month missing from the list falls back to the twelve most read books with an opening line,
     # one a month in turn.
     month = f"{today.year}-{today.month:02}"
-    if PICKS.get(month) in BOOK and BOOK[PICKS[month]]["opening"]:
-        return PICKS[month]
+    chosen = pick_book(PICKS.get(month, ""))
+    if chosen in BOOK and BOOK[chosen]["opening"]:
+        return chosen
     print(f"note: no pick for {month} in library/picks.json, so the rotation chose one")
     picks = [b["slug"] for b in POPULAR if b["opening"]][:12]
     return picks[(today.year * 12 + today.month - 1) % len(picks)]
@@ -142,6 +176,29 @@ OFFLINE_CONTROLS = (f'<button type="button" class="offline-row__keep" data-offli
                     '<button type="button" class="offline-row__remove" data-offline-remove hidden>Remove</button>')
 
 
+def quote_text(text):
+    # A line as it is shown: in quotation marks unless it already has them, and with an ellipsis where it begins or ends
+    # in the middle of a sentence
+    t = text.strip()
+    if t[0].islower():
+        t = "…" + t
+    if t[-1] in ":;,":
+        t = t[:-1] + "…"
+    return t if t.startswith("“") else f"“{t}”"
+
+
+def read_at(slug_, quote):
+    # the reader opens the book at these words (js/reader-notes.js), without moving your place in it
+    return f"read.html?book={slug_}&at={urllib.parse.quote(quote['text'])}&in={urllib.parse.quote(quote['in'])}"
+
+
+def share_button(slug_, quote, label="Share"):
+    b = BOOK[slug_]
+    return (f'<button type="button" class="line__share" data-quote-share data-quote="{e(quote_text(quote["text"]))}" '
+            f'data-quote-book="{e(b["title"])}" data-quote-author="{e(b["author"])}" data-quote-colour="{b["colour"]}">'
+            f'{icon("share")}<span>{e(label)}</span></button>')
+
+
 def reading_time(b):
     # "7 hours 24 minutes" reads as "7 h 24 min" on a card
     short = b["reading_time"].replace(" hours", " h").replace(" hour", " h").replace(" minutes", " min").replace(" minute", " min")
@@ -174,7 +231,9 @@ def bg_svg(paths, cls, view="0 0 1440 1000", small=False):
 
 ICON_DIR = Path(__file__).resolve().parent / "icons"
 # name used in the pages -> Lucide file
-ICONS = {"arrow": "arrow-right", "left": "arrow-left", "up": "arrow-up", "plus": "plus", "menu": "menu", "close": "x",
+ICONS = {"user": "user-round", "logout": "log-out", "feather": "feather", "leaf": "leaf", "coffee": "coffee", "cat": "cat",
+         "eye": "eye", "eye-off": "eye-off", "sync": "refresh-cw", "link": "link",
+         "cloud": "cloud-check", "arrow": "arrow-right", "left": "arrow-left", "up": "arrow-up", "plus": "plus", "menu": "menu", "close": "x",
          "search": "search", "book": "book-open", "sparkles": "sparkles", "gift": "gift",
          "bookmark": "bookmark", "heart": "heart", "mail": "mail", "star": "star", "layers": "layers", "globe": "globe",
          "package": "package", "clock": "clock", "download": "download", "contents": "list-ordered", "type": "type",
@@ -225,6 +284,7 @@ HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
     </ul>
   </nav>
   <div class="header__side">
+    <a class="account-chip" href="account.html" data-account-chip data-nav="account" hidden>{icon("user")}<span data-account-chip-label>Sign in</span></a>
     <a class="header__social" href="https://github.com/Cl0ud-9/Book-Website" aria-label="Source code on GitHub">{icon("github")}</a>
   </div>
   <button class="button-alt is--small menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
@@ -245,6 +305,7 @@ HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
       {button_alt("reading.html", "Your reading", "white")}
       {button_alt("books.html", "Find a book", "black")}
     </div>
+    <a class="account-chip is--menu" href="account.html" data-account-chip data-account-chip-out="Sign in or create an account" hidden>{icon("user")}<span data-account-chip-label>Sign in</span></a>
     <p class="menu__note accent-note">See you between the pages!</p>
   </div>
 </div>"""
@@ -254,16 +315,11 @@ def footer():
     return f"""<footer class="footer" data-footer-parallax>
   <div class="footer__inner">
     <div class="footer__top" data-footer-parallax-top>
-      <form class="footer__form" data-newsletter novalidate>
-        <h2 class="footer__form-title">Letters from the shelf</h2>
-        <p class="footer__text">One email a month: the classics we added, a few favourites, and nothing else.</p>
-        <div class="footer__field">
-          <label class="sr-only" for="newsletter-email">Email address</label>
-          <span class="footer__input">{icon("mail")}<input class="field__input is--light" type="email" id="newsletter-email" name="email" placeholder="you@example.com" autocomplete="email" required></span>
-          {submit_alt("Subscribe", "yellow")}
-        </div>
-        <p class="footer__message" role="status" aria-live="polite" data-newsletter-message></p>
-      </form>
+      <div class="footer__form">
+        <h2 class="footer__form-title">New on the shelf</h2>
+        <p class="footer__text">A new book of the month on the first of every month. Follow it in any feed reader (Feedly, Inoreader, NetNewsWire) and it comes to you.</p>
+        <p class="footer__field">{button_alt("feed.xml", "Follow the feed", "yellow", 'type="application/atom+xml"')}</p>
+      </div>
       <nav class="footer__nav" aria-label="Footer">
         <div class="footer__col">
           <h2 class="footer__heading">Library</h2>
@@ -271,7 +327,7 @@ def footer():
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Yours</h2>
-          <ul><li><a href="reading.html">Your reading</a></li><li><a href="reading.html#notes">Your notes</a></li><li><a href="faq.html">Questions</a></li></ul>
+          <ul><li><a href="reading.html">Your reading</a></li><li><a href="reading.html#notes">Your notes</a></li>{'<li><a href="account.html">Your account</a></li>' if ACCOUNTS else ""}<li><a href="faq.html">Questions</a></li><li><a href="privacy.html">Privacy</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Elsewhere</h2>
@@ -299,14 +355,39 @@ SCRIPTS = [f"js/vendor/{name}.js" for name in (
 # second or two after the page on a slow phone, and waiting for them made every page look slow. With the squiggle, the
 # page hides what the intro animates in, and gives up after 4 s if the scripts never arrive.
 def boot(name):
-    cover = ("if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!location.hash){var o;"
+    # A page loaded in full in the middle of a page change (js/app.js, runLeave) starts covered, the book showing
+    carried = ("var c;try{c=+sessionStorage.getItem('bookshelf:covered');sessionStorage.removeItem('bookshelf:covered')}catch(e){}"
+               "if(c&&Date.now()-c<30000&&!matchMedia('(prefers-reduced-motion: reduce)').matches){r.classList.add('is-loading','is-carried');"
+               "setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading','is-carried')},4000)}")
+    cover = ("if(!r.classList.contains('is-loading')&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!location.hash){var o;"
              "try{o=sessionStorage.getItem('bookshelf:opened')}catch(e){}"
              "if(o!=='1'){r.classList.add('is-loading');"
              "setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)}}") if name == "home" else ""
-    return f"<script>(function(d){{var r=d.documentElement;r.classList.add('js');{cover}}})(document)</script>"
+    accounts = f"window.bookshelfAccounts={json.dumps(ACCOUNTS, separators=(',', ':'))};" if ACCOUNTS else ""
+    return f"<script>{accounts}(function(d){{var r=d.documentElement;r.classList.add('js');{carried}{cover}}})(document)</script>"
 
 
 SITE = "https://cl0ud-9.github.io/Book-Website/"
+# Accounts (js/account.js), if they are turned on: the web app's Firebase configuration as JSON, set as the repository
+# variable FIREBASE_CONFIG (README: "Turning on accounts"). These values are not secrets: every Firebase web app sends
+# them to the browser, and firebase/firestore.rules decides what each signed-in reader may do. Without it there are no
+# accounts and the site says nothing about them. {"emulator": "localhost"} points the site at Firebase's local emulators.
+def accounts_config():
+    raw = os.environ.get("FIREBASE_CONFIG", "").strip()
+    if not raw:
+        return None
+    try:
+        given = json.loads(raw)
+    except json.JSONDecodeError:
+        sys.exit("FIREBASE_CONFIG is not JSON: copy the firebaseConfig object from the Firebase console, keys in quotes")
+    keep = {k: str(given[k]) for k in ("apiKey", "authDomain", "projectId", "appId", "emulator") if given.get(k)}
+    missing = [k for k in ("apiKey", "authDomain", "projectId") if k not in keep]
+    if missing:
+        sys.exit(f"FIREBASE_CONFIG is missing {', '.join(missing)}")
+    return keep
+
+
+ACCOUNTS = accounts_config()
 # Counting visits, if it is turned on: a GoatCounter site code (the "bookshelf" in bookshelf.goatcounter.com), set as
 # the repository variable GOATCOUNTER for the deploy. No code, no script: nothing is counted. GoatCounter uses no
 # cookies and keeps no personal data; js/app.js also counts nothing for browsers that ask not to be tracked.
@@ -316,12 +397,12 @@ COUNTER = (f"""<script data-goatcounter="https://{GOATCOUNTER}.goatcounter.com/c
            if re.fullmatch(r"[a-z0-9-]+", GOATCOUNTER) else "")
 # The site's own CSS and scripts are linked with ?v=<a hash of them>, so a browser never keeps last week's copy after a
 # deploy (GitHub Pages lets them cache files for ten minutes). app.js passes the same version on to the reader's files.
-ASSETS = ["css/main.css", "css/reader-content.css", "js/app.js", "js/forms.js", "js/reader.js", "js/notes-store.js", "js/reader-notes.js",
-          "js/your-reading.js"]
+ASSETS = ["css/main.css", "css/reader-content.css", "js/app.js", "js/account.js", "js/account-page.js", "js/reader.js",
+          "js/notes-store.js", "js/reader-notes.js", "js/your-reading.js"]
 VERSION = hashlib.sha1(b"".join((ROOT / a).read_bytes() for a in ASSETS)).hexdigest()[:8]
 
 
-def page(name, path, title, description, body, theme="yellow", book=None, with_footer=True):
+def page(name, path, title, description, body, theme="yellow", book=None, with_footer=True, index=True):
     scripts = "\n".join(f'<script src="{s}" defer></script>' for s in SCRIPTS)
     # Link previews: a 1200 x 630 JPEG (made by tools/social.py), the size and format every app shows
     social = f"image/social/{book}.jpg" if book else "image/social/home.jpg"
@@ -333,6 +414,7 @@ def page(name, path, title, description, body, theme="yellow", book=None, with_f
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)}</title>
 <meta name="description" content="{e(description)}">
+{"" if index else '<meta name="robots" content="noindex">'}
 <meta name="theme-color" content="#ffd24a">
 <link rel="canonical" href="{SITE}{path}">
 <meta property="og:type" content="website">
@@ -348,12 +430,13 @@ def page(name, path, title, description, body, theme="yellow", book=None, with_f
 <link rel="icon" href="image/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="image/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="alternate" type="application/atom+xml" title="The Bookshelf: book of the month" href="feed.xml">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/main.css?v={VERSION}">
 {boot(name)}
 {scripts}
-<script src="js/forms.js?v={VERSION}" defer></script>
+<script src="js/account.js?v={VERSION}" defer></script>
 <script src="js/app.js?v={VERSION}" defer></script>
 {COUNTER}</head>
 <body data-barba="wrapper">
@@ -389,8 +472,8 @@ def library_data():
 # The title is the card's link; its ::after stretches over the whole card, so the card is one big click target
 def book_card(s, sizes, extra_cls="", lazy=True, heading="h3"):
     b = BOOK[s]
-    search = plain(" ".join([b["title"], b["author"], *(b["genres"])]))
-    return f"""<article class="book-card {extra_cls}" id="book-{s}" style="--card:var(--{b["colour"]});--ink:{ink(b["colour"])}" data-search="{e(search)}" data-genres="{e(" ".join(slug(g) for g in b["genres"]))}" data-rank="{b["popularity"] or 9999}" data-words="{b["words"]}" data-title="{e(plain(b["title"]).removeprefix("the ").removeprefix("a "))}" data-books-slider-item>
+    search = plain(" ".join([b["title"], b["author"], *b["genres"], *b["moods"], *(COLLECTIONS[c] for c in b["collections"])]))
+    return f"""<article class="book-card {extra_cls}" id="book-{s}" style="--card:var(--{b["colour"]});--ink:{ink(b["colour"])}" data-search="{e(search)}" data-genres="{e(" ".join(slug(g) for g in b["genres"]))}" data-book-kind="{b["kind"]}" data-moods="{e(" ".join(slug(m) for m in b["moods"]))}" data-collections="{" ".join(b["collections"])}" data-minutes="{b["minutes"]}" data-rank="{b["popularity"] or 9999}" data-words="{b["words"]}" data-title="{e(plain(b["title"]).removeprefix("the ").removeprefix("a "))}" data-books-slider-item>
   <div class="book-card__cover">{cover(s, sizes, lazy=lazy)}</div>
   {tags(b["genres"], b["colour"])}
   <{heading} class="book-card__title" style="--fit:{fit(b["title"])}"><a class="book-card__link" href="{book_url(s)}" draggable="false">{e(b["title"])}</a></{heading}>
@@ -414,6 +497,21 @@ def icon_button(tag, attrs, text, colour, ic):
             f'{icon(ic, "button-alt__icon")}</span></{tag}>')
 
 
+def daily_line():
+    # A different line each day (js/app.js picks it by the date); without JavaScript, the first one shows
+    lines = [(b["slug"], q) for b in POPULAR for q in QUOTES.get(b["slug"], [])]
+    data = [{"text": quote_text(q["text"]), "book": BOOK[s_]["title"], "author": BOOK[s_]["author"], "colour": BOOK[s_]["colour"],
+             "href": read_at(s_, q), "page": book_url(s_)} for s_, q in lines]
+    first = data[0]
+    return f"""<section class="daily" aria-labelledby="daily-title" data-daily-line>
+  <p class="daily__eyebrow" id="daily-title">Line of the day</p>
+  <blockquote class="daily__text" data-daily-text>{e(first["text"])}</blockquote>
+  <p class="daily__from"><a href="{first["page"]}" data-daily-book>{e(first["book"])}</a>, <span data-daily-author>{e(first["author"])}</span></p>
+  <p class="line__actions daily__actions"><a class="line__open" href="{e(first["href"])}" data-daily-open>{icon("read")}Open at this line</a><button type="button" class="line__share" data-quote-share data-daily-share data-quote="{e(first["text"])}" data-quote-book="{e(first["book"])}" data-quote-author="{e(first["author"])}" data-quote-colour="{first["colour"]}">{icon("share")}<span>Share as a picture</span></button></p>
+  <script type="application/json" data-daily-lines>{json.dumps(data, ensure_ascii=False).replace("</", "<\\/")}</script>
+</section>"""
+
+
 def book_page(s):
     b = BOOK[s]
     # Related: books sharing the most genres, then the rest of the shelf in order
@@ -425,8 +523,32 @@ def book_page(s):
              ("globe", "Language", "English")]
     if b["translator"]:
         facts.append(("type", "Translated by", b["translator"]))
+    facts.append(("sparkles", "Mood", ", ".join(b["moods"])))
     dl = "".join(f"<div><dt>{icon(ic)}{a}</dt><dd>{e(v)}</dd></div>" for ic, a, v in facts)
+    # where this edition comes from, with a link to its page there
+    source = (b["standard_ebooks"], "Standard Ebooks") if b.get("standard_ebooks") else (b.get("gutenberg"), "Project Gutenberg")
+    dl += f'<div><dt>{icon("book")}Edition</dt><dd><a href="{e(source[0])}">{source[1]}</a></dd></div>'
+
     about = "\n    ".join(f"<p>{e(p)}</p>" for p in b["description"])
+    guide = GUIDES.get(s)
+    guide_html = "" if not guide else f"""
+<section class="guide" aria-labelledby="guide-title">
+  <div class="guide__head"><h2 class="guide__title heading-m" id="guide-title">Before you start</h2><p class="guide__note accent-note">No spoilers</p></div>
+  <div class="guide__grid">
+    <div class="guide__part"><h3 class="guide__label">{icon("clock")}When and why</h3><p>{e(guide["when"])}</p></div>
+    <div class="guide__part"><h3 class="guide__label">{icon("heart")}Who you meet</h3><ul>{"".join(f"<li>{e(w)}</li>" for w in guide["who"])}</ul></div>
+    <div class="guide__part"><h3 class="guide__label">{icon("sparkles")}Good to know</h3><ul>{"".join(f"<li>{e(t)}</li>" for t in guide["tips"])}</ul></div>
+  </div>
+</section>"""
+    lines = QUOTES.get(s, [])[:3]
+    lines_html = "" if not lines else f"""
+<section class="lines" aria-labelledby="lines-title">
+  <h2 class="lines__title heading-m" id="lines-title">Lines worth knowing</h2>
+  <ul class="lines__list">
+{"".join(f"""    <li class="line"><blockquote class="line__text">{e(quote_text(q["text"]))}</blockquote>
+      <p class="line__actions"><a class="line__open" href="{e(read_at(s, q))}">{icon("read")}Open at this line</a>{share_button(s, q)}</p></li>
+""" for q in lines)}  </ul>
+</section>"""
     listen = f'\n        <p class="book-hero__listen"><a href="{e(LISTEN[s])}">{icon("listen")}Listen free on LibriVox</a></p>' if s in LISTEN else ""
     return f"""<section class="book-hero" style="--card:var(--{b["colour"]});--ink:{ink(b["colour"])}" data-intro-page aria-labelledby="page-title">
   {bg_svg([("is--glow", shapes.BLOB_A), ("is--glow", shapes.BLOB_B)], "book-hero__shapes", "0 0 1440 1000", small=True)}
@@ -459,7 +581,7 @@ def book_page(s):
     {about}
   </div>
   <dl class="book-about__facts">{dl}</dl>
-</section>
+</section>{guide_html}{lines_html}
 <section class="book-more" aria-labelledby="more-title">
   <h2 class="book-more__title heading-l" id="more-title">You might also like</h2>
   <div class="catalogue__grid is--three">
@@ -477,9 +599,10 @@ ILLUSTRATIONS = {
 }
 STEPS = [
     ("cyan", "browse", "Browse the shelf", "Over a hundred classics, from Austen and Dickens to Sherlock Holmes and Shakespeare."),
-    ("pale-pink", "pick", "Pick your reads", "Every book is free. No sign-up, no ads, no catch."),
+    ("pale-pink", "pick", "Pick your reads", "Every book is free. No ads, no catch, and no account needed."),
     ("yellow", "parcel", "Read anywhere", "Right here in your browser, or download it for your phone, Kindle or Kobo."),
-    ("periwinkle", "talk", "Make it yours", "Highlight the lines you love, keep notes and see how far you have read, all on your own device."),
+    ("periwinkle", "talk", "Make it yours", "Highlight the lines you love, keep notes and see how far you have read."
+     + (" Sign in to have them on every device." if ACCOUNTS else " All on your own device.")),
 ]
 
 
@@ -513,8 +636,8 @@ def home():
          "Yes. Every book page has an EPUB download for phones and most e-readers, and links to Kindle and Kobo "
          "editions. Or just press Read now and read in your browser."),
         ("Will it remember where I stopped?",
-         "Yes, on this device: open the book again and it picks up on your page. Nothing is sent anywhere, so there "
-         "is no account to make."),
+         "Yes: open the book again and it picks up on your page. " + ("With an account, it does on your other devices too."
+         if ACCOUNTS else "It is kept on your device, so there is no account to make.")),
         ("Why are there no new bestsellers?",
          "Recent books are still under copyright, so they cannot be shared for free. Your local library can lend "
          "you most of them, often as ebooks through an app like Libby."),
@@ -523,17 +646,19 @@ def home():
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">{e(a)}</span>{icon("plus", "accordion__icon")}</summary>
   <div class="accordion__content" data-accordion-content><p>{e(b)}</p></div>
 </details>""" for a, b in q)
-    ribbon_text = f"Free, forever ✦ {count} classics ✦ Read here or download ✦ No sign-up, no ads ✦ "
+    ribbon_text = f"Free, forever ✦ {count} classics ✦ Read here or download ✦ No ads, no catch ✦ "
     spot = BOOK[FEATURED["spotlight"]]
     month = TODAY.strftime("%B")
     quote_a = f"“{spot['opening']}”"
-    quote_b = f"That’s the first line. The last is {about(spot['reading_time'])} away."  
+    quote_b = f"That’s the first line. The last is {about(spot['reading_time'])} away."
+    # why it was chosen (tools/picks.py), or for a month without a reason written down, how picks are made
+    spot_why = pick_why(PICKS.get(f"{TODAY.year}-{TODAY.month:02}", "")) or "from the most read classics on the shelf."
     back, front = FEATURED["hero"]
     return f"""<section class="hero" data-intro-home aria-labelledby="hero-title">
   <div class="hero__bg" data-hero-bg>{bg_svg([("is--pale-yellow", shapes.HERO_BAND), ("is--pale-orange", shapes.HERO_RIDGE), ("is--orange", shapes.HERO_HILLS)], "hero__shapes", "0 0 1440 1000")}</div>
   <div class="hero__content">
     <h1 class="hero__title heading-xxl" id="hero-title" data-hero-title>Stories you can’t put down</h1>
-    <p class="hero__text" data-hero-paragraph>The Bookshelf is a free library of the classics: {count} books to read right here or download, from Austen to Sherlock Holmes. No sign-up, no ads, no catch.</p>
+    <p class="hero__text" data-hero-paragraph>The Bookshelf is a free library of the classics: {count} books to read right here or download, from Austen to Sherlock Holmes. No ads, no catch, and no account needed.</p>
     <div data-hero-button>{button_alt("books.html", "Browse the shelf")}</div>
   </div>
   <p class="hero__note accent-note" data-hero-handwritten-text>Free, forever!</p>
@@ -570,6 +695,7 @@ def home():
   </div>
 </section>
 
+{daily_line()}
 <section class="flow" aria-labelledby="flow-title">
   <div class="flow__head">
     <h2 class="flow__title heading-l" id="flow-title">How it works</h2>
@@ -677,12 +803,12 @@ def home():
 
 <section class="spotlight" aria-labelledby="spot-title" data-momentum-hover>
   <h2 class="spotlight__title heading-l" id="spot-title">Book of the month</h2>
-  <p class="spotlight__text">{month}’s pick, from the most read classics on the shelf. A new one on the first of every month.</p>
+  <p class="spotlight__text">{month}’s pick: {e(spot_why[0].lower() + spot_why[1:])} A new one on the first of every month.</p>
   <div class="spotlight__frame">
     <p class="spotlight__quote is--left accent-note" data-handwritten-text-inview>{e(quote_a)}</p>
     <span class="spotlight__sticker is--moon" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="0 0 100 100"><mask id="spot-moon"><rect width="100" height="100" fill="#fff"/><circle cx="64" cy="38" r="34" fill="#000"/></mask><circle cx="50" cy="50" r="42" fill="var(--yellow)" mask="url(#spot-moon)"/></svg></span></span>
     <span class="spotlight__sticker is--star" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="-12 -12 24 24"><path d="{sparkle_path()}" fill="var(--magenta)"/></svg></span></span>
-    <span class="spotlight__sticker is--seal" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="0 0 100 100"><path d="{burst(18, 50, 44)}" fill="var(--violet)"/><text x="50" y="47" text-anchor="middle">Staff</text><text x="50" y="66" text-anchor="middle">pick</text></svg></span></span>
+    <span class="spotlight__sticker is--seal" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="0 0 100 100"><path d="{burst(18, 50, 44)}" fill="var(--violet)"/><text x="50" y="47" text-anchor="middle">This</text><text x="50" y="66" text-anchor="middle">month</text></svg></span></span>
     <article class="spotlight__card">
       <div class="spotlight__cover">{cover(spot["slug"], "(max-width: 991px) 60vw, 20em")}</div>
       {tags([*spot["genres"][:1], "Book of the month"])}
@@ -700,16 +826,41 @@ def home():
 {library_data()}"""
 
 
-def genre_block(link, eyebrow="Choose from", more="and more!"):
-    # each genre shows four covers around it, its most read books
+def group_books(name):
+    # a genre, "Non-fiction", or a collection such as "From India": its books, most read first
+    if name == "Non-fiction":
+        return [b for b in LIBRARY if b["kind"] == "nonfiction"]
+    collection = next((key for key, label in COLLECTIONS.items() if label == name), None)
+    if collection:
+        return [b for b in LIBRARY if collection in b["collections"]]
+    return [b for b in LIBRARY if name in b["genres"]]
+
+
+def group_query(name):
+    if name == "Non-fiction":
+        return "kind=nonfiction"
+    collection = next((key for key, label in COLLECTIONS.items() if label == name), None)
+    return f"collection={collection}" if collection else f"genre={slug(name)}"
+
+
+# Home lists the stories by genre, then non-fiction and the books from India as one entry each; the Genres page has
+# a shelf for every group
+HOME_GROUPS = FICTION + ["Non-fiction", "From India"]
+SHELF_GROUPS = ["From India"] + FICTION + NONFICTION
+
+
+def genre_block(link, eyebrow="Choose from", more="and more!", groups=HOME_GROUPS):
+    # each group shows four covers around it, its most read books
     def covers_for(g):
-        return [b["slug"] for b in LIBRARY if g in b["genres"]][:4]
+        # four covers, repeating a small group's own (Essays and letters has two books, so far)
+        mine = [b["slug"] for b in group_books(g)][:4]
+        return [mine[i % len(mine)] for i in range(4)]
     holders = []
     for h in range(4):
-        imgs = "".join(cover(covers_for(g)[h], "17em", alt="", cls="genre__img") for g in GENRES)
+        imgs = "".join(cover(covers_for(g)[h], "17em", alt="", cls="genre__img") for g in groups)
         holders.append(f'<div class="genre__holder"><div class="genre__box" data-genre-interaction-box>{imgs}</div></div>')
     items = "\n".join(f"""<li class="genre__item" data-genre-interaction-item><a class="genre__link" href="{link(g)}">
-  <span class="genre__default">{e(g)}</span><span class="genre__hover" aria-hidden="true">{e(g)}</span></a></li>""" for g in GENRES)
+  <span class="genre__default">{e(g)}</span><span class="genre__hover" aria-hidden="true">{e(g)}</span></a></li>""" for g in groups)
     return f"""<section class="genre" id="genres" aria-labelledby="genre-title" data-genre-interaction>
   <p class="genre__eyebrow" id="genre-title">{e(eyebrow)}</p>
   <p class="genre__note accent-note" data-handwritten-text-inview>A classic for every kind of reader</p>
@@ -726,8 +877,8 @@ def genre_block(link, eyebrow="Choose from", more="and more!"):
 
 def genres_page():
     shelves = []
-    for g in GENRES:
-        mine = [b for b in LIBRARY if g in b["genres"]]
+    for g in SHELF_GROUPS:
+        mine = group_books(g)
         covers = "\n".join(f"""<li class="shelf__item"><a class="shelf__book" href="{book_url(b["slug"])}">
   {cover(b["slug"], "(max-width: 991px) 38vw, 13em")}
   <span class="shelf__title">{e(b["title"])}</span><span class="shelf__author">{e(b["author"])}</span></a></li>""" for b in mine[:10])
@@ -735,7 +886,7 @@ def genres_page():
   <div class="shelf__head">
     <h2 class="shelf__name heading-m" id="shelf-{slug(g)}-title">{e(g)}</h2>
     <p class="shelf__count">{len(mine)} books, most read first</p>
-    {button_alt(f"books.html?genre={slug(g)}", f"All {len(mine)}", "black", size="small")}
+    {button_alt(f"books.html?{group_query(g)}", f"All {len(mine)}", "black", size="small")}
   </div>
   <ul class="shelf__row" data-shelf-row tabindex="0" aria-label="{e(g)} books">
 {covers}
@@ -744,14 +895,40 @@ def genres_page():
     return f"""<section class="hero-xs is--pale-pink" data-intro-page aria-labelledby="page-title">
   {bg_svg([("is--glow", shapes.BLOB_A), ("is--glow", shapes.BLOB_B)], "hero-xs__shapes", "0 0 1440 1000", small=True)}
   <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>Every genre</h1>
-  <p class="hero-xs__text" data-hero-paragraph>Eleven kinds of classic, from love stories to ghost stories. Pick a mood, or scroll the shelves.</p>
+  <p class="hero-xs__text" data-hero-paragraph>{len(GENRES)} kinds of classic, from love stories and ghost stories to lives, letters and ideas, and a shelf of books from India.</p>
   <p class="hero-xs__note accent-note" data-hero-handwritten-text>What are you in the mood for?</p>
 </section>
-{genre_block(lambda g: f"#shelf-{slug(g)}", eyebrow="Jump to", more="or scroll on!")}
+{genre_block(lambda g: f"#shelf-{slug(g)}", eyebrow="Jump to", more="or scroll on!", groups=SHELF_GROUPS)}
 <div class="shelves">
 {chr(10).join(shelves)}
 </div>"""
 
+
+ACCOUNT_FAQ = [
+    ("Do I need an account?",
+     "No. Reading, downloading, your place in each book, your highlights, notes and reading time all work without one. "
+     "They are kept on your own device, and Your reading shows them all."),
+    *([
+        ("What does an account add?",
+         "Your reading on every device: sign in on your phone and your laptop, and your place in each book, your "
+         "highlights, notes and reading time are on both. You also get a name and a reader page you can share if you "
+         "want to, with what you are reading and have finished.", ("Your account", "account.html")),
+        ("Who can see my reading?",
+         "Only you, unless you share your reader page. Then anyone with its link sees your name, the books you are "
+         "reading and have finished, your reading time and, if you choose, the lines you highlighted. Your notes are "
+         "never shown to anyone."),
+        ("How do I sign in?",
+         "With your Google account, or with an email address and a password. Forgot it? Press Forgot your password on "
+         "the sign-in page and we will email you a link to choose a new one."),
+        ("Can I delete my account?",
+         "Yes, at any time, on Your account. Everything it keeps is removed for good. Your own device keeps its copy, so "
+         "you can carry on reading without an account."),
+    ] if ACCOUNTS else []),
+    ("Can I move my notes to another phone or laptop?",
+     ("Sign in on both and they are on both. Or, without an account: " if ACCOUNTS else "Yes. ")
+     + "On Your reading, Back up saves everything to one small file; open Your reading on the other device and choose "
+     "Restore with that file."),
+]
 
 FAQ_TOPICS = [
     ("reading", "Reading", "pale-blue", "read", [
@@ -759,11 +936,12 @@ FAQ_TOPICS = [
          "Open any book and press Read now. It opens right in your browser: on a laptop you turn the pages with the "
          "arrows, the arrow keys or a swipe, and on a phone you simply scroll."),
         ("Will it remember where I stopped?",
-         "Yes, on this device. Open the book again and it picks up on your page, and the home page lists the books "
-         "you are reading. Nothing is sent anywhere."),
+         "Yes. Open the book again and it picks up on your page, and the home page lists the books you are reading. "
+         + ("It is kept on this device, and in your account if you sign in, so your other devices know it too."
+            if ACCOUNTS else "It is kept on this device.")),
         ("Can I change how the text looks?",
          "Press Text in the reader: make the type bigger or smaller, choose a Paper, Sepia or Night page, and read in "
-         "the book's own font, a serif or a sans."),
+         "Literata (a serif made for reading on screens), Georgia or a sans."),
         ("Does it work without the internet?",
          "Yes, for the books you keep on this device: press Keep for offline reading on a book's page, or in the "
          "reader's Text settings, and it opens with no connection at all. Downloaded books work anywhere too."),
@@ -780,41 +958,41 @@ FAQ_TOPICS = [
     ]),
     ("books", "The books", "pale-pink", "bookmark", [
         ("Where do the books come from?",
-         "They are Standard Ebooks editions: public-domain classics carefully proofread and typeset by volunteers, "
-         "with covers made from public-domain paintings."),
+         "Almost all are Standard Ebooks editions: public-domain classics carefully proofread and typeset by volunteers, "
+         "with covers made from public-domain paintings. A few classics from India that Standard Ebooks does not have "
+         "come from Project Gutenberg. Each book's page says which edition it is."),
         ("How are the books ranked?",
          "By how much they are read. The order comes from Standard Ebooks' popularity ranking, so All books starts "
          "with the most read, and Where to start on the home page is the top ten."),
         ("How is the book of the month chosen?",
-         "It takes turns among the twelve most read books, one a month, changing on the first. Its first line is "
-         "printed beside it."),
+         "A new one on the first of every month, chosen for how much it is read, here and on Open Library, how "
+         "readers rate it, and the time of year: ghost stories in October, A Christmas Carol in December. No book "
+         "comes round twice in a year, nor an author twice in six months, and every third month is a short read. "
+         "The home page says why each one was chosen."),
         ("Will there be more books?",
          "Yes, a few at a time. Every new one gets its own page, with a cover, a description and the download."),
     ]),
     ("copyright", "Free and fair", "pale-periwinkle", "globe", [
         ("Are the books really free?",
-         "Yes. They are in the public domain, so they belong to everyone. No sign-up, no ads, no catch."),
+         "Yes. They are in the public domain, so they belong to everyone. No ads, no catch, and no account needed."),
         ("Why are there no new bestsellers or manga?",
          "Recent books, such as Colleen Hoover's, and manga such as One Piece are still under copyright, so they "
          "cannot be shared for free. Your local library can lend you most of them, often as ebooks through an app "
          "like Libby."),
         ("Are they free where I live?",
          "Every book here is in the public domain in the United States and in India, where copyright lasts for the "
-         "author's life and sixty years. Most are free almost everywhere, but check your country's rules."),
+         "author's life and sixty years. That goes for translators, illustrators and cover painters too: where a cover "
+         "painting is still under copyright in India, the book has a cover drawn here instead. Most books are free almost "
+         "everywhere, but check your country's rules."),
         ("Do you track what I read?",
          "We count, without cookies and without knowing who you are, how often each page is visited and how often "
          "each book is opened, reaches its second chapter, is finished or is downloaded. That is how the book of the "
          "month learns what people enjoy. If your browser asks sites not to track you, we count nothing at all. Your "
-         "place in each book stays on your own device."),
+         "reading stays on your own device" + (", and in your account if you make one, where only you can see it." if ACCOUNTS else ".")),
+        ("What do you keep about me?",
+         "The privacy page says exactly what is kept, where, and how to remove it.", ("Read it", "privacy.html")),
     ]),
-    ("account", "Your account", "pale-yellow", "sparkles", [
-        ("Do I need an account?",
-         "No. Reading, downloading, your place in each book, your highlights, notes and reading time all work "
-         "without one. They are kept on your own device, and Your reading shows them all."),
-        ("Can I move my notes to another phone or laptop?",
-         "Yes. On Your reading, Back up saves everything to one small file; open Your reading on the other device "
-         "and choose Restore with that file. There are no accounts yet, so nothing about you is stored anywhere else."),
-    ]),
+    ("account", "Your account", "pale-yellow", "sparkles", ACCOUNT_FAQ),
     ("contact", "Contact", "soft-orange", "mail", [
         ("How can I get in touch?",
          "Through the project on GitHub, where you can report a problem or suggest a book."),
@@ -836,10 +1014,10 @@ def faq_page():
     groups = "\n".join(f"""<section class="faqs__group" id="{key}" style="--tint:var(--{colour})" data-faq-group aria-labelledby="{key}-title">
   <h2 class="faqs__title heading-m" id="{key}-title">{e(name)}</h2>
   <div class="faqs__list">
-{chr(10).join(accordion(q, a, ("Open GitHub", "https://github.com/Cl0ud-9/Book-Website/issues") if key == "contact" else None) for q, a in items)}
+{chr(10).join(accordion(q, a, ("Open GitHub", "https://github.com/Cl0ud-9/Book-Website/issues") if key == "contact" else (more[0] if more else None)) for q, a, *more in items)}
   </div>
 </section>""" for key, name, colour, ic, items in FAQ_TOPICS)
-    ribbon_text = f"Free, forever ✦ {len(LIBRARY)} classics ✦ Read here or download ✦ No sign-up, no ads ✦ "
+    ribbon_text = f"Free, forever ✦ {len(LIBRARY)} classics ✦ Read here or download ✦ No ads, no catch ✦ "
     return f"""<section class="hero-xs is--pale-blue" data-intro-page aria-labelledby="page-title">
   {bg_svg([("is--soft-blue", shapes.BLOB_A), ("is--soft-blue", shapes.BLOB_B)], "hero-xs__shapes", "0 0 1440 1000", small=True)}
   <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>Common questions</h1>
@@ -869,17 +1047,228 @@ def faq_page():
 </section>"""
 
 
+GOOGLE_G = ('<svg class="acct__g" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>'
+            '<path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>'
+            '<path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>'
+            '<path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>')
+AVATAR_COLOURS = [("yellow", "Yellow"), ("orange", "Orange"), ("magenta", "Pink"), ("cyan", "Blue"), ("violet", "Violet"),
+                  ("periwinkle", "Lilac"), ("pale-green", "Green"), ("olive", "Olive")]
+AVATAR_MARKS = [("book", "Book"), ("star", "Star"), ("moon", "Moon"), ("sun", "Sun"), ("leaf", "Leaf"), ("feather", "Feather"),
+                ("coffee", "Coffee"), ("cat", "Cat")]
+
+
+def account_page():
+    # Your account (js/account-page.js): sign in or create one, choose a name, and manage what it keeps
+    colours = "".join(f'<label class="acct__swatch" title="{label}"><input type="radio" name="colour" value="{c}"{" checked" if i == 0 else ""}>'
+                      f'<span style="--c:var(--{c})"></span><span class="sr-only">{label}</span></label>' for i, (c, label) in enumerate(AVATAR_COLOURS))
+    marks = "".join(f'<label class="acct__mark" title="{label}"><input type="radio" name="mark" value="{m}"{" checked" if i == 0 else ""}>'
+                    f'<span>{icon(m)}</span><span class="sr-only">{label}</span></label>' for i, (m, label) in enumerate(AVATAR_MARKS))
+    return f"""<section class="hero-xs is--soft-periwinkle" data-intro-page aria-labelledby="page-title">
+  {bg_svg([("is--pale-periwinkle", shapes.BLOB_A), ("is--pale-periwinkle", shapes.BLOB_B)], "hero-xs__shapes", "0 0 1440 1000", small=True)}
+  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>Your account</h1>
+  <p class="hero-xs__text" data-hero-paragraph>{"Your place in every book, your highlights, notes and reading time, on every device you sign in on. Free, and you can delete it whenever you like." if ACCOUNTS else "There are no accounts on this copy of the Bookshelf yet, and nothing needs one: your reading is kept on this device."}</p>
+  <p class="hero-xs__note accent-note" data-hero-handwritten-text>{"One shelf, every device" if ACCOUNTS else "Read away"}</p>
+</section>
+<div class="mine acct" data-account-page>
+  <noscript><p class="mine__empty">Accounts need JavaScript.</p></noscript>
+  <p class="mine__empty" data-acct-off hidden>Accounts aren’t switched on for this copy of the Bookshelf. Everything still works on this device: see <a href="reading.html">Your reading</a>.</p>
+  <p class="mine__empty acct__checking" data-acct-checking>{icon("sync")}Checking whether you’re signed in…</p>
+
+  <section class="mine__section acct__out" data-acct-out hidden aria-labelledby="out-title">
+    <h2 class="mine__title" id="out-title" data-acct-out-title>Sign in</h2>
+    <button type="button" class="acct__google" data-acct-google>{GOOGLE_G}<span>Continue with Google</span></button>
+    <p class="acct__or"><span>or with your email</span></p>
+    <div class="acct__tabs" role="tablist" aria-label="Sign in or create an account">
+      <button type="button" role="tab" id="acct-tab-in" aria-controls="acct-form" aria-selected="true" data-acct-mode="in">I have an account</button>
+      <button type="button" role="tab" id="acct-tab-up" aria-controls="acct-form" aria-selected="false" tabindex="-1" data-acct-mode="up">I’m new here</button>
+    </div>
+    <form class="acct__form" id="acct-form" role="tabpanel" aria-labelledby="acct-tab-in" data-acct-email novalidate>
+      <label class="acct__field"><span class="acct__label">Email</span><input class="acct__input" type="email" name="email" autocomplete="email" inputmode="email" required></label>
+      <label class="acct__field"><span class="acct__label">Password <span class="acct__hint" data-acct-password-hint hidden>(at least 8 characters)</span></span>
+        <span class="acct__password"><input class="acct__input" type="password" name="password" autocomplete="current-password" required minlength="8">
+        <button type="button" class="acct__show" data-acct-show aria-pressed="false" aria-label="Show the password">{icon("eye")}</button></span></label>
+      <button type="submit" class="acct__submit" data-acct-submit>Sign in</button>
+      <button type="button" class="acct__link" data-acct-forgot>Forgot your password?</button>
+    </form>
+    <p class="acct__message" role="status" aria-live="polite" data-acct-message></p>
+    <p class="acct__small">Your email is used only to sign you in. <a href="privacy.html">What an account keeps</a>.</p>
+  </section>
+
+  <form class="mine__section acct__setup" data-acct-setup hidden novalidate aria-labelledby="setup-title">
+    <h2 class="mine__title" id="setup-title" data-acct-setup-title>Make it yours</h2>
+    <p class="mine__text">Your name and username are shown on your reader page, if you choose to share it. Nothing else about you is.</p>
+    <div class="acct__preview" aria-hidden="true"><span data-acct-preview-avatar></span><span class="acct__preview-text"><strong data-acct-preview-name>Your name</strong><span data-acct-preview-handle>@username</span></span></div>
+    <label class="acct__field"><span class="acct__label">Name</span><input class="acct__input" name="name" maxlength="40" autocomplete="name" required aria-describedby="acct-name-note"><span class="acct__note" id="acct-name-note" data-acct-name-note></span></label>
+    <label class="acct__field"><span class="acct__label">Username</span><span class="acct__at"><span aria-hidden="true">@</span><input class="acct__input" name="handle" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" required aria-describedby="acct-handle-note"></span><span class="acct__note" id="acct-handle-note" data-acct-handle-note>3 to 20 small letters, numbers or _</span></label>
+    <fieldset class="acct__choices"><legend class="acct__label">Colour</legend><div class="acct__options">{colours}</div></fieldset>
+    <fieldset class="acct__choices"><legend class="acct__label">Mark</legend><div class="acct__options">{marks}</div></fieldset>
+    <p class="mine__actions"><button type="submit" class="mine__button is--primary" data-acct-save>{icon("check")}Save</button><button type="button" class="mine__button is--quiet" data-acct-cancel hidden>Cancel</button></p>
+    <p class="acct__message" role="status" aria-live="polite" data-acct-setup-message></p>
+  </form>
+
+  <div class="acct__in" data-acct-in hidden>
+    <section class="mine__section acct__me" aria-labelledby="me-name">
+      <div class="acct__card"><span data-acct-avatar></span><div class="acct__card-text"><h2 class="acct__name" id="me-name" data-acct-name></h2><p class="acct__handle" data-acct-handle></p><p class="acct__since" data-acct-since></p></div></div>
+      <p class="mine__actions"><button type="button" class="mine__button" data-acct-edit>{icon("pencil")}Edit your name and mark</button><a class="mine__button" href="reading.html">{icon("library")}Your reading</a></p>
+      <div class="acct__verify" data-acct-verify hidden><p>Please confirm your email address: we sent a link to <strong data-acct-email></strong>. It keeps your account yours if you ever forget your password.</p>
+        <p class="mine__actions"><button type="button" class="mine__button is--small" data-acct-verify-again>Send it again</button><button type="button" class="mine__button is--small is--quiet" data-acct-verify-check>I’ve confirmed it</button></p></div>
+    </section>
+    <section class="mine__section" aria-labelledby="sync-title">
+      <h2 class="mine__title" id="sync-title">On every device</h2>
+      <p class="mine__text">Your place in each book, your highlights and notes, and your reading time are kept in your account. Sign in on another phone or laptop and they are there too.</p>
+      <p class="acct__sync" data-acct-sync>{icon("cloud")}<span data-acct-sync-text>Not kept yet</span><button type="button" class="mine__button is--small" data-acct-sync-now>{icon("sync")}Sync now</button></p>
+      <p class="mine__text is--small">Books kept for offline reading, and how you like the text to look, stay with each device.</p>
+    </section>
+    <section class="mine__section" aria-labelledby="page-share-title">
+      <h2 class="mine__title" id="page-share-title">Your reader page</h2>
+      <p class="mine__text">A page with your name and mark, what you are reading, the books you have finished and your reading time. Your notes are never on it.</p>
+      <label class="acct__switch"><input type="checkbox" role="switch" data-acct-public><span class="acct__switch-track" aria-hidden="true"></span><span>Share my reader page with anyone who has the link</span></label>
+      <label class="acct__switch" data-acct-lines-row><input type="checkbox" role="switch" data-acct-lines><span class="acct__switch-track" aria-hidden="true"></span><span>Show the lines I highlight on it</span></label>
+      <p class="mine__actions" data-acct-page-links hidden><a class="mine__button" href="profile.html" data-acct-page-link>{icon("user")}See your page</a><button type="button" class="mine__button" data-acct-copy>{icon("link")}Copy the link</button></p>
+      <p class="acct__message" role="status" aria-live="polite" data-acct-share-message></p>
+    </section>
+    <section class="mine__section" aria-labelledby="leave-title">
+      <h2 class="mine__title" id="leave-title">Sign out or delete</h2>
+      <p class="mine__text">Signing out keeps a copy of your reading on this device, so you can carry on without an account. On a shared or borrowed device, sign out and clear it.</p>
+      <p class="mine__actions"><button type="button" class="mine__button" data-acct-signout>{icon("logout")}Sign out</button><button type="button" class="mine__button" data-acct-signout-clear>{icon("logout")}Sign out and clear this device</button></p>
+      <p class="mine__text">Deleting your account removes everything it keeps, for good. This device keeps its own copy.</p>
+      <label class="acct__field" data-acct-reauth hidden><span class="acct__label">Your password, to confirm it’s you</span><input class="acct__input" type="password" autocomplete="current-password" data-acct-reauth-password></label>
+      <p class="mine__actions"><button type="button" class="mine__button is--danger" data-acct-delete>{icon("trash")}<span>Delete my account</span></button></p>
+      <p class="acct__message" role="status" aria-live="polite" data-acct-leave-message></p>
+    </section>
+  </div>
+</div>
+{library_data()}"""
+
+
+def profile_page():
+    # A reader's page (profile.html?u=username): filled in by js/account-page.js from what they chose to share
+    return f"""<section class="hero-xs is--pale-yellow acct__hero" data-intro-page aria-labelledby="page-title">
+  {bg_svg([("is--yellow", shapes.BLOB_A), ("is--yellow", shapes.BLOB_B)], "hero-xs__shapes", "0 0 1440 1000", small=True)}
+  <span class="acct__hero-avatar" data-profile-avatar></span>
+  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title data-profile-name>A reader</h1>
+  <p class="hero-xs__text" data-hero-paragraph data-profile-about>A reader at the Bookshelf</p>
+  <p class="hero-xs__note accent-note" data-hero-handwritten-text>Happy reading!</p>
+</section>
+<div class="mine acct" data-profile-page>
+  <noscript><p class="mine__empty">Reader pages need JavaScript.</p></noscript>
+  <p class="mine__empty" data-profile-status>Opening this reader page…</p>
+  <div class="mine__stats is--three" data-profile-stats hidden>
+    <p class="mine__stat"><span class="mine__stat-value" data-profile-stat="finished">0</span><span class="mine__stat-label">books finished</span></p>
+    <p class="mine__stat"><span class="mine__stat-value" data-profile-stat="reading">0</span><span class="mine__stat-label">reading now</span></p>
+    <p class="mine__stat"><span class="mine__stat-value" data-profile-stat="time">0 min</span><span class="mine__stat-label">read in all</span></p>
+  </div>
+  <section class="mine__section" aria-labelledby="p-reading-title" data-profile-reading hidden>
+    <h2 class="mine__title" id="p-reading-title">Reading now</h2>
+    <ol class="mine__books" data-profile-reading-list></ol>
+  </section>
+  <section class="mine__section" aria-labelledby="p-finished-title" data-profile-finished hidden>
+    <h2 class="mine__title" id="p-finished-title">Finished</h2>
+    <ul class="mine__books is--compact" data-profile-finished-list></ul>
+  </section>
+  <section class="mine__section" aria-labelledby="p-lines-title" data-profile-lines hidden>
+    <h2 class="mine__title" id="p-lines-title">Lines they loved</h2>
+    <ul class="lines__list" data-profile-lines-list></ul>
+  </section>
+  <p class="acct__small" data-profile-foot hidden><a href="account.html" data-profile-mine>Make your own reader page</a> · <a href="#" data-profile-report>Report this page</a></p>
+</div>
+{library_data()}"""
+
+
+def privacy_page():
+    accounts = f"""
+  <h2>If you make an account</h2>
+  <p>Accounts are run on Google’s Firebase. Signing in uses Firebase Authentication; what your account keeps is stored in Cloud Firestore.</p>
+  <ul>
+    <li><strong>To sign you in:</strong> your email address, and your password if you made one (Firebase stores only a scrambled form of it, which nobody can read). Signing in with Google also gives Firebase your Google account’s name and picture, which this site does not use or show.</li>
+    <li><strong>What you choose:</strong> your name, username, colour and mark.</li>
+    <li><strong>Your reading:</strong> your place in each book, your highlights and notes, and how long you read each day on each device.</li>
+  </ul>
+  <p>Only you can read or change these, and the database’s rules (in the site’s source) enforce that. Nobody else, not even other readers, can see them, unless you share your reader page: then anyone with its link sees your name, username, colour and mark, the books you are reading and have finished, your total reading time and, only if you choose, the lines you highlighted. Your notes are never shown.</p>
+  <p>You can change or delete any of it at any time on <a href="account.html">Your account</a>. Deleting your account removes everything it keeps, at once and for good. If you have not signed in for two years, we may delete your account.</p>""" if ACCOUNTS else ""
+    return f"""<section class="hero-xs is--soft-blue" data-intro-page aria-labelledby="page-title">
+  {bg_svg([("is--pale-blue", shapes.BLOB_A), ("is--pale-blue", shapes.BLOB_B)], "hero-xs__shapes", "0 0 1440 1000", small=True)}
+  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>Privacy</h1>
+  <p class="hero-xs__text" data-hero-paragraph>What the Bookshelf keeps about you, where, and how to remove it. In short: as little as it can.</p>
+  <p class="hero-xs__note accent-note" data-hero-handwritten-text>No ads, no selling</p>
+</section>
+<article class="prose" data-prose>
+  <h2>Without an account</h2>
+  <p>Everything you do while reading stays in your own browser: your place in each book, your highlights and notes, your reading time, how you like the text, and the books you keep for offline reading. This site cannot see it. Your reading shows it all, backs it up to a file, and clears it.</p>
+  <h2>Counting visits</h2>
+  <p>We count, with GoatCounter and without cookies, how often each page is visited and how often each book is opened, reaches its second chapter, is finished or is downloaded. GoatCounter does not know who you are and keeps no personal data. If your browser asks sites not to track you (Do Not Track or Global Privacy Control), nothing is counted.</p>{accounts}
+  <h2>Other sites</h2>
+  <p>The site is hosted by GitHub Pages, which, like any web host, sees your IP address when your browser asks for a page. Looking up a word asks Wiktionary for its meaning, and listening to a book takes you to LibriVox. Each has its own privacy policy.</p>
+  <h2>Questions</h2>
+  <p>Ask through the project on <a href="https://github.com/Cl0ud-9/Book-Website/issues">GitHub</a>. There are no ads here, and nothing about you is ever sold or shared.</p>
+  <p class="prose__date">Last changed on 24 October 2026.</p>
+</article>"""
+
+
+def redirect_page(target):
+    # The old demo log-in and sign-up pages, kept so links to them still lead somewhere
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Bookshelf</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="{SITE}{target}">
+<meta http-equiv="refresh" content="0; url={target}">
+</head>
+<body><p><a href="{target}">Continue to the Bookshelf</a></p></body>
+</html>
+"""
+
+
+def feed():
+    # An Atom feed of the books of the month, newest first: one entry a month, up to this one
+    today = datetime.date.today()
+    months = sorted((m for m in PICKS if m <= f"{today.year}-{today.month:02}"), reverse=True)
+    entries = []
+    for m in months:
+        slug_ = pick_book(PICKS[m])
+        if slug_ not in BOOK:
+            continue
+        b = BOOK[slug_]
+        when = f"{m}-01T00:00:00Z"
+        name = datetime.date(int(m[:4]), int(m[5:]), 1).strftime("%B %Y")
+        why = pick_why(PICKS[m])
+        summary = f"{b['abstract']} {why}".strip()
+        entries.append(f"""  <entry>
+    <title>Book of the month for {name}: {e(b['title'])} by {e(b['author'])}</title>
+    <link href="{SITE}{book_url(slug_)}"/>
+    <id>{SITE}{book_url(slug_)}#{m}</id>
+    <updated>{when}</updated>
+    <summary>{e(summary)}</summary>
+  </entry>
+""")
+    updated = f"{months[0]}-01T00:00:00Z" if months else f"{today.isoformat()}T00:00:00Z"
+    return f"""<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>The Bookshelf: book of the month</title>
+  <subtitle>A free classic to read each month, chosen on the first.</subtitle>
+  <link href="{SITE}"/>
+  <link rel="self" href="{SITE}feed.xml"/>
+  <id>{SITE}</id>
+  <updated>{updated}</updated>
+  <author><name>The Bookshelf</name></author>
+{"".join(entries)}</feed>
+"""
+
+
 def reading_page():
     # Your reading: what this device keeps (places, notes, reading time, books kept offline), filled in by
     # js/your-reading.js. Without JavaScript there is nothing on the device to show, and the page says so.
     return f"""<section class="hero-xs is--pale-yellow" data-intro-page aria-labelledby="page-title">
   {bg_svg([("is--yellow", shapes.BLOB_A), ("is--yellow", shapes.BLOB_B)], "hero-xs__shapes", "0 0 1440 1000", small=True)}
   <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>Your reading</h1>
-  <p class="hero-xs__text" data-hero-paragraph>Your books, highlights, notes and reading time. All of it lives on this device, and none of it is sent anywhere.</p>
+  <p class="hero-xs__text" data-hero-paragraph>Your books, highlights, notes and reading time. {"Kept on this device, and in your account when you sign in." if ACCOUNTS else "All of it lives on this device, and none of it is sent anywhere."}</p>
   <p class="hero-xs__note accent-note" data-hero-handwritten-text>Just for you</p>
 </section>
 <div class="mine" data-your-reading>
   <noscript><p class="mine__empty">Your reading needs JavaScript: it shows what this browser keeps for you.</p></noscript>
+  <p class="mine__account" data-mine-account hidden></p>
   <section class="mine__section" id="week" aria-labelledby="week-title">
     <h2 class="mine__title heading-m" id="week-title">Your week</h2>
     <div class="mine__stats">
@@ -918,7 +1307,7 @@ def reading_page():
   </section>
   <section class="mine__section" id="backup" aria-labelledby="backup-title">
     <h2 class="mine__title heading-m" id="backup-title">Back up and restore</h2>
-    <p class="mine__text">Everything on this page is kept in this browser only. Back up saves it to one small file, to keep safe or to restore on another phone or laptop. Clearing your browser's data for this site removes it.</p>
+    <p class="mine__text">{"Signed in, all of this is also kept in your account. Without one, it" if ACCOUNTS else "Everything on this page"} is kept in this browser only. Back up saves it to one small file, to keep safe or to restore on another phone or laptop. Clearing your browser's data for this site removes it.</p>
     <p class="mine__actions">
       <button type="button" class="mine__button" data-backup>{icon("save")}Back up</button>
       <label class="mine__button">{icon("up")}Restore<input class="sr-only" type="file" accept="application/json,.json" data-restore></label>
@@ -947,8 +1336,12 @@ def burst(points=14, r1=50, r2=40):
 
 def books_page():
     cards = "\n".join(book_card(b["slug"], "(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em") for b in LIBRARY)
-    chips = "".join(f'<li><button type="button" class="chip" aria-pressed="false" data-genre="{slug(g)}">{e(g)}</button></li>'
+    chips = "".join(f'<li><button type="button" class="chip" aria-pressed="false" data-genre="{slug(g)}" data-chip-kind="{"nonfiction" if g in NONFICTION else "fiction"}">{e(g)}</button></li>'
                     for g in GENRES)
+    chips += "".join(f'<li><button type="button" class="chip is--collection" aria-pressed="false" data-collection="{key}">{e(label)}</button></li>'
+                     for key, label in COLLECTIONS.items())
+    moods = "".join(f'<option value="{slug(m)}">{e(m)}</option>' for m in MOODS)
+    lengths = "".join(f'<option value="{key}">{e(label)}</option>' for key, label, _, _ in LENGTHS)
     return f"""<section class="hero-xs is--pale-blue" data-intro-page aria-labelledby="page-title">
   {bg_svg([("is--soft-blue", shapes.BLOB_A), ("is--soft-blue", shapes.BLOB_B)], "hero-xs__shapes", "0 0 1440 1000", small=True)}
   <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>All books</h1>
@@ -961,13 +1354,23 @@ def books_page():
     {icon("search", "search__icon")}
     <input class="search__input" type="search" id="search-box" placeholder="Search titles, authors or genres" autocomplete="off" data-search-input>
   </form>
+  <div class="kinds" role="group" aria-label="Fiction or non-fiction">
+    <button type="button" class="kinds__button" aria-pressed="true" data-kind="">All books</button>
+    <button type="button" class="kinds__button" aria-pressed="false" data-kind="fiction">Fiction</button>
+    <button type="button" class="kinds__button" aria-pressed="false" data-kind="nonfiction">Non-fiction</button>
+  </div>
   <ul class="chips" aria-label="Filter by genre">{chips}</ul>
   <div class="sorter">
-    <label class="sorter__label" for="sort-books">Sort by</label>
+    <span class="sorter__item"><label class="sorter__label" for="mood-books">Mood</label>
+    <select class="sorter__select" id="mood-books" data-mood><option value="">Any mood</option>{moods}</select></span>
+    <span class="sorter__item"><label class="sorter__label" for="length-books">Length</label>
+    <select class="sorter__select" id="length-books" data-length><option value="">Any length</option>{lengths}</select></span>
+    <span class="sorter__item"><label class="sorter__label" for="sort-books">Sort by</label>
     <select class="sorter__select" id="sort-books" data-sort>
       <option value="rank">Most read</option><option value="title">Title, A to Z</option>
       <option value="short">Shortest first</option><option value="long">Longest first</option>
-    </select>
+    </select></span>
+    <button type="button" class="sorter__clear" data-clear-filters hidden>Clear filters</button>
   </div>
   <h2 class="sr-only">Books</h2>
   <p class="catalogue__status" role="status" aria-live="polite" data-search-status>Showing all {len(LIBRARY)} books.</p>
@@ -978,48 +1381,11 @@ def books_page():
 </section>"""
 
 
-def field(fid, label, ftype, autocomplete, hint="", extra=""):
-    hint_html = f' <span class="field__hint">{e(hint)}</span>' if hint else ""
-    return f"""<div class="field">
-  <label class="field__label" for="{fid}">{e(label)}{hint_html}</label>
-  <input class="field__input" type="{ftype}" id="{fid}" name="{fid}" autocomplete="{autocomplete}" aria-describedby="{fid}-error" {extra}>
-  <p class="field__error" id="{fid}-error" aria-live="polite"></p>
-</div>"""
-
-
-def form_page(kind):
-    if kind == "login":
-        fields = field("username", "Username", "text", "username") + field("password", "Password", "password", "current-password")
-        title, text, note, cta = "Welcome back", "Log in to pick up where you left off.", "We saved your spot", "Log in"
-        switch = 'New here? <a href="signup.html">Create an account</a>'
-        colour = "pale-pink"
-    else:
-        fields = (field("username", "Username", "text", "username")
-                  + field("password", "Password", "password", "new-password", "(at least 6 characters)")
-                  + field("confirm", "Confirm password", "password", "new-password")
-                  + field("contact", "Contact number", "tel", "tel-national", "(10 digits)", 'inputmode="numeric" maxlength="10"'))
-        title, text, note, cta = "Join the Bookshelf", "One account for your shelf, your wish list and your gift cards.", "It takes a minute", "Sign up"
-        switch = 'Already have an account? <a href="login.html">Log in</a>'
-        colour = "pale-periwinkle"
-    return f"""<section class="hero-xs is--{colour} is--form" data-intro-page aria-labelledby="page-title">
-  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>{title}</h1>
-  <p class="hero-xs__text" data-hero-paragraph>{e(text)}</p>
-  <p class="hero-xs__note accent-note" data-hero-handwritten-text>{e(note)}</p>
-  <form class="form-card" data-validate="{kind}" novalidate data-hero-content>
-    {fields}
-    {submit_alt(cta)}
-    <p class="form-card__message" id="form-message" role="status" aria-live="polite"></p>
-    <p class="form-card__switch">{switch}</p>
-    <p class="form-card__small">This is a demo: nothing you type is sent or stored.</p>
-  </form>
-</section>"""
-
-
 def reader_page():
     themes = "".join(f'<button type="button" class="reader__choice is--{t}" data-reader-theme="{t}" aria-pressed="false">{label}</button>'
                      for t, label in (("paper", "Paper"), ("sepia", "Sepia"), ("night", "Night")))
     fonts = "".join(f'<button type="button" class="reader__choice" data-reader-font="{f}" aria-pressed="false">{label}</button>'
-                    for f, label in (("book", "Book"), ("serif", "Serif"), ("sans", "Sans")))
+                    for f, label in (("serif", "Serif"), ("classic", "Classic"), ("sans", "Sans")))
     return f"""<section class="reader" data-reader data-lenis-prevent aria-label="Reader">
   <div class="reader__bar">
     <a class="reader__back" href="books.html" data-reader-back>{icon("left")}<span>Back</span></a>
@@ -1071,16 +1437,18 @@ def reader_page():
     <p class="reader__notes-warning" data-notes-warning hidden>This browser is not keeping data, so notes last only until this tab closes.</p>
   </div>
   <div class="reader__select" role="toolbar" aria-label="Highlight the selected words" data-select-bar hidden>
-    <button type="button" class="reader__swatch is--yellow" data-style="yellow" aria-label="Yellow highlight"></button>
-    <button type="button" class="reader__swatch is--green" data-style="green" aria-label="Green highlight"></button>
-    <button type="button" class="reader__swatch is--blue" data-style="blue" aria-label="Blue highlight"></button>
-    <button type="button" class="reader__swatch is--pink" data-style="pink" aria-label="Pink highlight"></button>
-    <button type="button" class="reader__select-tool" data-style="underline" aria-label="Underline">{icon("underline")}</button>
+    <span class="reader__select-swatches">
+      <button type="button" class="reader__swatch is--yellow" data-style="yellow" aria-label="Yellow highlight" title="Yellow highlight"></button>
+      <button type="button" class="reader__swatch is--green" data-style="green" aria-label="Green highlight" title="Green highlight"></button>
+      <button type="button" class="reader__swatch is--blue" data-style="blue" aria-label="Blue highlight" title="Blue highlight"></button>
+      <button type="button" class="reader__swatch is--pink" data-style="pink" aria-label="Pink highlight" title="Pink highlight"></button>
+    </span>
     <span class="reader__select-gap" aria-hidden="true"></span>
-    <button type="button" class="reader__select-tool" data-select-note aria-label="Add a note">{icon("note")}</button>
-    <button type="button" class="reader__select-tool" data-select-define aria-label="Look up this word">{icon("define")}</button>
-    <button type="button" class="reader__select-tool" data-select-copy aria-label="Copy">{icon("copy")}</button>
-    <button type="button" class="reader__select-tool" data-select-delete aria-label="Remove this highlight" hidden>{icon("trash")}</button>
+    <button type="button" class="reader__select-tool" data-style="underline" title="Underline">{icon("underline")}<span class="reader__select-label">Underline</span></button>
+    <button type="button" class="reader__select-tool" data-select-note title="Add a note">{icon("note")}<span class="reader__select-label">Note</span></button>
+    <button type="button" class="reader__select-tool" data-select-define title="What this word means">{icon("define")}<span class="reader__select-label">Define</span></button>
+    <button type="button" class="reader__select-tool" data-select-copy title="Copy, with the book’s name">{icon("copy")}<span class="reader__select-label">Copy</span></button>
+    <button type="button" class="reader__select-tool" data-select-delete title="Remove this highlight" hidden>{icon("trash")}<span class="reader__select-label">Remove</span></button>
   </div>
   <div class="reader__popup is--note" role="dialog" aria-label="Your note" data-note-editor hidden>
     <blockquote class="reader__popup-quote" data-note-quote></blockquote>
@@ -1141,10 +1509,16 @@ write("faq.html", page("faq", "faq.html", "Common questions | The Bookshelf",
                        faq_page(), "pale-blue"))
 write("read.html", page("reader", "read.html", "Reading | The Bookshelf", "Read a free classic in your browser.",
                         reader_page(), "pale-yellow", with_footer=False))
-write("login.html", page("login", "login.html", "Log in | The Bookshelf", "Log in to the Bookshelf.", form_page("login"),
-                         "pale-pink"))
-write("signup.html", page("signup", "signup.html", "Sign up | The Bookshelf", "Create a Bookshelf account.",
-                          form_page("signup"), "pale-periwinkle"))
+write("login.html", redirect_page("account.html" if ACCOUNTS else "reading.html"))
+write("signup.html", redirect_page("account.html" if ACCOUNTS else "reading.html"))
+write("account.html", page("account", "account.html", "Your account | The Bookshelf",
+                           "Sign in to keep your place, highlights, notes and reading time on every device.", account_page(),
+                           "soft-periwinkle", index=False))
+write("profile.html", page("profile", "profile.html", "A reader | The Bookshelf", "A reader’s page at the Bookshelf.",
+                           profile_page(), "pale-yellow", index=False))
+write("privacy.html", page("privacy", "privacy.html", "Privacy | The Bookshelf",
+                           "What the Bookshelf keeps about you, where, and how to remove it.", privacy_page(), "soft-blue"))
+write("feed.xml", feed())
 write("reading.html", page("reading", "reading.html", "Your reading | The Bookshelf",
                            "Your books, highlights, notes and reading time, kept on your own device.", reading_page()))
 write("404.html", NOT_FOUND)
@@ -1158,9 +1532,10 @@ write("manifest.webmanifest", json.dumps({
               {"src": "image/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}],
 }, indent=2) + "\n")
 # What the service worker keeps from the start: everything the reader and Your reading need, so a kept book opens offline
-SHELL = ["read.html", "reading.html", f"css/main.css?v={VERSION}", f"css/reader-content.css?v={VERSION}",
+SHELL = ["read.html", "reading.html", "account.html", f"css/main.css?v={VERSION}", f"css/reader-content.css?v={VERSION}",
          *(f"{a}?v={VERSION}" for a in ASSETS if a.endswith(".js")), *SCRIPTS, "js/vendor/jszip.min.js", "js/vendor/epub.min.js",
-         "fonts/rubik.woff2", "fonts/figtree.woff2", "fonts/gochi-hand.woff2", "image/logo.svg", "manifest.webmanifest"]
+         "fonts/rubik.woff2", "fonts/figtree.woff2", "fonts/figtree-italic.woff2", "fonts/gochi-hand.woff2",
+         "fonts/literata.woff2", "fonts/literata-italic.woff2", "image/logo.svg", "manifest.webmanifest"]
 SHELL_VERSION = hashlib.sha1(b"".join((ROOT / f.split("?")[0]).read_bytes() for f in SHELL if not f.endswith(".html") and f != "manifest.webmanifest")
                              + VERSION.encode()).hexdigest()[:8]
 write("sw.js", (ROOT / "tools" / "sw.template.js").read_text(encoding="utf-8")
@@ -1175,8 +1550,8 @@ for old in OUT.glob("book-*.html"):
         old.unlink()
         print(f"removed {old.name}")
 
-# For search engines: every page except the demo log-in forms and the reader. (A robots.txt only counts at the root
+# For search engines: every page except the reader, your account, reader pages and the old log-in addresses. (A robots.txt only counts at the root
 # of cl0ud-9.github.io, not in this folder, so the sitemap is handed to search engines directly.)
-urls = ["", "books.html", "genres.html", "faq.html", "reading.html", *(book_url(b["slug"]) for b in LIBRARY)]
+urls = ["", "books.html", "genres.html", "faq.html", "reading.html", "privacy.html", *(book_url(b["slug"]) for b in LIBRARY)]
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
       + "".join(f"  <url><loc>{SITE}{u}</loc></url>\n" for u in urls) + "</urlset>\n")

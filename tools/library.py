@@ -28,11 +28,13 @@ AGENT = "Mozilla/5.0 (The Bookshelf library builder; https://github.com/Cl0ud-9/
 PAUSE = 2.5  # seconds between requests to standardebooks.org
 WIDTHS = (180, 360, 720, 1080)  # covers are 2:3
 PUBLISHERS = {"Chapman and Hall", "The Modern Library"}
-MAX_EPUB = 8_000_000  # bytes; bigger books stay on Standard Ebooks (see below)
+MAX_EPUB = 8_000_000  # bytes; bigger books are made lighter (see lighter()), or failing that stay on Standard Ebooks
 
 # The shelf: the Standard Ebooks edition of each book and its genres here (theirs have no Romance, for one).
 # Every book is in the public domain in the US (Standard Ebooks' rule) and in India (life of the author plus 60 years),
-# so authors who died after 1965, such as Agatha Christie, are left out even where Standard Ebooks has them.
+# so authors who died after 1965, such as Agatha Christie, are left out even where Standard Ebooks has them. The same
+# goes for translators (Seneca's letters in Gummere's translation, Gandhi's autobiography, part translated by Pyarelal)
+# and for a translator whose dates cannot be found (Arsène Lupin's George Morehead). tools/rights.py checks them all.
 CATALOGUE = [
     # Romance
     ("jane-austen/pride-and-prejudice", ["Romance"]),
@@ -60,7 +62,6 @@ CATALOGUE = [
     ("wilkie-collins/the-woman-in-white", ["Mystery"]),
     ("dashiell-hammett/the-maltese-falcon", ["Mystery"]),
     ("g-k-chesterton/the-innocence-of-father-brown", ["Mystery"]),
-    ("maurice-leblanc/the-extraordinary-adventures-of-arsene-lupin-gentleman-burglar/george-morehead", ["Mystery"]),
     ("john-buchan/the-thirty-nine-steps", ["Mystery", "Adventure"]),
     ("arthur-conan-doyle/the-return-of-sherlock-holmes", ["Mystery"]),
     ("arthur-conan-doyle/the-valley-of-fear", ["Mystery"]),
@@ -132,17 +133,35 @@ CATALOGUE = [
     # Philosophy
     ("marcus-aurelius/meditations/george-long", ["Philosophy"]),
     ("sun-tzu/the-art-of-war/lionel-giles", ["Philosophy"]),
-    ("seneca/moral-letters-to-lucilius/richard-m-gummere", ["Philosophy"]),
     ("laozi/tao-te-ching/james-legge", ["Philosophy"]),
     ("niccolo-machiavelli/the-prince/w-k-marriott", ["Philosophy"]),
     ("friedrich-nietzsche/beyond-good-and-evil/helen-zimmern", ["Philosophy"]),
     ("friedrich-nietzsche/thus-spake-zarathustra/thomas-common", ["Philosophy"]),
     ("epictetus/discourses/george-long", ["Philosophy"]),
     ("plato/dialogues/benjamin-jowett", ["Philosophy"]),
-    ("henry-david-thoreau/walden", ["Philosophy"]),
+    ("henry-david-thoreau/walden", ["Lives and memoirs", "Philosophy"]),
     ("boethius/the-consolation-of-philosophy/h-r-james", ["Philosophy"]),
-    ("mahatma-gandhi/the-story-of-my-experiments-with-truth/mahadev-desai", ["Philosophy"]),
-    ("hermann-hesse/siddhartha/various-translators", ["Philosophy", "Literary fiction"]),
+    ("hermann-hesse/siddhartha/various-translators", ["Literary fiction", "Philosophy"]),
+    ("william-james/the-varieties-of-religious-experience", ["Philosophy"]),
+    # Lives and memoirs
+    ("frederick-douglass/narrative-of-the-life-of-frederick-douglass", ["Lives and memoirs"]),
+    ("benjamin-franklin/the-autobiography-of-benjamin-franklin", ["Lives and memoirs"]),
+    ("booker-t-washington/up-from-slavery", ["Lives and memoirs"]),
+    ("rabindranath-tagore/my-reminiscences/the-macmillan-company", ["Lives and memoirs"]),
+    # History and politics
+    ("john-stuart-mill/on-liberty", ["History and politics", "Philosophy"]),
+    ("mary-wollstonecraft/a-vindication-of-the-rights-of-woman", ["History and politics"]),
+    ("w-e-b-du-bois/the-souls-of-black-folk", ["History and politics", "Essays and letters"]),
+    ("thomas-paine/the-rights-of-man", ["History and politics"]),
+    ("adam-smith/the-wealth-of-nations", ["History and politics"]),
+    # Science and nature
+    ("charles-darwin/the-origin-of-species", ["Science and nature"]),
+    ("charles-darwin/the-voyage-of-the-beagle", ["Science and nature"]),
+    # Essays and letters
+    ("ralph-waldo-emerson/essays", ["Essays and letters"]),
+    # From India (with the Project Gutenberg books in library/gutenberg.json)
+    ("rabindranath-tagore/gitanjali", ["Poetry"]),
+    ("rabindranath-tagore/the-home-and-the-world/surendranath-tagore", ["Literary fiction"]),
     # Children's
     ("frances-hodgson-burnett/the-secret-garden", ["Children’s"]),
     ("frances-hodgson-burnett/a-little-princess", ["Children’s"]),
@@ -302,6 +321,119 @@ def opening_line(epub_bytes):
     return None
 
 
+# A few books Standard Ebooks does not have (Indian classics, for now) come from Project Gutenberg, through its mirror
+# (its website is for people, not scripts). Their details, written here, are in library/gutenberg.json; their covers are
+# drawn by tools/covers.py; their files are kept exactly as Project Gutenberg made them, with its licence inside, as
+# that licence asks of anyone sharing them.
+GUTENBERG = "https://gutenberg.pglaf.org/cache/epub/{id}/pg{id}-images-3.epub"
+
+
+def reading_time(words):
+    # as Standard Ebooks counts it: about 275 words a minute
+    minutes = max(1, round(words / 275))
+    hours, rest = divmod(minutes, 60)
+    parts = ([f"{hours} hour{'s' if hours != 1 else ''}"] if hours else []) + ([f"{rest} minute{'s' if rest != 1 else ''}"] if rest else [])
+    return " ".join(parts)
+
+
+def gutenberg_books(taken):
+    books = []
+    source = ROOT / "library" / "gutenberg.json"
+    for entry in json.loads(source.read_text(encoding="utf-8")) if source.exists() else []:
+        data = cached(f"pg{entry['id']}.epub", GUTENBERG.format(id=entry["id"]), binary=True)
+        archive = zipfile.ZipFile(io.BytesIO(data))
+        words_text = " ".join(text(archive.read(n).decode("utf-8", "ignore")) for n in archive.namelist() if n.endswith((".xhtml", ".html", ".htm")))
+        # only the book itself counts, not Project Gutenberg's header and licence
+        start = words_text.find("*** START OF")
+        end = words_text.find("*** END OF")
+        body = words_text[start:end] if 0 <= start < end else words_text
+        words = len(re.findall(r"\w+", body))
+        slug = slug_of(entry["title"], taken)
+        own = ROOT / "library" / "covers" / f"{slug}.png"
+        if not own.exists():
+            raise SystemExit(f"{slug} needs a cover: add it to tools/covers.py and run that first")
+        im = Image.open(own).convert("RGB")
+        for w in WIDTHS:
+            im.resize((w, w * 3 // 2), Image.LANCZOS).save(ROOT / "image" / "covers" / f"{slug}-{w}.webp", "WEBP",
+                                                         quality=82 if w < 720 else 78, method=6)
+        epub = ROOT / "books" / f"{slug}.epub"
+        epub.write_bytes(data)
+        page = f"https://www.gutenberg.org/ebooks/{entry['id']}"
+        books.append({
+            "title": entry["title"], "author": entry["author"], "translator": entry["translator"],
+            "abstract": entry["abstract"], "description": entry["description"], "words": words,
+            "reading_time": reading_time(words), "language": "en", "standard_ebooks": None, "gutenberg": page,
+            "slug": slug, "genres": entry["genres"], "collections": entry.get("collections", []), "spine": spine_colour(im),
+            "epub": f"books/{slug}.epub", "size": len(data), "popularity": None, "opening": None,
+            "kindle": f"{page}.kf8.images", "kobo": f"{page}.epub3.images",
+        })
+        print(f"    {entry['title']} (Project Gutenberg, {len(data) // 1024} KB, {words:,} words)", flush=True)
+    return books
+
+
+def with_cover(data, im):
+    """The EPUB with its cover image replaced (the file named as cover-image in its package)."""
+    source = zipfile.ZipFile(io.BytesIO(data))
+    opf_name = next(n for n in source.namelist() if n.endswith(".opf"))
+    opf = source.read(opf_name).decode("utf-8")
+    href = re.search(r'<item href="([^"]+)"[^>]*properties="cover-image"', opf).group(1)
+    cover_name = str(Path(opf_name).parent / href).replace("\\", "/")
+    jpeg = io.BytesIO()
+    im.save(jpeg, "JPEG", quality=88, optimize=True)
+    out = io.BytesIO()
+    with zipfile.ZipFile(out, "w") as target:
+        # an EPUB starts with its mimetype, stored uncompressed
+        target.writestr(zipfile.ZipInfo("mimetype"), source.read("mimetype"), compress_type=zipfile.ZIP_STORED)
+        for item in source.infolist():
+            if item.filename == "mimetype":
+                continue
+            body = jpeg.getvalue() if item.filename == cover_name else source.read(item.filename)
+            target.writestr(item.filename, body, compress_type=zipfile.ZIP_DEFLATED)
+    return out.getvalue()
+
+
+def lighter(data):
+    """A heavily illustrated EPUB made light enough to read in a browser: Standard Ebooks gives each illustration twice,
+    at double resolution for sharp screens too (two thirds of Alice's 18 MB), and serves those big files slowly. This
+    keeps the ordinary ones only, and stores line art that is black on transparent (Tenniel's engravings) in sixteen
+    shades of transparency, which looks the same. The text is untouched."""
+    source = zipfile.ZipFile(io.BytesIO(data))
+    doubles = {n for n in source.namelist() if re.search(r"-2x\.(png|jpe?g)$", n)}
+    out = io.BytesIO()
+    with zipfile.ZipFile(out, "w") as target:
+        target.writestr(zipfile.ZipInfo("mimetype"), source.read("mimetype"), compress_type=zipfile.ZIP_STORED)
+        for item in source.infolist():
+            if item.filename == "mimetype" or item.filename in doubles:
+                continue
+            body = source.read(item.filename)
+            if item.filename.endswith(".opf"):
+                # their entries leave the package list
+                body = re.sub(r'\s*<item [^>]*href="[^"]*-2x\.(?:png|jpe?g)"[^>]*/>', "", body.decode("utf-8")).encode("utf-8")
+            elif item.filename.endswith(".xhtml"):
+                body = re.sub(r'\s+srcset="[^"]*"', "", body.decode("utf-8")).encode("utf-8")
+            elif item.filename.endswith(".png"):
+                body = black_line_art(body) or body
+            target.writestr(item.filename, body, compress_type=zipfile.ZIP_DEFLATED)
+    return out.getvalue()
+
+
+def black_line_art(png):
+    """The PNG in sixteen levels of transparency, if it is black drawn on transparent and that makes it smaller"""
+    im = Image.open(io.BytesIO(png))
+    if "A" not in im.convert("RGBA").getbands():
+        return None
+    rgba = im.convert("RGBA")
+    if max(band.getextrema()[1] for band in rgba.split()[:3]) > 40:  # not black line art
+        return None
+    # each pixel is one of sixteen palette entries, all black, from clear to solid
+    levels = rgba.getchannel("A").point(lambda v: round(v / 255 * 15))
+    art = Image.frombytes("P", rgba.size, levels.tobytes())
+    art.putpalette([0, 0, 0] * 16)
+    small = io.BytesIO()
+    art.save(small, "PNG", optimize=True, bits=4, transparency=bytes(i * 17 for i in range(16)))
+    return small.getvalue() if len(small.getvalue()) < len(png) else None
+
+
 def main():
     (ROOT / "library").mkdir(exist_ok=True)
     (ROOT / "books").mkdir(exist_ok=True)
@@ -318,17 +450,21 @@ def main():
             print(f"{n:3}/{len(CATALOGUE)} SKIPPED {se_path}: {error}", flush=True)
             continue
         # "Short Fiction" and "Poetry" belong to several authors, so those addresses start with the author's name
-        generic = book["title"] in {"Short Fiction", "Poetry", "Short Science Fiction", "Short Works", "Dialogues"}
+        generic = book["title"] in {"Short Fiction", "Poetry", "Short Science Fiction", "Short Works", "Dialogues", "Essays"}
         book["slug"] = slug_of(f"{book['author']} {book['title']}" if generic else book["title"], taken)
         book["genres"] = genres
+        book["collections"] = ["india"] if se_path.startswith("rabindranath-tagore/") else []
         cover = CACHE / f"{key}.jpg"
         if not cover.exists():
             cover.write_bytes(fetch(f"{SE}{se_path}/downloads/cover.jpg", binary=True))
-        im = Image.open(cover).convert("RGB")
+        # A cover painted by someone who died after 1965 is not free in India: those books have one drawn by
+        # tools/covers.py instead, used here and inside the book's file
+        own = ROOT / "library" / "covers" / f"{book['slug']}.png"
+        im = Image.open(own if own.exists() else cover).convert("RGB")
         book["spine"] = spine_colour(im)
         for w in WIDTHS:
             out = ROOT / "image" / "covers" / f"{book['slug']}-{w}.webp"
-            if not out.exists():
+            if own.exists() or not out.exists():
                 im.resize((w, w * 3 // 2), Image.LANCZOS).save(out, "WEBP", quality=82 if w < 720 else 78, method=6)
         source = f"{SE}{se_path}/downloads/{book['epub_name']}.epub?source=download"
         epub = ROOT / "books" / f"{book['slug']}.epub"
@@ -345,6 +481,8 @@ def main():
             epub.unlink(missing_ok=True)
             book["epub"] = source
             data = None
+        if data is not None and len(data) > MAX_EPUB:
+            data = lighter(data)
         if data is None:
             pass
         elif len(data) > MAX_EPUB:
@@ -353,7 +491,9 @@ def main():
             epub.unlink(missing_ok=True)
             book["epub"] = source
         else:
-            if not epub.exists():
+            if own.exists():
+                epub.write_bytes(with_cover(data, im))
+            elif not epub.exists() or epub.stat().st_size != len(data):
                 epub.write_bytes(data)
             book["epub"] = f"books/{book['slug']}.epub"
         book["size"] = len(data) if data else None
@@ -365,6 +505,7 @@ def main():
         books.append(book)
         where = "fetched later" if data is None else f"{len(data) // 1024} KB" + (", from Standard Ebooks" if len(data) > MAX_EPUB else "")
         print(f"{n:3}/{len(CATALOGUE)} {book['title']} ({where})", flush=True)
+    books.extend(gutenberg_books(taken))
     (ROOT / "library" / "books.json").write_text(json.dumps(books, ensure_ascii=False, indent=1) + "\n", encoding="utf-8",
                                                  newline="\n")
     # Files of books that have left the shelf

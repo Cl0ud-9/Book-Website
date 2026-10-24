@@ -1,0 +1,103 @@
+{
+ "_about": "Before you start: a spoiler-free page for each of the most read books. When and why it was written, who you meet at the beginning, and a few things that help. Nothing here gives away what happens after the first chapters.",
+ "frankenstein": {
+  "when": "Mary Shelley began it in the summer of 1816, aged eighteen, when Lord Byron challenged his guests at a villa near Geneva to each write a ghost story. It was published in 1818, and is often called the first science fiction novel.",
+  "who": ["Robert Walton, an explorer sailing towards the North Pole, who writes letters home to his sister", "Victor Frankenstein, a young Swiss scientist Walton meets on the ice", "Elizabeth, Henry Clerval and the Frankenstein family, Victor's loved ones in Geneva"],
+  "tips": ["The story is told in layers: Walton's letters hold Victor's story, which in turn holds another voice. Notice who is speaking.", "The monster is never called Frankenstein in the book: that is the name of the man who made him.", "The opening letters are slow to start; the story gathers pace once Victor begins to speak."]
+ },
+ "pride-and-prejudice": {
+  "when": "Jane Austen first wrote it in the 1790s as First Impressions, and it was published in 1813. It is set among the English country gentry of her day, where a good marriage was a woman's main hope of security.",
+  "who": ["Elizabeth Bennet, quick-witted and the second of five sisters", "Mr. and Mrs. Bennet, her dry, amused father and her mother, who is set on marrying off her daughters", "Jane Bennet, the eldest sister, gentle and kind", "Mr. Bingley, a rich young man who rents a house nearby, and his proud friend Mr. Darcy"],
+  "tips": ["Austen is funny: much of the comedy is in what the narrator says with a straight face.", "Under the law of the time, the Bennets' house will pass to a male cousin, which is why marriage matters so much to Mrs. Bennet.", "The title is a clue: watch how people judge each other at first sight."]
+ },
+ "dracula": {
+  "when": "Bram Stoker, an Irish theatre manager, published it in 1897. It drew on folklore from Eastern Europe and gave the vampire the form most stories have followed since.",
+  "who": ["Jonathan Harker, a young English solicitor travelling to Transylvania on business", "Count Dracula, the nobleman he is going to see", "Mina Murray, Jonathan's fiancée, and her friend Lucy Westenra, back in England"],
+  "tips": ["The whole novel is told through diaries, letters, telegrams and newspaper cuttings, so each chapter may be in a different voice.", "The dates at the top of each entry help: the different accounts overlap in time.", "The first four chapters, Jonathan's journal at the castle, are among the most atmospheric in the book."]
+ },
+ "the-count-of-monte-cristo": {
+  "when": "Alexandre Dumas published it in parts between 1844 and 1846. It opens in 1815, as Napoleon is about to escape from exile, and the politics of that moment drive the story.",
+  "who": ["Edmond Dantès, a young sailor from Marseilles about to become a ship's captain", "Mercédès, the woman he is going to marry", "Danglars, Fernand and Caderousse, men around him who envy his good fortune", "Villefort, an ambitious young deputy prosecutor"],
+  "tips": ["It is a very long book, but it was written to be read in instalments: chapters are short and most end on a hook.", "Many characters appear under different names later on; the first chapters are worth reading carefully.", "Bonapartist, a supporter of Napoleon, was a dangerous thing to be called in 1815."]
+ },
+ "moby-dick": {
+  "when": "Herman Melville, who had himself sailed on a whaling ship, published it in 1851. American whaling, hunting whales for the oil that lit lamps, was then at its height.",
+  "who": ["Ishmael, the narrator, a young man who goes to sea when he feels low", "Queequeg, a harpooner from the South Seas who becomes his friend", "Captain Ahab, the commander of the whaling ship Pequod"],
+  "tips": ["Many chapters step away from the story to describe whales, ships and whaling. Some readers love them; it is fine to skim them on a first reading.", "The book is funny, especially in the early chapters on land.", "Ahab does not appear for a good while: the waiting is part of the effect."]
+ },
+ "alices-adventures-in-wonderland": {
+  "when": "Lewis Carroll, an Oxford mathematician, first told the story on a boat trip in 1862 to Alice Liddell and her sisters. It was published in 1865 with drawings by John Tenniel.",
+  "who": ["Alice, a curious seven-year-old girl", "The White Rabbit, always late, who leads her down the rabbit hole", "The many odd creatures she meets, from the Cheshire Cat to the Mad Hatter"],
+  "tips": ["Many poems in the book make fun of rhymes Victorian children learnt by heart; you do not need to know the originals to enjoy them.", "Read it aloud: much of the fun is in the wordplay and logic jokes.", "The edition here keeps Tenniel's drawings."]
+ },
+ "meditations": {
+  "when": "Marcus Aurelius, Roman emperor from 161 to 180, wrote these notes to himself in Greek, some of them on military campaigns. He never meant them to be published.",
+  "who": ["Marcus himself: there is no story, only his reminders on how to live well", "Book 1 thanks the family, teachers and friends who taught him"],
+  "tips": ["It is not meant to be read straight through. Open it anywhere and read a few paragraphs.", "Marcus was a Stoic: he believed we cannot control what happens, only how we respond to it.", "The same ideas come back again and again, because he was repeating them to himself."]
+ },
+ "crime-and-punishment": {
+  "when": "Fyodor Dostoevsky published it in 1866, in instalments, after years in a Siberian prison camp. It is set in the poor, crowded quarters of St. Petersburg in a hot summer.",
+  "who": ["Rodion Raskolnikov, a poor former student who has dropped out of university", "Alyona Ivanovna, an old pawnbroker he visits", "Marmeladov, a drunken former clerk he meets in a tavern, and his family", "Razumikhin, Raskolnikov's cheerful friend"],
+  "tips": ["Russian names have several forms: Rodion Romanovich Raskolnikov may also be Rodya or Rodka. They are the same person.", "Much of the book happens inside Raskolnikov's feverish mind; it is meant to feel close and uncomfortable.", "The crime comes early. The novel is about what comes after."]
+ },
+ "jane-eyre": {
+  "when": "Charlotte Brontë published it in 1847 under the name Currer Bell. Some of Jane's childhood draws on Charlotte's own years at a harsh school for clergymen's daughters.",
+  "who": ["Jane Eyre, an orphan, ten years old when the story begins", "Mrs. Reed and her children, the aunt and cousins who resent her", "Helen Burns, a girl Jane meets at school"],
+  "tips": ["Jane tells her own story as an adult looking back, and sometimes speaks to you directly as \"reader\".", "Each part of her life happens in a different house; the book changes mood with each one.", "Brontë was writing against the idea that a plain, poor woman had no right to an inner life."]
+ },
+ "the-picture-of-dorian-gray": {
+  "when": "Oscar Wilde published it in a magazine in 1890 and as a longer book in 1891. Critics called it immoral, and Wilde added a preface of witty sayings in reply.",
+  "who": ["Basil Hallward, a painter", "Dorian Gray, the beautiful young man he is painting", "Lord Henry Wotton, Basil's friend, who loves clever, shocking ideas"],
+  "tips": ["Lord Henry's sayings are some of the most quoted lines in English; enjoy them, but notice their effect on Dorian.", "Read the preface at the start: it is Wilde's own reply to his critics.", "The book is short, and moves from comedy to something much darker."]
+ },
+ "the-great-gatsby": {
+  "when": "F. Scott Fitzgerald published it in 1925. It is set in the summer of 1922, the Jazz Age, among the rich of Long Island and New York.",
+  "who": ["Nick Carraway, the narrator, newly arrived in New York to sell bonds", "Jay Gatsby, Nick's mysterious neighbour, famous for his parties", "Daisy Buchanan, Nick's cousin, and her husband Tom"],
+  "tips": ["Nick tells the story after it is over; listen to what he admits and what he leaves out.", "East Egg and West Egg are two towns across the bay from each other: old money and new money.", "It is short enough to read in an evening or two, and rewards a second reading."]
+ },
+ "the-adventures-of-sherlock-holmes": {
+  "when": "Arthur Conan Doyle, a doctor, wrote these twelve stories for The Strand Magazine in 1891 and 1892. They made Holmes famous.",
+  "who": ["Sherlock Holmes, consulting detective, of 221B Baker Street", "Dr. John Watson, his friend, who tells the stories", "Each story's client, who arrives with a problem"],
+  "tips": ["Each story stands alone, so you can read them in any order.", "Try to solve each case before Holmes explains: the clues are usually there.", "These come after the two novels A Study in Scarlet and The Sign of the Four, but you do not need to read those first."]
+ },
+ "the-time-machine": {
+  "when": "H. G. Wells, who had trained as a science teacher, published it in 1895 as his first novel. It was one of the first stories of a machine for travelling in time.",
+  "who": ["The Time Traveller, an inventor who is never named", "His guests at dinner in his house in Richmond, who hear his story", "The narrator, one of those guests"],
+  "tips": ["Wells uses the future to talk about his own time: think about Victorian England, rich and poor, as you read.", "It is short, under two hours, and a good first book by Wells."]
+ },
+ "the-strange-case-of-dr-jekyll-and-mr-hyde": {
+  "when": "Robert Louis Stevenson wrote it in a few days in 1885, and it came out in 1886. It is set in a foggy Victorian London.",
+  "who": ["Mr. Utterson, a respectable lawyer, through whose eyes most of the story is seen", "Dr. Henry Jekyll, Utterson's old friend and client", "Mr. Hyde, a man Utterson hears disturbing stories about"],
+  "tips": ["The book is a mystery: try to read it as its first readers did, not knowing the famous answer.", "It is short enough to read in one sitting, which is how it works best."]
+ },
+ "the-odyssey": {
+  "when": "The Odyssey is one of the oldest stories in Western literature, told by Greek poets for centuries before it was written down, perhaps around 700 BC. It follows the Iliad, after the fall of Troy. This translation into English verse is by William Cullen Bryant, from 1871.",
+  "who": ["Odysseus, the clever king of Ithaca, still trying to get home ten years after the war", "Penelope, his wife, waiting for him in Ithaca", "Telemachus, their son, now grown up", "The goddess Athena, who helps them"],
+  "tips": ["The poem begins with Telemachus at home, not with Odysseus; his famous adventures are told later, in his own words.", "Gods and humans speak with long titles (grey-eyed Athena, much-enduring Odysseus): they help you keep track.", "You do not need to have read the Iliad first."]
+ },
+ "the-brothers-karamazov": {
+  "when": "Fyodor Dostoevsky's last novel, published in 1879 and 1880, a few months before he died. It is set in a small Russian town.",
+  "who": ["Fyodor Pavlovich Karamazov, a coarse and selfish landowner", "Dmitri, his eldest son, passionate and reckless", "Ivan, the second son, a brilliant thinker who doubts God", "Alyosha, the youngest, a novice at the local monastery"],
+  "tips": ["Each character has several names and nicknames: Alexey is Alyosha, Dmitri is Mitya.", "The book is long and full of debate about God, freedom and morality, but at heart it is a family story and a mystery.", "The narrator is a townsman telling the story years later, with comments of his own."]
+ },
+ "wuthering-heights": {
+  "when": "Emily Brontë's only novel, published in 1847 under the name Ellis Bell. It is set on the wild Yorkshire moors where she lived.",
+  "who": ["Mr. Lockwood, a gentleman who rents a house nearby", "Heathcliff, his rough, unwelcoming landlord at Wuthering Heights", "Nelly Dean, a housekeeper who tells Lockwood the story of the two houses"],
+  "tips": ["The story is told by Lockwood and Nelly, who do not always understand what they saw.", "Two families, two houses and two generations share very similar names; a family tree helps.", "Joseph, the old servant, speaks in broad Yorkshire dialect; reading him aloud helps."]
+ },
+ "sense-and-sensibility": {
+  "when": "Jane Austen's first published novel, from 1811, signed only By a Lady. The title sets good sense against feeling and emotion.",
+  "who": ["Elinor Dashwood, the eldest sister, sensible and restrained", "Marianne Dashwood, her sister, who feels everything deeply", "Mrs. Dashwood and young Margaret, their mother and sister", "John Dashwood and his wife Fanny, who inherit the family home"],
+  "tips": ["The sisters lose their home in the first chapters because of the laws of inheritance: money shapes everything that follows.", "Austen is funny about everyone, including the heroines."]
+ },
+ "a-study-in-scarlet": {
+  "when": "Arthur Conan Doyle's first story about Sherlock Holmes, published in 1887.",
+  "who": ["Dr. John Watson, a young army doctor back in London from Afghanistan", "Sherlock Holmes, the strange young man he agrees to share rooms with", "Inspectors Lestrade and Gregson of Scotland Yard"],
+  "tips": ["This is where Holmes and Watson meet, so it is the best place to start.", "Halfway through, the book jumps to a different place and time; it is the same story, so keep going."]
+ },
+ "the-art-of-war": {
+  "when": "Traditionally said to be by Sun Tzu, a general of ancient China, and written around the fifth century BC. This translation, from 1910, is by Lionel Giles.",
+  "who": ["No characters: thirteen short chapters on strategy, planning and leadership"],
+  "tips": ["Giles's notes explain the old Chinese commentators; read the main text first and the notes after.", "Its ideas are often applied to business and sport, but it is worth reading as it was written, about war."]
+ }
+}

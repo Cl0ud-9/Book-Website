@@ -15,7 +15,6 @@
   // Without GSAP (blocked or offline) the site still works: no animation, plain page loads
   if (!window.gsap) {
     root.classList.remove("is-loading");
-    window.BookshelfForms?.init(document);
     initMenuBasic();
     return;
   }
@@ -109,7 +108,7 @@
 
   function setCurrentNav(namespace) {
     const key = { home: "home", books: "books", book: "books", reader: "books", genres: "genres", faq: "faq",
-      login: "reading", signup: "reading", reading: "reading" }[namespace];
+      reading: "reading", account: "account", profile: "account", privacy: "faq" }[namespace];
     document.querySelectorAll("[data-nav]").forEach((link) => {
       if (link.dataset.nav === key) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
@@ -129,8 +128,9 @@
     root.classList.add("has--menu-open");
     menu.querySelector("a, button")?.focus();
     if (!reducedMotion()) {
-      gsap.fromTo(menu.querySelectorAll(".menu__link"), { yPercent: 60, rotate: 6, opacity: 0 },
-        { yPercent: 0, rotate: 0, opacity: 1, duration: 0.8, ease: ELASTIC, stagger: 0.05, delay: 0.15 });
+      const links = menu.querySelectorAll(".menu__link");
+      gsap.fromTo(links, { yPercent: 60, rotate: 6 }, { yPercent: 0, rotate: 0, duration: 0.8, ease: ELASTIC, stagger: 0.05, delay: 0.15 });
+      gsap.fromTo(links, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power1.out", stagger: 0.05, delay: 0.15 });
     }
   }
 
@@ -151,7 +151,8 @@
     if (event.key === "Escape") { closeMenu(); menuToggle.focus(); }
     // Keep Tab inside the open menu
     if (event.key === "Tab") {
-      const items = [...menu.querySelectorAll("a, button")];
+      // only what can take focus: the account link is hidden when the site has no accounts
+      const items = [...menu.querySelectorAll("a, button")].filter((el) => !el.closest("[hidden]") && el.getClientRects().length);
       const first = items[0];
       const last = items[items.length - 1];
       if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
@@ -211,7 +212,9 @@
     gsap.set(parts.chars, { display: "inline-block", opacity: 0, rotate: 22, x: "-0.25em", y: "0.5em" });
     return parts;
   }
-  const scribbleTo = { opacity: 1, rotate: 0, x: "0em", y: "0em", ease: ELASTIC_SOFT, duration: 0.75, stagger: 0.016 };
+  // the letters spring into place, but fade in plainly: a springy fade flickered
+  const scribbleTo = { keyframes: { "20%": { opacity: 1, ease: "none" }, "100%": { rotate: 0, x: "0em", y: "0em", ease: ELASTIC_SOFT } },
+    ease: "none", duration: 0.75, stagger: 0.016 };
 
   /* ---------------- Page intros ---------------- */
 
@@ -256,12 +259,16 @@
      shows through, and the logo springs in; arriving, the logo springs out and the squiggle slithers away from its
      start, thinning as it goes. */
   const COVER = "100%"; // wide enough that no corner of any screen shows through
+  // The book in the middle of the squiggle pops in and drops away. Its fade has an ease of its own that never overshoots:
+  // with the elastic one it shared, its opacity swung below nothing and back, so the book vanished and came back
+  // before it went, and it shrank through nothing and turned inside out.
   function showLogo(tl, at, delay = 0.05) {
-    tl.fromTo(transitionLogo, { scale: 0, rotate: -64, autoAlpha: 0 },
-      { scale: 1, rotate: 0, autoAlpha: 1, duration: 0.65, ease: ELASTIC }, at + delay);
+    tl.fromTo(transitionLogo, { scale: 0.4, rotate: -30 }, { scale: 1, rotate: 0, duration: 0.5, ease: "back.out(2)" }, at + delay);
+    tl.fromTo(transitionLogo, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2, ease: "power1.out" }, at + delay);
   }
-  function hideLogo(tl, at, delay = 0.5) {
-    tl.to(transitionLogo, { scale: 0, rotate: 64, autoAlpha: 0, duration: 0.6, ease: "elastic.in(1, 0.72)" }, at + delay);
+  function hideLogo(tl, at, delay = 0.55) {
+    tl.to(transitionLogo, { scale: 0.5, rotate: 30, duration: 0.3, ease: "back.in(2)" }, at + delay);
+    tl.to(transitionLogo, { autoAlpha: 0, duration: 0.2, ease: "power1.in" }, at + delay + 0.1);
   }
   function uncover(tl, at, delay) {
     tl.fromTo(snake, { drawSVG: "0% 100%", strokeWidth: COVER }, {
@@ -281,7 +288,11 @@
 
   function runOnce(container) {
     gsap.set(snake, { drawSVG: "0% 100%", strokeWidth: COVER });
-    gsap.set(transitionLogo, { scale: 0, rotate: -64, autoAlpha: 0 });
+    // Arriving by a full page load in the middle of a page change (see runLeave): the screen is already covered, with the
+    // book showing, so the book stays as it is and only leaves once, as after any other page change
+    const carried = root.classList.contains("is-carried");
+    gsap.set(transitionLogo, carried ? { scale: 1, rotate: 0, autoAlpha: 1 } : { scale: 0, rotate: -64, autoAlpha: 0 });
+    root.classList.remove("is-carried");
     // The page's first script (build.py's boot) decided whether the squiggle opens this visit: only on the home page,
     // on the first page of a visit. Everywhere else the page is already showing as it arrived, so nothing is hidden
     // and played in again.
@@ -299,9 +310,14 @@
     root.classList.add("is-ready");
     root.classList.remove("is-loading");
     const tl = gsap.timeline({ paused: true });
-    uncover(tl, 0, 0.65);
-    showLogo(tl, 0);
-    hideLogo(tl, 0);
+    if (carried) {
+      hideLogo(tl, 0, 0.1);
+      uncover(tl, 0, 0.1);
+    } else {
+      uncover(tl, 0, 0.65);
+      showLogo(tl, 0);
+      hideLogo(tl, 0);
+    }
     tl.call(() => showPage(), null, 1.3);
     // The text and the header carry on by themselves: Barba treats the transition as finished when this promise
     // resolves, and while one is running it answers the back button with a full page reload
@@ -340,10 +356,15 @@
       duration: 1.25,
     }, 0);
     showLogo(tl, 0, 0.5);
+    // If the next page is slow or its request fails, Barba gives up and loads it in full. That page then starts covered,
+    // book showing (build.py's boot), instead of a blank screen and then the book again.
+    try { sessionStorage.setItem("bookshelf:covered", String(Date.now())); } catch { /* no storage */ }
     return tl.then();
   }
+  const uncovered = () => { try { sessionStorage.removeItem("bookshelf:covered"); } catch { /* no storage */ } };
 
   function runEnter(container, trigger) {
+    uncovered();
     if (reducedMotion()) {
       hideSnake();
       showPage();
@@ -656,9 +677,11 @@
     if (!container) return;
     const cards = [...container.querySelectorAll("[data-call-out-item]")];
     const contents = cards.map((c) => c.querySelector("[data-call-out-child]"));
-    const messy = () => ({ xPercent: (Math.random() - 0.5) * 10, yPercent: (Math.random() - 0.5) * 10, rotation: (Math.random() - 0.5) * 15 });
+    const messy = () => ({ xPercent: (Math.random() - 0.5) * 4, yPercent: (Math.random() - 0.5) * 8, rotation: (Math.random() - 0.5) * 9 });
     if (!desktop.matches) {
-      gsap.from(cards, { yPercent: 60, opacity: 0, duration: 0.9, ease: ELASTIC_SOFT, stagger: 0.08, scrollTrigger: { trigger: container, start: "top 85%", once: true } });
+      gsap.timeline({ scrollTrigger: { trigger: container, start: "top 85%", once: true } })
+        .from(cards, { yPercent: 60, duration: 0.9, ease: ELASTIC_SOFT, stagger: 0.08 }, 0)
+        .from(cards, { opacity: 0, duration: 0.3, ease: "power1.out", stagger: 0.08 }, 0);
       return;
     }
     cards.forEach((card) => gsap.set(card, messy()));
@@ -721,34 +744,39 @@
     gsap.set(title, { opacity: 0, y: "1em" });
     gsap.set(buttons, { scale: 0, rotate: () => gsap.utils.random(-16, 16) });
     const finalTl = gsap.timeline({ paused: true })
-      .to(title, { opacity: 1, y: "0em", ease: ELASTIC_SOFT, duration: 0.625 }, 0)
+      .to(title, { y: "0em", ease: ELASTIC_SOFT, duration: 0.625 }, 0)
+      .to(title, { opacity: 1, ease: "power1.out", duration: 0.3 }, 0)
       .to(buttons, { scale: 1, rotate: 0, ease: ELASTIC_SOFT, duration: 0.625, stagger: 0.026 }, 0.15)
       .to(asideChars, { ...scribbleTo, duration: 0.625, stagger: 0.011 }, 0.2);
 
+    // The book rises, opens, turns its first pages and draws in until one page fills the screen; then it holds still for
+    // the last stretch of the scroll, and only then do the words and buttons come, on a clean page. They follow the
+    // book as it is drawn (the animation's own progress, which trails the scroll a little), not the scroll itself:
+    // timed by the scroll, they arrived while the book was still half open behind them.
     const tl = gsap.timeline({ defaults: { ease: "none" } })
-      .to(book, { rotationX: 8, rotationZ: -4, scale: 1, y: 0, duration: 0.25, ease: "power2.out" }, 0)
-      .to(book, { x: width / 2, rotationX: 4, rotationZ: 0, duration: 0.3, ease: "power1.inOut" }, 0.25)
-      .to(cover, { rotationY: -178, duration: 0.3, ease: "power2.inOut" }, 0.25)
-      .to(leaves, { rotationY: (i) => -172 + i * 6, duration: 0.22, ease: "power2.inOut", stagger: 0.07 }, 0.42)
-      .to(book, { scale: 3.2, x: width * 0.05, y: "-4vh", rotationX: 0, duration: 0.3, ease: "power2.in" }, 0.7);
+      .to(book, { rotationX: 8, rotationZ: -4, scale: 1, y: 0, duration: 0.22, ease: "power2.out" }, 0)
+      .to(book, { x: width / 2, rotationX: 4, rotationZ: 0, duration: 0.26, ease: "power1.inOut" }, 0.22)
+      .to(cover, { rotationY: -178, duration: 0.26, ease: "power2.inOut" }, 0.22)
+      .to(leaves, { rotationY: (i) => -172 + i * 6, duration: 0.18, ease: "power2.inOut", stagger: 0.06 }, 0.36)
+      .to(book, { scale: 3.2, x: width * 0.05, y: "-4vh", rotationX: 0, duration: 0.24, ease: "power2.inOut" }, 0.62)
+      .to({}, { duration: 0.14 }, 0.86);
 
     let noteState = "before";
     let finalState = "before";
-    ScrollTrigger.create({
-      trigger: section, start: "top top", end: "bottom bottom", scrub: 0.6, animation: tl,
-      onUpdate: ({ progress }) => {
-        const wanted = progress >= 0.3 && progress < 0.62 ? "played" : "hidden";
-        if (wanted !== noteState) {
-          if (wanted === "played") noteTl.timeScale(1.5).play(); else noteTl.timeScale(3.5).reverse();
-          noteState = wanted;
-        }
-        const show = progress >= 0.81 ? "played" : "hidden";
-        if (show !== finalState) {
-          if (show === "played") finalTl.timeScale(1.25).play(); else finalTl.timeScale(3.5).reverse();
-          finalState = show;
-        }
-      },
+    tl.eventCallback("onUpdate", () => {
+      const at = tl.progress();
+      const wanted = at >= 0.26 && at < 0.58 ? "played" : "hidden";
+      if (wanted !== noteState) {
+        if (wanted === "played") noteTl.timeScale(1.5).play(); else noteTl.timeScale(3.5).reverse();
+        noteState = wanted;
+      }
+      const show = at >= 0.88 ? "played" : "hidden";
+      if (show !== finalState) {
+        if (show === "played") finalTl.timeScale(1.25).play(); else finalTl.timeScale(3.5).reverse();
+        finalState = show;
+      }
     });
+    ScrollTrigger.create({ trigger: section, start: "top top", end: "bottom bottom", scrub: 0.6, animation: tl });
   }
 
   // Genres: four covers pop out around the genre under the pointer and drift with it
@@ -855,8 +883,9 @@
       return [item, fn];
     });
     list.addEventListener("pointermove", parallax);
-    gsap.from(items, { yPercent: 40, opacity: 0, rotate: 3, duration: 0.8, ease: ELASTIC_SOFT, stagger: 0.04,
-      scrollTrigger: { trigger: list, start: "top 85%", once: true } });
+    gsap.timeline({ scrollTrigger: { trigger: list, start: "top 85%", once: true } })
+      .from(items, { yPercent: 40, rotate: 3, duration: 0.8, ease: ELASTIC_SOFT, stagger: 0.04 }, 0)
+      .from(items, { opacity: 0, duration: 0.3, ease: "power1.out", stagger: 0.04 }, 0);
     return () => {
       handlers.forEach(([item, fn]) => { item.removeEventListener("pointerenter", fn); item.removeEventListener("focusin", fn); });
       list.removeEventListener("pointermove", parallax);
@@ -1147,56 +1176,119 @@
 
   // Sections pop up a little as they arrive
   function sectionEntrances(page) {
-    page.querySelectorAll(".books__title, .flow__title, .faq__title, .favs__title, .spotlight__title, .gift__title, .faqs__title, .shelf__name, .mine__title").forEach((title) => whenNear(title, () => {
+    page.querySelectorAll(".books__title, .flow__title, .faq__title, .favs__title, .spotlight__title, .gift__title, .faqs__title, .shelf__name, .mine__title, .guide__title, .lines__title").forEach((title) => whenNear(title, () => {
       const tl = gsap.timeline({ scrollTrigger: { trigger: title, start: "top 88%", once: true } });
       stretchWords(tl, title, 0);
     }));
   }
 
-  // All books: search, genre chips, and show more
+  // All books: search; fiction or non-fiction; a genre or a collection (From India); mood and length. Every choice is
+  // kept in the address, so Back, a reload or a shared link shows the same books.
   function catalogue(page) {
     const rootEl = page.querySelector("[data-search-root]");
     if (!rootEl) return;
     const input = rootEl.querySelector("[data-search-input]");
     const chips = [...rootEl.querySelectorAll(".chip")];
+    const kinds = [...rootEl.querySelectorAll(".kinds [data-kind]")];
+    const moodSelect = rootEl.querySelector("[data-mood]");
+    const lengthSelect = rootEl.querySelector("[data-length]");
+    const clear = rootEl.querySelector("[data-clear-filters]");
     const cards = [...rootEl.querySelectorAll(".book-card")];
     const status = rootEl.querySelector("[data-search-status]");
     const empty = rootEl.querySelector("[data-search-empty]");
-    let genre = new URLSearchParams(location.search).get("genre") || "";
-    if (!chips.some((c) => c.dataset.genre === genre)) genre = "";
+    const LENGTHS = { short: [0, 180], medium: [180, 480], long: [480, Infinity] };
+    const params = new URLSearchParams(location.search);
+    const pick = (value, allowed) => (allowed.includes(value) ? value : "");
+    const state = {
+      kind: pick(params.get("kind"), ["fiction", "nonfiction"]),
+      genre: pick(params.get("genre"), chips.map((c) => c.dataset.genre).filter(Boolean)),
+      collection: pick(params.get("collection"), chips.map((c) => c.dataset.collection).filter(Boolean)),
+      mood: pick(params.get("mood"), [...(moodSelect?.options || [])].map((o) => o.value).filter(Boolean)),
+      length: pick(params.get("length"), Object.keys(LENGTHS)),
+    };
+    // a genre belongs to one kind: choosing it shows that kind, and a kind hides the other kind's genres
+    const genreChip = () => chips.find((c) => c.dataset.genre && c.dataset.genre === state.genre);
+    if (state.genre && genreChip()) state.kind = genreChip().dataset.chipKind;
 
+    const keep = () => {
+      const url = new URL(location.href);
+      ["kind", "genre", "collection", "mood", "length"].forEach((key) => {
+        if (state[key]) url.searchParams.set(key, state[key]); else url.searchParams.delete(key);
+      });
+      history.replaceState(history.state, "", url);
+    };
     const apply = (animate = true) => {
       // Accents dropped, as in the cards' search text, so "bronte" finds Brontë
       const words = input.value.trim().toLowerCase().normalize("NFD").replace(/\p{Mn}/gu, "").split(/\s+/).filter(Boolean);
+      const [least, most] = LENGTHS[state.length] || [0, Infinity];
       const shown = [];
       cards.forEach((card) => {
-        const match = words.every((w) => card.dataset.search.includes(w)) && (!genre || card.dataset.genres.split(" ").includes(genre));
+        const d = card.dataset;
+        const match = words.every((w) => d.search.includes(w))
+          && (!state.kind || d.bookKind === state.kind)
+          && (!state.genre || d.genres.split(" ").includes(state.genre))
+          && (!state.collection || d.collections.split(" ").includes(state.collection))
+          && (!state.mood || d.moods.split(" ").includes(state.mood))
+          && Number(d.minutes) >= least && Number(d.minutes) < most;
         const was = !card.hidden;
         card.hidden = !match;
         if (match && !was) shown.push(card);
       });
-      chips.forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.genre === genre)));
+      kinds.forEach((k) => k.setAttribute("aria-pressed", String(k.dataset.kind === state.kind)));
+      chips.forEach((c) => {
+        c.parentElement.hidden = Boolean(state.kind && c.dataset.chipKind && c.dataset.chipKind !== state.kind);
+        c.setAttribute("aria-pressed", String(c.dataset.genre ? c.dataset.genre === state.genre : c.dataset.collection === state.collection));
+      });
+      if (moodSelect) moodSelect.value = state.mood;
+      if (lengthSelect) lengthSelect.value = state.length;
       const count = cards.filter((c) => !c.hidden).length;
-      const chip = chips.find((c) => c.dataset.genre === genre);
-      const what = [words.length ? `“${input.value.trim()}”` : "", chip ? chip.textContent : ""].filter(Boolean).join(" in ");
+      // what the books shown have in common, in words: "12 books match “sea” in Adventure, gripping, under 3 hours"
+      const label = (select) => select?.selectedOptions[0]?.textContent.toLowerCase();
+      const what = [
+        words.length ? `“${input.value.trim()}”` : "",
+        state.genre ? genreChip()?.textContent : state.collection ? chips.find((c) => c.dataset.collection === state.collection)?.textContent
+          : state.kind === "nonfiction" ? "non-fiction" : state.kind === "fiction" ? "fiction" : "",
+        state.mood ? label(moodSelect) : "",
+        state.length ? label(lengthSelect) : "",
+      ].filter(Boolean);
       status.textContent = count === cards.length ? `Showing all ${count} books.`
-        : `${count} ${count === 1 ? "book matches" : "books match"} ${what}.`;
+        : `${count} ${count === 1 ? "book matches" : "books match"}: ${what.join(", ")}.`;
       empty.hidden = count > 0;
+      clear.hidden = !(state.kind || state.genre || state.collection || state.mood || state.length || words.length);
       if (animate && shown.length && !reducedMotion()) {
-        gsap.fromTo(shown, { scale: 0.6, opacity: 0, rotate: () => gsap.utils.random(-8, 8) },
-          { scale: 1, opacity: 1, rotate: 0, duration: 0.7, ease: ELASTIC_SOFT, stagger: 0.04, clearProps: "scale,rotate" });
+        gsap.fromTo(shown, { scale: 0.6, rotate: () => gsap.utils.random(-8, 8) },
+          { scale: 1, rotate: 0, duration: 0.7, ease: ELASTIC_SOFT, stagger: 0.04, clearProps: "scale,rotate" });
+        gsap.fromTo(shown, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out", stagger: 0.04, clearProps: "opacity" });
       }
       if (animate) ScrollTrigger.refresh();
     };
+    const change = () => { keep(); apply(); };
     input.addEventListener("input", () => apply());
     rootEl.querySelector("[data-search-form]").addEventListener("submit", (event) => event.preventDefault());
-    chips.forEach((chip) => chip.addEventListener("click", () => {
-      genre = genre === chip.dataset.genre ? "" : chip.dataset.genre;
-      const url = new URL(location.href);
-      if (genre) url.searchParams.set("genre", genre); else url.searchParams.delete("genre");
-      history.replaceState(history.state, "", url);
-      apply();
+    kinds.forEach((k) => k.addEventListener("click", () => {
+      state.kind = k.dataset.kind;
+      if (state.genre && genreChip()?.dataset.chipKind !== state.kind) state.genre = "";
+      change();
     }));
+    chips.forEach((chip) => chip.addEventListener("click", () => {
+      if (chip.dataset.genre) {
+        state.genre = state.genre === chip.dataset.genre ? "" : chip.dataset.genre;
+        state.collection = "";
+        if (state.genre) state.kind = chip.dataset.chipKind;
+      } else {
+        state.collection = state.collection === chip.dataset.collection ? "" : chip.dataset.collection;
+        state.genre = "";
+      }
+      change();
+    }));
+    moodSelect?.addEventListener("change", () => { state.mood = moodSelect.value; change(); });
+    lengthSelect?.addEventListener("change", () => { state.length = lengthSelect.value; change(); });
+    clear.addEventListener("click", () => {
+      Object.keys(state).forEach((key) => { state[key] = ""; });
+      input.value = "";
+      change();
+      input.focus();
+    });
     apply(false);
     // Sorting: most read (the shelf's own order), title, or length; kept in the address so Back returns to it
     const grid = rootEl.querySelector("[data-search-grid]");
@@ -1395,6 +1487,131 @@
     return () => { gone = true; undo?.(); };
   }
 
+  // Your account and readers' pages (js/account-page.js, with js/account.js already on every page)
+  function accountPages(page) {
+    const root = page.querySelector("[data-account-page], [data-profile-page]");
+    if (!root) return null;
+    let undo = null;
+    let gone = false;
+    const s = document.createElement("script");
+    const src = `js/account-page.js?${version}`;
+    const ready = () => { if (!gone) undo = window.BookshelfAccountPage.init(root, libraryOf(page)); };
+    if (window.BookshelfAccountPage) ready();
+    else if (document.querySelector(`script[src="${src}"]`)) document.querySelector(`script[src="${src}"]`).addEventListener("load", ready, { once: true });
+    else {
+      s.src = src;
+      s.onload = ready;
+      s.onerror = () => root.prepend(Object.assign(document.createElement("p"), { className: "mine__empty", textContent: "This page didn’t load. Check your connection and try again." }));
+      document.head.append(s);
+    }
+    return () => { gone = true; undo?.(); };
+  }
+
+  /* ---------------- Lines from the books ---------------- */
+
+  // Home: the line of the day, the same for everyone on a given day (by the reader's own date)
+  function dailyLine(page) {
+    const box = page.querySelector("[data-daily-line]");
+    if (!box) return;
+    let lines = [];
+    try { lines = JSON.parse(box.querySelector("[data-daily-lines]").textContent); } catch { return; }
+    if (!lines.length) return;
+    const today = new Date();
+    const day = Math.floor(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) / 86400000);
+    const line = lines[day % lines.length];
+    box.querySelector("[data-daily-text]").textContent = line.text;
+    const book = box.querySelector("[data-daily-book]");
+    book.textContent = line.book;
+    book.href = line.page;
+    box.querySelector("[data-daily-author]").textContent = line.author;
+    box.querySelector("[data-daily-open]").href = line.href;
+    Object.assign(box.querySelector("[data-daily-share]").dataset, { quote: line.text, quoteBook: line.book, quoteAuthor: line.author, quoteColour: line.colour });
+  }
+
+  // Share: a picture of the line, in the book's colours, for a story or a chat. Phones offer their share sheet; elsewhere
+  // the picture is saved.
+  function wrapLines(g, text, width) {
+    const words = text.split(" ");
+    const out = [];
+    let line = "";
+    words.forEach((w) => {
+      const next = line ? `${line} ${w}` : w;
+      if (g.measureText(next).width > width && line) { out.push(line); line = w; } else line = next;
+    });
+    if (line) out.push(line);
+    return out;
+  }
+  async function quoteCard({ quote, quoteBook, quoteAuthor, quoteColour }) {
+    await Promise.all(["900 80px Rubik", "600 40px Figtree", "700 30px Figtree"].map((f) => document.fonts?.load(f)));
+    const canvas = document.createElement("canvas");
+    canvas.width = 1080;
+    canvas.height = 1350;
+    const g = canvas.getContext("2d");
+    const css = getComputedStyle(document.documentElement);
+    const bg = css.getPropertyValue(`--${quoteColour}`).trim() || "#ffd24a";
+    const ink = ["olive", "violet", "magenta"].includes(quoteColour) ? "#ffffff" : "#000000";
+    g.fillStyle = bg;
+    g.fillRect(0, 0, 1080, 1350);
+    g.fillStyle = ink;
+    g.globalAlpha = 0.18;
+    g.font = "900 420px Rubik";
+    g.fillText("“", 50, 400);
+    g.globalAlpha = 1;
+    // the largest type at which the line fits in the space above the title
+    let size = 76;
+    let lines;
+    do {
+      g.font = `900 ${size}px Rubik`;
+      lines = wrapLines(g, quote, 900);
+      size -= 4;
+    } while (lines.length * size * 1.18 > 690 && size > 34);
+    const lineHeight = (size + 4) * 1.18;
+    let y = 380;
+    lines.forEach((l) => { g.fillText(l, 90, y); y += lineHeight; });
+    g.font = "700 46px Figtree";
+    g.fillText(quoteBook, 90, 1130, 900);
+    g.font = "600 36px Figtree";
+    g.globalAlpha = 0.8;
+    g.fillText(quoteAuthor, 90, 1182, 900);
+    g.font = "700 30px Figtree";
+    g.fillText("Read it free at The Bookshelf", 90, 1272);
+    g.globalAlpha = 1;
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+    return new File([blob], `${quoteBook.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-quote.png`, { type: "image/png" });
+  }
+  document.addEventListener("click", async (event) => {
+    const button = event.target.closest?.("[data-quote-share]");
+    if (!button || button.disabled) return;
+    const label = button.querySelector("span");
+    const was = label.textContent;
+    button.disabled = true;
+    label.textContent = "Making the picture…";
+    const save = (file) => {
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(file);
+      link.download = file.name;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+      label.textContent = "Picture saved";
+      setTimeout(() => { label.textContent = was; }, 2500);
+    };
+    let file = null;
+    try {
+      file = await quoteCard(button.dataset);
+      if (navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file], title: button.dataset.quoteBook });
+        label.textContent = was;
+      } else save(file);
+    } catch (error) {
+      // closing the share sheet is a choice, not a failure; any other trouble with sharing saves the picture instead
+      if (file && error?.name !== "AbortError") save(file); else label.textContent = was;
+    } finally {
+      button.disabled = false;
+    }
+  });
+
   // A book you have started: its Read button says where you are
   function readButton(page) {
     const button = page.querySelector("[data-read-button]");
@@ -1413,13 +1630,15 @@
   function initPage(container) {
     awaitShown();
     setCurrentNav(container.dataset.barbaNamespace);
-    pageCleanups.push(window.BookshelfForms?.init(container) || (() => {}));
     accordions(container);
     continueReading(container);
     readButton(container);
+    dailyLine(container);
     offlineButtons(container);
     const closeYours = yourReading(container);
     if (closeYours) pageCleanups.push(closeYours);
+    const closeAccount = accountPages(container);
+    if (closeAccount) pageCleanups.push(closeAccount);
     const closeReader = readerPage(container);
     if (closeReader) pageCleanups.push(closeReader);
     if (reducedMotion()) {
@@ -1528,7 +1747,8 @@
   const scrollMemory = new Map(); // page address -> how far down it was when you left
 
   barba.init({
-    timeout: 7000,
+    // A slow phone can take a while to fetch the next page; past this Barba loads it in full instead (still covered)
+    timeout: 12000,
     preventRunning: true,
     // Back and forward have no link element: without the check this threw, and Barba fell back to reloading the page
     prevent: ({ el }) => Boolean(el) && (el.hasAttribute("download") || el.target === "_blank"),

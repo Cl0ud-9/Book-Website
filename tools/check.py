@@ -83,14 +83,13 @@ with sync_playwright() as p:
     page.wait_for_timeout(700)
     ok(not acc.evaluate("d => d.open"), "question closes")
 
-    # newsletter
-    page.locator("#newsletter-email").scroll_into_view_if_needed()
+    # the footer's feed of the book of the month
+    feed_link = page.locator(".footer a[href='feed.xml']")
+    ok(feed_link.count() == 1, "the footer links to the book-of-the-month feed")
+    feed_link.scroll_into_view_if_needed()
     page.wait_for_timeout(1500)
-    page.locator("[data-newsletter] button[type=submit]").click()
-    ok("Enter an email" in page.locator("[data-newsletter-message]").inner_text(), "newsletter rejects empty email")
-    page.fill("#newsletter-email", "reader@example.com")
-    page.locator("[data-newsletter] button[type=submit]").click()
-    ok("Thanks" in page.locator("[data-newsletter-message]").inner_text(), "newsletter thanks you")
+    feed = page.request.get(BASE + "feed.xml")
+    ok(feed.ok and "<entry>" in feed.text() and "Book of the month" in feed.text(), "the feed has the books of the month")
 
     # hash link on the same page scrolls instead of reloading
     page.locator("footer a[href='index.html#new']").click()
@@ -212,22 +211,20 @@ with sync_playwright() as p:
     ok(page.locator("[data-continue]").is_visible() and first["title"] in page.locator("[data-continue]").inner_text(),
        "the home page shows Continue reading")
 
-    # to sign-up and the form
-    page.evaluate("window.scrollTo(0,0)")
-    page.wait_for_timeout(600)
+    # the old demo sign-up address leads on; the account page says plainly when accounts are off (tools/accounts_check.py
+    # tests accounts themselves, against Firebase's emulators); the privacy page is there
     page.goto(BASE + "signup.html", wait_until="networkidle")
-    page.wait_for_timeout(3000)
-    page.locator("form[data-validate] button[type=submit]").click()
-    ok(page.locator("#username-error").inner_text() != "", "sign-up shows errors")
-    ok(page.evaluate("document.activeElement.id") == "username", "focus moves to first error")
-    page.fill("#username", "<img src=x onerror=alert(1)>")
-    page.fill("#password", "secret1")
-    page.fill("#confirm", "secret1")
-    page.fill("#contact", "9876543210")
-    page.locator("form[data-validate] button[type=submit]").click()
-    msg = page.locator("#form-message").inner_text()
-    ok("Account created" in msg and page.locator("#form-message img").count() == 0, "sign-up succeeds, no HTML injection")
-    page.screenshot(path=f"{OUT}/signup.png")
+    page.wait_for_timeout(1500)
+    accounts_on = page.evaluate("Boolean(window.bookshelfAccounts)")
+    ok(page.url.endswith("account.html" if accounts_on else "reading.html"), f"the old sign-up address leads on ({page.url})")
+    page.goto(BASE + "account.html", wait_until="networkidle")
+    page.wait_for_timeout(2500)
+    if not accounts_on:
+        ok(page.locator("[data-acct-off]").is_visible() and page.locator(".header .account-chip").is_hidden(),
+           "with accounts off, the account page says so and the header has no Sign in")
+    page.goto(BASE + "privacy.html", wait_until="networkidle")
+    page.wait_for_timeout(1500)
+    ok(page.locator(".prose h2").count() >= 4, "the privacy page explains what is kept")
 
     # from a book page, the menu's Genres and FAQ open their own pages (they used to fall back to the top of home)
     page.goto(BASE + f"book-{first['slug']}.html", wait_until="networkidle")
@@ -238,8 +235,11 @@ with sync_playwright() as p:
        f"Genres opens the genres page without a reload ({page.url})")
     ok(page.locator("[data-nav=genres]").first.get_attribute("aria-current") == "page", "Genres marked current")
     genres = sorted({g for b in LIBRARY for g in b["genres"]})
-    ok(page.locator(".shelf").count() == len(genres), f"a shelf for every genre ({page.locator('.shelf').count()}/{len(genres)})")
-    row = page.locator("[data-shelf-row]").first
+    collections = {c for b in LIBRARY for c in b.get("collections", [])}
+    ok(page.locator(".shelf").count() == len(genres) + len(collections),
+       f"a shelf for every genre and collection ({page.locator('.shelf').count()}/{len(genres) + len(collections)})")
+    # a full shelf (the first, From India, is a short one)
+    row = page.locator(".shelf", has_text="Romance").locator("[data-shelf-row]")
     row.scroll_into_view_if_needed()
     page.wait_for_timeout(1500)
     box = row.bounding_box()
@@ -412,7 +412,7 @@ with sync_playwright() as p:
     ctx.close()
 
     # ---- the smallest phones: nothing may make any page wider than the screen, even while it animates in
-    for path in ("", "books.html", "genres.html", "faq.html", "reading.html", f"book-{LIBRARY[0]['slug']}.html", f"read.html?book={LIBRARY[0]['slug']}", "signup.html"):
+    for path in ("", "books.html", "genres.html", "faq.html", "reading.html", f"book-{LIBRARY[0]['slug']}.html", f"read.html?book={LIBRARY[0]['slug']}", "account.html", "privacy.html"):
         page = browser.new_page(viewport={"width": 320, "height": 700}, is_mobile=True, has_touch=True)
         page.goto(BASE + path, wait_until="domcontentloaded")
         widths = []

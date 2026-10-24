@@ -11,7 +11,8 @@
   const WIKTIONARY = "https://en.wiktionary.org/api/rest_v1/page/definition/";
 
   // Text compared loosely: curly quotes, dashes and runs of spaces do not matter
-  const loose = (text) => text.normalize("NFKC").replace(/[‘’ʼ]/g, "'").replace(/[“”]/g, "\"").replace(/[‐-―]/g, "-").replace(/\s+/g, " ");
+  // (and the invisible joiners Standard Ebooks puts around dashes)
+  const loose = (text) => text.normalize("NFKC").replace(/[⁠﻿​]/g, "").replace(/[‘’ʼ]/g, "'").replace(/[“”]/g, "\"").replace(/[‐-―]/g, "-").replace(/\s+/g, " ");
 
   // A Range over the words `want` in a document, choosing the copy whose neighbours best match prefix and suffix
   function rangeOf(doc, want, prefix = "", suffix = "") {
@@ -113,13 +114,34 @@
       rendition.on("selected", onSelected);
       rendition.on("markClicked", (cfi, data) => { const note = notes.find((n) => n.id === data?.id); if (note) openNote(note, cfi); });
       rendition.on("rendered", check);
-      rendition.on("relocated", () => hideBar());
+      // Scrolling with words still selected keeps the bar (a phone scrolls a little as a selection's handle is dragged)
+      rendition.on("relocated", () => { if (!stillSelected()) hideBar(); else if (picked && !docked()) place(picked.contents.window.getSelection().getRangeAt(0), picked.contents); });
+      // Tapping elsewhere drops the selection, and the bar goes with it
+      rendition.hooks.content.register((contents) => {
+        contents.document.addEventListener("selectionchange", () => {
+          if (picked?.contents === contents && !stillSelected()) setTimeout(() => { if (picked && !stillSelected()) hideBar(); }, 300);
+        });
+      });
       drawAll();
     });
 
     /* ---------- The bar over a selection ---------- */
 
+    // Touch screens: the bar sits across the top, over the reader's own bar. Floating by the words it covered them and the
+    // handles that stretch a selection, and it fought the phone's own Copy menu (just above a selection) and Google's
+    // search panel (along the bottom) for the same space.
+    const docked = () => matchMedia("(pointer: coarse)").matches;
+    const stillSelected = () => {
+      try { const sel = picked?.contents?.window.getSelection(); return Boolean(sel && !sel.isCollapsed && sel.rangeCount); } catch { return false; }
+    };
     const place = (range, contents) => {
+      bar.classList.toggle("is--docked", docked());
+      if (docked()) {
+        bar.hidden = false;
+        bar.style.left = "";
+        bar.style.top = "";
+        return;
+      }
       const frame = contents.window.frameElement?.getBoundingClientRect();
       const r = range.getBoundingClientRect();
       if (!frame) return;
@@ -127,8 +149,7 @@
       const w = bar.offsetWidth;
       const h = bar.offsetHeight;
       const x = Math.min(Math.max(8, frame.left + r.left + r.width / 2 - w / 2), innerWidth - w - 8);
-      // phones show their own copy menu above a selection, so ours goes below
-      const below = matchMedia("(pointer: coarse)").matches || frame.top + r.top - h - 12 < 64;
+      const below = frame.top + r.top - h - 12 < 64;
       // kept on screen even when the selection runs past an edge of it (a long one, or one scrolled half away)
       const y = Math.min(Math.max(below ? frame.top + r.bottom + 12 : frame.top + r.top - h - 12, 64), innerHeight - h - 8);
       bar.style.left = `${x}px`;
@@ -139,8 +160,11 @@
       const words = (existing ? existing.text : range.toString()).trim().split(/\s+/);
       defineButton.hidden = words.length > 3 || !/\p{L}/u.test(words.join(""));
       bar.querySelectorAll("[data-style]").forEach((b) => b.setAttribute("aria-pressed", String(existing?.style === b.dataset.style)));
+      const wasHidden = bar.hidden;
       place(range, contents);
-      ctx.gsap?.fromTo(bar, { opacity: 0, y: 6, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2)", clearProps: "transform,opacity" });
+      if (!wasHidden) return; // a selection being stretched: the bar stays as it is
+      if (docked()) ctx.gsap?.fromTo(bar, { yPercent: -100 }, { yPercent: 0, duration: 0.35, ease: "expo.out", clearProps: "transform" });
+      else ctx.gsap?.fromTo(bar, { opacity: 0, y: 6, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2)", clearProps: "transform,opacity" });
     };
     function hideBar() {
       bar.hidden = true;

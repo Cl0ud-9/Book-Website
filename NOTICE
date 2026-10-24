@@ -4,9 +4,12 @@ GSAP 3.15.0 with ScrollTrigger, SplitText, CustomEase, InertiaPlugin and DrawSVG
 "No Charge" License, https://gsap.com/standard-license.
 
 Lenis 1.3.17, Barba core 2.10.3, Barba prefetch 2.2.0, Smooothy 0.0.35 and JSZip 3.10.1, in js/vendor: MIT License.
-epub.js 0.3.93, in js/vendor: BSD 2-Clause License. The full notices are in js/vendor/LICENSES.md.
+epub.js 0.3.93, in js/vendor: BSD 2-Clause License. The Firebase JavaScript SDK 12.19.0 (the parts used for
+accounts, bundled as js/vendor/firebase.mjs): Apache License 2.0, with idb under the ISC License. The full notices
+are in js/vendor/LICENSES.md.
 
-Rubik, Figtree and Gochi Hand, in fonts (subset to Latin): SIL Open Font License 1.1, https://openfontlicense.org.
+Rubik, Figtree (upright and italic), Gochi Hand and Literata, in fonts (subset to Latin; Literata fixed at its text
+optical size): SIL Open Font License 1.1, https://openfontlicense.org.
 
 Lucide icons, in tools/icons and inlined in every page: ISC License, https://lucide.dev. See tools/icons/LICENSE.
 
@@ -20,5 +23,9 @@ from the same editions. Copyright laws differ between countries; check yours bef
 Word meanings in the reader are fetched as you ask for them from Wiktionary (https://en.wiktionary.org), whose text is
 available under the Creative Commons Attribution-ShareAlike 4.0 License; each one says so where it is shown. Book pages
 link to free LibriVox recordings (https://librivox.org), which LibriVox releases into the public domain.
+
+The two Alice books, Alice's Adventures in Wonderland and Through the Looking-Glass, are Standard Ebooks editions
+with Tenniel's illustrations kept at their ordinary resolution only (Standard Ebooks also includes copies at double
+resolution); their text is unchanged. Accounts, when they are switched on, are run on Google's Firebase.
 
 The illustrations, logo and site icons were drawn for this project and are covered by its license.

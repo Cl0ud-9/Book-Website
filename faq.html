@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Common questions | The Bookshelf</title>
 <meta name="description" content="How reading and downloading work on the Bookshelf, where the books come from and why they are free.">
+
 <meta name="theme-color" content="#ffd24a">
 <link rel="canonical" href="https://cl0ud-9.github.io/Book-Website/faq.html">
 <meta property="og:type" content="website">
@@ -20,10 +21,11 @@
 <link rel="icon" href="image/logo.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="image/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
+<link rel="alternate" type="application/atom+xml" title="The Bookshelf: book of the month" href="feed.xml">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=d082e687">
-<script>(function(d){var r=d.documentElement;r.classList.add('js');})(document)</script>
+<link rel="stylesheet" href="css/main.css?v=432f7c4e">
+<script>(function(d){var r=d.documentElement;r.classList.add('js');var c;try{c=+sessionStorage.getItem('bookshelf:covered');sessionStorage.removeItem('bookshelf:covered')}catch(e){}if(c&&Date.now()-c<30000&&!matchMedia('(prefers-reduced-motion: reduce)').matches){r.classList.add('is-loading','is-carried');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading','is-carried')},4000)}})(document)</script>
 <script src="js/vendor/gsap.min.js" defer></script>
 <script src="js/vendor/ScrollTrigger.min.js" defer></script>
 <script src="js/vendor/SplitText.min.js" defer></script>
@@ -34,13 +36,24 @@
 <script src="js/vendor/barba.umd.min.js" defer></script>
 <script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
 <script src="js/vendor/smooothy.min.js" defer></script>
-<script src="js/forms.js?v=d082e687" defer></script>
-<script src="js/app.js?v=d082e687" defer></script>
+<script src="js/account.js?v=432f7c4e" defer></script>
+<script src="js/app.js?v=432f7c4e" defer></script>
 </head>
 <body data-barba="wrapper">
 <svg xmlns="http://www.w3.org/2000/svg" hidden>
   <symbol id="i-logo" viewBox="0 0 48 48"><path fill="currentColor" d="M24 9.5c-4.2-3.3-10.3-4.4-17-3.5a2 2 0 0 0-1.7 2v27.6a2 2 0 0 0 2.3 2c6.2-.8 11.3.2 15.2 3.1a2 2 0 0 0 2.4 0c3.9-2.9 9-3.9 15.2-3.1a2 2 0 0 0 2.3-2V8a2 2 0 0 0-1.7-2c-6.7-.9-12.8.2-17 3.5Zm-2.2 4.2v20.9c-3.6-1.8-7.9-2.6-12.5-2.4V10c4.9-.4 9.3.8 12.5 3.7Zm4.4 0c3.2-2.9 7.6-4.1 12.5-3.7v22.2c-4.6-.2-8.9.6-12.5 2.4V13.7Z"/><path fill="currentColor" d="M33 4h5v12l-2.5-2-2.5 2z"/></symbol>
   <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5" /> <path d="M20 21a8 8 0 0 0-16 0" /></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 17 5-5-5-5" /> <path d="M21 12H9" /> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></symbol>
+  <symbol id="i-feather" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.086 18.412A2 2 0 0112.67 19H5v-7.672a2 2 0 01.586-1.414L11.75 3.75a6 6 0 118.49 8.49z" /> <path d="M16 8 2 22" /> <path d="M17.488 15H9" /></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20a10 10 0 0010-10 25.9 25.9 0 00-1.04-7.281 1 1 0 00-1.755-.325C15.833 5.5 13 5.5 9.8 6.1A7 7 0 0011 20" /> <path d="M2 21a5 5 0 012.911-4.544C7.613 15.212 8.351 15.24 11 13" /></symbol>
+  <symbol id="i-coffee" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v2" /> <path d="M14 2v2" /> <path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /> <path d="M6 2v2" /></symbol>
+  <symbol id="i-cat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0 1 12 5Z" /> <path d="M8 14v.5" /> <path d="M16 14v.5" /> <path d="M11.25 16.25h1.5L12 17l-.75-.75Z" /></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" /> <circle cx="12" cy="12" r="3" /></symbol>
+  <symbol id="i-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" /> <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" /> <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" /> <path d="m2 2 20 20" /></symbol>
+  <symbol id="i-sync" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /> <path d="M21 3v5h-5" /> <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /> <path d="M8 16H3v5" /></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 15-5.5 5.5L9 18" /> <path d="M5.516 16.07A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 3.501 7.327" /></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14" /> <path d="m12 5 7 7-7 7" /></symbol>
   <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7" /> <path d="M19 12H5" /></symbol>
   <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7-7 7 7" /> <path d="M12 19V5" /></symbol>
@@ -103,6 +116,7 @@
     </ul>
   </nav>
   <div class="header__side">
+    <a class="account-chip" href="account.html" data-account-chip data-nav="account" hidden><svg class="icon" aria-hidden="true"><use href="#i-user"></use></svg><span data-account-chip-label>Sign in</span></a>
     <a class="header__social" href="https://github.com/Cl0ud-9/Book-Website" aria-label="Source code on GitHub"><svg class="icon" aria-hidden="true"><use href="#i-github"></use></svg></a>
   </div>
   <button class="button-alt is--small menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
@@ -123,6 +137,7 @@
       <a class="button-alt is--white" href="reading.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Your reading</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
       <a class="button-alt is--black" href="books.html" data-button-alt ><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Find a book</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a>
     </div>
+    <a class="account-chip is--menu" href="account.html" data-account-chip data-account-chip-out="Sign in or create an account" hidden><svg class="icon" aria-hidden="true"><use href="#i-user"></use></svg><span data-account-chip-label>Sign in</span></a>
     <p class="menu__note accent-note">See you between the pages!</p>
   </div>
 </div>
@@ -155,11 +170,11 @@
 </details>
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">Will it remember where I stopped?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
-  <div class="accordion__content" data-accordion-content><p>Yes, on this device. Open the book again and it picks up on your page, and the home page lists the books you are reading. Nothing is sent anywhere.</p></div>
+  <div class="accordion__content" data-accordion-content><p>Yes. Open the book again and it picks up on your page, and the home page lists the books you are reading. It is kept on this device.</p></div>
 </details>
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">Can I change how the text looks?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
-  <div class="accordion__content" data-accordion-content><p>Press Text in the reader: make the type bigger or smaller, choose a Paper, Sepia or Night page, and read in the book&#x27;s own font, a serif or a sans.</p></div>
+  <div class="accordion__content" data-accordion-content><p>Press Text in the reader: make the type bigger or smaller, choose a Paper, Sepia or Night page, and read in Literata (a serif made for reading on screens), Georgia or a sans.</p></div>
 </details>
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">Does it work without the internet?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
@@ -189,7 +204,7 @@
   <div class="faqs__list">
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">Where do the books come from?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
-  <div class="accordion__content" data-accordion-content><p>They are Standard Ebooks editions: public-domain classics carefully proofread and typeset by volunteers, with covers made from public-domain paintings.</p></div>
+  <div class="accordion__content" data-accordion-content><p>Almost all are Standard Ebooks editions: public-domain classics carefully proofread and typeset by volunteers, with covers made from public-domain paintings. A few classics from India that Standard Ebooks does not have come from Project Gutenberg. Each book&#x27;s page says which edition it is.</p></div>
 </details>
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">How are the books ranked?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
@@ -197,7 +212,7 @@
 </details>
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">How is the book of the month chosen?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
-  <div class="accordion__content" data-accordion-content><p>It takes turns among the twelve most read books, one a month, changing on the first. Its first line is printed beside it.</p></div>
+  <div class="accordion__content" data-accordion-content><p>A new one on the first of every month, chosen for how much it is read, here and on Open Library, how readers rate it, and the time of year: ghost stories in October, A Christmas Carol in December. No book comes round twice in a year, nor an author twice in six months, and every third month is a short read. The home page says why each one was chosen.</p></div>
 </details>
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">Will there be more books?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
@@ -210,7 +225,7 @@
   <div class="faqs__list">
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">Are the books really free?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
-  <div class="accordion__content" data-accordion-content><p>Yes. They are in the public domain, so they belong to everyone. No sign-up, no ads, no catch.</p></div>
+  <div class="accordion__content" data-accordion-content><p>Yes. They are in the public domain, so they belong to everyone. No ads, no catch, and no account needed.</p></div>
 </details>
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">Why are there no new bestsellers or manga?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
@@ -218,11 +233,15 @@
 </details>
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">Are they free where I live?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
-  <div class="accordion__content" data-accordion-content><p>Every book here is in the public domain in the United States and in India, where copyright lasts for the author&#x27;s life and sixty years. Most are free almost everywhere, but check your country&#x27;s rules.</p></div>
+  <div class="accordion__content" data-accordion-content><p>Every book here is in the public domain in the United States and in India, where copyright lasts for the author&#x27;s life and sixty years. That goes for translators, illustrators and cover painters too: where a cover painting is still under copyright in India, the book has a cover drawn here instead. Most books are free almost everywhere, but check your country&#x27;s rules.</p></div>
 </details>
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">Do you track what I read?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
-  <div class="accordion__content" data-accordion-content><p>We count, without cookies and without knowing who you are, how often each page is visited and how often each book is opened, reaches its second chapter, is finished or is downloaded. That is how the book of the month learns what people enjoy. If your browser asks sites not to track you, we count nothing at all. Your place in each book stays on your own device.</p></div>
+  <div class="accordion__content" data-accordion-content><p>We count, without cookies and without knowing who you are, how often each page is visited and how often each book is opened, reaches its second chapter, is finished or is downloaded. That is how the book of the month learns what people enjoy. If your browser asks sites not to track you, we count nothing at all. Your reading stays on your own device.</p></div>
+</details>
+<details class="accordion" data-accordion>
+  <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">What do you keep about me?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
+  <div class="accordion__content" data-accordion-content><p>The privacy page says exactly what is kept, where, and how to remove it. <a href="privacy.html">Read it</a></p></div>
 </details>
   </div>
 </section>
@@ -235,7 +254,7 @@
 </details>
 <details class="accordion" data-accordion>
   <summary class="accordion__summary" data-accordion-summary><span class="accordion__title">Can I move my notes to another phone or laptop?</span><svg class="accordion__icon" aria-hidden="true"><use href="#i-plus"></use></svg></summary>
-  <div class="accordion__content" data-accordion-content><p>Yes. On Your reading, Back up saves everything to one small file; open Your reading on the other device and choose Restore with that file. There are no accounts yet, so nothing about you is stored anywhere else.</p></div>
+  <div class="accordion__content" data-accordion-content><p>Yes. On Your reading, Back up saves everything to one small file; open Your reading on the other device and choose Restore with that file.</p></div>
 </details>
   </div>
 </section>
@@ -250,9 +269,9 @@
 </section>
   </div>
 </section>
-<div class="ribbons" aria-label="Free, forever. 144 classics. Read here or download. No sign-up, no ads." role="note">
-  <div class="ribbon is--magenta" data-marquee="1"><div class="ribbon__track"><span>Free, forever ✦ 144 classics ✦ Read here or download ✦ No sign-up, no ads ✦ Free, forever ✦ 144 classics ✦ Read here or download ✦ No sign-up, no ads ✦ Free, forever ✦ 144 classics ✦ Read here or download ✦ No sign-up, no ads ✦ </span><span aria-hidden="true">Free, forever ✦ 144 classics ✦ Read here or download ✦ No sign-up, no ads ✦ Free, forever ✦ 144 classics ✦ Read here or download ✦ No sign-up, no ads ✦ Free, forever ✦ 144 classics ✦ Read here or download ✦ No sign-up, no ads ✦ </span></div></div>
-  <div class="ribbon is--cyan" data-marquee="-1"><div class="ribbon__track"><span aria-hidden="true">Free, forever ✦ 144 classics ✦ Read here or download ✦ No sign-up, no ads ✦ Free, forever ✦ 144 classics ✦ Read here or download ✦ No sign-up, no ads ✦ Free, forever ✦ 144 classics ✦ Read here or download ✦ No sign-up, no ads ✦ </span><span aria-hidden="true">Free, forever ✦ 144 classics ✦ Read here or download ✦ No sign-up, no ads ✦ Free, forever ✦ 144 classics ✦ Read here or download ✦ No sign-up, no ads ✦ Free, forever ✦ 144 classics ✦ Read here or download ✦ No sign-up, no ads ✦ </span></div></div>
+<div class="ribbons" aria-label="Free, forever. 161 classics. Read here or download. No ads, no catch." role="note">
+  <div class="ribbon is--magenta" data-marquee="1"><div class="ribbon__track"><span>Free, forever ✦ 161 classics ✦ Read here or download ✦ No ads, no catch ✦ Free, forever ✦ 161 classics ✦ Read here or download ✦ No ads, no catch ✦ Free, forever ✦ 161 classics ✦ Read here or download ✦ No ads, no catch ✦ </span><span aria-hidden="true">Free, forever ✦ 161 classics ✦ Read here or download ✦ No ads, no catch ✦ Free, forever ✦ 161 classics ✦ Read here or download ✦ No ads, no catch ✦ Free, forever ✦ 161 classics ✦ Read here or download ✦ No ads, no catch ✦ </span></div></div>
+  <div class="ribbon is--cyan" data-marquee="-1"><div class="ribbon__track"><span aria-hidden="true">Free, forever ✦ 161 classics ✦ Read here or download ✦ No ads, no catch ✦ Free, forever ✦ 161 classics ✦ Read here or download ✦ No ads, no catch ✦ Free, forever ✦ 161 classics ✦ Read here or download ✦ No ads, no catch ✦ </span><span aria-hidden="true">Free, forever ✦ 161 classics ✦ Read here or download ✦ No ads, no catch ✦ Free, forever ✦ 161 classics ✦ Read here or download ✦ No ads, no catch ✦ Free, forever ✦ 161 classics ✦ Read here or download ✦ No ads, no catch ✦ </span></div></div>
 </div>
 <section class="faqs-cta" aria-labelledby="cta-title">
   <h2 class="faqs-cta__title heading-l" id="cta-title">Still curious?</h2>
@@ -263,16 +282,11 @@
 <footer class="footer" data-footer-parallax>
   <div class="footer__inner">
     <div class="footer__top" data-footer-parallax-top>
-      <form class="footer__form" data-newsletter novalidate>
-        <h2 class="footer__form-title">Letters from the shelf</h2>
-        <p class="footer__text">One email a month: the classics we added, a few favourites, and nothing else.</p>
-        <div class="footer__field">
-          <label class="sr-only" for="newsletter-email">Email address</label>
-          <span class="footer__input"><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg><input class="field__input is--light" type="email" id="newsletter-email" name="email" placeholder="you@example.com" autocomplete="email" required></span>
-          <button type="submit" class="button-alt is--yellow" data-button-alt><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Subscribe</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></button>
-        </div>
-        <p class="footer__message" role="status" aria-live="polite" data-newsletter-message></p>
-      </form>
+      <div class="footer__form">
+        <h2 class="footer__form-title">New on the shelf</h2>
+        <p class="footer__text">A new book of the month on the first of every month. Follow it in any feed reader (Feedly, Inoreader, NetNewsWire) and it comes to you.</p>
+        <p class="footer__field"><a class="button-alt is--yellow" href="feed.xml" data-button-alt type="application/atom+xml"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Follow the feed</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span></a></p>
+      </div>
       <nav class="footer__nav" aria-label="Footer">
         <div class="footer__col">
           <h2 class="footer__heading">Library</h2>
@@ -280,7 +294,7 @@
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Yours</h2>
-          <ul><li><a href="reading.html">Your reading</a></li><li><a href="reading.html#notes">Your notes</a></li><li><a href="faq.html">Questions</a></li></ul>
+          <ul><li><a href="reading.html">Your reading</a></li><li><a href="reading.html#notes">Your notes</a></li><li><a href="faq.html">Questions</a></li><li><a href="privacy.html">Privacy</a></li></ul>
         </div>
         <div class="footer__col">
           <h2 class="footer__heading">Elsewhere</h2>

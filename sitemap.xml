@@ -5,6 +5,7 @@
   <url><loc>https://cl0ud-9.github.io/Book-Website/genres.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/faq.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/reading.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/privacy.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-frankenstein.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-pride-and-prejudice.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-dracula.html</loc></url>
@@ -26,7 +27,6 @@
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-a-study-in-scarlet.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-art-of-war.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-middlemarch.html</loc></url>
-  <url><loc>https://cl0ud-9.github.io/Book-Website/book-moral-letters-to-lucilius.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-edgar-allan-poe-short-fiction.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-treasure-island.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-to-the-lighthouse.html</loc></url>
@@ -52,6 +52,7 @@
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-paradise-lost.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-a-farewell-to-arms.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-a-christmas-carol.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-wealth-of-nations.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-macbeth.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-iliad.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-invisible-man.html</loc></url>
@@ -91,19 +92,21 @@
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-woman-in-white.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-jungle-book.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-valley-of-fear.html</loc></url>
-  <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-extraordinary-adventures-of-arsene-lupin-gentleman-burglar.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-life-and-adventures-of-robinson-crusoe.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-autobiography-of-benjamin-franklin.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-three-men-in-a-boat.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-prophet.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-edgar-allan-poe-poetry.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-his-last-bow.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-age-of-innocence.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-origin-of-species.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-island-of-doctor-moreau.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-dubliners.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-flatland.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-a-princess-of-mars.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-tess-of-the-durbervilles.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-conan-stories.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-on-liberty.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-o-henry-short-fiction.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-phantom-of-the-opera.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-king-lear.html</loc></url>
@@ -114,6 +117,7 @@
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-othello.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-fables.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-a-midsummer-nights-dream.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-ralph-waldo-emerson-essays.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-candide.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-beowulf.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-white-fang.html</loc></url>
@@ -139,9 +143,10 @@
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-house-on-the-borderland.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-last-man.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-king-solomons-mines.html</loc></url>
-  <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-story-of-my-experiments-with-truth.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-consolation-of-philosophy.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-voyage-of-the-beagle.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-a-little-princess.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-varieties-of-religious-experience.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-w-b-yeats-poetry.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-john-keats-poetry.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-jude-the-obscure.html</loc></url>
@@ -149,4 +154,17 @@
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-childrens-stories.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-mysterious-island.html</loc></url>
   <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-blue-castle.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-souls-of-black-folk.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-a-vindication-of-the-rights-of-woman.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-narrative-of-the-life-of-frederick-douglass.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-home-and-the-world.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-up-from-slavery.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-gitanjali.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-rights-of-man.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-my-reminiscences.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-golden-threshold.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-ancient-ballads-and-legends-of-hindustan.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-the-song-celestial.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-shakuntala-and-other-works.html</loc></url>
+  <url><loc>https://cl0ud-9.github.io/Book-Website/book-twenty-two-goblins.html</loc></url>
 </urlset>

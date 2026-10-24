@@ -8,7 +8,8 @@
         "http://localhost/genres.html",
         "http://localhost/faq.html",
         "http://localhost/reading.html",
-        "http://localhost/book-frankenstein.html"
+        "http://localhost/book-frankenstein.html",
+        "http://localhost/privacy.html"
       ],
       "numberOfRuns": 3,
       "settings": { "onlyCategories": ["performance", "accessibility", "seo"] }

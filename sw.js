@@ -2,12 +2,12 @@
    It keeps what the reader and Your reading need, the pages you visit, the covers you see and the books you keep
    for offline reading, so a kept book opens with no connection. Pages always come fresh from the network when
    there is one; only without it are the kept copies used. */
-const VERSION = "ca7b7d8e";
+const VERSION = "7921cd7d";
 const SHELL = `shell-${VERSION}`; // the reader's and the site's own files, for this version of the site
 const PAGES = "pages"; // pages you have visited
 const IMAGES = "images"; // covers you have seen (the most recent 300)
 const BOOKS = "books"; // books you keep for offline reading: only added or removed by you
-const FILES = ["read.html", "reading.html", "css/main.css?v=d082e687", "css/reader-content.css?v=d082e687", "js/app.js?v=d082e687", "js/forms.js?v=d082e687", "js/reader.js?v=d082e687", "js/notes-store.js?v=d082e687", "js/reader-notes.js?v=d082e687", "js/your-reading.js?v=d082e687", "js/vendor/gsap.min.js", "js/vendor/ScrollTrigger.min.js", "js/vendor/SplitText.min.js", "js/vendor/CustomEase.min.js", "js/vendor/InertiaPlugin.min.js", "js/vendor/DrawSVGPlugin.min.js", "js/vendor/lenis.min.js", "js/vendor/barba.umd.min.js", "js/vendor/barba-prefetch.umd.min.js", "js/vendor/smooothy.min.js", "js/vendor/jszip.min.js", "js/vendor/epub.min.js", "fonts/rubik.woff2", "fonts/figtree.woff2", "fonts/gochi-hand.woff2", "image/logo.svg", "manifest.webmanifest"];
+const FILES = ["read.html", "reading.html", "account.html", "css/main.css?v=432f7c4e", "css/reader-content.css?v=432f7c4e", "js/app.js?v=432f7c4e", "js/account.js?v=432f7c4e", "js/account-page.js?v=432f7c4e", "js/reader.js?v=432f7c4e", "js/notes-store.js?v=432f7c4e", "js/reader-notes.js?v=432f7c4e", "js/your-reading.js?v=432f7c4e", "js/vendor/gsap.min.js", "js/vendor/ScrollTrigger.min.js", "js/vendor/SplitText.min.js", "js/vendor/CustomEase.min.js", "js/vendor/InertiaPlugin.min.js", "js/vendor/DrawSVGPlugin.min.js", "js/vendor/lenis.min.js", "js/vendor/barba.umd.min.js", "js/vendor/barba-prefetch.umd.min.js", "js/vendor/smooothy.min.js", "js/vendor/jszip.min.js", "js/vendor/epub.min.js", "fonts/rubik.woff2", "fonts/figtree.woff2", "fonts/figtree-italic.woff2", "fonts/gochi-hand.woff2", "fonts/literata.woff2", "fonts/literata-italic.woff2", "image/logo.svg", "manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(SHELL).then((cache) => cache.addAll(FILES)).then(() => self.skipWaiting()));

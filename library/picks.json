@@ -1,14 +1,50 @@
 {
-  "2026-10": "the-time-machine",
-  "2026-11": "frankenstein",
-  "2026-12": "pride-and-prejudice",
-  "2027-01": "dracula",
-  "2027-02": "the-count-of-monte-cristo",
-  "2027-03": "moby-dick",
-  "2027-04": "meditations",
-  "2027-05": "crime-and-punishment",
-  "2027-06": "jane-eyre",
-  "2027-07": "the-picture-of-dorian-gray",
-  "2027-08": "the-great-gatsby",
-  "2027-09": "the-adventures-of-sherlock-holmes"
+ "2026-10": {
+  "book": "the-time-machine",
+  "why": "One of the twenty most read books here, and rated 4.0 out of 5 on Open Library. More people are looking it up lately. A short one, about 2 hours to read."
+ },
+ "2026-11": {
+  "book": "pride-and-prejudice",
+  "why": "One of the twenty most read books here, and rated 4.2 out of 5 on Open Library."
+ },
+ "2026-12": {
+  "book": "a-christmas-carol",
+  "why": "The Christmas story, for December. A short one, about 2 hours to read."
+ },
+ "2027-01": {
+  "book": "frankenstein",
+  "why": "One of the twenty most read books here. More people are looking it up lately."
+ },
+ "2027-02": {
+  "book": "jane-eyre",
+  "why": "A love story for February. One of the twenty most read books here, and rated 4.0 out of 5 on Open Library."
+ },
+ "2027-03": {
+  "book": "alices-adventures-in-wonderland",
+  "why": "One of the twenty most read books here, and rated 4.1 out of 5 on Open Library. A short one, about 2 hours to read."
+ },
+ "2027-04": {
+  "book": "hamlet",
+  "why": "For World Book Day on 23 April, Shakespeare’s birthday. 2,135 people on Open Library have read it or mean to, and they rate it 4.0 out of 5. A short one, about 2 hours to read."
+ },
+ "2027-05": {
+  "book": "gitanjali",
+  "why": "For Rabindranath Tagore’s birthday on 7 May. A short one, about 1 hour to read."
+ },
+ "2027-06": {
+  "book": "the-great-gatsby",
+  "why": "One of the twenty most read books here. A short one, about 3 hours to read."
+ },
+ "2027-07": {
+  "book": "moby-dick",
+  "why": "An adventure for the summer holidays. One of the twenty most read books here."
+ },
+ "2027-08": {
+  "book": "heart-of-darkness",
+  "why": "An adventure for the summer holidays. A short one, about 2 hours to read."
+ },
+ "2027-09": {
+  "book": "the-art-of-war",
+  "why": "One of the twenty most read books here, and rated 4.1 out of 5 on Open Library. A short one, about 1 hour to read."
+ }
 }

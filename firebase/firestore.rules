@@ -1,0 +1,74 @@
+rules_version = '2';
+// Who may read and write what in the Bookshelf's account database (Cloud Firestore). Paste this into the Firebase
+// console (Firestore > Rules) or deploy it with `npx firebase-tools deploy --only firestore:rules`. js/account.js is
+// the only thing that writes here; these rules make sure nobody can read or change another reader's data, and that the
+// names everyone can see follow the same limits as the site's own forms.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function me(uid) { return signedIn() && request.auth.uid == uid; }
+    function goodHandle(h) {
+      return h is string && h.matches('^[a-z0-9_]{3,20}$')
+        && !(h in ['admin', 'administrator', 'bookshelf', 'thebookshelf', 'support', 'help', 'moderator', 'mod', 'root',
+                   'system', 'null', 'undefined', 'anonymous', 'official', 'staff', 'team', 'cloud9', 'cl0ud9', 'me', 'you',
+                   'account', 'reader'])
+        && !h.matches('.*(fuck|shit|cunt|nigg|fagg|whore|slut|bitch|nazi|hitler|retard|porn|rapist).*');
+    }
+    function goodName(n) {
+      return n is string && n.size() >= 1 && n.size() <= 40
+        && !n.lower().matches('.*(fuck|shit|cunt|nigg|fagg|whore|slut|bitch|nazi|hitler|retard|porn|rapist).*');
+    }
+    function owns(handle) {
+      return getAfter(/databases/$(database)/documents/handles/$(handle)).data.uid == request.auth.uid;
+    }
+
+    // A username belongs to whoever took it first; anyone may look one up (to see if it is free, or open a reader page)
+    match /handles/{handle} {
+      allow get: if true;
+      allow create: if signedIn() && goodHandle(handle)
+        && request.resource.data.keys().hasOnly(['uid']) && request.resource.data.uid == request.auth.uid;
+      allow delete: if signedIn() && resource.data.uid == request.auth.uid;
+    }
+
+    // Each reader's own account: their profile, their place in each book and their reading time. Only they can see it.
+    match /users/{uid} {
+      allow read, delete: if me(uid);
+      allow create, update: if me(uid)
+        && request.resource.data.keys().hasOnly(['handle', 'name', 'colour', 'mark', 'since', 'public', 'showLines',
+                                                   'places', 'devices', 'updated'])
+        && (!('handle' in request.resource.data) || (goodHandle(request.resource.data.handle) && owns(request.resource.data.handle)))
+        && (!('name' in request.resource.data) || goodName(request.resource.data.name))
+        && (!('public' in request.resource.data) || request.resource.data.public is bool)
+        && (!('places' in request.resource.data) || request.resource.data.places is map)
+        && (!('devices' in request.resource.data) || (request.resource.data.devices is map && request.resource.data.devices.size() <= 50));
+
+      // Their highlights and notes (a removed one is kept as { deleted: true } so other devices remove it too)
+      match /notes/{note} {
+        allow read, delete: if me(uid);
+        allow create, update: if me(uid) && note.size() <= 64
+          && request.resource.data.keys().hasOnly(['id', 'book', 'cfi', 'text', 'prefix', 'suffix', 'style', 'note', 'chapter',
+                                                     'percent', 'created', 'updated', 'synced', 'deleted'])
+          && request.resource.data.synced == request.time
+          && (request.resource.data.get('deleted', false) == true
+              || (request.resource.data.book is string && request.resource.data.book.size() <= 100
+                  && request.resource.data.text is string && request.resource.data.text.size() <= 5000
+                  && request.resource.data.get('note', '') is string && request.resource.data.get('note', '').size() <= 10000
+                  && request.resource.data.style in ['yellow', 'green', 'blue', 'pink', 'underline']));
+      }
+    }
+
+    // Reader pages, for those who share theirs. Anyone may read one; only its owner writes it.
+    match /profiles/{handle} {
+      allow get: if true;
+      allow create, update: if signedIn() && request.resource.data.uid == request.auth.uid && owns(handle)
+        && request.resource.data.handle == handle && goodName(request.resource.data.name)
+        && request.resource.data.keys().hasOnly(['uid', 'handle', 'name', 'colour', 'mark', 'since', 'seconds', 'reading',
+                                                   'finished', 'lines', 'updated'])
+        && request.resource.data.reading is list && request.resource.data.reading.size() <= 12
+        && request.resource.data.finished is list && request.resource.data.finished.size() <= 200
+        && request.resource.data.lines is list && request.resource.data.lines.size() <= 12;
+      allow delete: if signedIn() && resource.data.uid == request.auth.uid;
+    }
+  }
+}

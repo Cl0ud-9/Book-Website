@@ -1,0 +1,402 @@
+{
+ "_about": "Lines from the books, chosen by hand and none giving away an ending. tools/quotes.py checks each one is in our edition, word for word, and notes the chapter file it is in (\"in\"); a line that is not found is reported and left off the site.",
+ "frankenstein": [
+  {
+   "text": "Beware; for I am fearless, and therefore powerful.",
+   "in": "text/chapter-20.xhtml",
+   "at": 0.74
+  },
+  {
+   "text": "Nothing is so painful to the human mind as a great and sudden change.",
+   "in": "text/chapter-23.xhtml",
+   "at": 0.87
+  },
+  {
+   "text": "Life, although it may only be an accumulation of anguish, is dear to me, and I will defend it.",
+   "in": "text/chapter-10.xhtml",
+   "at": 0.43
+  }
+ ],
+ "pride-and-prejudice": [
+  {
+   "text": "It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.",
+   "in": "text/chapter-1.xhtml",
+   "at": 0.0
+  },
+  {
+   "text": "I could easily forgive his pride, if he had not mortified mine.",
+   "in": "text/chapter-5.xhtml",
+   "at": 0.04
+  },
+  {
+   "text": "There is a stubbornness about me that never can bear to be frightened at the will of others.",
+   "in": "text/chapter-31.xhtml",
+   "at": 0.44
+  }
+ ],
+ "dracula": [
+  {
+   "text": "Welcome to my house! Enter freely and of your own will!",
+   "in": "text/chapter-2.xhtml",
+   "at": 0.04
+  },
+  {
+   "text": "Listen to them—the children of the night. What music they make!",
+   "in": "text/chapter-2.xhtml",
+   "at": 0.05
+  }
+ ],
+ "the-count-of-monte-cristo": [
+  {
+   "text": "There is neither happiness nor misery in the world; there is only the comparison of one state with another, nothing more.",
+   "in": "text/chapter-117.xhtml",
+   "at": 1.0
+  }
+ ],
+ "moby-dick": [
+  {
+   "text": "Call me Ishmael.",
+   "in": "text/chapter-1.xhtml",
+   "at": 0.02
+  },
+  {
+   "text": "It is not down in any map; true places never are.",
+   "in": "text/chapter-12.xhtml",
+   "at": 0.11
+  },
+  {
+   "text": "I know not all that may be coming, but be it what it will, I’ll go to it laughing.",
+   "in": "text/chapter-39.xhtml",
+   "at": 0.31
+  }
+ ],
+ "alices-adventures-in-wonderland": [
+  {
+   "text": "Curiouser and curiouser!",
+   "in": "text/chapter-2.xhtml",
+   "at": 0.09
+  },
+  {
+   "text": "we’re all mad here.",
+   "in": "text/chapter-6.xhtml",
+   "at": 0.46
+  }
+ ],
+ "meditations": [
+  {
+   "text": "very little indeed is necessary for living a happy life.",
+   "in": "text/book-7.xhtml",
+   "at": 0.5
+  },
+  {
+   "text": "The universe is transformation: life is opinion.",
+   "in": "text/book-4.xhtml",
+   "at": 0.18
+  }
+ ],
+ "crime-and-punishment": [
+  {
+   "text": "Pain and suffering are always inevitable for a large intelligence and a deep heart.",
+   "in": "text/chapter-3-5.xhtml",
+   "at": 0.49
+  }
+ ],
+ "jane-eyre": [
+  {
+   "text": "I am no bird; and no net ensnares me; I am a free human being with an independent will",
+   "in": "text/chapter-23.xhtml",
+   "at": 0.55
+  },
+  {
+   "text": "I would always rather be happy than dignified",
+   "in": "text/chapter-34.xhtml",
+   "at": 0.9
+  }
+ ],
+ "the-picture-of-dorian-gray": [
+  {
+   "text": "The only way to get rid of a temptation is to yield to it.",
+   "in": "text/chapter-2.xhtml",
+   "at": 0.09
+  },
+  {
+   "text": "there is only one thing in the world worse than being talked about, and that is not being talked about.",
+   "in": "text/chapter-1.xhtml",
+   "at": 0.01
+  },
+  {
+   "text": "It was merely the name men gave to their mistakes.",
+   "in": "text/chapter-4.xhtml",
+   "at": 0.26
+  }
+ ],
+ "the-great-gatsby": [
+  {
+   "text": "“Whenever you feel like criticizing anyone,” he told me, “just remember that all the people in this world haven’t had the advantages that you’ve had.”",
+   "in": "text/chapter-1.xhtml",
+   "at": 0.01
+  },
+  {
+   "text": "I hope she’ll be a fool—that’s the best thing a girl can be in this world, a beautiful little fool.",
+   "in": "text/chapter-1.xhtml",
+   "at": 0.1
+  }
+ ],
+ "the-adventures-of-sherlock-holmes": [
+  {
+   "text": "You see, but you do not observe.",
+   "in": "text/a-scandal-in-bohemia.xhtml",
+   "at": 0.01
+  },
+  {
+   "text": "It is a capital mistake to theorise before one has data.",
+   "in": "text/a-scandal-in-bohemia.xhtml",
+   "at": 0.02
+  },
+  {
+   "text": "life is infinitely stranger than anything which the mind of man could invent.",
+   "in": "text/a-case-of-identity.xhtml",
+   "at": 0.17
+  }
+ ],
+ "the-strange-case-of-dr-jekyll-and-mr-hyde": [
+  {
+   "text": "man is not truly one, but truly two.",
+   "in": "text/chapter-10.xhtml",
+   "at": 0.73
+  }
+ ],
+ "the-brothers-karamazov": [
+  {
+   "text": "Above all, don’t lie to yourself.",
+   "in": "text/chapter-1-2-2.xhtml",
+   "at": 0.05
+  }
+ ],
+ "wuthering-heights": [
+  {
+   "text": "Whatever our souls are made of, his and mine are the same",
+   "in": "text/chapter-9.xhtml",
+   "at": 0.23
+  },
+  {
+   "text": "they’ve gone through and through me, like wine through water, and altered the colour of my mind.",
+   "in": "text/chapter-9.xhtml",
+   "at": 0.23
+  }
+ ],
+ "sense-and-sensibility": [
+  {
+   "text": "the more I know of the world, the more am I convinced that I shall never see a man whom I can really love.",
+   "in": "text/chapter-3.xhtml",
+   "at": 0.04
+  }
+ ],
+ "a-study-in-scarlet": [
+  {
+   "text": "There’s the scarlet thread of murder running through the colourless skein of life",
+   "in": "text/chapter-1-4.xhtml",
+   "at": 0.29
+  }
+ ],
+ "the-art-of-war": [
+  {
+   "text": "All warfare is based on deception.",
+   "in": "text/chapter-1.xhtml",
+   "at": 0.18
+  },
+  {
+   "text": "supreme excellence consists in breaking the enemy’s resistance without fighting.",
+   "in": "text/chapter-3.xhtml",
+   "at": 0.19
+  }
+ ],
+ "middlemarch": [
+  {
+   "text": "If we had a keen vision and feeling of all ordinary human life, it would be like hearing the grass grow and the squirrel’s heart beat",
+   "in": "text/chapter-20.xhtml",
+   "at": 0.23
+  }
+ ],
+ "treasure-island": [
+  {
+   "text": "Fifteen men on the dead man’s chest",
+   "in": "text/chapter-1.xhtml",
+   "at": 0.01
+  }
+ ],
+ "the-hound-of-the-baskervilles": [
+  {
+   "text": "Mr. Holmes, they were the footprints of a gigantic hound!",
+   "in": "text/chapter-2.xhtml",
+   "at": 0.11
+  },
+  {
+   "text": "The world is full of obvious things which nobody by any chance ever observes.",
+   "in": "text/chapter-3.xhtml",
+   "at": 0.14
+  }
+ ],
+ "great-expectations": [
+  {
+   "text": "In a word, I was too cowardly to do what I knew to be right, as I had been too cowardly to avoid doing what I knew to be wrong.",
+   "in": "text/chapter-6.xhtml",
+   "at": 0.08
+  }
+ ],
+ "the-prince": [
+  {
+   "text": "it is much safer to be feared than loved",
+   "in": "text/chapter-17.xhtml",
+   "at": 0.61
+  }
+ ],
+ "tao-te-ching": [
+  {
+   "text": "The Tao that can be trodden is not the enduring and unchanging Tao.",
+   "in": "text/tao-te-ching.xhtml",
+   "at": 0.38
+  }
+ ],
+ "emma": [
+  {
+   "text": "One half of the world cannot understand the pleasures of the other.",
+   "in": "text/chapter-9.xhtml",
+   "at": 0.16
+  }
+ ],
+ "walden": [
+  {
+   "text": "The mass of men lead lives of quiet desperation.",
+   "in": "text/economy.xhtml",
+   "at": 0.02
+  },
+  {
+   "text": "I went to the woods because I wished to live deliberately, to front only the essential facts of life, and see if I could not learn what it had to teach",
+   "in": "text/where-i-lived-and-what-i-lived-for.xhtml",
+   "at": 0.27
+  }
+ ],
+ "a-tale-of-two-cities": [
+  {
+   "text": "It was the best of times, it was the worst of times",
+   "in": "text/chapter-1-1.xhtml",
+   "at": 0.0
+  }
+ ],
+ "a-christmas-carol": [
+  {
+   "text": "I will honour Christmas in my heart, and try to keep it all the year.",
+   "in": "text/chapter-4.xhtml",
+   "at": 0.9
+  },
+  {
+   "text": "Marley was dead, to begin with.",
+   "in": "text/chapter-1.xhtml",
+   "at": 0.01
+  }
+ ],
+ "little-women": [
+  {
+   "text": "I’m not afraid of storms, for I’m learning how to sail my ship.",
+   "in": "text/chapter-44.xhtml",
+   "at": 0.93
+  }
+ ],
+ "hamlet": [
+  {
+   "text": "To be, or not to be: that is the question:",
+   "in": "text/act-3.xhtml",
+   "at": 0.42
+  },
+  {
+   "text": "There are more things in heaven and earth, Horatio, Than are dreamt of in your philosophy.",
+   "in": "text/act-1.xhtml",
+   "at": 0.22
+  }
+ ],
+ "macbeth": [
+  {
+   "text": "Fair is foul, and foul is fair:",
+   "in": "text/act-1.xhtml",
+   "at": 0.02
+  }
+ ],
+ "romeo-and-juliet": [
+  {
+   "text": "What’s in a name? that which we call a rose By any other name would smell as sweet;",
+   "in": "text/act-2.xhtml",
+   "at": 0.28
+  }
+ ],
+ "the-prophet": [
+  {
+   "text": "Your children are not your children.",
+   "in": "text/on-children.xhtml",
+   "at": 0.16
+  }
+ ],
+ "anna-karenina": [
+  {
+   "text": "Happy families are all alike; every unhappy family is unhappy in its own way.",
+   "in": "text/chapter-1-1.xhtml",
+   "at": 0.0
+  }
+ ],
+ "the-war-of-the-worlds": [
+  {
+   "text": "No one would have believed in the last years of the nineteenth century that this world was being watched keenly and closely by intelligences greater than man’s and yet as mortal as his own",
+   "in": "text/chapter-1-1.xhtml",
+   "at": 0.0
+  }
+ ],
+ "heart-of-darkness": [
+  {
+   "text": "We live, as we dream—alone.",
+   "in": "text/part-1.xhtml",
+   "at": 0.33
+  }
+ ],
+ "gitanjali": [
+  {
+   "text": "Where the mind is without fear and the head is held high",
+   "in": "text/gitanjali.xhtml",
+   "at": 0.39
+  }
+ ],
+ "the-importance-of-being-earnest": [
+  {
+   "text": "The truth is rarely pure and never simple.",
+   "in": "text/act-1.xhtml",
+   "at": 0.11
+  }
+ ],
+ "the-wind-in-the-willows": [
+  {
+   "text": "there is nothing—absolute nothing—half so much worth doing as simply messing about in boats.",
+   "in": "text/chapter-1.xhtml",
+   "at": 0.02
+  }
+ ],
+ "anne-of-green-gables": [
+  {
+   "text": "isn’t it nice to think that tomorrow is a new day with no mistakes in it yet?",
+   "in": "text/chapter-21.xhtml",
+   "at": 0.57
+  }
+ ],
+ "the-time-machine": [
+  {
+   "text": "It is a law of nature we overlook, that intellectual versatility is the compensation for change, danger, and trouble.",
+   "in": "text/chapter-10.xhtml",
+   "at": 0.84
+  }
+ ],
+ "the-odyssey": [
+  {
+   "text": "Tell me, O Muse, of that sagacious man",
+   "in": "text/book-1.xhtml",
+   "at": 0.01
+  }
+ ]
+}

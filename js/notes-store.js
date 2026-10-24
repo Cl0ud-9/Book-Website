@@ -1,6 +1,6 @@
 // @ts-check
 /* Your highlights and notes, kept in this browser (IndexedDB). The reader adds and draws them; the Your reading page
-   lists, exports and restores them. Nothing leaves the device. */
+   lists, exports and restores them. With an account, js/account.js copies them to it and back. */
 (() => {
   "use strict";
 
@@ -58,6 +58,15 @@
   /** @param {Note[]} notes */
   const byPlace = (notes) => notes.sort((a, b) => (a.book === b.book ? (a.percent ?? 0) - (b.percent ?? 0) || a.created - b.created : a.book.localeCompare(b.book)));
 
+  // Notes removed on this device since the last sync, so the account removes them too: { id: time removed }
+  const REMOVED = "bookshelf:removed";
+  /** @returns {Record<string, number>} */
+  const removedList = () => { try { return JSON.parse(localStorage.getItem(REMOVED) || "{}") || {}; } catch { return {}; } };
+  /** @param {Record<string, number>} list */
+  const keepRemoved = (list) => { try { localStorage.setItem(REMOVED, JSON.stringify(list)); } catch { /* not kept */ } };
+  // tells js/account.js there is something new to keep
+  const changed = () => window.dispatchEvent(new Event("bookshelf:changed"));
+
   const id = () => (crypto.randomUUID ? crypto.randomUUID() : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`);
 
   const api = {
@@ -80,11 +89,31 @@
     /** @param {Note} note @returns {Promise<Note>} */
     put(note) {
       const saved = { ...note, updated: Date.now() };
-      return run("readwrite", (s) => s.put(saved)).then(() => saved).catch(() => { memory.set(saved.id, saved); return saved; });
+      const removed = removedList();
+      if (removed[saved.id]) { delete removed[saved.id]; keepRemoved(removed); } // an undo
+      return run("readwrite", (s) => s.put(saved)).then(() => saved).catch(() => { memory.set(saved.id, saved); return saved; })
+        .finally(changed);
     },
     /** @param {string} noteId @returns {Promise<void>} */
     remove(noteId) {
+      keepRemoved({ ...removedList(), [noteId]: Date.now() });
+      return api.forget(noteId).finally(changed);
+    },
+    /** Removes a note from this device only (the account keeps it). @param {string} noteId @returns {Promise<void>} */
+    forget(noteId) {
       return run("readwrite", (s) => s.delete(noteId)).then(() => undefined).catch(() => { memory.delete(noteId); });
+    },
+    /** Saves a note as it is, keeping its own time (a copy from the account). @param {Note} note @returns {Promise<void>} */
+    keep(note) {
+      return run("readwrite", (s) => s.put(note)).then(() => undefined).catch(() => { memory.set(note.id, note); });
+    },
+    /** Notes removed here that the account does not know about yet */
+    removed: removedList,
+    /** @param {string[]} ids the removals the account now has */
+    removedSynced(ids) {
+      const removed = removedList();
+      ids.forEach((noteId) => delete removed[noteId]);
+      keepRemoved(removed);
     },
     /** Adds notes from a backup, keeping the newer copy of any note that is in both. @param {Note[]} notes */
     async restore(notes) {
@@ -92,8 +121,9 @@
       let added = 0;
       for (const n of valid) {
         const have = await api.get(n.id);
-        if (!have || (have.updated ?? 0) < (n.updated ?? 0)) { await run("readwrite", (s) => s.put(n)).catch(() => memory.set(n.id, n)); added += 1; }
+        if (!have || (have.updated ?? 0) < (n.updated ?? 0)) { await api.keep(n); added += 1; }
       }
+      if (added) changed();
       return added;
     },
   };

@@ -1,0 +1,156 @@
+[
+ {
+  "id": 680,
+  "title": "The Golden Threshold",
+  "author": "Sarojini Naidu",
+  "translator": null,
+  "genres": [
+   "Poetry"
+  ],
+  "collections": [
+   "india"
+  ],
+  "abstract": "Bright, singing poems of Indian life by the poet known as the Nightingale of India.",
+  "description": [
+   "The Golden Threshold, published in 1905, was the first collection of poems by Sarojini Naidu, who wrote in English and became one of the great voices of India’s freedom movement. Its poems are full of the sounds and colours of everyday India: the songs of palanquin bearers, weavers and fishermen, festivals and love songs, the bazaar and the temple.",
+   "The book opens with an introduction by the English poet and critic Arthur Symons, who knew Naidu when she was a student in England."
+  ],
+  "people": [
+   {
+    "name": "Sarojini Naidu",
+    "roles": [
+     "author"
+    ],
+    "died": 1949
+   },
+   {
+    "name": "Arthur Symons",
+    "roles": [
+     "introduction"
+    ],
+    "died": 1945
+   }
+  ]
+ },
+ {
+  "id": 23245,
+  "title": "Ancient Ballads and Legends of Hindustan",
+  "author": "Toru Dutt",
+  "translator": null,
+  "genres": [
+   "Poetry"
+  ],
+  "collections": [
+   "india"
+  ],
+  "abstract": "Old Indian legends retold in English verse by a Bengali poet who died at 21.",
+  "description": [
+   "Toru Dutt was born in Calcutta in 1856 and died there in 1877, aged only 21, having learnt English and French and written poetry and fiction in both. This book, published after her death, retells stories from the Mahabharata, the Ramayana and the Puranas in English ballads: Savitri, who follows Death to win back her husband; Lakshman; Prehlad; and others.",
+   "It also gathers her other poems, among them Our Casuarina Tree, her best-loved, a memory of the tree in the garden of her childhood home. The English critic Edmund Gosse wrote the introduction, about her short life and the remarkable work she left."
+  ],
+  "people": [
+   {
+    "name": "Toru Dutt",
+    "roles": [
+     "author"
+    ],
+    "died": 1877
+   },
+   {
+    "name": "Edmund Gosse",
+    "roles": [
+     "introduction"
+    ],
+    "died": 1928
+   }
+  ]
+ },
+ {
+  "id": 2388,
+  "title": "The Song Celestial",
+  "author": "Edwin Arnold",
+  "translator": null,
+  "genres": [
+   "Philosophy",
+   "Poetry"
+  ],
+  "collections": [
+   "india"
+  ],
+  "abstract": "The Bhagavad Gita in English verse: Krishna and Arjuna on the field of battle.",
+  "description": [
+   "The Bhagavad Gita is a part of the Mahabharata: a conversation on a battlefield between the warrior prince Arjuna, who cannot bring himself to fight against his own family, and Krishna, his charioteer. Their talk turns to duty, action without attachment to its rewards, devotion and the nature of the self, and it has been one of the most read and loved books of India for many centuries.",
+   "Edwin Arnold’s verse translation, The Song Celestial, appeared in 1885 and introduced the Gita to many readers in English. Among them was a young Gandhi, studying law in London, who first read the Gita in this translation."
+  ],
+  "people": [
+   {
+    "name": "Edwin Arnold",
+    "roles": [
+     "translator"
+    ],
+    "died": 1904
+   }
+  ]
+ },
+ {
+  "id": 16659,
+  "title": "Shakuntala and Other Works",
+  "author": "Kalidasa",
+  "translator": "Arthur W. Ryder",
+  "genres": [
+   "Plays",
+   "Poetry"
+  ],
+  "collections": [
+   "india"
+  ],
+  "abstract": "The great Sanskrit poet’s plays and poems, led by the love story of Shakuntala and King Dushyanta.",
+  "description": [
+   "Kalidasa, who lived around the fifth century, is the best known poet of classical Sanskrit. His play Shakuntala tells of a king who falls in love with a young woman he meets in a hermitage in the forest, marries her and then, under a curse, forgets her, until a ring brings back his memory.",
+   "This book gathers Arthur W. Ryder’s translations of Kalidasa’s work from 1912: Shakuntala and his two other plays, Urvashi and Malavika and Agnimitra, and his poems, among them The Cloud-Messenger, in which an exile sends a message to his wife across India on a passing cloud."
+  ],
+  "people": [
+   {
+    "name": "Kalidasa",
+    "roles": [
+     "author"
+    ],
+    "died": 500
+   },
+   {
+    "name": "Arthur W. Ryder",
+    "roles": [
+     "translator"
+    ],
+    "died": 1938
+   }
+  ]
+ },
+ {
+  "id": 2290,
+  "title": "Twenty-Two Goblins",
+  "author": "Anonymous",
+  "translator": "Arthur W. Ryder",
+  "genres": [
+   "Fantasy",
+   "Children’s"
+  ],
+  "collections": [
+   "india"
+  ],
+  "abstract": "A king carries a talkative goblin through the night, who tells him riddle stories he must answer.",
+  "description": [
+   "King Triple-victory has promised a monk to carry a body to him from the cemetery at night, but a goblin lives in it, and on the way it tells the king a story that ends in a riddle. If he knows the answer and keeps quiet, the goblin warns, his head will fly into a hundred pieces; but if he answers, the goblin jumps from his shoulder back to its tree, and he has to start again.",
+   "These old Indian tales, from the Sanskrit collection known as the Vetala Panchavimshati, are clever, funny and sometimes strange. Arthur W. Ryder’s translation was published in 1917."
+  ],
+  "people": [
+   {
+    "name": "Arthur W. Ryder",
+    "roles": [
+     "translator"
+    ],
+    "died": 1938
+   }
+  ]
+ }
+]

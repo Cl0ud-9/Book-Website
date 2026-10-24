@@ -1,10 +1,12 @@
 /* Your reading (reading.html): what this device keeps for you. Your place in each book, your reading time, your
    highlights and notes, the books kept for offline reading and the books you finished, with a backup to move them to
-   another device. Loaded by js/app.js on that page only; nothing here is sent anywhere. */
+   another device. Loaded by js/app.js on that page only. With an account (js/account.js) the same things are also
+   kept in it, and reading time adds up the time read on your other devices. */
 (() => {
   "use strict";
 
   const KEYS = { places: "bookshelf:reading", prefs: "bookshelf:reader", stats: "bookshelf:stats", offline: "bookshelf:offline" };
+  const OTHERS = "bookshelf:stats-others"; // reading time on your other devices, from your account
   const read = (key, fallback) => { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } };
   const write = (key, value) => { try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* not kept */ } };
   const dayKey = (date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
@@ -66,8 +68,10 @@
     /* ---------- Your week ---------- */
 
     function week() {
-      const stats = read(KEYS.stats, {});
-      const days = stats.days || {};
+      // this device's reading time, and your other devices' when you are signed in
+      const days = { ...(read(KEYS.stats, {}).days || {}) };
+      const others = read(OTHERS, null);
+      Object.entries(others?.days || {}).forEach(([day, seconds]) => { days[day] = (days[day] || 0) + seconds; });
       const today = new Date();
       const last7 = [...Array(7)].map((_, i) => {
         const d = new Date(today);
@@ -87,6 +91,7 @@
       $("[data-stat=streak]").textContent = `${streak} ${streak === 1 ? "day" : "days"}`;
       $("[data-stat=finished]").textContent = String(finished);
       $("[data-stat=total]").textContent = duration(total);
+      $("[data-stat=total]").nextElementSibling.textContent = others ? "read, on all your devices" : "read here, in all";
       $(".mine__caption").textContent = weekSeconds
         ? "Minutes read on each of the last seven days. Time counts while a book is open and you are turning its pages."
         : "No reading yet this week. Open a book, and the minutes you spend reading show up here, day by day.";
@@ -294,6 +299,7 @@
         write(KEYS.stats, stats);
         if (!localStorage.getItem(KEYS.prefs) && data.prefs) write(KEYS.prefs, data.prefs);
         const added = await store.restore(Array.isArray(data.notes) ? data.notes : []);
+        window.dispatchEvent(new Event("bookshelf:changed"));
         notes = await store.all();
         render();
         message.textContent = `Restored ${Object.keys(data.places || {}).length} books and ${added} notes.`;
@@ -301,26 +307,56 @@
         message.textContent = "That file isn’t a Bookshelf backup. Choose the .json file that Back up saved.";
       }
     });
+    // Clearing removes this device's copy. Signed in, it signs out first: your account keeps everything (deleting
+    // that is on Your account), and would otherwise bring it straight back.
     const clear = $("[data-clear]");
+    const account = window.BookshelfAccount;
+    const signedIn = () => account?.current().state === "in";
+    const clearLabel = () => (signedIn() ? "Sign out and clear this device" : "Clear everything");
     let armed = 0;
     clear.addEventListener("click", async () => {
       if (!armed) {
-        clear.lastChild.textContent = "Press again to clear everything";
+        clear.lastChild.textContent = "Press again to clear it";
         clear.classList.add("is--armed");
-        armed = setTimeout(() => { armed = 0; clear.lastChild.textContent = "Clear everything"; clear.classList.remove("is--armed"); }, 5000);
+        armed = setTimeout(() => { armed = 0; clear.lastChild.textContent = clearLabel(); clear.classList.remove("is--armed"); }, 5000);
         return;
       }
       clearTimeout(armed);
       armed = 0;
-      Object.values(KEYS).forEach((key) => { try { localStorage.removeItem(key); } catch { /* none */ } });
-      await Promise.all((await store.all()).map((n) => store.remove(n.id)));
+      const wasIn = signedIn();
+      if (wasIn) await account.signOut(false).catch(() => {});
+      [...Object.values(KEYS), OTHERS, "bookshelf:removed"].forEach((key) => { try { localStorage.removeItem(key); } catch { /* none */ } });
+      await Promise.all((await store.all()).map((n) => store.forget(n.id)));
       if (offline?.supported) await caches.delete("books");
       notes = [];
       render();
-      clear.lastChild.textContent = "Clear everything";
+      clear.lastChild.textContent = clearLabel();
       clear.classList.remove("is--armed");
-      message.textContent = "Cleared. This device keeps nothing of yours now.";
+      message.textContent = wasIn ? "Signed out and cleared. Your account still keeps your reading." : "Cleared. This device keeps nothing of yours now.";
     });
+
+    // Whether this is kept in an account, at the top of the page
+    const banner = $("[data-mine-account]");
+    const showAccount = (now) => {
+      if (!banner || !account?.enabled) return;
+      banner.hidden = false;
+      banner.replaceChildren();
+      const link = el("a", null, "");
+      link.href = "account.html";
+      if (now.state === "in") {
+        banner.append(account.avatar(now.profile, "small"), el("span", null, `Kept in your account, @${now.profile.handle}${now.lastSync ? "" : " (keeping it now…)"}. `));
+        link.textContent = "Your account";
+      } else {
+        banner.append(el("span", null, "Kept on this device only. "));
+        link.textContent = "Sign in to have it on all your devices";
+      }
+      banner.append(link);
+      if (!armed) clear.lastChild.textContent = clearLabel();
+    };
+    const stopAccount = account?.subscribe(showAccount);
+    // What came down from your account
+    const synced = () => store.all().then((found) => { if (!closed) { notes = found; render(); } });
+    window.addEventListener("bookshelf:synced", synced);
 
     function render() {
       week();
@@ -333,7 +369,14 @@
     // Coming back to this tab after reading elsewhere shows the new numbers
     const refresh = () => { if (document.visibilityState === "visible") render(); };
     document.addEventListener("visibilitychange", refresh);
-    return () => { closed = true; clearTimeout(armed); clearTimeout(toastTimer); document.removeEventListener("visibilitychange", refresh); };
+    return () => {
+      closed = true;
+      clearTimeout(armed);
+      clearTimeout(toastTimer);
+      document.removeEventListener("visibilitychange", refresh);
+      window.removeEventListener("bookshelf:synced", synced);
+      stopAccount?.();
+    };
   }
 
   window.BookshelfYourReading = { init };

@@ -5,6 +5,66 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [3.4.0] - 2026-10-24
+
+### Added
+
+- Accounts, once the site has a Firebase project (README: "Turning on accounts"). Sign in with Google or an email
+  address and a password, choose a name, a username, a colour and a mark, and your place in each book, your highlights
+  and notes, and your reading time are kept in your account and come with you to every device you sign in on. The
+  site works as before signed out; signing out can keep or clear the device's copy, and deleting the account removes
+  everything it kept. The database's rules (`firebase/firestore.rules`) keep each account's data its own.
+- Reader pages, for those who share theirs: name and mark, what they are reading and have finished, their reading time
+  and, if they choose, the lines they highlighted (never notes), with a link to report a page.
+- A privacy page saying what is kept about you, where, and how to remove it.
+- Non-fiction: philosophy, lives and memoirs, history and politics, science and nature, essays and letters. All books
+  can show fiction or non-fiction, any genre, the new From India shelf, a mood and a length, kept in the address.
+- Twenty books, among them The Origin of Species, On Liberty, Frederick Douglass's Narrative, three by Tagore
+  (Gitanjali, The Home and the World and My Reminiscences), and five classics from India from Project Gutenberg, by
+  Sarojini Naidu, Toru Dutt and Kalidasa among others. 161 books in all. Meditations, The Art of War and Walden moved
+  to the non-fiction shelves.
+- Before you start (who's who and what to know, without spoilers) and Lines worth knowing on the most read books'
+  pages, a line of the day on the home page, Open at this line in the reader, and Share as a picture.
+- Each book page names its edition, Standard Ebooks or Project Gutenberg.
+- The book of the month is chosen by `tools/picks.py` from how much a book is read here and on Open Library, how
+  readers rate it, rising interest and the time of year, under rules that keep the months varied, and the home page
+  says why it was chosen.
+- A feed of the book of the month (`feed.xml`) in place of the newsletter sign-up, which sent nothing.
+- Literata, a serif drawn for reading on screens, is the reader's typeface, with Georgia and the site's sans as the
+  other choices, and the site's text has a real italic.
+- `tools/accounts_check.py`, `tools/reader_check.py` and `tools/library_check.py` test accounts (against Firebase's
+  emulators), the reader's colours and highlighting, and the library's filters, shelves, lines and guides.
+
+### Changed
+
+- On a phone, the highlight bar sits across the top of the screen, in place of the reader's bar, with every tool
+  named. Floating by the words it covered them and the handles that stretch a selection, fought the phone's own Copy
+  menu and Google's search panel, and vanished after a handle was dragged. It now stays while a selection is stretched
+  or scrolled, and goes when the selection does.
+- The open book on the home page shows its headline and buttons only once its page fills the screen; they used to
+  arrive while the book was still opening behind them.
+- The two Alice books are kept here, with their illustrations at ordinary resolution, and open in seconds: from
+  Standard Ebooks they were 18 and 24 MB and took minutes. Engravings sit on the page's own colour.
+- The old log-in and sign-up addresses lead to Your account (or Your reading, without accounts).
+- The "Staff pick" sticker says "This month", as no staff choose the book.
+- Sections on Your reading have headings a size down, in proportion to what is under them.
+- Seneca's letters, Gandhi's autobiography and Arsène Lupin left the shelf: their translators died after 1965, or
+  their dates are unknown, so they may still be under copyright in India. Seven books whose cover paintings may be
+  have covers drawn here instead.
+
+### Fixed
+
+- Switching the reader from Night back to Paper (or to any page colour used before) left the old colours: the text
+  stayed light on a dark page.
+- The book in the middle of the page-change screen vanished and came back, and turned inside out, as it left: its fade
+  used a springy easing that went past nothing. If a slow phone made the next page load in full, the screen went blank
+  and the book appeared a second time; that page now starts covered, the book in place.
+- Menus, cards and handwritten notes no longer flicker as they fade in, for the same reason.
+- The How it works cards no longer cover the ends of each other's lines.
+- The reader's footer said "Titlepage"; it says "Title page".
+- Standard Ebooks' imprint page is no longer justified on a phone, where it left wide gaps between words.
+- The phone menu's Tab trap skips links that are hidden.
+
 ## [3.3.0] - 2026-10-24
 
 ### Added

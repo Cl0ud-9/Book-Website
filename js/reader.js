@@ -18,15 +18,29 @@
   };
 
   const THEMES = {
-    paper: { body: { background: "#fffdf6 !important", color: "#1d1b16 !important" } },
-    sepia: { body: { background: "#f3e9d2 !important", color: "#3b2f1e !important" } },
-    night: {
-      body: { background: "#17161c !important", color: "#e4dfd2 !important" }, a: { color: "#a9bcff !important" },
-      // Title pages and ornaments are black artwork on transparent: turned light so they show on the dark page
-      "img.epub-type-contains-word-se-image-color-depth-black-on-transparent": { filter: "invert(1)" },
-    },
+    paper: { page: "#fffdf6", ink: "#1d1b16" },
+    sepia: { page: "#f3e9d2", ink: "#3b2f1e" },
+    // Title pages and ornaments are black artwork on transparent: turned light so they show on the dark page
+    night: { page: "#17161c", ink: "#e4dfd2", more: "a { color: #a9bcff !important; } img.epub-type-contains-word-se-image-color-depth-black-on-transparent { filter: invert(1); }" },
   };
-  const FONTS = { book: null, serif: "Georgia, 'Times New Roman', serif", sans: "Figtree, system-ui, sans-serif" };
+  // The page's colours, in one style element of its own inside each chapter, rewritten when the theme changes. (epub.js's
+  // own themes add a stylesheet per theme and never take one out, so going back to a theme already used changed nothing:
+  // the one added later still won.)
+  const paint = (contents, theme) => {
+    const doc = contents?.document;
+    if (!doc?.head) return;
+    let style = doc.getElementById("bookshelf-theme");
+    if (!style) {
+      style = doc.createElement("style");
+      style.id = "bookshelf-theme";
+      doc.head.append(style);
+    }
+    const { page, ink, more = "" } = THEMES[theme] || THEMES.paper;
+    style.textContent = `html, body { background: ${page} !important; color: ${ink} !important; } ${more}`;
+  };
+  // Serif is Literata (fonts/, made for reading on screens). Most books set no type of their own, so the old "Book"
+  // choice showed whatever the device had, Times New Roman on Windows.
+  const FONTS = { serif: "Literata, Georgia, serif", classic: "Georgia, 'Times New Roman', serif", sans: "Figtree, system-ui, sans-serif" };
   const SIZES = [80, 90, 100, 110, 120, 135, 150, 170];
   // The edition's own pages (title page, imprint, colophon, licence) are kept apart from the chapters in Contents
   const ABOUT = /(^|\/)(titlepage|halftitlepage|imprint|colophon|uncopyright)\.xhtml$/;
@@ -62,7 +76,8 @@
     const percent = $("[data-reader-percent]");
     const bar = $("[data-reader-bar]");
     const gsap = matchMedia("(prefers-reduced-motion: reduce)").matches ? null : window.gsap;
-    const prefs = { theme: "paper", size: 100, font: "book", ...store.read(PREFS, {}) };
+    const prefs = { theme: "paper", size: 100, font: "serif", ...store.read(PREFS, {}) };
+    if (!FONTS[prefs.font]) prefs.font = "serif";
     let layout = layoutNow();
     const setLayoutClasses = () => {
       root.classList.toggle("is--scrolled", layout === "scroll");
@@ -136,10 +151,10 @@
     const renditionHooks = []; // run for every rendition, including the new one made when the layout changes
 
     const apply = () => {
-      rendition.themes.select(prefs.theme);
+      if (!THEMES[prefs.theme]) prefs.theme = "paper";
+      rendition.getContents().forEach((contents) => paint(contents, prefs.theme));
       rendition.themes.fontSize(`${prefs.size}%`);
-      if (FONTS[prefs.font]) rendition.themes.override("font-family", FONTS[prefs.font], true);
-      else rendition.themes.override("font-family", "inherit");
+      rendition.themes.override("font-family", FONTS[prefs.font] || FONTS.serif, true);
       root.dataset.theme = prefs.theme;
       root.querySelectorAll("[data-reader-theme]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.readerTheme === prefs.theme)));
       root.querySelectorAll("[data-reader-font]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.readerFont === prefs.font)));
@@ -169,7 +184,8 @@
       return found ? nice(found.label) : "";
     };
     const nice = (label) => {
-      const text = label.trim();
+      // Standard Ebooks names its title pages as one word
+      const text = label.trim().replace(/^(half)?title ?page$/i, (_, half) => (half ? "Half title page" : "Title page"));
       return !info.verse && /^([IVXLCDM]+|\d+)\.?$/.test(text) ? `Chapter ${text.replace(/\.$/, "")}` : text;
     };
     const percentOf = (cfi) => (book.locations.length() > 0 ? book.locations.percentageFromCfi(cfi) : null);
@@ -202,6 +218,7 @@
       place.seen = seen;
       places[slug] = place;
       store.write(PLACES, places);
+      window.dispatchEvent(new Event("bookshelf:changed")); // js/account.js keeps it in your account, if you have one
       markRead(place.spine);
     };
 
@@ -260,7 +277,7 @@
       rendition = book.renderTo(view, scrolled
         ? { manager: "continuous", flow: "scrolled", width: "100%", height: "100%" }
         : { flow: "paginated", spread: layout === "spread" ? "always" : "none", width: "100%", height: "100%" });
-      Object.entries(THEMES).forEach(([name, rules]) => rendition.themes.register(name, rules));
+      rendition.hooks.content.register((contents) => paint(contents, prefs.theme));
       // Paginated, epub.js sets the body's padding itself to lay out its columns, so only the scrolled view adds some
       // (room above and below for the bars that float over it)
       rendition.themes.default({
@@ -281,8 +298,12 @@
         touchX = null;
       });
       rendition.on("click", (event) => {
-        // on a phone a tap on the page brings the bars back, or sends them away
-        if (layout === "scroll" && !panelOpen() && !event.target.closest?.("a") && !String(event.view?.getSelection?.() || "")) root.classList.toggle("is--immersive");
+        // on a phone a tap on the page brings the bars back, or sends them away; not a tap on a highlight (which opens
+        // it, and is told a moment after the tap) or one that puts away the highlight bar
+        const wasSelecting = ctx.selecting();
+        if (layout === "scroll" && !panelOpen() && !event.target.closest?.("a") && !String(event.view?.getSelection?.() || "")) {
+          setTimeout(() => { if (!wasSelecting && !ctx.selecting() && !closed) root.classList.toggle("is--immersive"); }, 0);
+        }
         closePanels();
       });
       renditionHooks.forEach((hook) => hook(rendition));

@@ -8,13 +8,17 @@ maintainer sees what you send. The maintainer aims to answer within a week.
 
 ## What counts
 
-- A way to run script on the site through its search box, forms or URL.
+- A way to run script on the site through its search box, forms, a reader's name on a reader page, or the URL.
+- A way to read or change another reader's account, notes or reader page, or to take their username, past the
+  database's rules (`firebase/firestore.rules`).
 - A way to make the local server (`server.js`) return a file other than the site's pages, styles and images.
 
 ## Good to know
 
-The site has no back end. The log-in and sign-up forms check what you type in the browser and then show a message;
-nothing is sent or stored. Do not reuse a real password there.
+The site itself is static. Accounts, when they are switched on, are Firebase's: Firebase Authentication signs readers
+in (passwords never reach the site) and Cloud Firestore keeps their reading, under the rules in
+`firebase/firestore.rules`. The Firebase configuration in the pages is not a secret; the rules are what protect the
+data, and `tools/accounts_check.py` tests them against Firebase's emulators.
 
 ## Supported versions
 
