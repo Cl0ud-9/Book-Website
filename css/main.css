@@ -1264,15 +1264,10 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 /* ---------- Catalogue (all books) ---------- */
 
 .catalogue { padding: 4em 2.5em 9em; display: grid; gap: 1.5em; justify-items: center; }
-.search {
-  position: relative; width: min(100%, 44em);
-  display: flex; align-items: center;
-  background: var(--white); border: .2em solid var(--black); border-radius: 99em;
-  padding: 0 1.5em;
-}
-.search:focus-within { box-shadow: 0 0 0 .25em var(--magenta-ink); }
-.search__icon { width: 1.75em; height: 1.75em; flex: none; }
-.search__input { flex: 1; min-width: 0; height: 3.4em; border: 0; outline: 0; background: none; padding: 0 .75em; font-size: 1.5em; font-weight: 600; }
+.search { width: min(100%, 44em); }
+.search__field { --field-line: var(--black); --field-line-hover: var(--black); font-size: 1.4em; border-width: .14em; }
+.search__field .field__input { height: 3em; }
+.search__field .field__icon { width: 1.25em; height: 1.25em; }
 .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: .5em; max-width: 60em; }
 .chip {
   font-size: 1.25em; font-weight: 600; padding: .55em 1em; border-radius: 99em;
@@ -1308,7 +1303,7 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 @media (max-width: 991px) {
   .catalogue { padding: 2.5em 1.25em 6em; }
   .catalogue__grid { grid-template-columns: repeat(auto-fill, minmax(14em, 1fr)); gap: 1.5em 1em; }
-  .search__input { font-size: 1.125em; }
+  .search__field { font-size: 1.1em; }
 }
 
 /* ---------- 404 ---------- */
@@ -1383,11 +1378,8 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 .mine__toast[hidden], .mine__toast-undo[hidden] { display: none; }
 .mine__toast-undo { color: var(--yellow); font-weight: 700; padding: .3em .6em; border-radius: 10em; }
 .mine__toast-undo:hover, .mine__toast-undo:focus-visible { background: rgba(255, 255, 255, .15); }
-.mine__search { display: flex; align-items: center; gap: .6em; max-width: 28em; margin-bottom: 1.25em; padding: 0 1.1em; border-radius: 10em; background: var(--soft-grey); }
-.mine__search .icon { width: 1.15em; height: 1.15em; flex: none; }
-.mine__search input { flex: 1; min-width: 0; height: 2.9em; border: 0; background: none; font: inherit; font-weight: 500; }
-.mine__search:focus-within { outline: .2em solid var(--magenta-ink); outline-offset: .1em; }
-.mine__search input:focus { outline: none; }
+.mine__search { max-width: 28em; margin-bottom: 1.25em; }
+.mine__search[hidden] { display: none; }
 .mine__notes { display: grid; gap: 2em; }
 .mine__note-book { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3em .8em; font-family: var(--font-heading); font-weight: 900; font-size: 1.6em; letter-spacing: -.02em; margin-bottom: .6em; }
 .mine__note-book a { color: inherit; text-decoration: none; }
@@ -1431,6 +1423,8 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 .mine__account[hidden] { display: none; }
 .mine__account > a { color: var(--black); font-weight: 700; }
 .mine__account.is--out { justify-content: space-between; gap: .75em 1.25em; padding: 1em 1.25em; background: var(--soft-periwinkle); }
+/* signed in, before the script has said more (the header's boot script knows): the plain, signed-in look */
+html.is-signed-in .mine__account.is--out:has(> [data-when]) { justify-content: flex-start; padding: .8em 1.1em; background: var(--soft-grey); }
 .mine__account-text { max-width: 30em; line-height: 1.4; }
 .mine__account-actions { display: flex; flex-wrap: wrap; gap: .5em; }
 .mine__stats.is--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1466,20 +1460,10 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 .acct__tabs [aria-selected="true"] { background: var(--black); color: var(--white); }
 .acct__tabs [role="tab"]:focus-visible { outline: .2em solid var(--magenta-ink); outline-offset: .1em; }
 .acct__form { display: grid; gap: 1em; width: min(100%, 24em); }
-.acct__field { display: grid; gap: .4em; width: min(100%, 24em); }
-.acct__field[hidden] { display: none; }
 .acct__label { font-weight: 700; font-size: 1.0625em; }
-.acct__hint { font-weight: 500; color: var(--ink-soft); }
-.acct__hint[hidden] { display: none; }
-.acct__input {
-  width: 100%; min-width: 0; height: 3em; padding: 0 1em; border-radius: .8em; border: .12em solid rgba(0, 0, 0, .55);
-  background: var(--white); font: inherit; font-weight: 600; font-size: 1.0625em;
-}
-.acct__input:focus-visible { outline: none; border-color: var(--black); box-shadow: 0 0 0 .2em var(--magenta-ink); }
-.acct__input[aria-invalid="true"] { border-color: #a3141c; }
-.acct__password { position: relative; display: flex; }
-.acct__password .acct__input { padding-right: 3.2em; }
-.acct__show { position: absolute; right: .3em; top: 50%; translate: 0 -50%; display: grid; place-items: center; width: 2.5em; height: 2.5em; border-radius: 50%; }
+.acct__field { display: grid; gap: .4em; width: min(100%, 24em); padding-top: .3em; }
+.acct__field[hidden] { display: none; }
+.acct__show { flex: none; display: grid; place-items: center; width: 2.5em; height: 2.5em; margin-right: .35em; border-radius: 50%; }
 .acct__show:hover, .acct__show:focus-visible { background: var(--soft-grey); }
 .acct__show .icon { width: 1.2em; height: 1.2em; }
 .acct__submit {
@@ -1502,8 +1486,6 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 .acct__preview-text { display: grid; gap: .15em; }
 .acct__preview-text strong { font-family: var(--font-heading); font-weight: 900; font-size: 1.5em; letter-spacing: -.02em; line-height: 1.05; }
 .acct__preview-text span { font-weight: 600; color: var(--ink-soft); }
-.acct__at { display: flex; align-items: center; gap: .4em; font-weight: 700; font-size: 1.125em; }
-.acct__at .acct__input { font-size: .95em; }
 .acct__note { min-height: 1.3em; font-weight: 600; font-size: .95em; color: var(--ink-soft); }
 .acct__note.is--good { color: #0b6b3a; }
 .acct__note.is--bad { color: #a3141c; }
@@ -1685,8 +1667,10 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 
 /* ---------- All books: sorting ---------- */
 
-.sorter { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .75em 1.5em; margin-top: -1em; }
-.sorter__item { display: inline-flex; align-items: center; gap: .6em; }
+.sorter { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 1.1em 1em; margin-top: -.5em; }
+.sorter__field { --field-line: var(--black); --field-line-hover: var(--black); }
+.sorter__field .field__input { height: 2.75em; padding: 0 2.4em 0 1.1em; cursor: pointer; appearance: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right .9em center / 1em; }
 .sorter__clear { font-weight: 700; text-decoration: underline; text-underline-offset: .2em; padding: .4em .6em; border-radius: .5em; }
 .sorter__clear:hover, .sorter__clear:focus-visible { background: var(--soft-grey); }
 .sorter__clear[hidden] { display: none; }
@@ -1703,13 +1687,6 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 .kinds__button { position: relative; transition: color .3s, background-color .2s; }
 .chips li[hidden] { display: none; }
 .chip.is--collection { border-color: var(--black); }
-.sorter__label { font-weight: 700; }
-.sorter__select {
-  font: inherit; font-weight: 600; padding: .5em 2.2em .5em 1em; border-radius: 10em; border: .12em solid var(--black);
-  background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right .7em center / 1em;
-  appearance: none; color: var(--black); cursor: pointer;
-}
-.sorter__select:focus-visible { outline: none; box-shadow: 0 0 0 .2em var(--magenta-ink); }
 
 /* ---------- Continue reading (home; filled in from this device by app.js) ---------- */
 
@@ -1878,14 +1855,7 @@ body:has(.reader) .header { display: none; }
 .reader__toc-summary > span:first-child { opacity: .7; }
 .reader__toc-summary-bar { display: block; height: .3em; border-radius: 1em; background: var(--r-line); overflow: hidden; }
 .reader__toc-summary-bar > span { display: block; height: 100%; background: var(--magenta-ink); transform-origin: left; transition: transform .6s var(--ease-smooth); }
-.reader__toc-search { display: flex; align-items: center; gap: .5em; margin: 0 0 .75em; padding: 0 .9em; border-radius: 10em; background: var(--r-soft); }
-.reader__toc-search .icon { flex: none; width: 1em; height: 1em; opacity: .6; }
-.reader__toc-search:focus-within { outline: .15em solid var(--magenta-ink); outline-offset: .1em; }
-.reader__toc-search input { flex: 1; min-width: 0; height: 2.6em; border: 0; background: none; color: inherit; font: inherit; outline: none; }
-.reader__toc-search input::-webkit-search-cancel-button {
-  -webkit-appearance: none; width: 1.1em; height: 1.1em; cursor: pointer; opacity: .6; background: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center / contain no-repeat;
-}
+.reader__toc-search { margin: .35em 0 .75em; }
 .reader__results { margin-top: .5em; border-top: 1px solid var(--r-line); padding-top: .25em; }
 .reader__results[hidden] { display: none; }
 .reader__results-status { padding: 0 .75em .4em; font-size: .9em; opacity: .7; }
@@ -2019,11 +1989,6 @@ body:has(.reader) .header { display: none; }
 }
 .reader__popup[hidden] { display: none; }
 .reader__popup-quote { margin: 0 0 .75em; padding-left: .8em; border-left: .2em solid var(--magenta-ink); font-style: italic; opacity: .85; }
-.reader__popup textarea {
-  width: 100%; resize: vertical; min-height: 6em; padding: .75em; border-radius: .8em; border: 1px solid var(--r-line);
-  background: var(--r-soft); color: inherit; font: inherit; line-height: 1.5;
-}
-.reader__popup textarea:focus-visible { outline: .15em solid var(--magenta-ink); outline-offset: .1em; }
 .reader__popup-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: .5em; margin-top: .9em; }
 .reader__choice.is--strong { background: var(--r-fg); color: var(--r-bg); }
 .reader__choice .icon { flex: none; width: 1.05em; height: 1.05em; }
@@ -2121,6 +2086,67 @@ body:has(.reader) .header { display: none; }
   .reader__foot .reader__progress { display: none; }
   .reader__panel { right: .75em; width: calc(100% - 1.5em); }
 }
+
+/* ---------- Fields ----------
+   An outlined box with its name inside, where you would type; click in, or give it a value, and the name rises into
+   a gap in the border and stays there (a list always shows its choice, so its name is always up). The gap is the
+   colour of whatever is around the field (--field-surface) above the line and the field's own (--field-fill) below. */
+.field {
+  --field-surface: var(--white); --field-fill: var(--white); --field-ink: var(--black); --field-muted: rgba(0, 0, 0, .62);
+  --field-line: rgba(0, 0, 0, .42); --field-line-hover: rgba(0, 0, 0, .7); --field-accent: var(--magenta-ink);
+  --field-pad: 1em; --field-start: 0em;
+  position: relative; display: flex; align-items: center; min-width: 0; color: var(--field-ink);
+  border: .12em solid var(--field-line); border-radius: .9em; background: var(--field-fill);
+  transition: border-color .2s, box-shadow .2s;
+}
+.field.is--pill { border-radius: 10em; }
+.field:hover { border-color: var(--field-line-hover); }
+.field:focus-within { border-color: var(--field-accent); box-shadow: 0 0 0 .1em var(--field-accent); }
+.field:has(> .field__input[aria-invalid="true"]) { border-color: #a3141c; }
+.field__input {
+  flex: 1; align-self: stretch; min-width: 0; height: 3.1em; padding: 0 var(--field-pad); border: 0; outline: 0; border-radius: inherit;
+  background: none; color: inherit; font: inherit; font-weight: 600;
+}
+.field__input::placeholder { color: transparent; }
+.field__label {
+  position: absolute; left: calc(var(--field-pad) + var(--field-start) - .3em); top: 50%; translate: 0 -50%; transform-origin: left center;
+  max-width: calc(100% - var(--field-pad) * 2 - var(--field-start)); padding: 0 .3em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: var(--field-muted); font-weight: 500; line-height: 1.25; pointer-events: none;
+  transition: top .22s var(--ease-smooth), left .22s var(--ease-smooth), scale .22s var(--ease-smooth), color .2s, background-color .2s;
+}
+/* risen: in the border, smaller, on a gap */
+:is(.field:focus-within, .field.is--select, .field:has(> .field__input:not(:placeholder-shown))) > .field__label {
+  top: 0; left: calc(var(--field-pad) - .3em); scale: .8; max-width: calc((100% - var(--field-pad)) / .8);
+  color: var(--field-ink); font-weight: 700; background: linear-gradient(var(--field-surface) 50%, var(--field-fill) 50%);
+}
+.field:has(> .field__input:-webkit-autofill) > .field__label {
+  top: 0; left: calc(var(--field-pad) - .3em); scale: .8; color: var(--field-ink); font-weight: 700; background: linear-gradient(var(--field-surface) 50%, var(--field-fill) 50%);
+}
+.field:focus-within > .field__label { color: var(--field-accent); }
+/* an icon or a sign before the words (a search, a username's @) */
+.field.is--icon { --field-start: 1.75em; padding-left: var(--field-pad); }
+.field.is--icon .field__input { padding-left: .55em; }
+.field__icon { flex: none; width: 1.2em; height: 1.2em; opacity: .65; }
+.field.is--prefix { --field-start: 1.05em; padding-left: var(--field-pad); }
+.field.is--prefix .field__input { padding-left: .1em; }
+.field__prefix { flex: none; width: .95em; font-weight: 700; opacity: .7; }
+/* words over several lines (a note): its name waits on the first line */
+.field.is--area { align-items: stretch; }
+.field.is--area .field__input { height: auto; min-height: 6.5em; padding: .9em var(--field-pad); resize: vertical; line-height: 1.5; }
+.field.is--area > .field__label { top: 1.65em; }
+/* a search's clear button, in the field's ink */
+.field__input::-webkit-search-cancel-button {
+  -webkit-appearance: none; width: 1.1em; height: 1.1em; margin-left: .4em; cursor: pointer; opacity: .55; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M18 6 6 18M6 6l12 12'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.field__input::-webkit-search-cancel-button:hover { opacity: 1; }
+/* in the reader, the page's own colours */
+.reader .field {
+  --field-surface: var(--r-bg); --field-fill: var(--r-bg); --field-ink: var(--r-fg);
+  --field-muted: color-mix(in srgb, var(--r-fg) 62%, transparent); --field-line: color-mix(in srgb, var(--r-fg) 32%, transparent);
+  --field-line-hover: color-mix(in srgb, var(--r-fg) 60%, transparent);
+}
+@media (prefers-reduced-motion: reduce) { .field__label { transition: none; } }
 
 /* ---------- Things that appear: steps, toasts and popups arrive rather than blink in ---------- */
 

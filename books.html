@@ -25,7 +25,7 @@
 <link rel="alternate" type="application/atom+xml" title="The Bookshelf: book of the month" href="feed.xml">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=4ed3fc51">
+<link rel="stylesheet" href="css/main.css?v=fae37312">
 <script>(function(d){var r=d.documentElement;r.classList.add('js');var c;try{c=+sessionStorage.getItem('bookshelf:covered');sessionStorage.removeItem('bookshelf:covered')}catch(e){}if(c&&Date.now()-c<30000&&!matchMedia('(prefers-reduced-motion: reduce)').matches){r.classList.add('is-loading','is-carried');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading','is-carried')},4000)}})(document)</script>
 <script src="js/vendor/gsap.min.js" defer></script>
 <script src="js/vendor/ScrollTrigger.min.js" defer></script>
@@ -37,8 +37,8 @@
 <script src="js/vendor/barba.umd.min.js" defer></script>
 <script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
 <script src="js/vendor/smooothy.min.js" defer></script>
-<script src="js/account.js?v=4ed3fc51" defer></script>
-<script src="js/app.js?v=4ed3fc51" defer></script>
+<script src="js/account.js?v=fae37312" defer></script>
+<script src="js/app.js?v=fae37312" defer></script>
 </head>
 <body data-barba="wrapper">
 <svg xmlns="http://www.w3.org/2000/svg" hidden>
@@ -154,9 +154,7 @@
 </section>
 <section class="catalogue" aria-label="Find a book" data-search-root>
   <form class="search" role="search" data-search-form>
-    <label class="sr-only" for="search-box">Search books by title, author or genre</label>
-    <svg class="search__icon" aria-hidden="true"><use href="#i-search"></use></svg>
-    <input class="search__input" type="search" id="search-box" placeholder="Search titles, authors or genres" autocomplete="off" data-search-input>
+    <label class="field is--icon is--pill search__field"><svg class="icon field__icon" aria-hidden="true"><use href="#i-search"></use></svg><input class="field__input" type="search" id="search-box" placeholder=" " autocomplete="off" enterkeyhint="search" data-search-input><span class="field__label">Search titles, authors or genres</span></label>
   </form>
   <div class="kinds" role="group" aria-label="Fiction or non-fiction" data-segmented>
     <button type="button" class="kinds__button" aria-pressed="true" data-kind="">All books</button>
@@ -165,15 +163,12 @@
   </div>
   <ul class="chips" aria-label="Filter by genre"><li><button type="button" class="chip" aria-pressed="false" data-genre="romance" data-chip-kind="fiction">Romance</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="mystery" data-chip-kind="fiction">Mystery</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="adventure" data-chip-kind="fiction">Adventure</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="fantasy" data-chip-kind="fiction">Fantasy</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="science-fiction" data-chip-kind="fiction">Science fiction</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="horror" data-chip-kind="fiction">Horror</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="poetry" data-chip-kind="fiction">Poetry</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="childrens" data-chip-kind="fiction">Children’s</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="plays" data-chip-kind="fiction">Plays</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="literary-fiction" data-chip-kind="fiction">Literary fiction</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="philosophy" data-chip-kind="nonfiction">Philosophy</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="lives-and-memoirs" data-chip-kind="nonfiction">Lives and memoirs</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="history-and-politics" data-chip-kind="nonfiction">History and politics</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="science-and-nature" data-chip-kind="nonfiction">Science and nature</button></li><li><button type="button" class="chip" aria-pressed="false" data-genre="essays-and-letters" data-chip-kind="nonfiction">Essays and letters</button></li><li><button type="button" class="chip is--collection" aria-pressed="false" data-collection="india">From India</button></li></ul>
   <div class="sorter">
-    <span class="sorter__item"><label class="sorter__label" for="mood-books">Mood</label>
-    <select class="sorter__select" id="mood-books" data-mood><option value="">Any mood</option><option value="funny">Funny</option><option value="romantic">Romantic</option><option value="adventurous">Adventurous</option><option value="dark">Dark</option><option value="eerie">Eerie</option><option value="thoughtful">Thoughtful</option><option value="heartwarming">Heartwarming</option><option value="gripping">Gripping</option></select></span>
-    <span class="sorter__item"><label class="sorter__label" for="length-books">Length</label>
-    <select class="sorter__select" id="length-books" data-length><option value="">Any length</option><option value="short">Under 3 hours</option><option value="medium">3 to 8 hours</option><option value="long">Over 8 hours</option></select></span>
-    <span class="sorter__item"><label class="sorter__label" for="sort-books">Sort by</label>
-    <select class="sorter__select" id="sort-books" data-sort>
+    <label class="field is--select is--pill sorter__field"><select class="field__input" id="mood-books" data-mood><option value="">Any mood</option><option value="funny">Funny</option><option value="romantic">Romantic</option><option value="adventurous">Adventurous</option><option value="dark">Dark</option><option value="eerie">Eerie</option><option value="thoughtful">Thoughtful</option><option value="heartwarming">Heartwarming</option><option value="gripping">Gripping</option></select><span class="field__label">Mood</span></label>
+    <label class="field is--select is--pill sorter__field"><select class="field__input" id="length-books" data-length><option value="">Any length</option><option value="short">Under 3 hours</option><option value="medium">3 to 8 hours</option><option value="long">Over 8 hours</option></select><span class="field__label">Length</span></label>
+    <label class="field is--select is--pill sorter__field"><select class="field__input" id="sort-books" data-sort>
       <option value="rank">Most read</option><option value="title">Title, A to Z</option>
       <option value="short">Shortest first</option><option value="long">Longest first</option>
-    </select></span>
+    </select><span class="field__label">Sort by</span></label>
     <button type="button" class="sorter__clear" data-clear-filters hidden>Clear filters</button>
   </div>
   <h2 class="sr-only">Books</h2>

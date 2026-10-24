@@ -1093,8 +1093,8 @@ def setup_form(cls=""):
     <h2 class="mine__title" id="setup-title" data-acct-setup-title>Make it yours</h2>
     <p class="mine__text">Your name and username are shown on your reader page, if you choose to share it. Nothing else about you is.</p>
     <div class="acct__preview" aria-hidden="true"><span data-acct-preview-avatar></span><span class="acct__preview-text"><strong data-acct-preview-name>Your name</strong><span data-acct-preview-handle>@username</span></span></div>
-    <label class="acct__field"><span class="acct__label">Name</span><input class="acct__input" name="name" maxlength="40" autocomplete="name" required aria-describedby="acct-name-note"><span class="acct__note" id="acct-name-note" data-acct-name-note></span></label>
-    <label class="acct__field"><span class="acct__label">Username</span><span class="acct__at"><span aria-hidden="true">@</span><input class="acct__input" name="handle" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" required aria-describedby="acct-handle-note"></span><span class="acct__note" id="acct-handle-note" data-acct-handle-note>3 to 20 small letters, numbers or _</span></label>
+    <div class="acct__field"><label class="field"><input class="field__input" name="name" maxlength="40" autocomplete="name" required aria-describedby="acct-name-note" placeholder=" "><span class="field__label">Name</span></label><span class="acct__note" id="acct-name-note" data-acct-name-note></span></div>
+    <div class="acct__field"><label class="field is--prefix"><span class="field__prefix" aria-hidden="true">@</span><input class="field__input" name="handle" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" required aria-describedby="acct-handle-note" placeholder=" "><span class="field__label">Username</span></label><span class="acct__note" id="acct-handle-note" data-acct-handle-note>3 to 20 small letters, numbers or _</span></div>
     <fieldset class="acct__choices"><legend class="acct__label">Colour</legend><div class="acct__options">{colours}</div></fieldset>
     <fieldset class="acct__choices"><legend class="acct__label">Mark</legend><div class="acct__options">{marks}</div></fieldset>
     <p class="mine__actions"><button type="submit" class="mine__button is--primary" data-acct-save>{icon("check")}<span data-acct-save-label>Save</span></button><button type="button" class="mine__button is--quiet" data-acct-cancel hidden>Cancel</button></p>
@@ -1140,10 +1140,9 @@ def auth_page(mode):
       <button type="button" class="acct__google" data-acct-google>{GOOGLE_G}<span>{"Sign up with Google" if up else "Continue with Google"}</span></button>
       <p class="acct__or"><span>or with your email</span></p>
       <form class="acct__form" data-acct-email novalidate>
-        <label class="acct__field"><span class="acct__label">Email</span><input class="acct__input" type="email" name="email" autocomplete="email" inputmode="email" required></label>
-        <label class="acct__field"><span class="acct__label">Password{' <span class="acct__hint">(at least 8 characters)</span>' if up else ""}</span>
-          <span class="acct__password"><input class="acct__input" type="password" name="password" autocomplete="{"new-password" if up else "current-password"}" required minlength="8">
-          <button type="button" class="acct__show" data-acct-show aria-pressed="false" aria-label="Show the password">{icon("eye")}</button></span></label>
+        <div class="acct__field"><label class="field"><input class="field__input" type="email" name="email" autocomplete="email" inputmode="email" required placeholder=" "><span class="field__label">Email</span></label></div>
+        <div class="acct__field"><label class="field"><input class="field__input" type="password" name="password" autocomplete="{"new-password" if up else "current-password"}" required minlength="8" placeholder=" "{' aria-describedby="acct-password-note"' if up else ""}><span class="field__label">Password</span>
+          <button type="button" class="acct__show" data-acct-show aria-pressed="false" aria-label="Show the password">{icon("eye")}</button></label>{'<span class="acct__note" id="acct-password-note">At least 8 characters</span>' if up else ""}</div>
         <button type="submit" class="acct__submit" data-acct-submit>{"Create my account" if up else "Sign in"}{icon("arrow")}</button>
         {"" if up else '<button type="button" class="acct__link" data-acct-forgot>Forgot your password?</button>'}
       </form>
@@ -1212,7 +1211,7 @@ def account_page():
       <p class="mine__text">Signing out keeps a copy of your reading on this device, so you can carry on without an account. On a shared or borrowed device, sign out and clear it.</p>
       <p class="mine__actions"><button type="button" class="mine__button" data-acct-signout>{icon("logout")}Sign out</button><button type="button" class="mine__button" data-acct-signout-clear>{icon("logout")}Sign out and clear this device</button></p>
       <p class="mine__text">Deleting your account removes everything it keeps, for good. This device keeps its own copy.</p>
-      <label class="acct__field" data-acct-reauth hidden><span class="acct__label">Your password, to confirm it’s you</span><input class="acct__input" type="password" autocomplete="current-password" data-acct-reauth-password></label>
+      <div class="acct__field" data-acct-reauth hidden><label class="field"><input class="field__input" type="password" autocomplete="current-password" data-acct-reauth-password placeholder=" "><span class="field__label">Your password, to confirm it’s you</span></label></div>
       <p class="mine__actions"><button type="button" class="mine__button is--danger" data-acct-delete>{icon("trash")}<span>Delete my account</span></button></p>
       <p class="acct__message" role="status" aria-live="polite" data-acct-leave-message></p>
     </section>
@@ -1348,7 +1347,7 @@ def reading_page():
 </section>
 <div class="mine" data-your-reading>
   <noscript><p class="mine__empty">Your reading needs JavaScript: it shows what this browser keeps for you.</p></noscript>
-  <p class="mine__account" data-mine-account hidden></p>
+  {MINE_ACCOUNT}
   <section class="mine__section" id="week" aria-labelledby="week-title">
     <h2 class="mine__title heading-m" id="week-title">Your week</h2>
     <div class="mine__stats">
@@ -1369,7 +1368,7 @@ def reading_page():
   </section>
   <section class="mine__section" id="notes" aria-labelledby="notes-title">
     <h2 class="mine__title heading-m" id="notes-title">Your notes</h2>
-    <label class="mine__search" data-notes-find hidden><span class="sr-only">Find in your notes</span>{icon("search")}<input type="search" placeholder="Find in your notes" autocomplete="off" data-notes-search></label>
+    <label class="field is--icon is--pill mine__search" data-notes-find hidden>{icon("search", "icon field__icon")}<input class="field__input" type="search" placeholder=" " autocomplete="off" data-notes-search><span class="field__label">Find in your notes</span></label>
     <div class="mine__notes" data-notes-all></div>
     <p class="mine__empty" data-notes-none hidden>Select any words in a book to highlight them or add a note. They will all be here.</p>
     <p class="mine__actions" data-notes-actions hidden><button type="button" class="mine__button" data-notes-export>{icon("download")}Export all notes</button></p>
@@ -1430,9 +1429,7 @@ def books_page():
 </section>
 <section class="catalogue" aria-label="Find a book" data-search-root>
   <form class="search" role="search" data-search-form>
-    <label class="sr-only" for="search-box">Search books by title, author or genre</label>
-    {icon("search", "search__icon")}
-    <input class="search__input" type="search" id="search-box" placeholder="Search titles, authors or genres" autocomplete="off" data-search-input>
+    <label class="field is--icon is--pill search__field">{icon("search", "icon field__icon")}<input class="field__input" type="search" id="search-box" placeholder=" " autocomplete="off" enterkeyhint="search" data-search-input><span class="field__label">Search titles, authors or genres</span></label>
   </form>
   <div class="kinds" role="group" aria-label="Fiction or non-fiction" data-segmented>
     <button type="button" class="kinds__button" aria-pressed="true" data-kind="">All books</button>
@@ -1441,15 +1438,12 @@ def books_page():
   </div>
   <ul class="chips" aria-label="Filter by genre">{chips}</ul>
   <div class="sorter">
-    <span class="sorter__item"><label class="sorter__label" for="mood-books">Mood</label>
-    <select class="sorter__select" id="mood-books" data-mood><option value="">Any mood</option>{moods}</select></span>
-    <span class="sorter__item"><label class="sorter__label" for="length-books">Length</label>
-    <select class="sorter__select" id="length-books" data-length><option value="">Any length</option>{lengths}</select></span>
-    <span class="sorter__item"><label class="sorter__label" for="sort-books">Sort by</label>
-    <select class="sorter__select" id="sort-books" data-sort>
+    <label class="field is--select is--pill sorter__field"><select class="field__input" id="mood-books" data-mood><option value="">Any mood</option>{moods}</select><span class="field__label">Mood</span></label>
+    <label class="field is--select is--pill sorter__field"><select class="field__input" id="length-books" data-length><option value="">Any length</option>{lengths}</select><span class="field__label">Length</span></label>
+    <label class="field is--select is--pill sorter__field"><select class="field__input" id="sort-books" data-sort>
       <option value="rank">Most read</option><option value="title">Title, A to Z</option>
       <option value="short">Shortest first</option><option value="long">Longest first</option>
-    </select></span>
+    </select><span class="field__label">Sort by</span></label>
     <button type="button" class="sorter__clear" data-clear-filters hidden>Clear filters</button>
   </div>
   <h2 class="sr-only">Books</h2>
@@ -1459,6 +1453,16 @@ def books_page():
   </div>
   <p class="catalogue__empty" data-search-empty hidden>No books match. Try another word, or clear the filters.</p>
 </section>"""
+
+
+# Your reading says where it is kept. With accounts it is in the page from the start, signed in or out (the header's
+# boot script marks which), and js/your-reading.js keeps it current; added by the script alone, it pushed the page down.
+MINE_ACCOUNT = ('<p class="mine__account is--out" data-mine-account>'
+                '<span class="mine__account-text" data-when="out">Kept on this device only. Sign in to have it on every device, and never lose your place.</span>'
+                '<span class="mine__account-actions" data-when="out"><a class="mine__button is--small" href="login.html">Sign in</a>'
+                '<a class="mine__button is--small is--quiet" href="signup.html">Create an account</a></span>'
+                '<span data-when="in">Kept in your account. <a href="account.html">Your account</a></span></p>'
+                if ACCOUNTS else '<p class="mine__account" data-mine-account hidden></p>')
 
 
 def reader_page():
@@ -1506,7 +1510,7 @@ def reader_page():
   <nav class="reader__panel" id="reader-contents" aria-label="Contents" data-reader-panel hidden>
     <h2 class="reader__panel-title">Contents</h2>
     <p class="reader__toc-summary" data-reader-toc-summary hidden><span data-reader-toc-summary-text></span><span class="reader__toc-summary-bar"><span data-reader-toc-summary-bar></span></span></p>
-    <label class="reader__toc-search">{icon("search")}<span class="sr-only">Search this book</span><input type="search" placeholder="Search this book" autocomplete="off" enterkeyhint="search" data-reader-toc-search></label>
+    <label class="field is--icon is--pill reader__toc-search">{icon("search", "icon field__icon")}<input class="field__input" type="search" placeholder=" " autocomplete="off" enterkeyhint="search" data-reader-toc-search><span class="field__label">Search this book</span></label>
     <ol class="reader__toc" data-reader-toc-list></ol>
     <section class="reader__results" data-reader-results hidden aria-live="polite">
       <h3 class="reader__notes-head">In the text</h3>
@@ -1557,8 +1561,7 @@ def reader_page():
   <div class="reader__tip" role="status" data-reader-tip hidden>{icon("highlight")}<span data-reader-tip-text>Select any words to highlight them, add a note, look one up or share them as a picture.</span><button type="button" class="reader__tip-ok" data-reader-tip-ok>Got it</button></div>
   <div class="reader__popup is--note" role="dialog" aria-label="Your note" data-note-editor hidden>
     <blockquote class="reader__popup-quote" data-note-quote></blockquote>
-    <label class="sr-only" for="reader-note-text">Your note</label>
-    <textarea id="reader-note-text" rows="4" maxlength="4000" placeholder="Your thoughts on these words" data-note-text></textarea>
+    <label class="field is--area"><textarea class="field__input" id="reader-note-text" rows="4" maxlength="4000" placeholder=" " data-note-text></textarea><span class="field__label">Your thoughts on these words</span></label>
     <p class="reader__popup-actions"><button type="button" class="reader__choice" data-note-cancel>Cancel</button><button type="button" class="reader__choice is--strong" data-note-save>Save note</button></p>
   </div>
   <div class="reader__popup is--define" role="dialog" aria-label="Meaning" data-define hidden>

@@ -31,6 +31,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com), and the versi
   choices sharing their row evenly with each icon beside its word, and the chosen page colour ringed in the page's ink.
 - The highlight bar has two rows, the colours and Underline in one and Note, Define, Copy, Share and Remove in the
   other, says whether you are marking new words or changing a mark, and names each tool on hover.
+- Every field (searches, sign in and sign up, your name and username, a note, the choices on All books) is an outlined
+  box with its name inside; click in, or give it a value, and the name rises into a gap in the border.
 - Choices that slide: the highlight in a row of options (All books, Fiction, Non-fiction; the reader's font, spacing and
   mode) moves to the new choice, and steps, messages and popups arrive rather than blink in.
 
@@ -50,6 +52,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com), and the versi
 - After a fast fling on a phone the screen could stay blank.
 - Engravings were inverted twice on the Night page, and showed on a white box on Paper and Sepia.
 - Time left in a chapter said hundreds of minutes until the book was measured.
+- With accounts on, Your reading's note on where your reading is kept was added after the page appeared and pushed the
+  page down; it is now part of the page from the start.
 
 ## [3.4.0] - 2026-10-24
 

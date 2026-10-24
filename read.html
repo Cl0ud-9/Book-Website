@@ -25,7 +25,7 @@
 <link rel="alternate" type="application/atom+xml" title="The Bookshelf: book of the month" href="feed.xml">
 <link rel="preload" href="fonts/rubik.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/figtree.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=4ed3fc51">
+<link rel="stylesheet" href="css/main.css?v=fae37312">
 <script>(function(d){var r=d.documentElement;r.classList.add('js');var c;try{c=+sessionStorage.getItem('bookshelf:covered');sessionStorage.removeItem('bookshelf:covered')}catch(e){}if(c&&Date.now()-c<30000&&!matchMedia('(prefers-reduced-motion: reduce)').matches){r.classList.add('is-loading','is-carried');setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading','is-carried')},4000)}})(document)</script>
 <script src="js/vendor/gsap.min.js" defer></script>
 <script src="js/vendor/ScrollTrigger.min.js" defer></script>
@@ -37,8 +37,8 @@
 <script src="js/vendor/barba.umd.min.js" defer></script>
 <script src="js/vendor/barba-prefetch.umd.min.js" defer></script>
 <script src="js/vendor/smooothy.min.js" defer></script>
-<script src="js/account.js?v=4ed3fc51" defer></script>
-<script src="js/app.js?v=4ed3fc51" defer></script>
+<script src="js/account.js?v=fae37312" defer></script>
+<script src="js/app.js?v=fae37312" defer></script>
 </head>
 <body data-barba="wrapper">
 <svg xmlns="http://www.w3.org/2000/svg" hidden>
@@ -181,7 +181,7 @@
   <nav class="reader__panel" id="reader-contents" aria-label="Contents" data-reader-panel hidden>
     <h2 class="reader__panel-title">Contents</h2>
     <p class="reader__toc-summary" data-reader-toc-summary hidden><span data-reader-toc-summary-text></span><span class="reader__toc-summary-bar"><span data-reader-toc-summary-bar></span></span></p>
-    <label class="reader__toc-search"><svg class="icon" aria-hidden="true"><use href="#i-search"></use></svg><span class="sr-only">Search this book</span><input type="search" placeholder="Search this book" autocomplete="off" enterkeyhint="search" data-reader-toc-search></label>
+    <label class="field is--icon is--pill reader__toc-search"><svg class="icon field__icon" aria-hidden="true"><use href="#i-search"></use></svg><input class="field__input" type="search" placeholder=" " autocomplete="off" enterkeyhint="search" data-reader-toc-search><span class="field__label">Search this book</span></label>
     <ol class="reader__toc" data-reader-toc-list></ol>
     <section class="reader__results" data-reader-results hidden aria-live="polite">
       <h3 class="reader__notes-head">In the text</h3>
@@ -232,8 +232,7 @@
   <div class="reader__tip" role="status" data-reader-tip hidden><svg class="icon" aria-hidden="true"><use href="#i-highlight"></use></svg><span data-reader-tip-text>Select any words to highlight them, add a note, look one up or share them as a picture.</span><button type="button" class="reader__tip-ok" data-reader-tip-ok>Got it</button></div>
   <div class="reader__popup is--note" role="dialog" aria-label="Your note" data-note-editor hidden>
     <blockquote class="reader__popup-quote" data-note-quote></blockquote>
-    <label class="sr-only" for="reader-note-text">Your note</label>
-    <textarea id="reader-note-text" rows="4" maxlength="4000" placeholder="Your thoughts on these words" data-note-text></textarea>
+    <label class="field is--area"><textarea class="field__input" id="reader-note-text" rows="4" maxlength="4000" placeholder=" " data-note-text></textarea><span class="field__label">Your thoughts on these words</span></label>
     <p class="reader__popup-actions"><button type="button" class="reader__choice" data-note-cancel>Cancel</button><button type="button" class="reader__choice is--strong" data-note-save>Save note</button></p>
   </div>
   <div class="reader__popup is--define" role="dialog" aria-label="Meaning" data-define hidden>
