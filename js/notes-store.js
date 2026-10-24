@@ -5,7 +5,7 @@
   "use strict";
 
   /**
-   * @typedef {"yellow" | "green" | "blue" | "pink" | "underline"} NoteStyle
+   * @typedef {"yellow" | "green" | "blue" | "pink" | "underline" | "bookmark"} NoteStyle (a bookmark holds the opening words of its page)
    * @typedef {{
    *   id: string, book: string, cfi: string, text: string, prefix: string, suffix: string,
    *   style: NoteStyle, note: string, chapter: string, percent: number | null, created: number, updated: number

@@ -231,7 +231,7 @@ def bg_svg(paths, cls, view="0 0 1440 1000", small=False):
 
 ICON_DIR = Path(__file__).resolve().parent / "icons"
 # name used in the pages -> Lucide file
-ICONS = {"user": "user-round", "logout": "log-out", "feather": "feather", "leaf": "leaf", "coffee": "coffee", "cat": "cat",
+ICONS = {"expand": "maximize", "shrink": "minimize", "down": "arrow-down-to-line", "user": "user-round", "logout": "log-out", "feather": "feather", "leaf": "leaf", "coffee": "coffee", "cat": "cat",
          "eye": "eye", "eye-off": "eye-off", "sync": "refresh-cw", "link": "link",
          "cloud": "cloud-check", "arrow": "arrow-right", "left": "arrow-left", "up": "arrow-up", "plus": "plus", "menu": "menu", "close": "x",
          "search": "search", "book": "book-open", "sparkles": "sparkles", "gift": "gift",
@@ -253,6 +253,7 @@ def lucide_symbol(name, file):
 
 SPRITE = ("""<svg xmlns="http://www.w3.org/2000/svg" hidden>
   <symbol id="i-logo" viewBox="0 0 48 48"><path fill="currentColor" d="M24 9.5c-4.2-3.3-10.3-4.4-17-3.5a2 2 0 0 0-1.7 2v27.6a2 2 0 0 0 2.3 2c6.2-.8 11.3.2 15.2 3.1a2 2 0 0 0 2.4 0c3.9-2.9 9-3.9 15.2-3.1a2 2 0 0 0 2.3-2V8a2 2 0 0 0-1.7-2c-6.7-.9-12.8.2-17 3.5Zm-2.2 4.2v20.9c-3.6-1.8-7.9-2.6-12.5-2.4V10c4.9-.4 9.3.8 12.5 3.7Zm4.4 0c3.2-2.9 7.6-4.1 12.5-3.7v22.2c-4.6-.2-8.9.6-12.5 2.4V13.7Z"/><path fill="currentColor" d="M33 4h5v12l-2.5-2-2.5 2z"/></symbol>
+  <symbol id="i-bookmark-on" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></symbol>
   <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.3 4.6 18.3 5 18.3 5c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 12 .5Z"/></symbol>
 """ + "\n".join(lucide_symbol(k, v) for k, v in ICONS.items()) + "\n</svg>")
 
@@ -437,6 +438,7 @@ def page(name, path, title, description, body, theme="yellow", book=None, with_f
 <meta name="description" content="{e(description)}">
 {"" if index else '<meta name="robots" content="noindex">'}
 <meta name="theme-color" content="#ffd24a">
+<meta name="color-scheme" content="only light">
 <link rel="canonical" href="{SITE}{path}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Bookshelf">
@@ -485,7 +487,8 @@ def ink(colour):
 def library_data():
     # What the reader and "Continue reading" need to know about each book, read by app.js
     # verse: numbered poems keep their bare numbers in the reader's contents, where chapters become "Chapter I"
-    data = {b["slug"]: {"title": b["title"], "author": b["author"], "epub": b["epub"], **({"verse": 1} if "Poetry" in b["genres"] else {})}
+    data = {b["slug"]: {"title": b["title"], "author": b["author"], "epub": b["epub"], "colour": b["colour"], "minutes": b["minutes"],
+                        **({"verse": 1} if "Poetry" in b["genres"] else {})}
             for b in LIBRARY}
     return f'<script type="application/json" data-library>{json.dumps(data, ensure_ascii=False, separators=(",", ":"))}</script>'
 
@@ -1431,7 +1434,7 @@ def books_page():
     {icon("search", "search__icon")}
     <input class="search__input" type="search" id="search-box" placeholder="Search titles, authors or genres" autocomplete="off" data-search-input>
   </form>
-  <div class="kinds" role="group" aria-label="Fiction or non-fiction">
+  <div class="kinds" role="group" aria-label="Fiction or non-fiction" data-segmented>
     <button type="button" class="kinds__button" aria-pressed="true" data-kind="">All books</button>
     <button type="button" class="kinds__button" aria-pressed="false" data-kind="fiction">Fiction</button>
     <button type="button" class="kinds__button" aria-pressed="false" data-kind="nonfiction">Non-fiction</button>
@@ -1463,11 +1466,17 @@ def reader_page():
                      for t, label in (("paper", "Paper"), ("sepia", "Sepia"), ("night", "Night")))
     fonts = "".join(f'<button type="button" class="reader__choice" data-reader-font="{f}" aria-pressed="false">{label}</button>'
                     for f, label in (("serif", "Serif"), ("classic", "Classic"), ("sans", "Sans")))
+    spacing = "".join(f'<button type="button" class="reader__choice is--spacing" data-reader-spacing="{v}" aria-pressed="false" aria-label="{label} line spacing">'
+                      f'<span class="reader__lines is--{v}" aria-hidden="true"><i></i><i></i><i></i></span>{label}</button>'
+                      for v, label in (("compact", "Compact"), ("normal", "Normal"), ("airy", "Airy")))
+    flows = "".join(f'<button type="button" class="reader__choice" data-reader-flow="{v}" aria-pressed="false">{icon(i)}{label}</button>'
+                    for v, label, i in (("scroll", "Scroll", "down"), ("pages", "Pages", "book")))
     return f"""<section class="reader" data-reader data-lenis-prevent aria-label="Reader">
   <div class="reader__bar">
     <a class="reader__back" href="books.html" data-reader-back>{icon("left")}<span>Back</span></a>
     <div class="reader__titles"><h1 class="reader__title" data-reader-title>Opening the book…</h1><p class="reader__author" data-reader-author></p></div>
     <div class="reader__tools">
+      <button class="reader__tool" type="button" data-reader-bookmark aria-pressed="false" aria-label="Bookmark this page">{icon("bookmark")}{icon("bookmark-on", "icon is--on")}<span class="reader__tool-label" data-reader-bookmark-label>Bookmark</span></button>
       <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-contents">{icon("contents")}<span class="reader__tool-label">Contents</span></button>
       <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-notes">{icon("highlight")}<span class="reader__tool-label">Notes</span></button>
       <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-settings">{icon("type")}<span class="reader__tool-label">Text</span></button>
@@ -1478,7 +1487,9 @@ def reader_page():
     <button class="reader__turn is--prev" type="button" data-reader-prev aria-label="Previous page">{icon("prev")}</button>
     <div class="reader__book" data-reader-book>
       <div class="reader__view" data-reader-view></div>
-      <div class="reader__sheet" data-reader-sheet aria-hidden="true"><div class="reader__sheet-face"></div><div class="reader__sheet-face is--back"></div></div>
+      <span class="reader__ribbon" data-reader-ribbon aria-hidden="true" hidden></span>
+      <div class="reader__leaves" data-reader-leaves aria-hidden="true"></div>
+      <div class="reader__curl" data-reader-curl aria-hidden="true" hidden><div class="reader__curl-shade"></div><div class="reader__curl-flap"><div class="reader__curl-back"></div></div></div>
     </div>
     <div class="reader__intro" data-reader-intro aria-hidden="true">
       <div class="reader__intro-book" data-reader-intro-book>
@@ -1491,42 +1502,59 @@ def reader_page():
     <button class="reader__return" type="button" data-reader-return hidden>{icon("left")}<span>Back to <span data-reader-return-label>where you were</span></span></button>
     <noscript><p class="reader__message">The reader needs JavaScript. Every book can also be downloaded from its page in <a href="books.html">All books</a>.</p></noscript>
   </div>
-  <div class="reader__foot"><span class="reader__chapter" data-reader-chapter></span><span class="reader__progress"><span data-reader-bar></span></span><span class="reader__percent" data-reader-percent></span></div>
+  <div class="reader__foot"><span class="reader__chapter" data-reader-chapter></span><span class="reader__progress"><span data-reader-bar></span></span><span class="reader__page" data-reader-page title="Pages in this chapter"></span><span class="reader__left" data-reader-left></span><span class="reader__percent" data-reader-percent></span></div>
   <nav class="reader__panel" id="reader-contents" aria-label="Contents" data-reader-panel hidden>
     <h2 class="reader__panel-title">Contents</h2>
-    <label class="reader__toc-search" data-reader-toc-find hidden><span class="sr-only">Find a chapter</span><input type="search" placeholder="Find a chapter" autocomplete="off" data-reader-toc-search></label>
+    <p class="reader__toc-summary" data-reader-toc-summary hidden><span data-reader-toc-summary-text></span><span class="reader__toc-summary-bar"><span data-reader-toc-summary-bar></span></span></p>
+    <label class="reader__toc-search">{icon("search")}<span class="sr-only">Search this book</span><input type="search" placeholder="Search this book" autocomplete="off" enterkeyhint="search" data-reader-toc-search></label>
     <ol class="reader__toc" data-reader-toc-list></ol>
-    <p class="reader__toc-empty" data-reader-toc-empty hidden>No chapter by that name.</p>
+    <section class="reader__results" data-reader-results hidden aria-live="polite">
+      <h3 class="reader__notes-head">In the text</h3>
+      <p class="reader__results-status" data-reader-results-status></p>
+      <ol class="reader__results-list" data-reader-results-list></ol>
+    </section>
     <details class="reader__toc-about" data-reader-toc-about hidden><summary>About this edition</summary><ol class="reader__toc" data-reader-toc-about-list></ol></details>
   </nav>
   <div class="reader__panel is--settings" id="reader-settings" role="group" aria-label="Text settings" data-reader-panel hidden>
     <h2 class="reader__panel-title">Text</h2>
-    <p class="reader__setting"><span>Size</span><button type="button" class="reader__choice" data-reader-size="-1" aria-label="Smaller text">A−</button><span class="reader__size" data-reader-size-value>100%</span><button type="button" class="reader__choice" data-reader-size="1" aria-label="Bigger text">A+</button></p>
-    <p class="reader__setting"><span>Page</span>{themes}</p>
-    <p class="reader__setting"><span>Font</span>{fonts}</p>
-    <div class="reader__setting is--book"><span>Book</span><a class="reader__choice" href="books.html" data-reader-download download>{icon("download")}Download EPUB</a><span class="offline-row" data-offline-row hidden>{OFFLINE_CONTROLS}</span></div>
+    <div class="reader__setting"><span class="reader__label">Size</span><div class="reader__controls reader__stepper"><button type="button" class="reader__choice" data-reader-size="-1" aria-label="Smaller text">A−</button><span class="reader__size" data-reader-size-value>100%</span><button type="button" class="reader__choice" data-reader-size="1" aria-label="Bigger text">A+</button></div></div>
+    <div class="reader__setting"><span class="reader__label">Page</span><div class="reader__controls reader__themes">{themes}</div></div>
+    <div class="reader__setting"><span class="reader__label">Font</span><div class="reader__controls reader__segments" data-segmented>{fonts}</div></div>
+    <div class="reader__setting"><span class="reader__label">Spacing</span><div class="reader__controls reader__segments" data-segmented>{spacing}</div></div>
+    <div class="reader__setting" data-reader-flow-row><span class="reader__label">Reading</span><div class="reader__controls reader__segments" data-segmented>{flows}</div></div>
+    <div class="reader__setting" data-reader-screen-row hidden><span class="reader__label">Screen</span><div class="reader__controls"><button type="button" class="reader__choice" data-reader-fullscreen aria-pressed="false">{icon("expand")}<span data-reader-fullscreen-label>Full screen</span></button></div></div>
+    <div class="reader__setting is--book"><span class="reader__label">Book</span><div class="reader__controls"><a class="reader__choice" href="books.html" data-reader-download download>{icon("download")}Download EPUB</a><span class="offline-row" data-offline-row hidden>{OFFLINE_CONTROLS}</span></div></div>
   </div>
   <div class="reader__panel is--notes" id="reader-notes" role="region" aria-label="Notes" data-reader-panel hidden>
     <h2 class="reader__panel-title">Notes</h2>
-    <p class="reader__notes-empty" data-notes-empty>Select any words in the book to highlight them, underline them or add a note. They stay on this device.</p>
+    <p class="reader__notes-empty" data-notes-empty>Select any words in the book (on a phone, press and hold one) to highlight them, underline them, add a note or share them as a picture; Bookmark, at the top, marks the page you are on. They are kept on this device{", and in your account when you sign in" if ACCOUNTS else ""}.</p>
+    <h3 class="reader__notes-head" data-bookmarks-head hidden>Bookmarks</h3>
+    <ol class="reader__notes" data-bookmarks-list></ol>
+    <h3 class="reader__notes-head" data-notes-head hidden>Highlights and notes</h3>
     <ol class="reader__notes" data-notes-list></ol>
     <p class="reader__notes-actions"><button type="button" class="reader__choice" data-notes-export hidden>{icon("download")}Export these notes</button><a class="reader__choice" href="reading.html#notes">{icon("library")}All your notes</a></p>
     <p class="reader__notes-warning" data-notes-warning hidden>This browser is not keeping data, so notes last only until this tab closes.</p>
   </div>
   <div class="reader__select" role="toolbar" aria-label="Highlight the selected words" data-select-bar hidden>
-    <span class="reader__select-swatches">
-      <button type="button" class="reader__swatch is--yellow" data-style="yellow" aria-label="Yellow highlight" title="Yellow highlight"></button>
-      <button type="button" class="reader__swatch is--green" data-style="green" aria-label="Green highlight" title="Green highlight"></button>
-      <button type="button" class="reader__swatch is--blue" data-style="blue" aria-label="Blue highlight" title="Blue highlight"></button>
-      <button type="button" class="reader__swatch is--pink" data-style="pink" aria-label="Pink highlight" title="Pink highlight"></button>
-    </span>
-    <span class="reader__select-gap" aria-hidden="true"></span>
-    <button type="button" class="reader__select-tool" data-style="underline" title="Underline">{icon("underline")}<span class="reader__select-label">Underline</span></button>
-    <button type="button" class="reader__select-tool" data-select-note title="Add a note">{icon("note")}<span class="reader__select-label">Note</span></button>
-    <button type="button" class="reader__select-tool" data-select-define title="What this word means">{icon("define")}<span class="reader__select-label">Define</span></button>
-    <button type="button" class="reader__select-tool" data-select-copy title="Copy, with the book’s name">{icon("copy")}<span class="reader__select-label">Copy</span></button>
-    <button type="button" class="reader__select-tool" data-select-delete title="Remove this highlight" hidden>{icon("trash")}<span class="reader__select-label">Remove</span></button>
+    <div class="reader__select-row">
+      <span class="reader__select-title" data-select-title>Highlight</span>
+      <span class="reader__select-swatches">
+        <button type="button" class="reader__swatch is--yellow" data-style="yellow" aria-label="Yellow highlight" title="Yellow highlight"></button>
+        <button type="button" class="reader__swatch is--green" data-style="green" aria-label="Green highlight" title="Green highlight"></button>
+        <button type="button" class="reader__swatch is--blue" data-style="blue" aria-label="Blue highlight" title="Blue highlight"></button>
+        <button type="button" class="reader__swatch is--pink" data-style="pink" aria-label="Pink highlight" title="Pink highlight"></button>
+        <button type="button" class="reader__swatch is--underline" data-style="underline" aria-label="Underline" title="Underline">{icon("underline")}</button>
+      </span>
+    </div>
+    <div class="reader__select-row is--tools">
+      <button type="button" class="reader__select-tool" data-select-note title="Add a note">{icon("note")}<span class="reader__select-label" data-select-note-label>Note</span></button>
+      <button type="button" class="reader__select-tool" data-select-define title="What the word means">{icon("define")}<span class="reader__select-label">Define</span></button>
+      <button type="button" class="reader__select-tool" data-select-copy title="Copy the words">{icon("copy")}<span class="reader__select-label">Copy</span></button>
+      <button type="button" class="reader__select-tool" data-select-share data-quote-share title="Share the words as a picture">{icon("share")}<span class="reader__select-label">Share</span></button>
+      <button type="button" class="reader__select-tool is--remove" data-select-delete title="Remove the mark" hidden>{icon("trash")}<span class="reader__select-label">Remove</span></button>
+    </div>
   </div>
+  <div class="reader__tip" role="status" data-reader-tip hidden>{icon("highlight")}<span data-reader-tip-text>Select any words to highlight them, add a note, look one up or share them as a picture.</span><button type="button" class="reader__tip-ok" data-reader-tip-ok>Got it</button></div>
   <div class="reader__popup is--note" role="dialog" aria-label="Your note" data-note-editor hidden>
     <blockquote class="reader__popup-quote" data-note-quote></blockquote>
     <label class="sr-only" for="reader-note-text">Your note</label>

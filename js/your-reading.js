@@ -215,9 +215,10 @@
           const li = el("li", "mine__note");
           li.append(el("span", `mine__note-mark is--${n.style}`));
           const body = el("div", "mine__note-body");
-          body.append(el("blockquote", "mine__note-quote", n.text));
+          const bookmark = n.style === "bookmark"; // the opening words of a page
+          body.append(el("blockquote", "mine__note-quote", bookmark ? `${n.text}…` : n.text));
           if (n.note) body.append(el("p", "mine__note-own", n.note));
-          body.append(el("p", "mine__meta", [n.chapter, n.percent != null ? `${Math.round(n.percent * 100)}%` : ""].filter(Boolean).join(" · ")));
+          body.append(el("p", "mine__meta", [bookmark ? "Bookmark" : "", n.chapter, n.percent != null ? `${Math.round(n.percent * 100)}%` : ""].filter(Boolean).join(" · ")));
           const actions = el("p", "mine__row");
           const open = el("a", "mine__button is--small", "Open in the book");
           open.href = `read.html?book=${slug}&note=${encodeURIComponent(n.id)}`;

@@ -468,7 +468,7 @@
     let lines = [];
     if (profile.showLines) {
       const notes = await (await notesStore()).all();
-      lines = notes.filter((n) => n.style !== "underline" && library[n.book] && n.text.length <= 600)
+      lines = notes.filter((n) => n.style !== "underline" && n.style !== "bookmark" && library[n.book] && n.text.length <= 600)
         .sort((a, b) => b.created - a.created).slice(0, 12).map((n) => ({ book: n.book, text: n.text, style: n.style }));
     }
     const page = {

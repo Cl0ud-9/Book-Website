@@ -184,7 +184,7 @@ with sync_playwright() as p:
     ok(bool(after) and after != before, "turning pages saves your place")
     page.wait_for_timeout(1500)
     settled = page.evaluate("""() => [document.querySelector('.reader').classList.contains('is--opening'),
-      getComputedStyle(document.querySelector('[data-reader-sheet]')).visibility,
+      document.querySelector('[data-reader-curl]').hidden && !document.querySelector('[data-reader-view]').style.clipPath ? "hidden" : "showing",
       getComputedStyle(document.querySelector('[data-reader-view]')).opacity]""")
     ok(settled == [False, "hidden", "1"], f"the cover has opened and each page turn settles with the page in full view ({settled})")
     page.locator("[data-reader-toggle][aria-controls=reader-settings]").click()

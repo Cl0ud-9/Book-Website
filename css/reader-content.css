@@ -34,6 +34,3 @@ p { -webkit-hyphens: auto; hyphens: auto; }
   section.epub-type-contains-word-imprint p { text-align: start; width: auto; }
 }
 
-/* Engravings drawn black on transparent sit on the page itself, whatever its colour (Standard Ebooks gives them a white
-   ground, which showed as a white box on the Paper and Sepia pages; on Night they are turned light, js/reader.js) */
-img.epub-type-contains-word-se-image-color-depth-black-on-transparent { background: transparent !important; }

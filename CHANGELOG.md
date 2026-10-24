@@ -5,6 +5,52 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [3.5.0] - 2026-10-25
+
+### Added
+
+- Pages that turn like paper. On one page at a time (a phone, a narrow window) a corner lifts and curls across, the back
+  of the paper shaded and the page beneath in its shadow; a swipe draws the page with your finger, and letting go early
+  lays it back down. Two facing pages turn across the spine as before.
+- Bookmarks. Bookmark, in the reader's bar, marks the page you are on: the button fills and a ribbon hangs from the
+  page. Bookmarks are listed first in Notes, kept with your notes (and in your account), and shown on Your reading.
+- Search the book, in Contents: chapters whose names match stay in the list, and every place the words appear in the
+  text is listed below with the words in bold; choosing one opens the book there, marks the words for a moment, and
+  Back to … returns you.
+- Contents shows how far through the book you are and about how long is left, the minutes each chapter takes, and
+  how far through the chapter you are in.
+- Page numbers in the footer: the page (or pages, on two facing pages) of the chapter, and how many it has at this size.
+- On a phone: Pages or Scroll, line spacing, full screen, the screen kept awake while you read, and Back closing the
+  open panel or bar before it leaves the book.
+- Sign-in and sign-up pages, the header showing who is signed in, and a question before a device's reading joins an
+  account.
+
+### Changed
+
+- The Text panel is laid out on a grid: each setting's name in a column of its own (above its choices on a phone),
+  choices sharing their row evenly with each icon beside its word, and the chosen page colour ringed in the page's ink.
+- The highlight bar has two rows, the colours and Underline in one and Note, Define, Copy, Share and Remove in the
+  other, says whether you are marking new words or changing a mark, and names each tool on hover.
+- Choices that slide: the highlight in a row of options (All books, Fiction, Non-fiction; the reader's font, spacing and
+  mode) moves to the new choice, and steps, messages and popups arrive rather than blink in.
+
+### Fixed
+
+- A tap on a page in Chrome on Android picked out the word and opened Google's Touch to Search instead of turning the
+  page.
+- Reopening a book, changing the text size, font or spacing, or going back into the chapter before could leave you a
+  page or two from where you were: a chapter grows after it is shown (its type and spacing arrive, then its fonts), and
+  a place at the very top of a page was taken for the end of the page before. The reader now waits for the chapter to
+  settle and finds the place by its first letter.
+- The last pages of a chapter could not be reached until a turn woke epub.js, which had missed the chapter growing.
+- Highlights that span an invisible word joiner (Standard Ebooks puts them in dates and names) were saved with a space
+  in its place and then shown as not found in this edition.
+- Underlines were drawn as boxes, the same words could be underlined again and again, and Remove left one behind; the
+  same words are now marked once, and marking over a mark changes or joins it.
+- After a fast fling on a phone the screen could stay blank.
+- Engravings were inverted twice on the Night page, and showed on a white box on Paper and Sepia.
+- Time left in a chapter said hundreds of minutes until the book was measured.
+
 ## [3.4.0] - 2026-10-24
 
 ### Added

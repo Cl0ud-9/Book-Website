@@ -1516,6 +1516,38 @@
     return () => { gone = true; undo?.(); };
   }
 
+  // Rows of options where one is chosen (All books, Fiction, Non-fiction; the reader's font and spacing): the
+  // highlight slides from the old choice to the new one instead of jumping. The buttons say which is chosen
+  // (aria-pressed); this only draws it.
+  function segmented(page) {
+    const undo = [];
+    page.querySelectorAll("[data-segmented]").forEach((row) => {
+      if (row.querySelector(":scope > .seg-thumb")) return;
+      const thumb = document.createElement("span");
+      thumb.className = "seg-thumb";
+      thumb.setAttribute("aria-hidden", "true");
+      row.prepend(thumb);
+      row.classList.add("is--sliding");
+      let first = true;
+      const place = (animate) => {
+        const on = row.querySelector(":scope > [aria-pressed='true']");
+        if (!on || !row.offsetWidth) { thumb.style.opacity = "0"; return; }
+        const to = { x: on.offsetLeft, y: on.offsetTop, width: on.offsetWidth, height: on.offsetHeight, opacity: 1 };
+        if (animate && !first && !reducedMotion()) gsap.to(thumb, { ...to, duration: 0.45, ease: "expo.out", overwrite: true });
+        else gsap.set(thumb, to);
+        first = false;
+      };
+      const watch = new MutationObserver(() => place(true));
+      watch.observe(row, { attributes: true, attributeFilter: ["aria-pressed"], subtree: true });
+      // a row in a panel that was closed has no size until it opens
+      const sized = new ResizeObserver(() => place(false));
+      sized.observe(row);
+      place(false);
+      undo.push(() => { watch.disconnect(); sized.disconnect(); });
+    });
+    return () => undo.forEach((fn) => fn());
+  }
+
   /* ---------------- Lines from the books ---------------- */
 
   // Home: the line of the day, the same for everyone on a given day (by the reader's own date)
@@ -1648,6 +1680,7 @@
     if (closeYours) pageCleanups.push(closeYours);
     const closeAccount = accountPages(container);
     if (closeAccount) pageCleanups.push(closeAccount);
+    pageCleanups.push(segmented(container));
     const closeReader = readerPage(container);
     if (closeReader) pageCleanups.push(closeReader);
     if (reducedMotion()) {

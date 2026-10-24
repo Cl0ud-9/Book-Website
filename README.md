@@ -61,15 +61,19 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
   and Seneca's letters in a translation by a man who died in 1969, are left out.
 - **A reader in the page.** epub.js shows the book itself. It opens with the book's own cover, which swings open on
   the desk. On a wide screen the book lies open on two facing pages with a spine between them, and each turn lifts a
-  leaf across the spine; on a phone the whole screen is the page, and the bars slip away while you read on and come
-  back when you scroll up or tap. Turn pages with the arrows, the keys or a swipe, jump through the contents (which
-  marks the chapter you are in), and pick the text size, page colour and font. Your place is kept on your device, so
-  the book page offers to continue and the home page lists what you are reading. Its scripts load only when a book
-  is opened.
+  leaf across the spine; on one page at a time (a phone, a narrow window) a corner curls over like paper, and a swipe
+  draws the page with your finger. On a phone the whole screen is the page, and the bars slip away while you read on
+  and come back when you scroll up or tap. Turn pages with the arrows, the keys, a tap at either edge or a swipe; pick
+  the text size, page colour, font, line spacing, and on a phone Pages or Scroll and full screen. Contents shows how
+  far through the book and the chapter you are, the minutes each chapter takes, and searches the book's text. The
+  footer gives the page of the chapter and the minutes left in it. Bookmark marks the page you are on. Your place is
+  kept on your device, to the page, so the book page offers to continue and the home page lists what you are reading.
+  Its scripts load only when a book is opened.
 - **Highlights and notes.** Select any words to highlight them in one of four colours, underline them, add a note,
   copy them, or look up a word's meaning (from Wiktionary). On a laptop the bar floats by the words; on a phone it sits
   across the top, clear of the words, the selection's handles and the phone's own menus, and every tool is named. The
-  Notes panel lists them by chapter and exports them as Markdown, and a removed one comes back with Undo. They are kept
+  Notes panel lists your bookmarks, then your highlights by chapter, exports them as Markdown, and a removed one comes
+  back with Undo. They are kept
   in this browser (IndexedDB) with the words around them, so a highlight finds its place again when Standard Ebooks
   corrects an edition.
 - **Reading offline.** Keep for offline reading stores a book, its page and its cover on the device, and a service

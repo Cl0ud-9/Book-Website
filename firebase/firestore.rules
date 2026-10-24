@@ -55,7 +55,7 @@ service cloud.firestore {
               || (request.resource.data.book is string && request.resource.data.book.size() <= 100
                   && request.resource.data.text is string && request.resource.data.text.size() <= 5000
                   && request.resource.data.get('note', '') is string && request.resource.data.get('note', '').size() <= 10000
-                  && request.resource.data.style in ['yellow', 'green', 'blue', 'pink', 'underline']));
+                  && request.resource.data.style in ['yellow', 'green', 'blue', 'pink', 'underline', 'bookmark']));
       }
     }
 
