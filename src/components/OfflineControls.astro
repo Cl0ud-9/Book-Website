@@ -1,0 +1,5 @@
+---
+// Keep a book for offline reading, or see that it is kept and remove it (the site script: offlineButtons)
+import Icon from "./Icon.astro";
+---
+<button type="button" class="offline-row__keep" data-offline-keep><Icon name="save" /><span data-offline-label>Keep for offline reading</span></button><span class="offline-row__kept" data-offline-kept hidden><Icon name="check" />Kept on this device</span><button type="button" class="offline-row__remove" data-offline-remove hidden>Remove</button>

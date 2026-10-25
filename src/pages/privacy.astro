@@ -1,0 +1,32 @@
+---
+import HeroXs from "../components/HeroXs.astro";
+import Base from "../layouts/Base.astro";
+import { ACCOUNTS } from "../lib/config";
+---
+<Base name="privacy" path="privacy.html" title="Privacy | The Bookshelf" description="What the Bookshelf keeps about you, where, and how to remove it." theme="soft-blue">
+<HeroXs tint="soft-blue" shapes="pale-blue" title="Privacy" note="No ads, no selling">What the Bookshelf keeps about you, where, and how to remove it. In short: as little as it can.</HeroXs>
+<article class="prose" data-prose>
+  <h2>Without an account</h2>
+  <p>Everything you do while reading stays in your own browser: your place in each book, your highlights and notes, your reading time, how you like the text, and the books you keep for offline reading. This site cannot see it. Your reading shows it all, backs it up to a file, and clears it.</p>
+  <h2>Counting visits</h2>
+  <p>We count, with GoatCounter and without cookies, how often each page is visited and how often each book is opened, reaches its second chapter, is finished or is downloaded. GoatCounter does not know who you are and keeps no personal data. If your browser asks sites not to track you (Do Not Track or Global Privacy Control), nothing is counted.</p>
+  {ACCOUNTS && (
+    <>
+      <h2>If you make an account</h2>
+      <p>Accounts are run on Google’s Firebase. Signing in uses Firebase Authentication; what your account keeps is stored in Cloud Firestore.</p>
+      <ul>
+        <li><strong>To sign you in:</strong> your email address, and your password if you made one (Firebase stores only a scrambled form of it, which nobody can read). Signing in with Google also gives Firebase your Google account’s name and picture, which this site does not use or show.</li>
+        <li><strong>What you choose:</strong> your name, username, colour and mark.</li>
+        <li><strong>Your reading:</strong> your place in each book, your highlights and notes, and how long you read each day on each device.</li>
+      </ul>
+      <p>Only you can read or change these, and the database’s rules (in the site’s source) enforce that. Nobody else, not even other readers, can see them, unless you share your reader page: then anyone with its link sees your name, username, colour and mark, the books you are reading and have finished, your total reading time and, only if you choose, the lines you highlighted. Your notes are never shown.</p>
+      <p>You can change or delete any of it at any time on <a href="account.html">Your account</a>. Deleting your account removes everything it keeps, at once and for good. If you have not signed in for two years, we may delete your account.</p>
+    </>
+  )}
+  <h2>Other sites</h2>
+  <p>The site is hosted by Cloudflare Pages, which, like any web host, sees your IP address when your browser asks for a page. Looking up a word asks Wiktionary for its meaning, and listening to a book takes you to LibriVox. Each has its own privacy policy.</p>
+  <h2>Questions</h2>
+  <p>Ask through the project on <a href="https://github.com/Cl0ud-9/Book-Website/issues">GitHub</a>. There are no ads here, and nothing about you is ever sold or shared.</p>
+  <p class="prose__date">Last changed on 25 October 2026.</p>
+</article>
+</Base>

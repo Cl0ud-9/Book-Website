@@ -1,0 +1,239 @@
+---
+// The home page
+import Accordion from "../components/Accordion.astro";
+import BgShapes from "../components/BgShapes.astro";
+import Book3D from "../components/Book3D.astro";
+import BookCard from "../components/BookCard.astro";
+import ButtonAlt from "../components/ButtonAlt.astro";
+import Cover from "../components/Cover.astro";
+import DailyLine from "../components/DailyLine.astro";
+import GenreBlock from "../components/GenreBlock.astro";
+import Icon from "../components/Icon.astro";
+import LibraryData from "../components/LibraryData.astro";
+import Ribbons from "../components/Ribbons.astro";
+import Tags from "../components/Tags.astro";
+import Base from "../layouts/Base.astro";
+import { ACCOUNTS } from "../lib/config";
+import { BOOK, COVER, FEATURED, LIBRARY, TODAY, bookUrl, ink, monthKey, pickFor } from "../lib/library";
+import { BLOB_A, BLOB_B, BLOB_C, HERO_BAND, HERO_HILLS, HERO_RIDGE, TAGLINE, WHY_A, WHY_B, WHY_C } from "../lib/shapes";
+import { SPARKLE, about, burst, slugify, thousands } from "../lib/text";
+
+const count = LIBRARY.length;
+// Four line drawings for "how it works"
+const ILLUSTRATIONS: Record<string, string> = {
+  browse: '<svg viewBox="0 0 160 120" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 104h124"/><rect x="26" y="40" width="16" height="64" rx="2"/><rect x="44" y="28" width="18" height="76" rx="2"/><path d="m66 46 15-4 16 60-15 4z"/><rect x="100" y="52" width="14" height="52" rx="2"/><path d="M31 52h6M49 40h8M49 92h8M105 64h4"/><circle cx="118" cy="40" r="17" fill="#fff"/><path d="m130 52 14 14"/><path d="M110 36a9 9 0 0 1 8-6"/></g></svg>',
+  pick: '<svg viewBox="0 0 160 120" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M28 56h104l-10 50H38z" fill="#fff"/><path d="M22 56h116M52 56l14-30M108 56 94 26"/><path d="M58 70v24M80 70v24M102 70v24"/><path d="M56 40l-6-16 22-6 4 14" fill="#fff"/><path d="M84 36l6-20 20 6-4 14" fill="#fff"/><path d="m120 18 4 8 8 2-8 3-3 8-3-8-8-2 8-3z"/></g></svg>',
+  parcel: '<svg viewBox="0 0 160 120" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M30 50 80 30l50 20v46l-50 20-50-20z" fill="#fff"/><path d="m30 50 50 20 50-20M80 70v46"/><path d="m55 40 50 20v14"/><path d="M60 26 46 10M100 26l14-16M80 22V4"/><path d="M40 84l14 6M40 92l10 4"/></g></svg>',
+  talk: '<svg viewBox="0 0 160 120" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 22h74a8 8 0 0 1 8 8v34a8 8 0 0 1-8 8H50l-16 14V72H20a8 8 0 0 1-8-8V30a8 8 0 0 1 8-8z" fill="#fff"/><path d="M30 40h52M30 54h36"/><path d="M146 52h-34a6 6 0 0 0-6 6v28a6 6 0 0 0 6 6h18l14 12V92h2a6 6 0 0 0 6-6V58a6 6 0 0 0-6-6z" fill="#fff"/><path d="m122 72 6 6 10-12"/></g></svg>',
+};
+const STEPS = [
+  ["cyan", "browse", "Browse the shelf", "Over a hundred classics, from Austen and Dickens to Sherlock Holmes and Shakespeare."],
+  ["pale-pink", "pick", "Pick your reads", "Every book is free. No ads, no catch, and no account needed."],
+  ["yellow", "parcel", "Read anywhere", "Right here in your browser, or download it for your phone, Kindle or Kobo."],
+  ["periwinkle", "talk", "Make it yours", `Highlight the lines you love, keep notes and see how far you have read.${ACCOUNTS ? " Sign in to have them on every device." : " All on your own device."}`],
+] as const;
+const QUESTIONS = [
+  ["Are the books really free?", `Yes, all ${count} of them, to read here or to download and keep. They are out of copyright, so they belong to everyone.`],
+  ["Where do the books come from?", "They are public-domain editions from Standard Ebooks, carefully proofread and beautifully typeset, with the art on their covers taken from public-domain paintings."],
+  ["Can I read on my Kindle, Kobo or phone?", "Yes. Every book page has an EPUB download for phones and most e-readers, and links to Kindle and Kobo editions. Or just press Read now and read in your browser."],
+  ["Will it remember where I stopped?", `Yes: open the book again and it picks up on your page. ${ACCOUNTS ? "With an account, it does on your other devices too." : "It is kept on your device, so there is no account to make."}`],
+  ["Why are there no new bestsellers?", "Recent books are still under copyright, so they cannot be shared for free. Your local library can lend you most of them, often as ebooks through an app like Libby."],
+] as const;
+const spot = BOOK[FEATURED.spotlight];
+const month = TODAY.toLocaleString("en-US", { month: "long" });
+// why it was chosen (pipeline/picks.py), or for a month without a reason written down, how picks are made
+const why = pickFor(monthKey(TODAY))?.why || "from the most read classics on the shelf.";
+const [back, front] = FEATURED.hero;
+---
+<Base name="home" path="" title="The Bookshelf: free classics to read and download" description={`A free library of ${count} classics, from Austen to Sherlock Holmes, to read in your browser or download for your phone, Kindle or Kobo.`}>
+<section class="hero" data-intro-home aria-labelledby="hero-title">
+  <div class="hero__bg" data-hero-bg><BgShapes paths={[["is--pale-yellow", HERO_BAND], ["is--pale-orange", HERO_RIDGE], ["is--orange", HERO_HILLS]]} class="hero__shapes" /></div>
+  <div class="hero__content">
+    <h1 class="hero__title heading-xxl" id="hero-title" data-hero-title>Stories you can’t put down</h1>
+    <p class="hero__text" data-hero-paragraph>The Bookshelf is a free library of the classics: {count} books to read right here or download, from Austen to Sherlock Holmes. No ads, no catch, and no account needed.</p>
+    <div data-hero-button><ButtonAlt href="books.html" text="Browse the shelf" /></div>
+  </div>
+  <p class="hero__note accent-note" data-hero-handwritten-text>Free, forever!</p>
+  <div class="hero__visual" data-hero-visual aria-hidden="true">
+    <div class="hero__book is--back" data-float><div class="hero__float"><Book3D slug={back} sizes="(max-width: 991px) 38vw, 21em" lazy={false} /></div></div>
+    <div class="hero__book is--main" data-float><div class="hero__float"><Book3D slug={front} sizes="(max-width: 991px) 45vw, 26em" lazy={false} priority /></div></div>
+  </div>
+</section>
+
+<section class="continue" aria-labelledby="continue-title" data-continue hidden>
+  <h2 class="continue__title heading-m" id="continue-title">Continue reading</h2>
+  <ul class="continue__list" data-continue-list></ul>
+  <template><li class="continue__item"><a class="continue__link" href="read.html">
+    <img src="" width={COVER.width} height={COVER.height} alt="" loading="lazy" decoding="async">
+    <span class="continue__text"><span class="continue__book" data-continue-title></span><span class="continue__author" data-continue-author></span>
+    <span class="continue__progress"><span data-continue-bar></span></span><span class="continue__percent" data-continue-percent></span></span>
+  </a></li></template>
+</section>
+
+<section class="books" id="new" aria-labelledby="books-title" data-books-slider>
+  <div class="books__head">
+    <p class="books__note accent-note" data-handwritten-text-inview>The ones everyone talks about</p>
+    <h2 class="books__title heading-l" id="books-title">Where to start</h2>
+    <p class="books__text">Ten classics that earned the name. Drag the shelf, or use the arrows.</p>
+  </div>
+  <div class="slider-controls" data-books-slider-controls>
+    <button class="slider-arrow" type="button" aria-label="Previous books"><Icon name="left" /></button>
+    <button class="slider-arrow" type="button" aria-label="Next books"><Icon name="arrow" /></button>
+  </div>
+  <div class="books__slider" data-books-slider-viewport tabindex="0" role="region" aria-label="Where to start. Use the arrow keys to browse.">
+    <div class="books__list" data-books-slider-wrapper>
+      {FEATURED.shelf.map((s) => <div class="slide"><BookCard slug={s} sizes="(max-width: 991px) 60vw, 18em" /></div>)}
+    </div>
+  </div>
+</section>
+
+<DailyLine />
+<section class="flow" aria-labelledby="flow-title">
+  <div class="flow__head">
+    <h2 class="flow__title heading-l" id="flow-title">How it works</h2>
+    <p class="flow__note accent-note" data-handwritten-text-inview>Easier than choosing what to read next</p>
+    <div class="flow__cta" data-plop-in><span class="flow__emblem" data-plop-in-item><Icon name="logo" /></span><ButtonAlt href="books.html" text="Start reading" size="small" /></div>
+  </div>
+  <ol class="flow__cards" data-call-out>
+    {STEPS.map(([colour, drawing, title, text], i) => (
+      <li class="step" style={`--card:var(--${colour})`} data-call-out-item>
+        <div class="step__inner" data-call-out-child>
+          <p class="step__number accent-note">Step #{i + 1}</p>
+          <div class="step__visual"><Fragment set:html={ILLUSTRATIONS[drawing]} /></div>
+          <h3 class="step__title">{title}</h3>
+          <p class="step__text">{text}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<section class="open-book" aria-labelledby="open-title" data-book-open>
+  <div class="open-book__stage">
+    <div class="open-book__scene" aria-hidden="true">
+      <div class="open-book__book" data-book-open-book>
+        <div class="open-book__back"></div>
+        <div class="open-book__block"></div>
+        <div class="open-book__leaf" data-book-open-leaf><div class="open-book__leaf-front"></div><div class="open-book__leaf-back"></div></div>
+        <div class="open-book__leaf" data-book-open-leaf><div class="open-book__leaf-front"></div><div class="open-book__leaf-back"></div></div>
+        <div class="open-book__leaf" data-book-open-leaf><div class="open-book__leaf-front"></div><div class="open-book__leaf-back"></div></div>
+        <div class="open-book__cover" data-book-open-cover>
+          <div class="open-book__cover-front"><Cover slug={FEATURED.openBook} sizes="(max-width: 991px) 70vw, 30em" alt="" /></div>
+          <div class="open-book__cover-back"><span>Ex libris</span><Icon name="logo" /></div>
+        </div>
+      </div>
+    </div>
+    <p class="open-book__note accent-note" data-book-open-note>The reader keeps your place, so you never lose your page</p>
+    <div class="open-book__final">
+      <h2 class="open-book__title" id="open-title" data-book-open-title>Get lost in <span class="open-book__mark">a good book.</span></h2>
+      <div class="open-book__buttons">
+        <span data-book-open-button><ButtonAlt href="books.html" text="Start reading" colour="black" /></span>
+        {ACCOUNTS ? (
+          <>
+            <span data-book-open-button data-when="out"><ButtonAlt href="signup.html" text="Create a free account" colour="orange" /></span>
+            <span data-book-open-button data-when="in"><ButtonAlt href="reading.html" text="Your reading" colour="orange" /></span>
+          </>
+        ) : (
+          <span data-book-open-button><ButtonAlt href="reading.html" text="Your reading" colour="orange" /></span>
+        )}
+      </div>
+      <p class="open-book__aside accent-note" data-book-open-aside>Made by readers, for readers</p>
+    </div>
+  </div>
+</section>
+
+<GenreBlock link={(g) => `books.html?genre=${slugify(g)}`} />
+
+<section class="why" aria-labelledby="why-title" data-benefits>
+  <BgShapes paths={[["is--yellow", WHY_A], ["is--yellow", WHY_B], ["is--yellow", WHY_C]]} class="why__shapes" small />
+  <div class="why__badge" data-badge-spin>
+    <svg class="why__ring" viewBox="0 0 300 300" aria-hidden="true"><defs><path id="why-circle" d="M150 150m-112 0a112 112 0 1 1 224 0a112 112 0 1 1-224 0" /></defs>
+      <circle cx="150" cy="150" r="84" fill="none" stroke="currentColor" stroke-width="14" />
+      <text><textPath href="#why-circle" startOffset="0">Why the Bookshelf? ✦ Why the Bookshelf? ✦</textPath></text></svg>
+    <Icon name="logo" class="why__logo" />
+  </div>
+  <h2 class="sr-only" id="why-title">Why the Bookshelf?</h2>
+  <ul class="why__stickers">
+    <li class="sticker is--magenta" data-benefits-item style="--r:-6deg"><Icon name="sparkles" class="sticker__icon" />Free, forever</li>
+    <li class="sticker is--orange" data-benefits-item style="--r:-3deg"><Icon name="bookmark" class="sticker__icon" />Keeps your place</li>
+    <li class="sticker is--periwinkle" data-benefits-item style="--r:4deg"><Icon name="heart" class="sticker__icon" />Beautiful editions</li>
+    <li class="sticker is--cyan" data-benefits-item style="--r:7deg"><Icon name="star" class="sticker__icon" />Read anywhere</li>
+    <li class="sticker is--olive" data-benefits-item style="--r:-4deg"><Icon name="layers" class="sticker__icon" />Every genre you love</li>
+  </ul>
+</section>
+
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <BgShapes paths={[["is--soft-blue", BLOB_A], ["is--soft-blue", BLOB_B], ["is--soft-blue", BLOB_C]]} class="faq__shapes" small />
+  <h2 class="faq__title heading-l" id="faq-title">Common questions</h2>
+  <div class="faq__list">
+    {QUESTIONS.map(([q, a]) => <Accordion question={q} answer={a} />)}
+  </div>
+  <div class="faq__cta"><ButtonAlt href="faq.html" text="All questions" size="small" /><span class="faq__emblem"><Icon name="logo" /></span></div>
+</section>
+
+<section class="gift" aria-labelledby="gift-title">
+  <div class="tagline" data-tagline-curve aria-hidden="true">
+    <svg class="tagline__svg" viewBox="0 0 1600 400" preserveAspectRatio="xMidYMid meet"><path id="tagline-path" d={TAGLINE} fill="none" />
+      <text class="tagline__text" text-anchor="middle"><textPath href="#tagline-path" startOffset="50%" data-tagline-text>A gift that always fits</textPath></text></svg>
+  </div>
+  <div class="gift__grid">
+    <div class="gift__content">
+      <h2 class="gift__title heading-m" id="gift-title">A gift that always fits</h2>
+      <p class="gift__text">Know someone who would love a classic? Every book here has its own page, free to share. Send them the link and they can start reading in seconds, on any phone or laptop.</p>
+      <ButtonAlt href="books.html" text="Find one to share" size="small" />
+      <p class="gift__note accent-note" data-handwritten-text-inview>Wrapped with a ribbon. Naturally.</p>
+    </div>
+    <div class="gift__visual" data-gift aria-hidden="true"><div class="gift__item" data-gift-item><Book3D slug={FEATURED.gift} class="is--gift" sizes="(max-width: 991px) 50vw, 22em" ribbon /></div></div>
+  </div>
+</section>
+
+<Ribbons />
+
+<section class="favs" aria-labelledby="favs-title" data-books-slider data-confetti-rain>
+  <div class="favs__head">
+    <span class="favs__badge" data-plop-in aria-hidden="true"><svg data-plop-in-item viewBox="0 0 200 200"><defs><path id="favs-ring" d="M100 100m-70 0a70 70 0 1 1 140 0a70 70 0 1 1-140 0" /></defs><circle cx="100" cy="100" r="96" fill="var(--magenta)" /><text><textPath href="#favs-ring">Start here ✦ Start here ✦ Start here ✦ </textPath></text><path d={SPARKLE} fill="var(--yellow)" transform="translate(100 100) scale(2.4)" /></svg></span>
+    <h2 class="favs__title heading-l" id="favs-title">Not sure where to begin?</h2>
+    <p class="favs__text">Four doors into the classics. Pick the one that sounds like you.</p>
+  </div>
+  <div class="favs__slider" data-books-slider-viewport tabindex="0" role="region" aria-label="Where to begin. Use the arrow keys to browse.">
+    <div class="favs__list" data-books-slider-wrapper>
+      {FEATURED.starts.map(([s, label], i) => (
+        <div class="slide"><article class="fav-card" style={`--card:var(--${BOOK[s].colour});--ink:${ink(BOOK[s].colour)}`} data-books-slider-item>
+          <div class="fav-card__cover"><Cover slug={s} sizes="(max-width: 991px) 60vw, 20em" /></div>
+          <p class="fav-card__badge" aria-hidden="true"><svg viewBox="0 0 100 100"><path d={burst()} /></svg><span>#{i + 1}</span></p>
+          <h3 class="fav-card__title"><a class="book-card__link" href={bookUrl(s)} draggable="false">{BOOK[s].title}</a></h3>
+          <p class="fav-card__label">{label}</p>
+        </article></div>
+      ))}
+    </div>
+  </div>
+  <div class="slider-controls is--center" data-books-slider-controls>
+    <button class="slider-arrow" type="button" aria-label="Previous books"><Icon name="left" /></button>
+    <button class="slider-arrow" type="button" aria-label="Next books"><Icon name="arrow" /></button>
+  </div>
+</section>
+
+<section class="spotlight" aria-labelledby="spot-title" data-momentum-hover>
+  <h2 class="spotlight__title heading-l" id="spot-title">Book of the month</h2>
+  <p class="spotlight__text">{month}’s pick: {why[0].toLowerCase() + why.slice(1)} A new one on the first of every month.</p>
+  <div class="spotlight__frame">
+    <p class="spotlight__quote is--left accent-note" data-handwritten-text-inview>{`“${spot.opening}”`}</p>
+    <span class="spotlight__sticker is--moon" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="0 0 100 100"><mask id="spot-moon"><rect width="100" height="100" fill="#fff" /><circle cx="64" cy="38" r="34" fill="#000" /></mask><circle cx="50" cy="50" r="42" fill="var(--yellow)" mask="url(#spot-moon)" /></svg></span></span>
+    <span class="spotlight__sticker is--star" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="-12 -12 24 24"><path d={SPARKLE} fill="var(--magenta)" /></svg></span></span>
+    <span class="spotlight__sticker is--seal" data-momentum-hover-element aria-hidden="true"><span data-momentum-hover-target><svg viewBox="0 0 100 100"><path d={burst(18, 50, 44)} fill="var(--violet)" /><text x="50" y="47" text-anchor="middle">This</text><text x="50" y="66" text-anchor="middle">month</text></svg></span></span>
+    <article class="spotlight__card">
+      <div class="spotlight__cover"><Cover slug={spot.slug} sizes="(max-width: 991px) 60vw, 20em" /></div>
+      <Tags genres={[...spot.genres.slice(0, 1), "Book of the month"]} />
+      <h3 class="spotlight__book">{spot.title}</h3>
+      <p class="spotlight__book-text">{spot.abstract} By {spot.author}.</p>
+      <ButtonAlt href={bookUrl(spot.slug)} text="Open the book" size="small" />
+    </article>
+    <aside class="spotlight__facts" aria-label="Inside the book">
+      <h4>Inside</h4>
+      <p>{spot.reading_time} of reading, {thousands(spot.words)} words.</p>
+    </aside>
+    <p class="spotlight__quote is--right accent-note" data-handwritten-text-inview>{`That’s the first line. The last is ${about(spot.reading_time)} away.`}</p>
+  </div>
+</section>
+<LibraryData />
+</Base>

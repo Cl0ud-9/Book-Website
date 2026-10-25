@@ -1,0 +1,5 @@
+---
+// What the reader, Your reading and "Continue reading" need to know about each book, read by the scripts from the page
+import { libraryData } from "../lib/library";
+---
+<script type="application/json" data-library is:inline set:html={libraryData().replaceAll("</", "<\\/")} />

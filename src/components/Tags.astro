@@ -1,0 +1,15 @@
+---
+import { TAG_COLOURS } from "../lib/library";
+
+interface Props {
+  genres: readonly string[];
+  /** the card's colour: a tag the same colour would vanish into it, so that one turns white */
+  card?: string;
+}
+const { genres, card } = Astro.props;
+const colour = (g: string): string => {
+  const c = TAG_COLOURS[g] || "white";
+  return c === card ? "white" : c;
+};
+---
+<ul class="tags" aria-label="Genres">{genres.map((g) => <li class="tag" style={`--tag:var(--${colour(g)})`}>{g}</li>)}</ul>

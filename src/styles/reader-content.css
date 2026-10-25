@@ -1,0 +1,36 @@
+/* Added inside a book while it is read (src/scripts/reader.js) */
+
+/* The site's own Figtree, for the reader's Sans option */
+@font-face { font-family: Figtree; font-weight: 500 700; font-display: swap; src: url("../assets/fonts/figtree.woff2") format("woff2"); }
+@font-face { font-family: Figtree; font-style: italic; font-weight: 500 700; font-display: swap; src: url("../assets/fonts/figtree-italic.woff2") format("woff2"); }
+
+/* Literata, a typeface drawn for reading long texts on screens, for the Serif option (the one books open in). Its
+   accented letters beyond Western European ones are a second file, fetched only by a book that uses them. */
+@font-face { font-family: Literata; font-weight: 400 900; font-display: swap; src: url("../assets/fonts/literata.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: Literata; font-weight: 400 900; font-display: swap; src: url("../assets/fonts/literata-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: Literata; font-style: italic; font-weight: 400 900; font-display: swap; src: url("../assets/fonts/literata-italic.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: Literata; font-style: italic; font-weight: 400 900; font-display: swap; src: url("../assets/fonts/literata-italic-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+
+/* Standard Ebooks hides some headings by moving them 999em to the left (the title page shows its title as artwork).
+   epub.js counts that distance as page width and made dozens of blank pages, so they are hidden in place instead,
+   still there for screen readers. In place means where they would stand (left: auto), inside the page's margins:
+   at the very left edge they still widened the page past one screen, and left a blank page after the title. */
+section.epub-type-contains-word-titlepage h1, section.epub-type-contains-word-titlepage p,
+section.epub-type-contains-word-colophon h2, section.epub-type-contains-word-imprint h2 {
+  position: absolute !important; left: auto !important; margin: 0 !important; width: 1px !important; height: 1px !important;
+  overflow: hidden !important; clip-path: inset(50%) !important; white-space: nowrap !important;
+}
+
+/* Justified lines on a narrow page opened wide gaps between words: long words now break at the line's end instead */
+p { -webkit-hyphens: auto; hyphens: auto; }
+
+/* Standard Ebooks justifies its imprint page in a column three quarters wide: on a phone that left gaps between words
+   wider than the words */
+@media (max-width: 600px) {
+  section.epub-type-contains-word-imprint p { text-align: start; width: auto; }
+}
+

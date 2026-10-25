@@ -1,0 +1,101 @@
+---
+// A page for every book: its 3D copy, what it is, how long it takes, the ways to read it, and books like it
+import BgShapes from "../components/BgShapes.astro";
+import Book3D from "../components/Book3D.astro";
+import BookCard from "../components/BookCard.astro";
+import ButtonAlt from "../components/ButtonAlt.astro";
+import Icon from "../components/Icon.astro";
+import OfflineControls from "../components/OfflineControls.astro";
+import ShareButton from "../components/ShareButton.astro";
+import Tags from "../components/Tags.astro";
+import Base from "../layouts/Base.astro";
+import type { IconName } from "../lib/icons";
+import { BOOK, GUIDES, LIBRARY, LISTEN, QUOTES, bookUrl, ink, readAt } from "../lib/library";
+import { BLOB_A, BLOB_B } from "../lib/shapes";
+import { quoteText, thousands } from "../lib/text";
+
+export function getStaticPaths() {
+  return LIBRARY.map((b) => ({ params: { slug: b.slug } }));
+}
+
+const { slug } = Astro.params as { slug: string };
+const b = BOOK[slug];
+// Related: books sharing the most genres, then the rest of the shelf in order
+const shared = (o: typeof b): number => o.genres.filter((g) => b.genres.includes(g)).length;
+const related = LIBRARY.filter((o) => o.slug !== slug).map((o, i) => [o, i] as const)
+  .sort(([x, i], [y, j]) => shared(y) - shared(x) || i - j).slice(0, 3).map(([o]) => o.slug);
+const facts: [IconName, string, string][] = [
+  ["clock", "Reading time", b.reading_time],
+  ["layers", "Length", `${thousands(b.words)} words`],
+  ["bookmark", "Genre", b.genres.join(" and ")],
+  ["globe", "Language", "English"],
+  ...(b.translator ? [["type", "Translated by", b.translator] as [IconName, string, string]] : []),
+  ["sparkles", "Mood", b.moods.join(", ")],
+];
+// where this edition comes from, with a link to its page there
+const source: [string, string] = b.standard_ebooks ? [b.standard_ebooks, "Standard Ebooks"] : [b.gutenberg || "", "Project Gutenberg"];
+const guide = GUIDES[slug];
+const lines = (QUOTES[slug] || []).slice(0, 3);
+---
+<Base name="book" path={bookUrl(slug)} title={`${b.title} by ${b.author}, free | The Bookshelf`} description={b.abstract} theme={b.colour} book={slug}>
+<section class="book-hero" style={`--card:var(--${b.colour});--ink:${ink(b.colour)}`} data-intro-page aria-labelledby="page-title">
+  <BgShapes paths={[["is--glow", BLOB_A], ["is--glow", BLOB_B]]} class="book-hero__shapes" small />
+  <a class="book-hero__back" href="books.html"><Icon name="left" /> All books</a>
+  <div class="book-hero__grid">
+    <div class="book-hero__visual" data-book-tilt aria-hidden="true">
+      <div class="book-hero__float" data-book-tilt-target><Book3D slug={slug} class="is--large" sizes="(max-width: 991px) 60vw, 30em" lazy={false} priority /></div>
+      <span class="book-hero__shadow"></span>
+    </div>
+    <div class="book-hero__info">
+      <div data-hero-paragraph><Tags genres={b.genres} /></div>
+      <h1 class="book-hero__title heading-l" id="page-title" data-hero-title>{b.title}</h1>
+      <p class="book-hero__author" data-hero-paragraph>by {b.author}</p>
+      <p class="book-hero__hook accent-note" data-hero-handwritten-text>{b.abstract}</p>
+      <div class="book-hero__buy" data-hero-button>
+        <p class="book-hero__price">Free <span class="book-hero__save">{b.reading_time}</span></p>
+        <div class="book-hero__actions">
+          <ButtonAlt href={`read.html?book=${slug}`} data-read-button={slug} text="Read now" colour="black" icon="read" />
+          <ButtonAlt href={b.epub} download text="Download EPUB" colour="white" icon="download" />
+        </div>
+        <p class="book-hero__formats">Also for <a href={b.kindle}>Kindle</a> and <a href={b.kobo}>Kobo</a></p>
+        {LISTEN[slug] && <p class="book-hero__listen"><a href={LISTEN[slug]}><Icon name="listen" />Listen free on LibriVox</a></p>}
+        <p class="offline-row book-hero__offline" data-offline-row data-offline-book={slug} data-offline-epub={b.epub} hidden><OfflineControls /></p>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="book-about" aria-labelledby="about-title">
+  <div class="book-about__text">
+    <h2 class="book-about__title heading-m" id="about-title">About the book</h2>
+    {b.description.map((p) => <p>{p}</p>)}
+  </div>
+  <dl class="book-about__facts">{facts.map(([icon, label, value]) => <div><dt><Icon name={icon} />{label}</dt><dd>{value}</dd></div>)}<div><dt><Icon name="book" />Edition</dt><dd><a href={source[0]}>{source[1]}</a></dd></div></dl>
+</section>
+{guide && (
+  <section class="guide" aria-labelledby="guide-title">
+    <div class="guide__head"><h2 class="guide__title heading-m" id="guide-title">Before you start</h2><p class="guide__note accent-note">No spoilers</p></div>
+    <div class="guide__grid">
+      <div class="guide__part"><h3 class="guide__label"><Icon name="clock" />When and why</h3><p>{guide.when}</p></div>
+      <div class="guide__part"><h3 class="guide__label"><Icon name="heart" />Who you meet</h3><ul>{guide.who.map((w) => <li>{w}</li>)}</ul></div>
+      <div class="guide__part"><h3 class="guide__label"><Icon name="sparkles" />Good to know</h3><ul>{guide.tips.map((t) => <li>{t}</li>)}</ul></div>
+    </div>
+  </section>
+)}
+{lines.length > 0 && (
+  <section class="lines" aria-labelledby="lines-title">
+    <h2 class="lines__title heading-m" id="lines-title">Lines worth knowing</h2>
+    <ul class="lines__list">
+      {lines.map((q) => (
+        <li class="line"><blockquote class="line__text">{quoteText(q.text)}</blockquote>
+          <p class="line__actions"><a class="line__open" href={readAt(slug, q)}><Icon name="read" />Open at this line</a><ShareButton slug={slug} quote={q} /></p></li>
+      ))}
+    </ul>
+  </section>
+)}
+<section class="book-more" aria-labelledby="more-title">
+  <h2 class="book-more__title heading-l" id="more-title">You might also like</h2>
+  <div class="catalogue__grid is--three">
+    {related.map((s) => <BookCard slug={s} sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" />)}
+  </div>
+</section>
+</Base>

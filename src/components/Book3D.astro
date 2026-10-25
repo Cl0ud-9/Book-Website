@@ -1,0 +1,20 @@
+---
+// A book in 3D: its cover on the front, a spine, the page edges, top and bottom
+import { BOOK } from "../lib/library";
+import Cover from "./Cover.astro";
+
+interface Props {
+  slug: string;
+  class?: string;
+  sizes?: string;
+  lazy?: boolean;
+  priority?: boolean;
+  /** tied up as a present: a band each way round (drawn on every face, so it wraps the book as it turns) and a bow
+   * where they cross on the front */
+  ribbon?: boolean;
+}
+const { slug, class: className = "", sizes = "(max-width: 991px) 40vw, 24em", lazy = true, priority = false, ribbon = false } = Astro.props;
+const band = (...ways: string[]): string => (ribbon ? ways.map((w) => `<i class="book3d__band is--${w}"></i>`).join("") : "");
+const BOW = '<svg class="book3d__bow" viewBox="0 0 120 92" aria-hidden="true"><defs><linearGradient id="bow-satin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff63b6"/><stop offset=".5" stop-color="#ec0080"/><stop offset="1" stop-color="#a8004c"/></linearGradient><linearGradient id="bow-tail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4006f"/><stop offset="1" stop-color="#ff3fa4"/></linearGradient></defs><path d="M55 47 37 85l8-4 4 9 15-40z" fill="url(#bow-tail)"/><path d="M65 47l18 38-8-4-4 9-15-40z" fill="url(#bow-tail)"/><path d="M60 45C48 22 15 9 9 29c-4 18 29 24 51 18z" fill="url(#bow-satin)"/><path d="M60 45c12-23 45-36 51-16 4 18-29 24-51 18z" fill="url(#bow-satin)"/><path d="M60 46C50 35 31 29 24 34c8 7 22 11 36 12z" fill="#8f0041" opacity=".45"/><path d="M60 46c10-11 29-17 36-12-8 7-22 11-36 12z" fill="#8f0041" opacity=".45"/><path d="M17 22c8-8 22-6 31 3M103 22c-8-8-22-6-31 3" fill="none" stroke="#ffa6d6" stroke-width="2.6" stroke-linecap="round" opacity=".85"/><rect x="50.5" y="35.5" width="19" height="19" rx="6.5" fill="url(#bow-satin)"/><path d="M54 40c3-2 9-2 12 0" fill="none" stroke="#ffa6d6" stroke-width="2" stroke-linecap="round" opacity=".8"/></svg>';
+---
+<div class={`book3d ${className}`} style={`--spine:${BOOK[slug].spine}`}><div class="book3d__front"><Cover slug={slug} sizes={sizes} lazy={lazy} priority={priority} alt="" /><Fragment set:html={band("across", "down")} /></div><div class="book3d__back"><Fragment set:html={band("across", "down")} /></div><div class="book3d__spine"><Fragment set:html={band("across")} /></div><div class="book3d__pages"><Fragment set:html={band("across")} /></div><div class="book3d__top"><Fragment set:html={band("down")} /></div><div class="book3d__bottom"><Fragment set:html={band("down")} /></div>{ribbon && <Fragment set:html={BOW} />}</div>

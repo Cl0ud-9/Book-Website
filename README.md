@@ -3,13 +3,14 @@
 <p align="center"><strong>A free library of 161 classics to read in your browser or download, in a bright, playful site where everything moves.</strong></p>
 
 <p align="center">
-  <a href="https://cl0ud-9.github.io/Book-Website/"><img src="https://img.shields.io/badge/Live%20site-cl0ud--9.github.io%2FBook--Website-ff008c?style=for-the-badge" alt="Live site" height="34"></a>
+  <a href="https://the-bookshelf.pages.dev/"><img src="https://img.shields.io/badge/Live%20site-the--bookshelf.pages.dev-ff008c?style=for-the-badge" alt="Live site" height="34"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Cl0ud-9/Book-Website/actions/workflows/pages.yml"><img src="https://github.com/Cl0ud-9/Book-Website/actions/workflows/pages.yml/badge.svg" alt="Deploy"></a>
+  <a href="https://github.com/Cl0ud-9/Book-Website/actions/workflows/ci.yml"><img src="https://github.com/Cl0ud-9/Book-Website/actions/workflows/ci.yml/badge.svg" alt="Check"></a>
+  <a href="https://github.com/Cl0ud-9/Book-Website/actions/workflows/deploy.yml"><img src="https://github.com/Cl0ud-9/Book-Website/actions/workflows/deploy.yml/badge.svg" alt="Deploy"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-source--available-5b4bd5" alt="License: source-available"></a>
-  <img src="https://img.shields.io/badge/build%20step-none-555" alt="No build step">
+  <img src="https://img.shields.io/badge/Astro-7-bc52ee" alt="Astro 7">
   <img src="https://img.shields.io/badge/GSAP-3.15-0ae448" alt="GSAP 3.15">
 </p>
 
@@ -22,20 +23,21 @@
 The Bookshelf is a free library of the classics with a loud, warm personality: heavy type, handwritten notes,
 colour cards, stickers and motion everywhere you look. 161 books, from Austen and the Brontës to Sherlock Holmes,
 Frankenstein, Tagore and Marcus Aurelius, can be read right in the browser or downloaded for a phone, Kindle or Kobo. It began as a
-Web Technology course project, was rebuilt as an animated bookshop in version 2, and became a library in version 3.
+Web Technology course project, was rebuilt as an animated bookshop in version 2, became a library in version 3, and
+moved to Astro and TypeScript in version 4.
 
 | Page | What it does |
 |---|---|
-| [Home](https://cl0ud-9.github.io/Book-Website/) | Where to start, on a draggable shelf; the books you are reading; a line of the day; how it works; a book that opens as you scroll; the genres; questions; the book of the month and why it was chosen. |
-| [All books](https://cl0ud-9.github.io/Book-Website/books.html) | All 161 books, most read first: fiction or non-fiction, a genre or the From India shelf, a mood and a length, searchable by title, author or genre (accents optional), sorted by title or length. The choice is kept in the address, so it can be shared. |
-| [Genres](https://cl0ud-9.github.io/Book-Website/genres.html) | A shelf for each genre, fiction and non-fiction, and one of classics from India, its most read books first, to scroll or drag sideways. |
-| [Questions](https://cl0ud-9.github.io/Book-Website/faq.html) | Every question, by topic, with a list of topics that follows you down the page and marks the one you are reading. |
-| [A book](https://cl0ud-9.github.io/Book-Website/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description, details and edition, Read now, the EPUB download, Kindle and Kobo editions, a free LibriVox audiobook where there is one, Keep for offline reading, Before you start (who's who and what to know, with no spoilers) and Lines worth knowing for the most read books, and three related books. |
-| [The reader](https://cl0ud-9.github.io/Book-Website/read.html?book=pride-and-prejudice) | The book itself, in the page: its cover swings open, then pages turn on a laptop and scroll on a phone, with contents, highlights and notes, a word's meaning, text size, three page colours and three typefaces (Literata, made for reading on screens, by default). It remembers your place. |
-| [Your reading](https://cl0ud-9.github.io/Book-Website/reading.html) | Your week of reading, the books you are reading, your notes, the books kept for offline reading and the ones you finished, with Back up and Restore. |
-| [Your account](https://cl0ud-9.github.io/Book-Website/account.html) | Optional, and only once accounts are switched on (see below): sign in with Google or an email address, choose a name, a colour and a mark, and your reading is on every device you sign in on. |
-| [A reader's page](https://cl0ud-9.github.io/Book-Website/profile.html) | For readers who share it: their name and mark, what they are reading and have finished, their reading time and, if they choose, the lines they highlighted. Never their notes. |
-| [Privacy](https://cl0ud-9.github.io/Book-Website/privacy.html) | What is kept about you, where, and how to remove it. |
+| [Home](https://the-bookshelf.pages.dev/) | Where to start, on a draggable shelf; the books you are reading; a line of the day; how it works; a book that opens as you scroll; the genres; questions; the book of the month and why it was chosen. |
+| [All books](https://the-bookshelf.pages.dev/books.html) | All 161 books, most read first: fiction or non-fiction, a genre or the From India shelf, a mood and a length, searchable by title, author or genre (accents optional), sorted by title or length. The choice is kept in the address, so it can be shared. |
+| [Genres](https://the-bookshelf.pages.dev/genres.html) | A shelf for each genre, fiction and non-fiction, and one of classics from India, its most read books first, to scroll or drag sideways. |
+| [Questions](https://the-bookshelf.pages.dev/faq.html) | Every question, by topic, with a list of topics that follows you down the page and marks the one you are reading. |
+| [A book](https://the-bookshelf.pages.dev/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description, details and edition, Read now, the EPUB download, Kindle and Kobo editions, a free LibriVox audiobook where there is one, Keep for offline reading, Before you start (who's who and what to know, with no spoilers) and Lines worth knowing for the most read books, and three related books. |
+| [The reader](https://the-bookshelf.pages.dev/read.html?book=pride-and-prejudice) | The book itself, in the page: its cover swings open, then pages turn on a laptop and scroll on a phone, with contents, highlights and notes, a word's meaning, text size, three page colours and three typefaces (Literata, made for reading on screens, by default). It remembers your place. |
+| [Your reading](https://the-bookshelf.pages.dev/reading.html) | Your week of reading, the books you are reading, your notes, the books kept for offline reading and the ones you finished, with Back up and Restore. |
+| [Your account](https://the-bookshelf.pages.dev/account.html) | Optional, and only once accounts are switched on (see below): sign in with Google or an email address, choose a name, a colour and a mark, and your reading is on every device you sign in on. |
+| [A reader's page](https://the-bookshelf.pages.dev/profile.html) | For readers who share it: their name and mark, what they are reading and have finished, their reading time and, if they choose, the lines they highlighted. Never their notes. |
+| [Privacy](https://the-bookshelf.pages.dev/privacy.html) | What is kept about you, where, and how to remove it. |
 
 ## The details
 
@@ -56,8 +58,8 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
 - **A real library.** Almost all the books are Standard Ebooks editions: carefully proofread, beautifully typeset and
   released into the public domain, with covers made from public-domain paintings. A few classics from India come from
   Project Gutenberg. Every one is also out of copyright in India (the author's life plus 60 years), and so are its
-  translator, illustrator and cover painter: `tools/rights.py` checks each of them, and where a cover painting is still
-  under copyright in India the book gets a cover drawn here (`tools/covers.py`). So authors such as Agatha Christie,
+  translator, illustrator and cover painter: `pipeline/rights.py` checks each of them, and where a cover painting is still
+  under copyright in India the book gets a cover drawn here (`pipeline/covers.py`). So authors such as Agatha Christie,
   and Seneca's letters in a translation by a man who died in 1969, are left out.
 - **A reader in the page.** epub.js shows the book itself. It opens with the book's own cover, which swings open on
   the desk. On a wide screen the book lies open on two facing pages with a spine between them, and each turn lifts a
@@ -88,7 +90,7 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
   share a reader page, sign out (keeping or clearing the device's copy) and delete the account and everything in it.
   Accounts run on Firebase's free plan; its SDK loads only when you are signed in or open the account page.
 - **Lines from the books.** Lines worth knowing on the most read books' pages, and a line of the day on the home page,
-  each checked word for word against the edition here (`tools/quotes.py`): Open at this line opens the reader on it,
+  each checked word for word against the edition here (`pipeline/quotes.py`): Open at this line opens the reader on it,
   and Share makes a picture of it to post.
 - **A shelf you can throw.** Cards tilt and dip the further they are from the middle as you drag (Smooothy), with
   arrow buttons, arrow keys and a sideways trackpad swipe too.
@@ -142,19 +144,23 @@ Web Technology course project, was rebuilt as an animated bookshop in version 2,
   | A book page | 70 to 98 | 100 | 100 | 100 | 489 KB |
   | The reader | 70 to 97 | 100 | 100 | 100 | 1,073 KB, most of it the book |
 
-  Performance swings from run to run on GitHub Pages; the painted covers weigh more than the old flat drawings did.
+  Measured on GitHub Pages, before the move to Cloudflare; performance swung from run to run there, and the painted covers weigh more than the old flat drawings did.
 
 ## Run it
 
-With Node.js 18 or newer:
+With Node.js 22.12 or newer:
 
 ```bash
 npm install
-npm start          # http://localhost:3000
+npm run assets:pull   # the books, covers and link pictures, from Cloudflare R2 into .assets/ (needs rclone, below)
+npm run dev           # http://localhost:4321, reloading as you edit
 ```
 
-Opening `index.html` straight from the disk works too, but browsers do not let a page fetch other files from disk, so
-links load the next page normally instead of playing the transition.
+The site is built with [Astro](https://astro.build): every page is made ahead of time (`npm run build` writes the
+whole site to `dist/`, and `npm run preview` serves it). The books and covers are not kept in git; they live in an R2
+bucket, and `.assets/` is the local copy. Without access to the bucket, `python pipeline/library.py` fetches them from
+Standard Ebooks instead (slowly: it keeps to their limits). For R2, set up an rclone remote named `r2`
+(`rclone config`, provider Cloudflare, with an R2 API token's keys).
 
 An unfinished port of the original site to Angular, from the same course, is kept on the
 [`angular-port`](https://github.com/Cl0ud-9/Book-Website/tree/angular-port/angular) branch.
@@ -162,22 +168,23 @@ An unfinished port of the original site to Angular, from the same course, is kep
 ## Using the original fonts
 
 The design follows a site set in Champ, Degular and Hello Organichand. Those are paid fonts, licensed to that site,
-so this repository uses the closest free fonts instead. With your own licence, put the font files in `fonts/` and point
-the three `@font-face` rules at the top of `css/main.css` at them; the rest of the site uses `--font-heading`,
+so this repository uses the closest free fonts instead. With your own licence, put the font files in `src/assets/fonts/` and
+point the three `@font-face` rules at the top of `src/styles/main.css` at them; the rest of the site uses `--font-heading`,
 `--font-body` and `--font-hand` and needs no other change.
 
 ## Changing the books
 
-The shelf is one list, `CATALOGUE` in `tools/library.py`: a Standard Ebooks edition and its genres here. The library
+The shelf is one list, `CATALOGUE` in `pipeline/library.py`: a Standard Ebooks edition and its genres here. The library
 script fetches each book's details, cover and EPUB (slowly, and only once: they are cached), and the build writes every
-page from what it fetched. What the home page features is `FEATURED` in `tools/build.py`.
+page from what it fetched (`data/books.json`, checked against a schema in `src/lib/library.ts` on every build). What
+the home page features is `FEATURED` in `src/lib/library.ts`.
 
 **How the books are ranked.** Standard Ebooks lists its whole catalogue by how often each book is downloaded there;
 the library script records each book's place in that list (`popularity`), and the site orders by it: All books,
 every genre shelf and Where to start (the top ten) show the most read first, and Not sure where to begin? offers the
-most read book of each mood. `python tools/library.py --refresh-popularity` fetches the list again.
+most read book of each mood. `python pipeline/library.py --refresh-popularity` fetches the list again.
 
-**The book of the month** is chosen a year ahead by `tools/picks.py` and written into `library/picks.json`, with a
+**The book of the month** is chosen a year ahead by `pipeline/picks.py` and written into `data/picks.json`, with a
 line saying why, which the home page shows. Each book is scored on how much it is read (Standard Ebooks' ranking, and
 readers and ratings on Open Library), whether interest in it is rising (its Wikipedia article's views), the time of year
 (love stories in February, Shakespeare in April, Tagore in May, adventures in the summer, ghost stories in October, A
@@ -188,22 +195,32 @@ choose a different book. The site is rebuilt on the first of every month, so the
 open book and the gift are chosen by hand, for how their covers look.
 
 ```bash
-python tools/library.py    # fetches new books into library/books.json, image/covers/ and books/ (needs Pillow)
-python tools/build.py      # rewrites every page, including one per book
-python tools/picks.py      # chooses the books of the month for the year ahead (library/picks.json)
-python tools/rights.py     # checks every author, translator, illustrator and cover painter is free in India too
-python tools/quotes.py     # finds each line in library/quotes.json in its book, for "Open at this line"
-python tools/covers.py     # draws covers for books whose painting is not yet free in India
-python tools/listen.py     # finds each book's free LibriVox audiobook (library/librivox.json)
-python tools/fonts.py      # rebuilds the fonts from their sources (needs fonttools and brotli)
-python tools/check.py      # with npm start running: uses the site like a visitor and reports what fails
-python tools/effects.py    # with npm start running: checks every hover effect after links, Back and Forward
-python tools/reader_check.py   # with npm start running: page colours, and highlighting on a phone and a laptop
-python tools/library_check.py  # with npm start running: the filters, the shelves, lines and guides
-python tools/social.py     # with npm start running: redraws the link previews and the home-screen icon
+python pipeline/library.py   # fetches new books into data/books.json and .assets/ (needs Pillow)
+python pipeline/picks.py     # chooses the books of the month for the year ahead (data/picks.json)
+python pipeline/rights.py    # checks every author, translator, illustrator and cover painter is free in India too
+python pipeline/quotes.py    # finds each line in data/quotes.json in its book, for "Open at this line"
+python pipeline/covers.py    # draws covers for books whose painting is not yet free in India
+python pipeline/listen.py    # finds each book's free LibriVox audiobook (data/librivox.json)
+python pipeline/fonts.py     # rebuilds the fonts from their sources (needs fonttools and brotli)
+python pipeline/social.py    # with npm run preview running: redraws the link previews and the home-screen icon
+npm run assets:push          # after any of these changes .assets/: uploads it to R2 for the deploy
 ```
 
-`tools/check.py` drags the shelf, hovers the genres, opens the questions, checks the feed, the account and privacy
+Before a change goes in:
+
+```bash
+npm run check         # type-checks the pages, components and scripts
+npm run build
+npm run check:links   # every local link, image, font and cover size in dist/ exists
+npm run test:e2e      # the browser checks below, against the built site (Python, Playwright and Google Chrome)
+```
+
+`npm run test:e2e -- check effects` runs only the suites named. They are in `tests/e2e`: `check` uses the site like a
+visitor, `effects` checks every hover effect after links, Back and Forward, `reader_check` the page colours and
+highlighting on a phone and a laptop, and `library_check` the filters, the shelves, lines and guides. Screenshots go
+to `test-results/`.
+
+`check` drags the shelf, hovers the genres, opens the questions, checks the feed, the account and privacy
 pages, follows a genre link into the catalogue, searches and sorts it (without accents), opens a book, checks its
 download, goes back, reads it in the reader (turning pages, changing the page colour, and coming back to "Continue"),
 opens Genres and Questions from a book's page (dragging a shelf, jumping between topics, and following a link to a
@@ -218,22 +235,35 @@ motion and the site without JavaScript.
 
 ```bash
 npm run emulators          # in a second terminal: sign-in and the database, on ports 9099 and 8080
-FIREBASE_CONFIG='{"apiKey":"demo-key","authDomain":"demo-bookshelf.firebaseapp.com","projectId":"demo-bookshelf","emulator":"127.0.0.1"}' python tools/build.py _accounts
-python tools/accounts_check.py   # serves that copy at http://127.0.0.1:4600/ and tests accounts end to end
+FIREBASE_CONFIG='{"apiKey":"demo-key","authDomain":"demo-bookshelf.firebaseapp.com","projectId":"demo-bookshelf","emulator":"127.0.0.1"}' npx astro build --outDir dist-accounts
+python tests/e2e/accounts_check.py   # serves that copy at http://127.0.0.1:4600/ and tests accounts end to end
 ```
 
-`tools/accounts_check.py` makes an account on a phone, chooses a name, highlights a line and keeps it, shares a reader
+`accounts_check` makes an account on a phone, chooses a name, highlights a line and keeps it, shares a reader
 page and reads it as a visitor, signs in on a laptop and finds the highlight there, removes it there and sees it go on
 the phone, signs in with Google, checks that the database refuses another account's reads and writes, and edits, signs
 out and deletes.
 
 ## How it is published
 
-Every push to `main` runs [`.github/workflows/pages.yml`](.github/workflows/pages.yml): it copies the site, rebuilds
-the pages for the day (for the book of the month), checks that every local link, image, cover size and font it names
-exists, runs Lighthouse in its phone mode on six pages (three runs each, budgets in
-[`.lighthouserc.json`](.lighthouserc.json)), and deploys it to GitHub Pages. A broken link, or a page that falls below
-its speed or accessibility budget, stops the deploy. It also runs on the first of every month.
+Every pull request and push to `main` runs [`.github/workflows/ci.yml`](.github/workflows/ci.yml): the type check,
+the build, the link check and the browser checks. Every push to `main` also runs
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml): it fetches the books and covers from R2, builds the
+site for the day (for the book of the month), checks every local link, runs Lighthouse in its phone mode on six pages
+(three runs each, budgets in [`.lighthouserc.json`](.lighthouserc.json)), and publishes `dist/` to Cloudflare Pages. A
+broken link, or a page that falls below its speed or accessibility budget, stops the deploy. It also runs on the first
+of every month.
+
+**Setting up Cloudflare (free).**
+
+1. At [dash.cloudflare.com](https://dash.cloudflare.com), under R2, create a bucket named `bookshelf-assets`, and an R2
+   API token that can read and write it. Upload the books once with `npm run assets:push`.
+2. Under Workers & Pages, create a Pages project named `the-bookshelf` (Direct Upload; the workflow uploads to it).
+   If that name is taken, choose another, and change `--project-name` in `deploy.yml` and `SITE_URL` (below).
+3. Create an API token with the Cloudflare Pages: Edit permission.
+4. In the repository's Settings, Secrets and variables, Actions: the secrets `CLOUDFLARE_API_TOKEN`,
+   `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY`, and the variable `CLOUDFLARE_ACCOUNT_ID`. The site's address for
+   links and previews is `https://the-bookshelf.pages.dev` unless a `SITE_URL` is set when it is built.
 
 **Turning on accounts (optional, free).** Accounts stay off, and the site says nothing about them, until it has a
 Firebase project:
@@ -241,7 +271,7 @@ Firebase project:
 1. At [console.firebase.google.com](https://console.firebase.google.com), add a project (Google Analytics is not
    needed). It stays on the free Spark plan.
 2. **Authentication**, Get started, then under Sign-in method switch on **Google** and **Email/Password**. Under
-   Settings, Authorized domains, add `cl0ud-9.github.io`.
+   Settings, Authorized domains, add `the-bookshelf.pages.dev`.
 3. **Firestore Database**, Create database, in production mode, in the region nearest your readers.
 4. In Firestore's **Rules** tab, replace the rules with [`firebase/firestore.rules`](firebase/firestore.rules) and
    Publish. (They keep each reader's data their own; without them the database refuses everything.)
@@ -250,7 +280,7 @@ Firebase project:
    `{"apiKey":"AIza…","authDomain":"your-project.firebaseapp.com","projectId":"your-project","appId":"1:…"}`.
    These values are not secrets: every Firebase web app sends them to the browser, and the rules decide what anyone
    may do.
-6. Run the deploy again (Actions, Deploy to GitHub Pages, Run workflow). The header gets Sign in.
+6. Run the deploy again (Actions, Deploy, Run workflow). The header gets Sign in.
 
 The free plan allows 50,000 reads and 20,000 writes a day, which is a few thousand readers a day as the site uses them.
 Password reset emails are limited to 150 a day.
@@ -282,31 +312,27 @@ not to be tracked are not counted at all.
 ## Project structure
 
 ```text
-index.html, books.html, genres.html, faq.html, book-*.html, read.html, reading.html, account.html, profile.html,
-privacy.html, login.html and signup.html (they lead on), 404.html, feed.xml, manifest.webmanifest, sw.js
-                    generated by tools/build.py
-css/main.css        every style: tokens, the fluid type scale, components and sections
-css/reader-content.css  added inside a book while it is read: Literata, the page colours' details
-js/app.js           transitions, smooth scrolling and every animation, one function per effect
-js/account.js       accounts: signing in, your profile, keeping your reading in step with your account
-js/account-page.js  the Your account page and readers' pages
-js/vendor/          GSAP, Lenis, Barba, Smooothy, epub.js and JSZip, unchanged, and the parts of Firebase the site uses
-                    (firebase.mjs, made by npm run vendor:firebase); licences in LICENSES.md
-firebase/firestore.rules  who may read and write what in the accounts database
-js/reader.js        the reader (with js/vendor/epub.min.js and jszip.min.js, loaded only on read.html)
-js/reader-notes.js  highlights, notes, a word's meaning and opening a book at a line: a plug-in for the reader
-js/notes-store.js   your highlights and notes, kept in this browser (IndexedDB)
-js/your-reading.js  the Your reading page
-library/picks.json  the book of the month, a year ahead, and why (tools/picks.py)
-library/librivox.json  each book's free LibriVox audiobook, found by tools/listen.py
-library/books.json  every book's details, written by tools/library.py
-books/              the EPUB files
-fonts/              Rubik (headings), Figtree (text) and Gochi Hand (notes), Latin subset, and Literata (books),
-                    built by tools/fonts.py
-image/              covers (covers/<book>-180/360/720/1080.webp), link previews (social/), the logo and home-screen icon
-sitemap.xml         every page, for search engines
-tools/              library, page, font and preview generators, icons and the browser checks
-server.js           optional local server (npm start)
+src/pages/          every page (index, books, genres, faq, book-[slug] for each book, read, reading, account, profile,
+                    login, signup, privacy, 404) and feed.xml, sitemap.xml and manifest.webmanifest
+src/layouts/        Base.astro: the head, header, footer and page transition every page shares
+src/components/     the parts pages are made of: covers, cards, the 3D book, buttons, the menu, accordions, ribbons
+src/lib/            the data the pages are built from: the books (checked against a schema), genres, moods, the book
+                    of the month, questions, icons, shapes and text helpers
+src/styles/         main.css (every style: tokens, the fluid type scale, components and sections) and
+                    reader-content.css (added inside a book while it is read)
+src/scripts/        app.js (transitions, smooth scrolling and every animation), account.js and account-page.js
+                    (accounts), reader.js and reader-notes.js (the reader, loaded only on read.html), notes-store.js
+                    (highlights and notes, in IndexedDB), your-reading.js, firebase.ts (the parts of Firebase used)
+src/assets/fonts/   Rubik, Figtree, Gochi Hand and Literata, Latin subset, built by pipeline/fonts.py
+src/icons/          Lucide icons, inlined in every page
+src/sw.template.js  the service worker; the build fills in the files it keeps
+public/image/       the logo and home-screen icons
+data/               books.json, picks.json, quotes.json, guides.json, moods.json, librivox.json: written by the pipeline
+pipeline/           the Python scripts that fetch the books and make covers, fonts, lines and link previews
+integrations/       build steps: copying .assets/ into the site, and writing the service worker
+tests/              links.mjs, the browser checks (e2e/), and the page-by-page comparison with version 3 (parity/)
+firebase/           firestore.rules: who may read and write what in the accounts database
+.assets/            not in git: books/ (the EPUB files), image/covers/ and image/social/, kept in Cloudflare R2
 ```
 
 ## License

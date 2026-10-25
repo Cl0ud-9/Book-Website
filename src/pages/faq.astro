@@ -1,0 +1,38 @@
+---
+import Accordion from "../components/Accordion.astro";
+import ButtonAlt from "../components/ButtonAlt.astro";
+import HeroXs from "../components/HeroXs.astro";
+import Icon from "../components/Icon.astro";
+import Ribbons from "../components/Ribbons.astro";
+import Base from "../layouts/Base.astro";
+import { FAQ_TOPICS } from "../lib/faq";
+import type { IconName } from "../lib/icons";
+---
+<Base name="faq" path="faq.html" title="Common questions | The Bookshelf" description="How reading and downloading work on the Bookshelf, where the books come from and why they are free." theme="pale-blue">
+<HeroXs tint="pale-blue" shapes="soft-blue" title="Common questions" note="Ask away!">Everything about reading, downloading and the books themselves.</HeroXs>
+<section class="faqs" aria-label="Questions by topic">
+  <nav class="faqs__nav" aria-label="Topics">
+    <p class="faqs__nav-title">Topics</p>
+    <ul class="faqs__pills">
+      {FAQ_TOPICS.map(([key, name, colour, icon]) => <li><a class="faqs__pill" href={`#${key}`} style={`--tint:var(--${colour})`} data-faq-pill><Icon name={icon as IconName} />{name}</a></li>)}
+    </ul>
+  </nav>
+  <div class="faqs__groups">
+    {FAQ_TOPICS.map(([key, name, colour, , items]) => (
+      <section class="faqs__group" id={key} style={`--tint:var(--${colour})`} data-faq-group aria-labelledby={`${key}-title`}>
+        <h2 class="faqs__title heading-m" id={`${key}-title`}>{name}</h2>
+        <div class="faqs__list">
+          {items.map(([question, answer, link]) => <Accordion question={question} answer={answer} link={link} />)}
+        </div>
+      </section>
+    ))}
+  </div>
+</section>
+<Ribbons />
+<section class="faqs-cta" aria-labelledby="cta-title">
+  <h2 class="faqs-cta__title heading-l" id="cta-title">Still curious?</h2>
+  <p class="faqs-cta__text">The best answers are in the books.</p>
+  <ButtonAlt href="books.html" text="Browse all books" />
+  <p class="faqs-cta__note accent-note" data-handwritten-text-inview>Made by readers, for readers</p>
+</section>
+</Base>

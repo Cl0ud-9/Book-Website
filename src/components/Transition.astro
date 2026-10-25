@@ -1,0 +1,9 @@
+---
+// One fat squiggle that, drawn in full, covers the screen between pages. "slice" scales it evenly and crops it, so its
+// round ends stay round on any screen shape instead of being squashed into points on a tall phone.
+import { SNAKE } from "../lib/shapes";
+---
+<div class="transition" data-transition-wrap aria-hidden="true">
+  <svg class="transition__svg" viewBox="0 0 1080 1080" preserveAspectRatio="xMidYMid slice"><path d={SNAKE} /></svg>
+  <div class="transition__logo" data-transition-logo><svg viewBox="0 0 48 48"><use href="#i-logo"></use></svg></div>
+</div>

@@ -1,0 +1,38 @@
+---
+// Parts of the account pages, filled in by the account page script:
+// "setup": your name, username, colour and mark, after making an account and to change them later
+// "merge": signing in on a device that already has reading on it, read signed out or by another account: add it, or not
+import Icon from "./Icon.astro";
+import type { IconName } from "../lib/icons";
+
+interface Props {
+  part: "setup" | "merge";
+  class: string;
+}
+const { part, class: className } = Astro.props;
+const COLOURS = [["yellow", "Yellow"], ["orange", "Orange"], ["magenta", "Pink"], ["cyan", "Blue"], ["violet", "Violet"],
+  ["periwinkle", "Lilac"], ["pale-green", "Green"], ["olive", "Olive"]] as const;
+const MARKS: readonly (readonly [IconName, string])[] = [["book", "Book"], ["star", "Star"], ["moon", "Moon"], ["sun", "Sun"],
+  ["leaf", "Leaf"], ["feather", "Feather"], ["coffee", "Coffee"], ["cat", "Cat"]];
+---
+{part === "setup" ? (
+  <form class={`${className} acct__setup`} data-acct-setup hidden novalidate aria-labelledby="setup-title">
+    <h2 class="mine__title" id="setup-title" data-acct-setup-title>Make it yours</h2>
+    <p class="mine__text">Your name and username are shown on your reader page, if you choose to share it. Nothing else about you is.</p>
+    <div class="acct__preview" aria-hidden="true"><span data-acct-preview-avatar></span><span class="acct__preview-text"><strong data-acct-preview-name>Your name</strong><span data-acct-preview-handle>@username</span></span></div>
+    <div class="acct__field"><label class="field"><input class="field__input" name="name" maxlength="40" autocomplete="name" required aria-describedby="acct-name-note" placeholder=" "><span class="field__label">Name</span></label><span class="acct__note" id="acct-name-note" data-acct-name-note></span></div>
+    <div class="acct__field"><label class="field is--prefix"><span class="field__prefix" aria-hidden="true">@</span><input class="field__input" name="handle" maxlength="20" autocomplete="username" autocapitalize="none" spellcheck="false" required aria-describedby="acct-handle-note" placeholder=" "><span class="field__label">Username</span></label><span class="acct__note" id="acct-handle-note" data-acct-handle-note>3 to 20 small letters, numbers or _</span></div>
+    <fieldset class="acct__choices"><legend class="acct__label">Colour</legend><div class="acct__options">{COLOURS.map(([c, label], i) => <label class="acct__swatch" title={label}><input type="radio" name="colour" value={c} checked={i === 0}><span style={`--c:var(--${c})`}></span><span class="sr-only">{label}</span></label>)}</div></fieldset>
+    <fieldset class="acct__choices"><legend class="acct__label">Mark</legend><div class="acct__options">{MARKS.map(([m, label], i) => <label class="acct__mark" title={label}><input type="radio" name="mark" value={m} checked={i === 0}><span><Icon name={m} /></span><span class="sr-only">{label}</span></label>)}</div></fieldset>
+    <p class="mine__actions"><button type="submit" class="mine__button is--primary" data-acct-save><Icon name="check" /><span data-acct-save-label>Save</span></button><button type="button" class="mine__button is--quiet" data-acct-cancel hidden>Cancel</button></p>
+    <p class="acct__message" role="status" aria-live="polite" data-acct-setup-message></p>
+  </form>
+) : (
+  <section class={`${className} acct__merge`} data-acct-merge hidden aria-labelledby="merge-title">
+    <h2 class="mine__title" id="merge-title">The reading on this device</h2>
+    <p class="mine__text" data-acct-merge-text></p>
+    <p class="mine__actions"><button type="button" class="mine__button is--primary" data-acct-merge-keep><Icon name="check" />Add it to my account</button><button type="button" class="mine__button is--quiet" data-acct-merge-drop>Leave it out</button></p>
+    <p class="mine__text is--small">Leaving it out removes it from this device, and your account’s reading takes its place.</p>
+    <p class="acct__message" role="status" aria-live="polite" data-acct-merge-message></p>
+  </section>
+)}

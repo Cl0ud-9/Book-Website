@@ -1,0 +1,15 @@
+---
+// The split button: a text block and an arrow (or another icon) block that twist apart when pointed at or pressed
+import type { HTMLAttributes } from "astro/types";
+import type { IconName } from "../lib/icons";
+import Icon from "./Icon.astro";
+
+type Props = Omit<HTMLAttributes<"a">, "class"> & {
+  text: string;
+  colour?: string;
+  size?: "small";
+  icon?: IconName;
+};
+const { text, colour = "magenta", size, icon = "arrow", ...rest } = Astro.props;
+---
+<a class={`button-alt is--${colour}${size ? ` is--${size}` : ""}`} data-button-alt="" {...rest}><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>{text}</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><Icon name={icon} class="button-alt__icon" /></span></a>

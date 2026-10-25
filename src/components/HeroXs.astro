@@ -1,0 +1,21 @@
+---
+// The small hero at the top of most pages: a title, a line under it (the slot) and a handwritten note, on soft shapes
+import BgShapes from "./BgShapes.astro";
+import { BLOB_A, BLOB_B } from "../lib/shapes";
+
+interface Props {
+  /** the panel's colour */
+  tint: string;
+  /** the shapes' colour */
+  shapes: string;
+  title: string;
+  note: string;
+}
+const { tint, shapes, title, note } = Astro.props;
+---
+<section class={`hero-xs is--${tint}`} data-intro-page aria-labelledby="page-title">
+  <BgShapes paths={[[`is--${shapes}`, BLOB_A], [`is--${shapes}`, BLOB_B]]} class="hero-xs__shapes" small />
+  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title>{title}</h1>
+  <p class="hero-xs__text" data-hero-paragraph><slot /></p>
+  <p class="hero-xs__note accent-note" data-hero-handwritten-text>{note}</p>
+</section>

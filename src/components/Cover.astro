@@ -1,0 +1,21 @@
+---
+// A book's cover, in the four sizes pipeline/library.py makes of it
+import { BOOK, COVER } from "../lib/library";
+
+interface Props {
+  slug: string;
+  sizes: string;
+  lazy?: boolean;
+  class?: string;
+  priority?: boolean;
+  /** the cover's description; "" when the cover only decorates (the title is beside it) */
+  alt?: string;
+}
+const { slug, sizes, lazy = true, class: className, priority = false, alt } = Astro.props;
+const book = BOOK[slug];
+if (!book) throw new Error(`no book ${slug}`);
+const srcset = [180, 360, 720, 1080].map((w) => `image/covers/${slug}-${w}.webp ${w}w`).join(", ");
+---
+<img src={`image/covers/${slug}-360.webp`} srcset={srcset} sizes={sizes} width={COVER.width} height={COVER.height}
+  alt={alt ?? `${book.title} by ${book.author}, book cover`} class={className}
+  loading={lazy ? "lazy" : undefined} decoding={lazy ? "async" : undefined} fetchpriority={priority ? "high" : undefined}>

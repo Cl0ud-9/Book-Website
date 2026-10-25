@@ -1,0 +1,93 @@
+---
+// Every page: its head (title, description, link previews), the icons, the page transition, the header and menu, the
+// page itself and the footer. The site's styles and its script come from src/styles and src/scripts, bundled.
+import "../styles/main.css";
+import figtree from "../assets/fonts/figtree.woff2?url";
+import rubik from "../assets/fonts/rubik.woff2?url";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import Transition from "../components/Transition.astro";
+import { ACCOUNTS, GOATCOUNTER, SITE } from "../lib/config";
+import { SPRITE } from "../lib/icons";
+import { BOOK } from "../lib/library";
+
+interface Props {
+  /** the page's name for the page transitions (data-barba-namespace) */
+  name: string;
+  /** its address, relative to the site ("" for the home page) */
+  path: string;
+  title: string;
+  description: string;
+  theme?: string;
+  /** a book's page: its link preview shows the book */
+  book?: string;
+  withFooter?: boolean;
+  index?: boolean;
+}
+const { name, path, title, description, theme = "yellow", book, withFooter = true, index = true } = Astro.props;
+// Link previews: a 1200 x 630 JPEG (made by pipeline/social.py), the size and format every app shows
+const social = book ? `image/social/${book}.jpg` : "image/social/home.jpg";
+const alt = book ? `The cover of ${BOOK[book].title} on its page at the Bookshelf` : "The Bookshelf home page";
+
+// The opening squiggle covers the home page on the first page of a visit (not a reload later in the visit, and not when
+// the address points at a section). Every other page, however you arrive, shows straight away: the scripts arrive a
+// second or two after the page on a slow phone, and waiting for them made every page look slow. With the squiggle, the
+// page hides what the intro animates in, and gives up after 4 s if the scripts never arrive. A page loaded in full in
+// the middle of a page change starts covered, the book showing.
+const carried = "var c;try{c=+sessionStorage.getItem('bookshelf:covered');sessionStorage.removeItem('bookshelf:covered')}catch(e){}"
+  + "if(c&&Date.now()-c<30000&&!matchMedia('(prefers-reduced-motion: reduce)').matches){r.classList.add('is-loading','is-carried');"
+  + "setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading','is-carried')},4000)}";
+const cover = name === "home"
+  ? "if(!r.classList.contains('is-loading')&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!location.hash){var o;"
+    + "try{o=sessionStorage.getItem('bookshelf:opened')}catch(e){}"
+    + "if(o!=='1'){r.classList.add('is-loading');"
+    + "setTimeout(function(){if(!window.bookshelfReady)r.classList.remove('is-loading')},4000)}}"
+  : "";
+const accounts = ACCOUNTS
+  ? `window.bookshelfAccounts=${JSON.stringify(ACCOUNTS)};`
+    + "try{var a=JSON.parse(localStorage.getItem('bookshelf:account'));if(a&&a.handle)document.documentElement.classList.add('is-signed-in')}catch(e){}"
+  : "";
+const boot = `${accounts}(function(d){var r=d.documentElement;r.classList.add('js');${carried}${cover}})(document)`;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content={description}>
+{!index && <meta name="robots" content="noindex">}
+<meta name="theme-color" content="#ffd24a">
+<meta name="color-scheme" content="only light">
+<link rel="canonical" href={`${SITE}${path}`}>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="The Bookshelf">
+<meta property="og:url" content={`${SITE}${path}`}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:image" content={`${SITE}${social}`}>
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content={alt}>
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="image/logo.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="image/apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="alternate" type="application/atom+xml" title="The Bookshelf: book of the month" href="feed.xml">
+<link rel="preload" href={rubik} as="font" type="font/woff2" crossorigin>
+<link rel="preload" href={figtree} as="font" type="font/woff2" crossorigin>
+<script is:inline set:html={boot} />
+<script>import "../scripts/main";</script>
+{GOATCOUNTER && <script is:inline data-goatcounter={`https://${GOATCOUNTER}.goatcounter.com/count`} data-goatcounter-settings='{"no_onload": true}' async src="https://gc.zgo.at/count.js"></script>}
+</head>
+<body data-barba="wrapper">
+<Fragment set:html={SPRITE} />
+<Transition />
+<Header />
+<main id="main" class="page" data-barba="container" data-barba-namespace={name} data-page-theme={theme}>
+<slot />
+{withFooter && <Footer />}
+</main>
+<div class="confetti" data-confetti-container aria-hidden="true"></div>
+</body>
+</html>
