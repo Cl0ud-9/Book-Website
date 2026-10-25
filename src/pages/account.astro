@@ -1,0 +1,60 @@
+---
+// Your account: manage what it keeps (signing in is login.html and signup.html), filled in by the account page script
+import AccountParts from "../components/AccountParts.astro";
+import ButtonAlt from "../components/ButtonAlt.astro";
+import HeroXs from "../components/HeroXs.astro";
+import Icon from "../components/Icon.astro";
+import LibraryData from "../components/LibraryData.astro";
+import Base from "../layouts/Base.astro";
+import { ACCOUNTS } from "../lib/config";
+---
+<Base name="account" path="account.html" title="Your account | The Bookshelf" description="Sign in to keep your place, highlights, notes and reading time on every device." theme="soft-periwinkle" index={false}>
+<HeroXs tint="soft-periwinkle" shapes="pale-periwinkle" title="Your account" note={ACCOUNTS ? "One shelf, every device" : "Read away"}>{ACCOUNTS ? "Your place in every book, your highlights, notes and reading time, on every device you sign in on. Free, and you can delete it whenever you like." : "There are no accounts on this copy of the Bookshelf yet, and nothing needs one: your reading is kept on this device."}</HeroXs>
+<div class="mine acct" data-account-page>
+  <noscript><p class="mine__empty">Accounts need JavaScript.</p></noscript>
+  <p class="mine__empty" data-acct-off hidden>Accounts aren’t switched on for this copy of the Bookshelf. Everything still works on this device: see <a href="reading.html">Your reading</a>.</p>
+  <p class="mine__empty acct__checking" data-acct-checking><Icon name="sync" />Checking whether you’re signed in…</p>
+
+  <section class="mine__section acct__out" data-acct-out hidden aria-labelledby="out-title">
+    <h2 class="mine__title" id="out-title">You’re not signed in</h2>
+    <p class="mine__text">Sign in to see your account, or make one: it’s free, and everything works without one too.</p>
+    <p class="mine__actions"><ButtonAlt href="login.html" text="Sign in" colour="magenta" /><ButtonAlt href="signup.html" text="Create an account" colour="black" /></p>
+    <p class="acct__message is--good" role="status" aria-live="polite" data-acct-message></p>
+  </section>
+
+  <AccountParts part="merge" class="mine__section" />
+  <AccountParts part="setup" class="mine__section" />
+  <div class="acct__in" data-acct-in hidden>
+    <section class="mine__section acct__me" aria-labelledby="me-name">
+      <div class="acct__card"><span data-acct-avatar></span><div class="acct__card-text"><h2 class="acct__name" id="me-name" data-acct-name></h2><p class="acct__handle" data-acct-handle></p><p class="acct__since" data-acct-since></p></div></div>
+      <p class="mine__actions"><button type="button" class="mine__button" data-acct-edit><Icon name="pencil" />Edit your name and mark</button><a class="mine__button" href="reading.html"><Icon name="library" />Your reading</a></p>
+      <div class="acct__verify" data-acct-verify hidden><p>Please confirm your email address: we sent a link to <strong data-acct-email></strong>. It keeps your account yours if you ever forget your password.</p>
+        <p class="mine__actions"><button type="button" class="mine__button is--small" data-acct-verify-again>Send it again</button><button type="button" class="mine__button is--small is--quiet" data-acct-verify-check>I’ve confirmed it</button></p></div>
+    </section>
+    <section class="mine__section" aria-labelledby="sync-title">
+      <h2 class="mine__title" id="sync-title">On every device</h2>
+      <p class="mine__text">Your place in each book, your highlights and notes, and your reading time are kept in your account. Sign in on another phone or laptop and they are there too.</p>
+      <p class="acct__sync" data-acct-sync><Icon name="cloud" /><span data-acct-sync-text>Not kept yet</span><button type="button" class="mine__button is--small" data-acct-sync-now><Icon name="sync" />Sync now</button></p>
+      <p class="mine__text is--small">Books kept for offline reading, and how you like the text to look, stay with each device.</p>
+    </section>
+    <section class="mine__section" aria-labelledby="page-share-title">
+      <h2 class="mine__title" id="page-share-title">Your reader page</h2>
+      <p class="mine__text">A page with your name and mark, what you are reading, the books you have finished and your reading time. Your notes are never on it.</p>
+      <label class="acct__switch"><input type="checkbox" role="switch" data-acct-public><span class="acct__switch-track" aria-hidden="true"></span><span>Share my reader page with anyone who has the link</span></label>
+      <label class="acct__switch" data-acct-lines-row><input type="checkbox" role="switch" data-acct-lines><span class="acct__switch-track" aria-hidden="true"></span><span>Show the lines I highlight on it</span></label>
+      <p class="mine__actions" data-acct-page-links hidden><a class="mine__button" href="profile.html" data-acct-page-link><Icon name="user" />See your page</a><button type="button" class="mine__button" data-acct-copy><Icon name="link" />Copy the link</button></p>
+      <p class="acct__message" role="status" aria-live="polite" data-acct-share-message></p>
+    </section>
+    <section class="mine__section" aria-labelledby="leave-title">
+      <h2 class="mine__title" id="leave-title">Sign out or delete</h2>
+      <p class="mine__text">Signing out keeps a copy of your reading on this device, so you can carry on without an account. On a shared or borrowed device, sign out and clear it.</p>
+      <p class="mine__actions"><button type="button" class="mine__button" data-acct-signout><Icon name="logout" />Sign out</button><button type="button" class="mine__button" data-acct-signout-clear><Icon name="logout" />Sign out and clear this device</button></p>
+      <p class="mine__text">Deleting your account removes everything it keeps, for good. This device keeps its own copy.</p>
+      <div class="acct__field" data-acct-reauth hidden><label class="field"><input class="field__input" type="password" autocomplete="current-password" data-acct-reauth-password placeholder=" "><span class="field__label">Your password, to confirm it’s you</span></label></div>
+      <p class="mine__actions"><button type="button" class="mine__button is--danger" data-acct-delete><Icon name="trash" /><span>Delete my account</span></button></p>
+      <p class="acct__message" role="status" aria-live="polite" data-acct-leave-message></p>
+    </section>
+  </div>
+</div>
+<LibraryData />
+</Base>

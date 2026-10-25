@@ -1,0 +1,60 @@
+name: Check
+# Every pull request, and every push to main: the site builds, type-checks, every link resolves, and it works in a
+# browser (the suites in tests/e2e). Nothing is deployed here; deploy.yml does that, from main, once this passes.
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ASTRO_TELEMETRY_DISABLED: "1"
+      # pull requests from forks get no secrets: then the books are not fetched, and the steps that need them are skipped
+      HAS_R2: ${{ secrets.R2_ACCESS_KEY_ID != '' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: npm ci
+      - name: Type-check the pages and scripts
+        run: npm run check
+      - name: The books and covers (from Cloudflare R2), for the link check and the browser tests
+        if: env.HAS_R2 == 'true'
+        env:
+          RCLONE_CONFIG_R2_TYPE: s3
+          RCLONE_CONFIG_R2_PROVIDER: Cloudflare
+          RCLONE_CONFIG_R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          RCLONE_CONFIG_R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          RCLONE_CONFIG_R2_ENDPOINT: https://${{ vars.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
+        run: sudo apt-get install -y rclone && npm run assets:pull
+      - name: Build
+        env:
+          FIREBASE_CONFIG: ${{ vars.FIREBASE_CONFIG }}
+        run: npm run build
+      - name: Every local link, image and font resolves
+        if: hashFiles('.assets/books/*.epub') != ''
+        run: npm run check:links
+      - name: It works in a browser
+        if: hashFiles('.assets/books/*.epub') != ''
+        run: |
+          pip install playwright==1.64.0
+          npm run test:e2e
+      - name: Keep the screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results
+          if-no-files-found: ignore

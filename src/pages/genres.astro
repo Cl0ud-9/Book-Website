@@ -1,0 +1,37 @@
+---
+import ButtonAlt from "../components/ButtonAlt.astro";
+import Cover from "../components/Cover.astro";
+import GenreBlock from "../components/GenreBlock.astro";
+import HeroXs from "../components/HeroXs.astro";
+import Base from "../layouts/Base.astro";
+import { GENRES, SHELF_GROUPS, TAG_COLOURS, bookUrl, groupBooks, groupQuery } from "../lib/library";
+import { slugify } from "../lib/text";
+
+const tint = (g: string): string => (["white", "black"].includes(TAG_COLOURS[g]) ? "soft-grey" : TAG_COLOURS[g]);
+---
+<Base name="genres" path="genres.html" title="Genres | The Bookshelf" description="Eleven genres of free classics, each with a shelf of its most read books." theme="pale-pink">
+<HeroXs tint="pale-pink" shapes="glow" title="Every genre" note="What are you in the mood for?">{GENRES.length} kinds of classic, from love stories and ghost stories to lives, letters and ideas, and a shelf of books from India.</HeroXs>
+<GenreBlock link={(g) => `#shelf-${slugify(g)}`} eyebrow="Jump to" more="or scroll on!" groups={SHELF_GROUPS} moreLink={`#shelf-${slugify(SHELF_GROUPS[0])}`} />
+<div class="shelves">
+  {SHELF_GROUPS.map((g) => {
+    const mine = groupBooks(g);
+    const id = slugify(g);
+    return (
+      <section class="shelf" id={`shelf-${id}`} style={`--tint:var(--${tint(g)})`} aria-labelledby={`shelf-${id}-title`}>
+        <div class="shelf__head">
+          <h2 class="shelf__name heading-m" id={`shelf-${id}-title`}>{g}</h2>
+          <p class="shelf__count">{mine.length} books, most read first</p>
+          <ButtonAlt href={`books.html?${groupQuery(g)}`} text={`All ${mine.length}`} colour="black" size="small" />
+        </div>
+        <ul class="shelf__row" data-shelf-row tabindex="0" aria-label={`${g} books`}>
+          {mine.slice(0, 10).map((b) => (
+            <li class="shelf__item"><a class="shelf__book" href={bookUrl(b.slug)}>
+              <Cover slug={b.slug} sizes="(max-width: 991px) 38vw, 13em" />
+              <span class="shelf__title">{b.title}</span><span class="shelf__author">{b.author}</span></a></li>
+          ))}
+        </ul>
+      </section>
+    );
+  })}
+</div>
+</Base>

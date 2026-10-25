@@ -1,0 +1,4 @@
+# Differences from the old site that are meant: the page, a tab, and a regular expression the difference's report matches
+privacy.html	hosted by GitHub Pages
+privacy.html	Last changed on
+404.html	/Book-Website/

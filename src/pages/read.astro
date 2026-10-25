@@ -1,0 +1,112 @@
+---
+// The reader: the book itself (epub.js), its bar and footer, and the Contents, Text and Notes panels, the highlight bar
+// and the popups. The reader script fills it in.
+import Icon from "../components/Icon.astro";
+import LibraryData from "../components/LibraryData.astro";
+import OfflineControls from "../components/OfflineControls.astro";
+import Base from "../layouts/Base.astro";
+import { ACCOUNTS } from "../lib/config";
+import type { IconName } from "../lib/icons";
+
+const themes = [["paper", "Paper"], ["sepia", "Sepia"], ["night", "Night"]] as const;
+const fonts = [["serif", "Serif"], ["classic", "Classic"], ["sans", "Sans"]] as const;
+const spacing = [["compact", "Compact"], ["normal", "Normal"], ["airy", "Airy"]] as const;
+const flows: readonly (readonly [string, string, IconName])[] = [["scroll", "Scroll", "down"], ["pages", "Pages", "book"]];
+const swatches = [["yellow", "Yellow highlight"], ["green", "Green highlight"], ["blue", "Blue highlight"], ["pink", "Pink highlight"]] as const;
+---
+<Base name="reader" path="read.html" title="Reading | The Bookshelf" description="Read a free classic in your browser." theme="pale-yellow" withFooter={false}>
+<section class="reader" data-reader data-lenis-prevent aria-label="Reader">
+  <div class="reader__bar">
+    <a class="reader__back" href="books.html" data-reader-back><Icon name="left" /><span>Back</span></a>
+    <div class="reader__titles"><h1 class="reader__title" data-reader-title>Opening the book…</h1><p class="reader__author" data-reader-author></p></div>
+    <div class="reader__tools">
+      <button class="reader__tool" type="button" data-reader-bookmark aria-pressed="false" aria-label="Bookmark this page"><Icon name="bookmark" /><Icon name="bookmark-on" class="icon is--on" /><span class="reader__tool-label" data-reader-bookmark-label>Bookmark</span></button>
+      <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-contents"><Icon name="contents" /><span class="reader__tool-label">Contents</span></button>
+      <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-notes"><Icon name="highlight" /><span class="reader__tool-label">Notes</span></button>
+      <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-settings"><Icon name="type" /><span class="reader__tool-label">Text</span></button>
+      <a class="reader__tool" href="books.html" data-reader-download download><Icon name="download" /><span class="reader__tool-label">Download</span></a>
+    </div>
+  </div>
+  <div class="reader__stage">
+    <button class="reader__turn is--prev" type="button" data-reader-prev aria-label="Previous page"><Icon name="prev" /></button>
+    <div class="reader__book" data-reader-book>
+      <div class="reader__view" data-reader-view></div>
+      <span class="reader__ribbon" data-reader-ribbon aria-hidden="true" hidden></span>
+      <div class="reader__leaves" data-reader-leaves aria-hidden="true"></div>
+      <div class="reader__curl" data-reader-curl aria-hidden="true" hidden><div class="reader__curl-shade"></div><div class="reader__curl-flap"><div class="reader__curl-back"></div></div></div>
+    </div>
+    <div class="reader__intro" data-reader-intro aria-hidden="true">
+      <div class="reader__intro-book" data-reader-intro-book>
+        <div class="reader__intro-page"></div>
+        <div class="reader__intro-cover" data-reader-intro-cover><img alt="" data-reader-intro-img><div class="reader__intro-inside"></div></div>
+      </div>
+    </div>
+    <button class="reader__turn is--next" type="button" data-reader-next aria-label="Next page"><Icon name="next" /></button>
+    <p class="reader__message" role="status" data-reader-message>Opening the book…</p>
+    <button class="reader__return" type="button" data-reader-return hidden><Icon name="left" /><span>Back to <span data-reader-return-label>where you were</span></span></button>
+    <noscript><p class="reader__message">The reader needs JavaScript. Every book can also be downloaded from its page in <a href="books.html">All books</a>.</p></noscript>
+  </div>
+  <div class="reader__foot"><span class="reader__chapter" data-reader-chapter></span><span class="reader__progress"><span data-reader-bar></span></span><span class="reader__page" data-reader-page title="Pages in this chapter"></span><span class="reader__left" data-reader-left></span><span class="reader__percent" data-reader-percent></span></div>
+  <nav class="reader__panel" id="reader-contents" aria-label="Contents" data-reader-panel hidden>
+    <h2 class="reader__panel-title">Contents</h2>
+    <p class="reader__toc-summary" data-reader-toc-summary hidden><span data-reader-toc-summary-text></span><span class="reader__toc-summary-bar"><span data-reader-toc-summary-bar></span></span></p>
+    <label class="field is--icon is--pill reader__toc-search"><Icon name="search" class="icon field__icon" /><input class="field__input" type="search" placeholder=" " autocomplete="off" enterkeyhint="search" data-reader-toc-search><span class="field__label">Search this book</span></label>
+    <ol class="reader__toc" data-reader-toc-list></ol>
+    <section class="reader__results" data-reader-results hidden aria-live="polite">
+      <h3 class="reader__notes-head">In the text</h3>
+      <p class="reader__results-status" data-reader-results-status></p>
+      <ol class="reader__results-list" data-reader-results-list></ol>
+    </section>
+    <details class="reader__toc-about" data-reader-toc-about hidden><summary>About this edition</summary><ol class="reader__toc" data-reader-toc-about-list></ol></details>
+  </nav>
+  <div class="reader__panel is--settings" id="reader-settings" role="group" aria-label="Text settings" data-reader-panel hidden>
+    <h2 class="reader__panel-title">Text</h2>
+    <div class="reader__setting"><span class="reader__label">Size</span><div class="reader__controls reader__stepper"><button type="button" class="reader__choice" data-reader-size="-1" aria-label="Smaller text">A−</button><span class="reader__size" data-reader-size-value>100%</span><button type="button" class="reader__choice" data-reader-size="1" aria-label="Bigger text">A+</button></div></div>
+    <div class="reader__setting"><span class="reader__label">Page</span><div class="reader__controls reader__themes">{themes.map(([t, label]) => <button type="button" class={`reader__choice is--${t}`} data-reader-theme={t} aria-pressed="false">{label}</button>)}</div></div>
+    <div class="reader__setting"><span class="reader__label">Font</span><div class="reader__controls reader__segments" data-segmented>{fonts.map(([f, label]) => <button type="button" class="reader__choice" data-reader-font={f} aria-pressed="false">{label}</button>)}</div></div>
+    <div class="reader__setting"><span class="reader__label">Spacing</span><div class="reader__controls reader__segments" data-segmented>{spacing.map(([v, label]) => <button type="button" class="reader__choice is--spacing" data-reader-spacing={v} aria-pressed="false" aria-label={`${label} line spacing`}><span class={`reader__lines is--${v}`} aria-hidden="true"><i></i><i></i><i></i></span>{label}</button>)}</div></div>
+    <div class="reader__setting" data-reader-flow-row><span class="reader__label">Reading</span><div class="reader__controls reader__segments" data-segmented>{flows.map(([v, label, icon]) => <button type="button" class="reader__choice" data-reader-flow={v} aria-pressed="false"><Icon name={icon} />{label}</button>)}</div></div>
+    <div class="reader__setting" data-reader-screen-row hidden><span class="reader__label">Screen</span><div class="reader__controls"><button type="button" class="reader__choice" data-reader-fullscreen aria-pressed="false"><Icon name="expand" /><span data-reader-fullscreen-label>Full screen</span></button></div></div>
+    <div class="reader__setting is--book"><span class="reader__label">Book</span><div class="reader__controls"><a class="reader__choice" href="books.html" data-reader-download download><Icon name="download" />Download EPUB</a><span class="offline-row" data-offline-row hidden><OfflineControls /></span></div></div>
+  </div>
+  <div class="reader__panel is--notes" id="reader-notes" role="region" aria-label="Notes" data-reader-panel hidden>
+    <h2 class="reader__panel-title">Notes</h2>
+    <p class="reader__notes-empty" data-notes-empty>Select any words in the book (on a phone, press and hold one) to highlight them, underline them, add a note or share them as a picture; Bookmark, at the top, marks the page you are on. They are kept on this device{ACCOUNTS ? ", and in your account when you sign in" : ""}.</p>
+    <h3 class="reader__notes-head" data-bookmarks-head hidden>Bookmarks</h3>
+    <ol class="reader__notes" data-bookmarks-list></ol>
+    <h3 class="reader__notes-head" data-notes-head hidden>Highlights and notes</h3>
+    <ol class="reader__notes" data-notes-list></ol>
+    <p class="reader__notes-actions"><button type="button" class="reader__choice" data-notes-export hidden><Icon name="download" />Export these notes</button><a class="reader__choice" href="reading.html#notes"><Icon name="library" />All your notes</a></p>
+    <p class="reader__notes-warning" data-notes-warning hidden>This browser is not keeping data, so notes last only until this tab closes.</p>
+  </div>
+  <div class="reader__select" role="toolbar" aria-label="Highlight the selected words" data-select-bar hidden>
+    <div class="reader__select-row">
+      <span class="reader__select-title" data-select-title>Highlight</span>
+      <span class="reader__select-swatches">
+        {swatches.map(([s, label]) => <button type="button" class={`reader__swatch is--${s}`} data-style={s} aria-label={label} title={label}></button>)}
+        <button type="button" class="reader__swatch is--underline" data-style="underline" aria-label="Underline" title="Underline"><Icon name="underline" /></button>
+      </span>
+    </div>
+    <div class="reader__select-row is--tools">
+      <button type="button" class="reader__select-tool" data-select-note title="Add a note"><Icon name="note" /><span class="reader__select-label" data-select-note-label>Note</span></button>
+      <button type="button" class="reader__select-tool" data-select-define title="What the word means"><Icon name="define" /><span class="reader__select-label">Define</span></button>
+      <button type="button" class="reader__select-tool" data-select-copy title="Copy the words"><Icon name="copy" /><span class="reader__select-label">Copy</span></button>
+      <button type="button" class="reader__select-tool" data-select-share data-quote-share title="Share the words as a picture"><Icon name="share" /><span class="reader__select-label">Share</span></button>
+      <button type="button" class="reader__select-tool is--remove" data-select-delete title="Remove the mark" hidden><Icon name="trash" /><span class="reader__select-label">Remove</span></button>
+    </div>
+  </div>
+  <div class="reader__tip" role="status" data-reader-tip hidden><Icon name="highlight" /><span data-reader-tip-text>Select any words to highlight them, add a note, look one up or share them as a picture.</span><button type="button" class="reader__tip-ok" data-reader-tip-ok>Got it</button></div>
+  <div class="reader__popup is--note" role="dialog" aria-label="Your note" data-note-editor hidden>
+    <blockquote class="reader__popup-quote" data-note-quote></blockquote>
+    <label class="field is--area"><textarea class="field__input" id="reader-note-text" rows="4" maxlength="4000" placeholder=" " data-note-text></textarea><span class="field__label">Your thoughts on these words</span></label>
+    <p class="reader__popup-actions"><button type="button" class="reader__choice" data-note-cancel>Cancel</button><button type="button" class="reader__choice is--strong" data-note-save>Save note</button></p>
+  </div>
+  <div class="reader__popup is--define" role="dialog" aria-label="Meaning" data-define hidden>
+    <p class="reader__define-word" data-define-word></p>
+    <div class="reader__define-body" data-define-body></div>
+    <p class="reader__popup-actions"><span class="reader__define-more">From <a data-define-more target="_blank" rel="noopener">Wiktionary</a>, under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span><button type="button" class="reader__choice" data-define-close>Close</button></p>
+  </div>
+  <div class="reader__toast" role="status" data-reader-toast hidden><span data-toast-text></span><button type="button" class="reader__toast-undo" data-toast-undo hidden>Undo</button></div>
+</section>
+<LibraryData />
+</Base>

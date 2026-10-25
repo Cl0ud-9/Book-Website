@@ -1,0 +1,39 @@
+---
+import BookCard from "../components/BookCard.astro";
+import HeroXs from "../components/HeroXs.astro";
+import Icon from "../components/Icon.astro";
+import Base from "../layouts/Base.astro";
+import { COLLECTIONS, GENRES, LENGTHS, LIBRARY, MOODS, NONFICTION } from "../lib/library";
+import { slugify } from "../lib/text";
+
+const count = LIBRARY.length;
+---
+<Base name="books" path="books.html" title="All books | The Bookshelf" description={`All ${count} free classics on the Bookshelf, searchable by title, author and genre.`} theme="pale-blue">
+<HeroXs tint="pale-blue" shapes="soft-blue" title="All books" note="Go on, pick three">All {count} classics in one place, every one of them free. Search by title, author or genre.</HeroXs>
+<section class="catalogue" aria-label="Find a book" data-search-root>
+  <form class="search" role="search" data-search-form>
+    <label class="field is--icon is--pill search__field"><Icon name="search" class="icon field__icon" /><input class="field__input" type="search" id="search-box" placeholder=" " autocomplete="off" enterkeyhint="search" data-search-input><span class="field__label">Search titles, authors or genres</span></label>
+  </form>
+  <div class="kinds" role="group" aria-label="Fiction or non-fiction" data-segmented>
+    <button type="button" class="kinds__button" aria-pressed="true" data-kind="">All books</button>
+    <button type="button" class="kinds__button" aria-pressed="false" data-kind="fiction">Fiction</button>
+    <button type="button" class="kinds__button" aria-pressed="false" data-kind="nonfiction">Non-fiction</button>
+  </div>
+  <ul class="chips" aria-label="Filter by genre">{GENRES.map((g) => <li><button type="button" class="chip" aria-pressed="false" data-genre={slugify(g)} data-chip-kind={(NONFICTION as readonly string[]).includes(g) ? "nonfiction" : "fiction"}>{g}</button></li>)}{Object.entries(COLLECTIONS).map(([key, label]) => <li><button type="button" class="chip is--collection" aria-pressed="false" data-collection={key}>{label}</button></li>)}</ul>
+  <div class="sorter">
+    <label class="field is--select is--pill sorter__field"><select class="field__input" id="mood-books" data-mood><option value="">Any mood</option>{MOODS.map((m) => <option value={slugify(m)}>{m}</option>)}</select><span class="field__label">Mood</span></label>
+    <label class="field is--select is--pill sorter__field"><select class="field__input" id="length-books" data-length><option value="">Any length</option>{LENGTHS.map(([key, label]) => <option value={key}>{label}</option>)}</select><span class="field__label">Length</span></label>
+    <label class="field is--select is--pill sorter__field"><select class="field__input" id="sort-books" data-sort>
+      <option value="rank">Most read</option><option value="title">Title, A to Z</option>
+      <option value="short">Shortest first</option><option value="long">Longest first</option>
+    </select><span class="field__label">Sort by</span></label>
+    <button type="button" class="sorter__clear" data-clear-filters hidden>Clear filters</button>
+  </div>
+  <h2 class="sr-only">Books</h2>
+  <p class="catalogue__status" role="status" aria-live="polite" data-search-status>Showing all {count} books.</p>
+  <div class="catalogue__grid" data-search-grid>
+    {LIBRARY.map((b) => <BookCard slug={b.slug} sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" />)}
+  </div>
+  <p class="catalogue__empty" data-search-empty hidden>No books match. Try another word, or clear the filters.</p>
+</section>
+</Base>

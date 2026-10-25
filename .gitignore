@@ -1,16 +1,26 @@
+# Dependencies and builds
 node_modules/
-_site/
+dist/
+dist-accounts/
+.astro/
+
+# The books, covers and link pictures: kept in Cloudflare R2, copied here by `npm run assets:pull`
+.assets/
+
+# The content pipeline's caches (downloads it can make again, slowly: Standard Ebooks limits them)
+pipeline/.font-src/
+pipeline/.library-cache/
+pipeline/.picks-cache/
+__pycache__/
+
+# Test output
+.lighthouseci/
+test-results/
+firebase-debug.log
+firestore-debug.log
+
+# Editors and systems
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
-_covers/
-_check/
-__pycache__/
-tools/.font-src/
-tools/.library-cache/
-.lighthouseci/
-_accounts/
-tools/.picks-cache/
-firebase-debug.log
-firestore-debug.log

@@ -1,0 +1,39 @@
+---
+// A reader's page (profile.html?u=username): filled in by the account page script from what they chose to share
+import BgShapes from "../components/BgShapes.astro";
+import LibraryData from "../components/LibraryData.astro";
+import Base from "../layouts/Base.astro";
+import { BLOB_A, BLOB_B } from "../lib/shapes";
+---
+<Base name="profile" path="profile.html" title="A reader | The Bookshelf" description="A reader’s page at the Bookshelf." theme="pale-yellow" index={false}>
+<section class="hero-xs is--pale-yellow acct__hero" data-intro-page aria-labelledby="page-title">
+  <BgShapes paths={[["is--yellow", BLOB_A], ["is--yellow", BLOB_B]]} class="hero-xs__shapes" small />
+  <span class="acct__hero-avatar" data-profile-avatar></span>
+  <h1 class="hero-xs__title heading-l" id="page-title" data-hero-title data-profile-name>A reader</h1>
+  <p class="hero-xs__text" data-hero-paragraph data-profile-about>A reader at the Bookshelf</p>
+  <p class="hero-xs__note accent-note" data-hero-handwritten-text>Happy reading!</p>
+</section>
+<div class="mine acct" data-profile-page>
+  <noscript><p class="mine__empty">Reader pages need JavaScript.</p></noscript>
+  <p class="mine__empty" data-profile-status>Opening this reader page…</p>
+  <div class="mine__stats is--three" data-profile-stats hidden>
+    <p class="mine__stat"><span class="mine__stat-value" data-profile-stat="finished">0</span><span class="mine__stat-label">books finished</span></p>
+    <p class="mine__stat"><span class="mine__stat-value" data-profile-stat="reading">0</span><span class="mine__stat-label">reading now</span></p>
+    <p class="mine__stat"><span class="mine__stat-value" data-profile-stat="time">0 min</span><span class="mine__stat-label">read in all</span></p>
+  </div>
+  <section class="mine__section" aria-labelledby="p-reading-title" data-profile-reading hidden>
+    <h2 class="mine__title" id="p-reading-title">Reading now</h2>
+    <ol class="mine__books" data-profile-reading-list></ol>
+  </section>
+  <section class="mine__section" aria-labelledby="p-finished-title" data-profile-finished hidden>
+    <h2 class="mine__title" id="p-finished-title">Finished</h2>
+    <ul class="mine__books is--compact" data-profile-finished-list></ul>
+  </section>
+  <section class="mine__section" aria-labelledby="p-lines-title" data-profile-lines hidden>
+    <h2 class="mine__title" id="p-lines-title">Lines they loved</h2>
+    <ul class="lines__list" data-profile-lines-list></ul>
+  </section>
+  <p class="acct__small" data-profile-foot hidden><a href="account.html" data-profile-mine>Make your own reader page</a> · <a href="#" data-profile-report>Report this page</a></p>
+</div>
+<LibraryData />
+</Base>

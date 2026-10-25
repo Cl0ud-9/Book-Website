@@ -1,0 +1,30 @@
+---
+// A book on a shelf. The title is the card's link; its ::after stretches over the whole card, so the card is one big
+// click target.
+import Icon from "./Icon.astro";
+import Cover from "./Cover.astro";
+import Tags from "./Tags.astro";
+import { BOOK, COLLECTIONS, bookUrl, ink } from "../lib/library";
+import { fit, plain, shortTime, slugify } from "../lib/text";
+
+interface Props {
+  slug: string;
+  sizes: string;
+  class?: string;
+  lazy?: boolean;
+  heading?: "h2" | "h3";
+}
+const { slug, sizes, class: extra = "", lazy = true, heading: Heading = "h3" } = Astro.props;
+const b = BOOK[slug];
+const search = plain([b.title, b.author, ...b.genres, ...b.moods, ...b.collections.map((c) => COLLECTIONS[c])].join(" "));
+const sortTitle = plain(b.title).replace(/^the /, "").replace(/^a /, "");
+---
+<article class={`book-card ${extra}`} id={`book-${slug}`} style={`--card:var(--${b.colour});--ink:${ink(b.colour)}`} data-search={search} data-genres={b.genres.map(slugify).join(" ")} data-book-kind={b.kind} data-moods={b.moods.map(slugify).join(" ")} data-collections={b.collections.join(" ")} data-minutes={b.minutes} data-rank={b.popularity || 9999} data-words={b.words} data-title={sortTitle} data-books-slider-item>
+  <div class="book-card__cover"><Cover slug={slug} sizes={sizes} lazy={lazy} /></div>
+  <Tags genres={b.genres} card={b.colour} />
+  <Heading class="book-card__title" style={`--fit:${fit(b.title)}`}><a class="book-card__link" href={bookUrl(slug)} draggable="false">{b.title}</a></Heading>
+  <p class="book-card__author">{b.author}</p>
+  <p class="book-card__time"><Icon name="clock" /><span><span class="sr-only">Reading time: </span>{shortTime(b.reading_time)}</span></p>
+  <p class="book-card__hook">{b.abstract}</p>
+  <span class="book-card__open" aria-hidden="true">Open the book <Icon name="arrow" /></span>
+</article>

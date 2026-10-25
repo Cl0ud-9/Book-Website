@@ -1,0 +1,15 @@
+---
+// Share a line as a picture (the site script draws it)
+import Icon from "./Icon.astro";
+import { BOOK, type Quote } from "../lib/library";
+import { quoteText } from "../lib/text";
+
+interface Props {
+  slug: string;
+  quote: Quote;
+  label?: string;
+}
+const { slug, quote, label = "Share" } = Astro.props;
+const b = BOOK[slug];
+---
+<button type="button" class="line__share" data-quote-share data-quote={quoteText(quote.text)} data-quote-book={b.title} data-quote-author={b.author} data-quote-colour={b.colour}><Icon name="share" /><span>{label}</span></button>

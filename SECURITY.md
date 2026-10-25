@@ -18,7 +18,7 @@ maintainer sees what you send. The maintainer aims to answer within a week.
 The site itself is static. Accounts, when they are switched on, are Firebase's: Firebase Authentication signs readers
 in (passwords never reach the site) and Cloud Firestore keeps their reading, under the rules in
 `firebase/firestore.rules`. The Firebase configuration in the pages is not a secret; the rules are what protect the
-data, and `tools/accounts_check.py` tests them against Firebase's emulators.
+data, and `tests/e2e/accounts_check.py` tests them against Firebase's emulators.
 
 ## Supported versions
 

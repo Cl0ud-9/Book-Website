@@ -1,0 +1,12 @@
+---
+// Soft background shapes that breathe (js: breathingShapes)
+interface Props {
+  /** [class, path] for each shape */
+  paths: readonly (readonly [string, string])[];
+  class: string;
+  viewBox?: string;
+  small?: boolean;
+}
+const { paths, class: className, viewBox = "0 0 1440 1000", small = false } = Astro.props;
+---
+<svg class={className} viewBox={viewBox} preserveAspectRatio="xMidYMid slice" aria-hidden="true" data-background-animation data-background-animation-small={small ? "" : undefined}>{paths.map(([c, d]) => <path class={c} d={d} />)}</svg>

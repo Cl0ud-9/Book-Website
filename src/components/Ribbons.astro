@@ -1,0 +1,12 @@
+---
+// Two ribbons of words that run on forever, and turn around when you scroll back up
+import { LIBRARY } from "../lib/library";
+
+const text = `Free, forever ✦ ${LIBRARY.length} classics ✦ Read here or download ✦ No ads, no catch ✦ `;
+const said = text.replaceAll(" ✦ ", ". ").trim();
+const three = text.repeat(3);
+---
+<div class="ribbons" aria-label={said} role="note">
+  <div class="ribbon is--magenta" data-marquee="1"><div class="ribbon__track"><span>{three}</span><span aria-hidden="true">{three}</span></div></div>
+  <div class="ribbon is--cyan" data-marquee="-1"><div class="ribbon__track"><span aria-hidden="true">{three}</span><span aria-hidden="true">{three}</span></div></div>
+</div>

@@ -5,6 +5,44 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [4.0.0] - Unreleased
+
+### Changed
+
+- The site is built with Astro and TypeScript instead of a Python script writing HTML. Every page is still made ahead
+  of time, at the same address, and reads the same: the build was compared with version 3.5 page by page. The books
+  are checked against a schema on every build, so a mistake in `data/` stops the build instead of reaching the site.
+- The libraries (GSAP, Lenis, Barba, Smooothy, epub.js, JSZip and Firebase) come from npm at pinned versions, bundled
+  and fingerprinted by the build, so a returning visitor downloads only what changed. The reader, accounts and Your
+  reading load only on the pages that use them. Lenis is updated to 1.3.27.
+- The site is published to Cloudflare Pages, with the books and covers kept in Cloudflare R2 rather than in git.
+- The repository is laid out by purpose: `src/` (pages, components, styles, scripts, fonts, icons), `data/`,
+  `pipeline/` (fetching books, covers, fonts and link previews), `tests/` and `integrations/`. Generated pages, the
+  copied libraries and the local server are no longer committed.
+- Every pull request is type-checked, built, link-checked and tested in a browser (`.github/workflows/ci.yml`).
+- The notices of every bundled library are written by each build to `third-party-licenses.md`, published with the
+  site.
+- On a phone, the genres work as on a bookshop's shelf: press and hold a genre (or "and more") to see its covers,
+  which rise over the names in one movement, with no link menu on a long press.
+- Menu stays in view while you scroll, and has the same animation as the other buttons.
+
+### Fixed
+
+- Scrolling past How it works on a phone stuttered: about one frame in four was late there. The hero's floating
+  books and the ribbons now rest while off screen; on a touch screen a button's wave plays once the page comes to
+  rest with it in view rather than mid-flick, and its letters are split beforehand; and effects further down the page
+  are built in the pauses between flicks. Late frames there are down to about one in eight, and one in thirty just
+  above it.
+- On a phone, a tap could select a word anywhere on the site (Chrome's Touch to Search).
+- Buttons on a phone now play the same animation as on a laptop when pressed.
+- Where to start loads its covers with the page, so they no longer appear one by one as you drag.
+- The gift's ribbon wraps the book properly.
+- Press again to clear it can be read.
+- In the reader on a phone, Back to (after opening a book at a line, or a Contents or search jump) could vanish by
+  itself: epub.js scrolls on its own when it adds a chapter above the one on screen, and that was taken for you
+  reading on. Only your own scrolling counts now. Opening at a line before the first page had settled also left no
+  Back to at all.
+
 ## [3.5.0] - 2026-10-25
 
 ### Added

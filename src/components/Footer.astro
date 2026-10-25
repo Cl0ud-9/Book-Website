@@ -1,0 +1,36 @@
+---
+import ButtonAlt from "./ButtonAlt.astro";
+import Icon from "./Icon.astro";
+import { ACCOUNTS } from "../lib/config";
+---
+<footer class="footer" data-footer-parallax>
+  <div class="footer__inner">
+    <div class="footer__top" data-footer-parallax-top>
+      <div class="footer__form">
+        <h2 class="footer__form-title">New on the shelf</h2>
+        <p class="footer__text">A new book of the month on the first of every month. Follow it in any feed reader (Feedly, Inoreader, NetNewsWire) and it comes to you.</p>
+        <p class="footer__field"><ButtonAlt href="feed.xml" text="Follow the feed" colour="yellow" type="application/atom+xml" /></p>
+      </div>
+      <nav class="footer__nav" aria-label="Footer">
+        <div class="footer__col">
+          <h2 class="footer__heading">Library</h2>
+          <ul><li><a href="books.html">All books</a></li><li><a href="genres.html">Genres</a></li><li><a href="index.html#new">Where to start</a></li></ul>
+        </div>
+        <div class="footer__col">
+          <h2 class="footer__heading">Yours</h2>
+          <ul><li><a href="reading.html">Your reading</a></li><li><a href="reading.html#notes">Your notes</a></li>{ACCOUNTS && <li><a href="account.html">Your account</a></li>}<li><a href="faq.html">Questions</a></li><li><a href="privacy.html">Privacy</a></li></ul>
+        </div>
+        <div class="footer__col">
+          <h2 class="footer__heading">Elsewhere</h2>
+          <ul><li><a href="https://github.com/Cl0ud-9/Book-Website">Source on GitHub</a></li><li><a href="https://github.com/Cl0ud-9">More from Cloud/9</a></li></ul>
+        </div>
+      </nav>
+    </div>
+    <p class="footer__wordmark" aria-hidden="true">Bookshelf</p>
+    <div class="footer__bottom" data-footer-parallax-bottom>
+      <p>© 2023–2026 The Bookshelf</p>
+      <p>Designed and built by <a href="https://github.com/Cl0ud-9">Cloud/9</a></p>
+      <a class="footer__top-link" href="#main" data-back-to-top>Back to top <Icon name="up" /></a>
+    </div>
+  </div>
+</footer>

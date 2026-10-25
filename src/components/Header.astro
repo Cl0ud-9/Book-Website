@@ -1,0 +1,60 @@
+---
+// The header, and the menu it opens on smaller screens. With accounts, Your reading joins the other links and the
+// orange button is Sign in, or, once you are, your mark and name (filled in by the account script).
+import ButtonAlt from "./ButtonAlt.astro";
+import Icon from "./Icon.astro";
+import { ACCOUNTS } from "../lib/config";
+
+const nav = [["books.html", "All books", "books"], ["genres.html", "Genres", "genres"], ["faq.html", "FAQ", "faq"]] as const;
+---
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="header" data-header data-scrolling-started="false">
+  <a class="header__logo" href="./" aria-label="The Bookshelf, home">
+    <svg class="header__logo-icon" aria-hidden="true"><use href="#i-logo"></use></svg>
+    <span class="header__logo-text">Bookshelf</span><span class="header__logo-sub" aria-hidden="true">The<br>library</span>
+  </a>
+  <nav class="header__nav" aria-label="Main">
+    <ul class="header__nav-list">
+      {[...nav, ...(ACCOUNTS ? [["reading.html", "Your reading", "reading"] as const] : [])].map(([href, text, key]) => (
+        <li><a class="button" href={href} data-nav={key} data-button><span class="button__bg"></span><span class="button__text" data-button-text>{text}</span></a></li>
+      ))}
+      {ACCOUNTS ? (
+        <>
+          <li data-when="out"><ButtonAlt href="login.html" text="Sign in" colour="orange" size="small" data-nav="account" /></li>
+          <li data-when="in"><a class="button-alt is--orange is--small is--me" href="account.html" data-button-alt data-nav="account" data-when="in"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-account-me-name>Your account</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><span class="avatar is--chip" data-account-me-avatar><Icon name="user" class="avatar__mark" /></span></span></a></li>
+        </>
+      ) : (
+        <li><ButtonAlt href="reading.html" text="Your reading" colour="orange" size="small" data-nav="reading" /></li>
+      )}
+    </ul>
+  </nav>
+  <div class="header__side">
+    <a class="header__social" href="https://github.com/Cl0ud-9/Book-Website" aria-label="Source code on GitHub"><Icon name="github" /></a>
+  </div>
+  <button class="button-alt is--small menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
+    <span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Menu</span></span>
+    <span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><Icon name="menu" class="button-alt__icon" /></span>
+  </button>
+</header>
+<div class="menu" id="menu" data-menu aria-label="Menu" role="dialog" aria-modal="true" hidden>
+  <div class="menu__inner">
+    <button class="button-alt is--small menu-toggle is--close" type="button" data-menu-close><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Close</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><Icon name="close" class="button-alt__icon" /></span></button>
+    <ul class="menu__list">
+      <li><a class="menu__link" href="./" data-nav="home">Home</a></li>
+      <li><a class="menu__link" href="books.html" data-nav="books">All books</a></li>
+      <li><a class="menu__link" href="genres.html" data-nav="genres">Genres</a></li>
+      <li><a class="menu__link" href="faq.html" data-nav="faq">FAQ</a></li>
+    </ul>
+    <div class="menu__account">
+      <ButtonAlt href="reading.html" text="Your reading" colour="white" />
+      <ButtonAlt href="books.html" text="Find a book" colour="black" />
+    </div>
+    {ACCOUNTS && (
+      <>
+        <div class="menu__me" data-when="out"><ButtonAlt href="login.html" text="Sign in" colour="orange" /><p class="menu__me-text">New here? <a href="signup.html">Create a free account</a></p></div>
+        <div class="menu__me" data-when="in"><a class="button-alt is--orange is--me" href="account.html" data-button-alt data-nav="account" data-when="in"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-account-me-name>Your account</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><span class="avatar is--chip" data-account-me-avatar><Icon name="user" class="avatar__mark" /></span></span></a></div>
+      </>
+    )}
+    <p class="menu__note accent-note">See you between the pages!</p>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+---
+// A different line each day (the site script picks it by the date); without JavaScript, the first one shows
+import Icon from "./Icon.astro";
+import { BOOK, LIBRARY, QUOTES, bookUrl, readAt } from "../lib/library";
+import { quoteText } from "../lib/text";
+
+const lines = LIBRARY.flatMap((b) => (QUOTES[b.slug] || []).map((q) => [b.slug, q] as const));
+const data = lines.map(([s, q]) => ({
+  text: quoteText(q.text), book: BOOK[s].title, author: BOOK[s].author, colour: BOOK[s].colour, href: readAt(s, q), page: bookUrl(s),
+}));
+const first = data[0];
+---
+<section class="daily" aria-labelledby="daily-title" data-daily-line>
+  <p class="daily__eyebrow" id="daily-title">Line of the day</p>
+  <blockquote class="daily__text" data-daily-text>{first.text}</blockquote>
+  <p class="daily__from"><a href={first.page} data-daily-book>{first.book}</a>, <span data-daily-author>{first.author}</span></p>
+  <p class="line__actions daily__actions"><a class="line__open" href={first.href} data-daily-open><Icon name="read" />Open at this line</a><button type="button" class="line__share" data-quote-share data-daily-share data-quote={first.text} data-quote-book={first.book} data-quote-author={first.author} data-quote-colour={first.colour}><Icon name="share" /><span>Share as a picture</span></button></p>
+  <script type="application/json" data-daily-lines is:inline set:html={JSON.stringify(data).replaceAll("</", "<\\/")} />
+</section>

@@ -1,0 +1,70 @@
+---
+// Your reading: what this device keeps (places, notes, reading time, books kept offline), filled in by the Your reading
+// script. Without JavaScript there is nothing on the device to show, and the page says so.
+import HeroXs from "../components/HeroXs.astro";
+import Icon from "../components/Icon.astro";
+import LibraryData from "../components/LibraryData.astro";
+import Base from "../layouts/Base.astro";
+import { ACCOUNTS } from "../lib/config";
+---
+<Base name="reading" path="reading.html" title="Your reading | The Bookshelf" description="Your books, highlights, notes and reading time, kept on your own device.">
+<HeroXs tint="pale-yellow" shapes="yellow" title="Your reading" note="Just for you">Your books, highlights, notes and reading time. {ACCOUNTS ? "Kept on this device, and in your account when you sign in." : "All of it lives on this device, and none of it is sent anywhere."}</HeroXs>
+<div class="mine" data-your-reading>
+  <noscript><p class="mine__empty">Your reading needs JavaScript: it shows what this browser keeps for you.</p></noscript>
+  {ACCOUNTS ? (
+    // Where it is kept, in the page from the start, signed in or out (the boot script marks which); the script keeps it
+    // current. Added by the script alone, it pushed the page down.
+    <p class="mine__account is--out" data-mine-account><span class="mine__account-text" data-when="out">Kept on this device only. Sign in to have it on every device, and never lose your place.</span><span class="mine__account-actions" data-when="out"><a class="mine__button is--small" href="login.html">Sign in</a><a class="mine__button is--small is--quiet" href="signup.html">Create an account</a></span><span data-when="in">Kept in your account. <a href="account.html">Your account</a></span></p>
+  ) : (
+    <p class="mine__account" data-mine-account hidden></p>
+  )}
+  <section class="mine__section" id="week" aria-labelledby="week-title">
+    <h2 class="mine__title heading-m" id="week-title">Your week</h2>
+    <div class="mine__stats">
+      <p class="mine__stat"><span class="mine__stat-value" data-stat="week">0 min</span><span class="mine__stat-label">read in the last 7 days</span></p>
+      <p class="mine__stat"><span class="mine__stat-value" data-stat="streak">0 days</span><span class="mine__stat-label">in a row, up to today</span></p>
+      <p class="mine__stat"><span class="mine__stat-value" data-stat="finished">0</span><span class="mine__stat-label">books finished</span></p>
+      <p class="mine__stat"><span class="mine__stat-value" data-stat="total">0 min</span><span class="mine__stat-label">read here, in all</span></p>
+    </div>
+    <figure class="mine__chart">
+      <div class="mine__bars" data-chart></div>
+      <figcaption class="mine__caption">Minutes read on each of the last seven days. Time counts while a book is open and you are turning its pages.</figcaption>
+    </figure>
+  </section>
+  <section class="mine__section" id="books" aria-labelledby="books-title">
+    <h2 class="mine__title heading-m" id="books-title">Reading now</h2>
+    <ol class="mine__books" data-reading-list></ol>
+    <p class="mine__empty" data-reading-empty hidden>Books you open in the reader show up here, with how far you got. <a href="books.html">Find a book</a>.</p>
+  </section>
+  <section class="mine__section" id="notes" aria-labelledby="notes-title">
+    <h2 class="mine__title heading-m" id="notes-title">Your notes</h2>
+    <label class="field is--icon is--pill mine__search" data-notes-find hidden><Icon name="search" class="icon field__icon" /><input class="field__input" type="search" placeholder=" " autocomplete="off" data-notes-search><span class="field__label">Find in your notes</span></label>
+    <div class="mine__notes" data-notes-all></div>
+    <p class="mine__empty" data-notes-none hidden>Select any words in a book to highlight them or add a note. They will all be here.</p>
+    <p class="mine__actions" data-notes-actions hidden><button type="button" class="mine__button" data-notes-export><Icon name="download" />Export all notes</button></p>
+  </section>
+  <section class="mine__section" id="offline" aria-labelledby="offline-title">
+    <h2 class="mine__title heading-m" id="offline-title">Kept for offline</h2>
+    <ul class="mine__books is--compact" data-offline-list></ul>
+    <p class="mine__empty" data-offline-empty hidden>Press Keep for offline reading on a book's page, and it opens here with no connection.</p>
+    <p class="mine__empty" data-offline-unsupported hidden>This browser cannot keep books for offline reading. You can still download any book.</p>
+  </section>
+  <section class="mine__section" id="finished" aria-labelledby="finished-title">
+    <h2 class="mine__title heading-m" id="finished-title">Finished</h2>
+    <ul class="mine__books is--compact" data-finished-list></ul>
+    <p class="mine__empty" data-finished-empty hidden>Books you read to the end are kept here.</p>
+  </section>
+  <section class="mine__section" id="backup" aria-labelledby="backup-title">
+    <h2 class="mine__title heading-m" id="backup-title">Back up and restore</h2>
+    <p class="mine__text">{ACCOUNTS ? "Signed in, all of this is also kept in your account. Without one, it" : "Everything on this page"} is kept in this browser only. Back up saves it to one small file, to keep safe or to restore on another phone or laptop. Clearing your browser's data for this site removes it.</p>
+    <p class="mine__actions">
+      <button type="button" class="mine__button" data-backup><Icon name="save" />Back up</button>
+      <label class="mine__button"><Icon name="up" />Restore<input class="sr-only" type="file" accept="application/json,.json" data-restore></label>
+      <button type="button" class="mine__button is--quiet" data-clear><Icon name="trash" />Clear everything</button>
+    </p>
+    <p class="mine__message" role="status" data-backup-message></p>
+  </section>
+  <div class="mine__toast" role="status" data-mine-toast hidden><span data-toast-text></span><button type="button" class="mine__toast-undo" data-toast-undo hidden>Undo</button></div>
+</div>
+<LibraryData />
+</Base>
