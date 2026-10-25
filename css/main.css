@@ -314,6 +314,29 @@ html.is-carried .transition__logo { opacity: 1; }
   }
 }
 
+/* A touch screen cannot hover: there a button plays the same when pressed, and once as it comes into view (is--play,
+   js/app.js waveButtons) */
+@media (prefers-reduced-motion: no-preference) {
+  .button.is--play .button__bg,
+  .button-alt.is--play .button-alt__bg {
+    scale: .955 .925;
+    transform: scale(1.047, 1.081);
+    transition: scale .15s var(--ease-soft-overshoot), transform .35s .15s var(--ease-big-bounce);
+  }
+  .button-alt.is--play .button-alt__text-wrap {
+    translate: .25em .125em 0; rotate: 4deg;
+    transform: rotate(-4deg) translate3d(-.25em, -.125em, 0);
+    transition: translate .15s var(--ease-soft-overshoot), rotate .15s var(--ease-soft-overshoot),
+      transform .35s .15s var(--ease-big-bounce);
+  }
+  .button-alt.is--play .button-alt__icon-wrap {
+    translate: -.5em .25em 0; rotate: -18deg;
+    transform: rotate(18deg) translate3d(.5em, -.25em, 0);
+    transition: translate .15s var(--ease-soft-overshoot), rotate .15s var(--ease-soft-overshoot),
+      transform .35s .15s var(--ease-big-bounce);
+  }
+}
+
 /* No will-change here: hundreds of letters each on a layer of their own made every scrolled frame slow on phones.
    GSAP promotes them while they move, and finished text is put back together. */
 .split-char { display: inline-block; }
@@ -364,10 +387,8 @@ html.is-carried .transition__logo { opacity: 1; }
 .menu-toggle {
   display: none;
   --bg: var(--orange); --c: var(--black);
-  transition: scale .15s var(--ease-click), translate .5s var(--ease-smooth);
+  transition: scale .15s var(--ease-click);
 }
-/* Out of the way while reading down the page, back as soon as the reader scrolls up or tabs to it */
-.header[data-scroll-dir="down"] > .menu-toggle:not(:focus-visible) { translate: 0 calc(var(--header-height) * -1.2); }
 .menu-toggle .button-alt__icon { width: 1.3em; height: 1.3em; }
 
 .menu {
@@ -749,20 +770,23 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 .genre__list:hover :is(.genre__default, .genre__hover) { will-change: transform, filter; }
 .genre__default { font-family: var(--font-heading); font-weight: 900; font-size: 7.5em; letter-spacing: -.03em; line-height: .8; }
 .genre__hover { font-family: var(--font-hand); font-weight: 400; font-size: 8.5em; line-height: .8; opacity: 0; scale: .75 1.25; filter: blur(.0625em); }
-.genre__item:is(:hover, :focus-within) .genre__default { opacity: 0; scale: .75 1.25; filter: blur(.0625em); }
-.genre__item:is(:hover, :focus-within) .genre__hover { opacity: 1; scale: 1; filter: blur(0); }
-.genre__item:is(:hover, :focus-within) + .genre__item .genre__link { translate: 0 2em; }
-.genre__item:is(:hover, :focus-within) + .genre__item + .genre__item .genre__link { translate: 0 .75em; }
-.genre__item:has(+ .genre__item:is(:hover, :focus-within)) .genre__link { translate: 0 -2em; }
-.genre__item:has(+ .genre__item + .genre__item:is(:hover, :focus-within)) .genre__link { translate: 0 -.75em; }
+.genre__item.is--active .genre__default { opacity: 0; scale: .75 1.25; filter: blur(.0625em); }
+.genre__item.is--active .genre__hover { opacity: 1; scale: 1; filter: blur(0); }
+.genre__item.is--active + .genre__item .genre__link { translate: 0 2em; }
+.genre__item.is--active + .genre__item + .genre__item .genre__link { translate: 0 .75em; }
+.genre__item:has(+ .genre__item.is--active) .genre__link { translate: 0 -2em; }
+.genre__item:has(+ .genre__item + .genre__item.is--active) .genre__link { translate: 0 -.75em; }
 .genre__link:focus-visible { outline: none; }
 .genre__link:focus-visible .genre__hover { text-decoration: underline; text-decoration-thickness: .06em; }
-.genre__more { font-family: var(--font-heading); font-weight: 900; font-size: 7.5em; letter-spacing: -.03em; line-height: .8; margin-top: .1em; }
+.genre__item.is--more { margin-top: .1em; }
+/* held on a phone, a genre shows its covers: no link menu, no words picked out */
+.genre__link { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
 .genre__emblem { margin-top: 3em; display: grid; place-items: center; width: 5em; height: 5em; border-radius: 50%; border: .25em solid var(--white); color: var(--white); }
 .genre__emblem .icon { width: 2.8em; height: 2.8em; }
 
 /* Four covers that pop out around the genre under the pointer */
-.genre__holding { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+/* over the words, as on the shelf that inspired it; they never take a tap, so the genres beneath still answer */
+.genre__holding { position: absolute; inset: 0; pointer-events: none; z-index: 3; }
 .genre__holder {
   position: absolute; left: 50%; top: var(--hold-y, 50%);
   width: 15em; aspect-ratio: 2 / 3;
@@ -789,21 +813,30 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
   opacity: 0; transition: opacity .2s;
 }
 .genre__img.is--shown { opacity: 1; z-index: 2; transition: opacity 0s; }
-.genre__wrap:has(.genre__item:is(:hover, :focus-within)) .genre__box { scale: 1; }
+.genre__wrap:has(.genre__item.is--active) .genre__box { scale: 1; }
 
 @media (max-width: 991px) {
   .genre { padding: 4em 1em 3.5em; }
   .genre__note { position: static; margin-top: .75em; rotate: -4deg; max-width: none; }
-  /* The longest genre, "Contemporary", is 7.37 times the type size (5.92 handwritten): keep it inside the panel */
-  .genre__default, .genre__more { font-size: min(3.25em, 13cqi); }
-  .genre__hover { font-size: min(3.6em, 16cqi); }
+  /* The genres as on Aardvark's phone list: smaller than the panel is wide, with room for the covers to lie across
+     them (the longest, "Contemporary", is 7.37 times the type size, 5.92 handwritten) */
+  .genre__default { font-size: min(2.6em, 11cqi); }
+  .genre__hover { font-size: min(3em, 13.5cqi); }
   .genre__item { padding: .3em 0; }
-  .genre__item:is(:hover, :focus-within) + .genre__item .genre__link { translate: 0 .5em; }
-  .genre__item:is(:hover, :focus-within) + .genre__item + .genre__item .genre__link { translate: 0 .125em; }
-  .genre__item:has(+ .genre__item:is(:hover, :focus-within)) .genre__link { translate: 0 -.5em; }
-  .genre__item:has(+ .genre__item + .genre__item:is(:hover, :focus-within)) .genre__link { translate: 0 -.125em; }
-  .genre__holder { width: 7em; }
+  .genre__item.is--active + .genre__item .genre__link { translate: 0 .5em; }
+  .genre__item.is--active + .genre__item + .genre__item .genre__link { translate: 0 .125em; }
+  .genre__item:has(+ .genre__item.is--active) .genre__link { translate: 0 -.5em; }
+  .genre__item:has(+ .genre__item + .genre__item.is--active) .genre__link { translate: 0 -.125em; }
+  /* Two covers, as Aardvark places them: one above the genre on the left and one below it on the right, each a
+     quarter of the way over the end of the word and a quarter of its height clear of it, tossed (a nudge and a tilt)
+     afresh for each genre. A long genre would push them off the screen: no more than a fifth of one may go past. */
+  .genre__holder { width: 8.5em; transition: top .35s var(--ease-smooth), left .35s var(--ease-smooth); }
+  .genre__holder:nth-child(1) { left: max(-1.7em, calc(50% - var(--hold-w, 10em) / 2 - 6.375em)); translate: 0 -125%; }
+  .genre__holder:nth-child(2) { left: min(calc(100% - 6.8em), calc(50% + var(--hold-w, 10em) / 2 - 2.125em)); translate: 0 25%; }
   .genre__holder:nth-child(3), .genre__holder:nth-child(4) { display: none; }
+  .genre__img { border-radius: .5em; box-shadow: 0 0 0 .125em var(--white); }
+  /* each press tosses them once: they pop in and glide to their place (no settling back and forth) */
+  .genre__box { transition: scale .4s var(--ease-bounce), transform .55s var(--ease-smooth); }
 }
 
 /* ---------- Why ---------- */
@@ -892,18 +925,21 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 .gift__visual { perspective: 120em; display: grid; place-items: center; }
 .gift__item { position: relative; width: 22em; transform-style: preserve-3d; transform: rotate(-21deg); }
 .gift__item .book3d { transform: rotateY(-24deg) rotateX(10deg); --d: 3.2em; }
-.gift__ribbon {
-  position: absolute; left: 0; right: 0; top: 46%; height: 2.2em;
-  background: var(--magenta); transform: translateZ(2em) rotateY(-24deg) rotateX(10deg);
-  box-shadow: inset 0 .3em 0 rgba(255, 255, 255, .25);
+/* The ribbon is part of the book (build.py, book3d): a satin band each way round, on every face, so it wraps the book
+   as it turns, under the cover's own light; the bow sits just off the front where the bands cross */
+.book3d__band { position: absolute; pointer-events: none; }
+.book3d__band.is--across {
+  left: 0; right: 0; top: 41%; height: 10%;
+  background: linear-gradient(180deg, #9c0047, #e0007a 16%, #ff3fa4 40%, #ff86c6 50%, #ff3fa4 60%, #e0007a 84%, #9c0047);
 }
-.gift__bow {
-  position: absolute; left: 50%; top: 46%; width: 7em; height: 4em; translate: -50% -60%;
-  background:
-    radial-gradient(ellipse 45% 50% at 25% 50%, var(--magenta) 60%, transparent 62%),
-    radial-gradient(ellipse 45% 50% at 75% 50%, var(--magenta) 60%, transparent 62%);
-  transform: translateZ(2.5em) rotateY(-24deg) rotateX(10deg);
-  filter: drop-shadow(0 .3em .2em rgba(0, 0, 0, .25));
+.book3d__band.is--down {
+  top: 0; bottom: 0; left: 42.5%; width: 15%;
+  background: linear-gradient(90deg, #9c0047, #e0007a 16%, #ff3fa4 40%, #ff86c6 50%, #ff3fa4 60%, #e0007a 84%, #9c0047);
+}
+.book3d__bow {
+  position: absolute; left: 50%; top: 46%; width: 64%; height: auto; pointer-events: none;
+  translate: -50% -50%; transform: translateZ(calc(var(--d) / 2 + .35em));
+  filter: drop-shadow(0 .35em .3em rgba(60, 0, 30, .35));
 }
 
 @media (max-width: 991px) {
@@ -1367,8 +1403,9 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 .mine__button:focus-visible, .mine__button:has(input:focus-visible) { outline: .2em solid var(--magenta-ink); outline-offset: .15em; }
 .mine__button.is--small { min-height: 2.35em; padding: 0 .95em; font-size: .95em; }
 .mine__button.is--quiet { background: transparent; color: inherit; box-shadow: inset 0 0 0 .12em currentColor; }
-.mine__button.is--quiet:hover { background: rgba(0, 0, 0, .06); }
-.mine__button.is--armed { background: var(--magenta-ink); color: var(--white); box-shadow: none; }
+@media (hover: hover) { .mine__button.is--quiet:hover { background: rgba(0, 0, 0, .06); } }
+/* armed (press again to go ahead): red and plain, whatever a tap left hovering */
+.mine__button.is--armed, .mine__button.is--armed:hover { background: #a3141c; color: var(--white); box-shadow: none; }
 .mine__message { min-height: 1.5em; margin-top: .75em; font-weight: 600; font-size: 1.125em; }
 .mine__toast {
   position: fixed; z-index: 50; left: 50%; bottom: max(1.25em, env(safe-area-inset-bottom)); translate: -50% 0;
@@ -1432,11 +1469,12 @@ html.is-signed-in .mine__account.is--out:has(> [data-when]) { justify-content: f
 .mine__text.is--small { font-size: 1.0625em; color: var(--ink-soft); }
 .mine__button.is--primary { background: var(--magenta-ink); }
 .mine__button.is--danger { background: transparent; color: #a3141c; box-shadow: inset 0 0 0 .12em currentColor; }
-.mine__button.is--danger:hover { background: #fde8e8; }
-.mine__button.is--danger.is--armed { background: #a3141c; color: var(--white); }
 .mine__button:disabled { opacity: .55; cursor: progress; }
-.mine__button:hover:not(.is--quiet, .is--danger, :disabled) { background: #222; }
-.mine__button.is--primary:hover:not(:disabled) { background: #c2006a; }
+@media (hover: hover) {
+  .mine__button.is--danger:hover:not(.is--armed) { background: #fde8e8; }
+  .mine__button:hover:not(.is--quiet, .is--danger, .is--armed, :disabled) { background: #222; }
+  .mine__button.is--primary:hover:not(:disabled) { background: #c2006a; }
+}
 
 .acct { max-width: 52em; }
 .acct__checking { display: flex; align-items: center; gap: .5em; }

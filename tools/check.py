@@ -302,15 +302,14 @@ with sync_playwright() as p:
       return [...r.getClientRects()].some(t => t.width && (t.right > box.right || t.left < box.left));
     }).map(el => el.textContent.trim())""")
     ok(not spill, f"titles and genres fit their boxes ({spill or 'all fit'})")
-    # the Menu button gets out of the way while reading down, and comes back on the way up (Escape left keyboard
-    # focus on it, which keeps it in view on purpose, so drop that first)
+    # the Menu button stays in view while reading down the page and back up, as on the shelf that inspired the site
     page.evaluate("document.activeElement.blur()")
     page.mouse.wheel(0, 1200)
     page.wait_for_timeout(1200)
-    ok(page.locator("[data-menu-toggle]").bounding_box()["y"] + 60 < 0, "Menu button hides while scrolling down")
+    ok(page.locator("[data-menu-toggle]").bounding_box()["y"] >= 0, "Menu button stays in view while scrolling down")
     page.mouse.wheel(0, -300)
     page.wait_for_timeout(1200)
-    ok(page.locator("[data-menu-toggle]").bounding_box()["y"] > 0, "Menu button returns on scrolling up")
+    ok(page.locator("[data-menu-toggle]").bounding_box()["y"] >= 0, "and while scrolling up")
     # a page opened from halfway down another one starts with its Menu button in view
     page.goto(BASE + "books.html", wait_until="networkidle")
     page.wait_for_timeout(3000)

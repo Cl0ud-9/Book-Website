@@ -215,11 +215,19 @@ def tags(genres, card=None):
             + "</ul>")
 
 
-def book3d(slug, cls="", sizes="(max-width: 991px) 40vw, 24em", lazy=True, priority=False):
+def book3d(slug, cls="", sizes="(max-width: 991px) 40vw, 24em", lazy=True, priority=False, ribbon=False):
+    # ribbon: tied up as a present, a band each way round (drawn on every face, so it wraps the book as it turns) and a
+    # bow where they cross on the front
+    def band(*ways):
+        return "".join(f'<i class="book3d__band is--{w}"></i>' for w in ways) if ribbon else ""
     return (f'<div class="book3d {cls}" style="--spine:{BOOK[slug]["spine"]}">'
-            f'<div class="book3d__front">{cover(slug, sizes, lazy=lazy, priority=priority, alt="")}</div>'
-            '<div class="book3d__back"></div><div class="book3d__spine"></div>'
-            '<div class="book3d__pages"></div><div class="book3d__top"></div><div class="book3d__bottom"></div></div>')
+            f'<div class="book3d__front">{cover(slug, sizes, lazy=lazy, priority=priority, alt="")}{band("across", "down")}</div>'
+            f'<div class="book3d__back">{band("across", "down")}</div><div class="book3d__spine">{band("across")}</div>'
+            f'<div class="book3d__pages">{band("across")}</div><div class="book3d__top">{band("down")}</div>'
+            f'<div class="book3d__bottom">{band("down")}</div>{GIFT_BOW if ribbon else ""}</div>')
+
+
+GIFT_BOW = """<svg class="book3d__bow" viewBox="0 0 120 92" aria-hidden="true"><defs><linearGradient id="bow-satin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff63b6"/><stop offset=".5" stop-color="#ec0080"/><stop offset="1" stop-color="#a8004c"/></linearGradient><linearGradient id="bow-tail" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d4006f"/><stop offset="1" stop-color="#ff3fa4"/></linearGradient></defs><path d="M55 47 37 85l8-4 4 9 15-40z" fill="url(#bow-tail)"/><path d="M65 47l18 38-8-4-4 9-15-40z" fill="url(#bow-tail)"/><path d="M60 45C48 22 15 9 9 29c-4 18 29 24 51 18z" fill="url(#bow-satin)"/><path d="M60 45c12-23 45-36 51-16 4 18-29 24-51 18z" fill="url(#bow-satin)"/><path d="M60 46C50 35 31 29 24 34c8 7 22 11 36 12z" fill="#8f0041" opacity=".45"/><path d="M60 46c10-11 29-17 36-12-8 7-22 11-36 12z" fill="#8f0041" opacity=".45"/><path d="M17 22c8-8 22-6 31 3M103 22c-8-8-22-6-31 3" fill="none" stroke="#ffa6d6" stroke-width="2.6" stroke-linecap="round" opacity=".85"/><rect x="50.5" y="35.5" width="19" height="19" rx="6.5" fill="url(#bow-satin)"/><path d="M54 40c3-2 9-2 12 0" fill="none" stroke="#ffa6d6" stroke-width="2" stroke-linecap="round" opacity=".8"/></svg>"""
 
 
 def bg_svg(paths, cls, view="0 0 1440 1000", small=False):
@@ -328,13 +336,13 @@ HEADER = f"""<a class="skip-link" href="#main">Skip to content</a>
     <a class="header__social" href="https://github.com/Cl0ud-9/Book-Website" aria-label="Source code on GitHub">{icon("github")}</a>
   </div>
   <button class="button-alt is--small menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">
-    <span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text">Menu</span></span>
+    <span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Menu</span></span>
     <span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span>{icon("menu", "button-alt__icon")}</span>
   </button>
 </header>
 <div class="menu" id="menu" data-menu aria-label="Menu" role="dialog" aria-modal="true" hidden>
   <div class="menu__inner">
-    <button class="button-alt is--small menu-toggle is--close" type="button" data-menu-close><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text">Close</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span>{icon("close", "button-alt__icon")}</span></button>
+    <button class="button-alt is--small menu-toggle is--close" type="button" data-menu-close><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Close</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span>{icon("close", "button-alt__icon")}</span></button>
     <ul class="menu__list">
       <li><a class="menu__link" href="./" data-nav="home">Home</a></li>
       <li><a class="menu__link" href="books.html" data-nav="books">All books</a></li>
@@ -801,7 +809,7 @@ def home():
       {button_alt("books.html", "Find one to share", size="small")}
       <p class="gift__note accent-note" data-handwritten-text-inview>Wrapped with a ribbon. Naturally.</p>
     </div>
-    <div class="gift__visual" data-gift aria-hidden="true"><div class="gift__item" data-gift-item>{book3d(FEATURED["gift"], "is--gift", "(max-width: 991px) 50vw, 22em")}<span class="gift__ribbon"></span><span class="gift__bow"></span></div></div>
+    <div class="gift__visual" data-gift aria-hidden="true"><div class="gift__item" data-gift-item>{book3d(FEATURED["gift"], "is--gift", "(max-width: 991px) 50vw, 22em", ribbon=True)}</div></div>
   </div>
 </section>
 
@@ -875,18 +883,22 @@ HOME_GROUPS = FICTION + ["Non-fiction", "From India"]
 SHELF_GROUPS = ["From India"] + FICTION + NONFICTION
 
 
-def genre_block(link, eyebrow="Choose from", more="and more!", groups=HOME_GROUPS):
+def genre_block(link, eyebrow="Choose from", more="and more!", groups=HOME_GROUPS, more_link="genres.html"):
     # each group shows four covers around it, its most read books
     def covers_for(g):
         # four covers, repeating a small group's own (Essays and letters has two books, so far)
         mine = [b["slug"] for b in group_books(g)][:4]
         return [mine[i % len(mine)] for i in range(4)]
+    # "and more" is a genre too, pointed at like the others: its covers are the most read books the others do not show
+    shown = {s for g in groups for s in covers_for(g)}
+    others = [b["slug"] for b in LIBRARY if b["slug"] not in shown][:4]
     holders = []
     for h in range(4):
-        imgs = "".join(cover(covers_for(g)[h], "17em", alt="", cls="genre__img") for g in groups)
+        imgs = "".join(cover(covers_for(g)[h], "17em", alt="", cls="genre__img") for g in groups) + cover(others[h], "17em", alt="", cls="genre__img")
         holders.append(f'<div class="genre__holder"><div class="genre__box" data-genre-interaction-box>{imgs}</div></div>')
-    items = "\n".join(f"""<li class="genre__item" data-genre-interaction-item><a class="genre__link" href="{link(g)}">
-  <span class="genre__default">{e(g)}</span><span class="genre__hover" aria-hidden="true">{e(g)}</span></a></li>""" for g in groups)
+    entries = [(g, link(g), "") for g in groups] + [(more, more_link, " is--more")]
+    items = "\n".join(f"""<li class="genre__item{extra}" data-genre-interaction-item><a class="genre__link" href="{href}">
+  <span class="genre__default">{e(g)}</span><span class="genre__hover" aria-hidden="true">{e(g)}</span></a></li>""" for g, href, extra in entries)
     return f"""<section class="genre" id="genres" aria-labelledby="genre-title" data-genre-interaction>
   <p class="genre__eyebrow" id="genre-title">{e(eyebrow)}</p>
   <p class="genre__note accent-note" data-handwritten-text-inview>A classic for every kind of reader</p>
@@ -896,7 +908,6 @@ def genre_block(link, eyebrow="Choose from", more="and more!", groups=HOME_GROUP
     </ul>
     <div class="genre__holding" aria-hidden="true" data-genre-interaction-scope>{''.join(holders)}</div>
   </div>
-  <p class="genre__more">{e(more)}</p>
   <span class="genre__emblem">{icon("logo")}</span>
 </section>"""
 
@@ -924,7 +935,7 @@ def genres_page():
   <p class="hero-xs__text" data-hero-paragraph>{len(GENRES)} kinds of classic, from love stories and ghost stories to lives, letters and ideas, and a shelf of books from India.</p>
   <p class="hero-xs__note accent-note" data-hero-handwritten-text>What are you in the mood for?</p>
 </section>
-{genre_block(lambda g: f"#shelf-{slug(g)}", eyebrow="Jump to", more="or scroll on!", groups=SHELF_GROUPS)}
+{genre_block(lambda g: f"#shelf-{slug(g)}", eyebrow="Jump to", more="or scroll on!", groups=SHELF_GROUPS, more_link=f"#shelf-{slug(SHELF_GROUPS[0])}")}
 <div class="shelves">
 {chr(10).join(shelves)}
 </div>"""
@@ -1590,7 +1601,7 @@ NOT_FOUND = """<!DOCTYPE html>
   <p class="not-found__code" aria-hidden="true">404</p>
   <h1 class="hero-xs__title heading-l">This page wandered off</h1>
   <p class="hero-xs__text">There is no book on this shelf. It may have been borrowed, or the address is wrong.</p>
-  <a class="button-alt is--magenta" href="/Book-Website/"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text">Back to the shelf</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" viewBox="0 0 24 24"><path d="M4 12h15m-6-6.5L19.5 12 13 18.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+  <a class="button-alt is--magenta" href="/Book-Website/"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Back to the shelf</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><svg class="button-alt__icon" viewBox="0 0 24 24"><path d="M4 12h15m-6-6.5L19.5 12 13 18.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
 </main>
 </body>
 </html>

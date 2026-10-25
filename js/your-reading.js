@@ -319,6 +319,7 @@
       if (!armed) {
         clear.lastChild.textContent = "Press again to clear it";
         clear.classList.add("is--armed");
+        message.textContent = ""; // what was said last (Cleared) no longer holds
         armed = setTimeout(() => { armed = 0; clear.lastChild.textContent = clearLabel(); clear.classList.remove("is--armed"); }, 5000);
         return;
       }

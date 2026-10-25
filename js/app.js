@@ -88,22 +88,17 @@
 
   /* ---------------- Header and menu ---------------- */
 
-  let lastY = 0;
+  // The Menu button stays put, as on the shelf that inspired the site (it used to slide away while reading down, and
+  // seemed to vanish); the header only notes that the page has been scrolled
   const onScroll = () => {
     const y = lenis ? lenis.scroll : window.scrollY;
     header.dataset.scrollingStarted = String(y > 50);
-    // Small jitters do not count, so the Menu button does not flicker
-    if (Math.abs(y - lastY) < 8) return;
-    header.dataset.scrollDir = y > lastY && y > 50 ? "down" : "up";
-    lastY = y;
   };
   if (lenis) lenis.on("scroll", onScroll);
   else window.addEventListener("scroll", onScroll, { passive: true });
-  // A new page starts with the header in view (the jump to its scroll position happens while Lenis is paused, unheard)
+  // A new page says where it starts (the jump to its scroll position happens while Lenis is paused, unheard)
   function resetHeader(y = 0) {
-    lastY = y;
     header.dataset.scrollingStarted = String(y > 50);
-    header.dataset.scrollDir = "up";
   }
 
   function setCurrentNav(namespace) {
@@ -473,8 +468,17 @@
   // Letters in buttons dip and spring back on hover
   function waveButtons(scope) {
     const cleanups = [];
+    // On a touch screen, which cannot point, the same plays when a button is pressed, and once as it first comes fully
+    // into view (so it is seen at all)
+    const touch = !finePointer.matches;
+    const plays = new Map();
+    const seen = touch ? new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      seen.unobserve(entry.target);
+      plays.get(entry.target)?.();
+    }), { threshold: 1 }) : null;
     scope.querySelectorAll("[data-button-text], [data-button-alt-text]").forEach((text) => {
-      if (text.dataset.waved || !finePointer.matches || reducedMotion()) return;
+      if (text.dataset.waved || reducedMotion()) return;
       text.dataset.waved = "true";
       // The letters are split the first time the button is pointed at, when it is surely on screen: split while hidden
       // (a sign-in step not shown yet, Sign in once signed in), the spaces between words landed in the wrong places
@@ -501,6 +505,25 @@
         tl.pause();
         gsap.to(parts.chars, { yPercent: 0, scaleY: 1, rotate: 0, duration: 0.2, ease: "power2.out", overwrite: "auto" });
       };
+      if (touch) {
+        let done = 0;
+        const play = () => {
+          ready().restart();
+          hover.classList.add("is--play");
+          clearTimeout(done);
+          done = setTimeout(() => hover.classList.remove("is--play"), 650);
+        };
+        plays.set(hover, play);
+        seen.observe(hover);
+        hover.addEventListener("pointerdown", play);
+        cleanups.push(() => {
+          hover.removeEventListener("pointerdown", play);
+          clearTimeout(done);
+          hover.classList.remove("is--play");
+          delete text.dataset.waved;
+        });
+        return;
+      }
       const focusIn = () => { if (hover.matches(":focus-visible")) ready().restart(); };
       hover.addEventListener("mouseenter", enter);
       hover.addEventListener("mouseleave", leave);
@@ -512,7 +535,7 @@
         delete text.dataset.waved;
       });
     });
-    return () => cleanups.forEach((fn) => fn());
+    return () => { seen?.disconnect(); cleanups.forEach((fn) => fn()); };
   }
 
   // Cards below the screen wait, lowered and clear, and rise into place as they come into view. The browser does the
@@ -885,19 +908,78 @@
         box.style.setProperty("--py", (event.clientY - bounds.y) / bounds.height - 0.5);
       });
     };
+    // One switch shows a genre (its name handwritten, its covers out): is--active, set by a mouse or pen pointing at
+    // it, by the keyboard, or by a press on a touch screen. Not the browser's own :hover: a phone sets that the moment
+    // a finger lands, so the covers came out, and then moved again when the press placed them.
+    let shown = null;
+    const show = (item) => {
+      if (item === shown) return;
+      shown?.classList.remove("is--active");
+      shown = item;
+      item.classList.add("is--active");
+      activate(item);
+    };
+    const hide = (item) => {
+      if (!item || item !== shown) return;
+      item.classList.remove("is--active");
+      shown = null;
+    };
     const handlers = items.map((item) => {
-      const fn = () => activate(item);
-      item.addEventListener("pointerenter", fn);
-      item.addEventListener("focusin", fn);
-      return [item, fn];
+      const enter = (event) => { if (event.pointerType !== "touch") show(item); };
+      const leave = (event) => { if (event.pointerType !== "touch") hide(item); };
+      const focusIn = () => show(item);
+      const focusOut = () => hide(item);
+      item.addEventListener("pointerenter", enter);
+      item.addEventListener("pointerleave", leave);
+      item.addEventListener("focusin", focusIn);
+      item.addEventListener("focusout", focusOut);
+      return () => {
+        item.removeEventListener("pointerenter", enter);
+        item.removeEventListener("pointerleave", leave);
+        item.removeEventListener("focusin", focusIn);
+        item.removeEventListener("focusout", focusOut);
+      };
     });
     list.addEventListener("pointermove", parallax);
+    // A phone cannot point: pressing a genre, and holding it, shows it and keeps it so; a tap still opens it. A
+    // moment's wait first, so a finger that starts a scroll on the list changes nothing, and holding brings up no
+    // menu for the link.
+    let waiting = 0;
+    let downAt = 0;
+    const press = (event) => {
+      if (event.pointerType !== "touch") return;
+      const item = event.target.closest("[data-genre-interaction-item]");
+      if (!item) return;
+      downAt = performance.now();
+      clearTimeout(waiting);
+      waiting = setTimeout(() => show(item), 140);
+    };
+    const scrolling = () => clearTimeout(waiting); // the finger moved the page: whatever is shown stays, nothing new
+    const elsewhere = (event) => { if (event.pointerType === "touch" && shown && !list.contains(event.target)) hide(shown); };
+    const noMenu = (event) => { if (event.target.closest("[data-genre-interaction-item]")) event.preventDefault(); };
+    // a press held to look is not a tap: letting go does not open the genre
+    const heldOpen = (event) => {
+      if (downAt && performance.now() - downAt > 450) { event.preventDefault(); event.stopPropagation(); }
+      downAt = 0;
+    };
+    list.addEventListener("pointerdown", press);
+    list.addEventListener("pointercancel", scrolling);
+    list.addEventListener("contextmenu", noMenu);
+    list.addEventListener("click", heldOpen, true);
+    document.addEventListener("pointerdown", elsewhere);
     gsap.timeline({ scrollTrigger: { trigger: list, start: "top 85%", once: true } })
       .from(items, { yPercent: 40, rotate: 3, duration: 0.8, ease: ELASTIC_SOFT, stagger: 0.04 }, 0)
       .from(items, { opacity: 0, duration: 0.3, ease: "power1.out", stagger: 0.04 }, 0);
     return () => {
-      handlers.forEach(([item, fn]) => { item.removeEventListener("pointerenter", fn); item.removeEventListener("focusin", fn); });
+      handlers.forEach((undo) => undo());
       list.removeEventListener("pointermove", parallax);
+      clearTimeout(waiting);
+      hide(shown);
+      list.removeEventListener("pointerdown", press);
+      list.removeEventListener("pointercancel", scrolling);
+      list.removeEventListener("contextmenu", noMenu);
+      list.removeEventListener("click", heldOpen, true);
+      document.removeEventListener("pointerdown", elsewhere);
     };
   }
 
@@ -1700,9 +1782,25 @@
       footerParallax(container);
       catalogue(container);
       faqTopics(container);
+      preloadImages(container);
       [breathingShapes, floatingBooks, waveButtons, sliders, fannedCards, genreCovers, genreShelves, momentumHover, bookPage]
         .forEach((fn) => { const undo = fn(container); if (undo) pageCleanups.push(undo); });
     }, container);
+  }
+
+  // Pictures lower on the page (covers, mostly) are fetched once the page has loaded, rather than as you reach them: a
+  // phone fetches a lazy picture only when it is nearly on screen, and the covers appeared one by one as you scrolled.
+  // A long list (all 161 books) keeps its lazy pictures past the first eighty.
+  function preloadImages(container) {
+    const lazy = [...container.querySelectorAll("img[loading='lazy']")].slice(0, 80);
+    if (!lazy.length) return;
+    const fetchAll = () => lazy.forEach((img) => {
+      if (!img.isConnected) return;
+      img.loading = "eager";
+      img.decode?.().catch(() => {});
+    });
+    const soon = () => (window.requestIdleCallback ? requestIdleCallback(fetchAll, { timeout: 2500 }) : setTimeout(fetchAll, 600));
+    if (document.readyState === "complete") soon(); else window.addEventListener("load", soon, { once: true });
   }
 
   function destroyPage() {
@@ -1744,13 +1842,38 @@
       if (target) {
         if (!location.hash) history.replaceState(history.state, "", hash);
         scrollToTarget(target, true);
-        resetHeader(lenis ? lenis.scroll : window.scrollY); // arriving lower down is not "scrolling down": keep the menu
+        resetHeader(lenis ? lenis.scroll : window.scrollY);
       }
     }
   }
 
   waveButtons(header);
   waveButtons(menu);
+
+  // A tap on words that do nothing belongs to the page. Chrome on Android takes such a tap for itself (Touch to Search
+  // picks out the word under your finger and opens a search bar), which looked as if one tap selected words. Taken
+  // here, before Chrome makes a click of it, the tap still reaches the page as a click; pressing and holding still
+  // selects words, and links, buttons and fields behave as ever. (The reader handles taps in the book itself.)
+  let tapStart = null;
+  document.addEventListener("touchstart", (event) => {
+    const t = event.touches[0];
+    tapStart = event.touches.length === 1 ? { x: t.clientX, y: t.clientY, at: performance.now() } : null;
+  }, { passive: true });
+  document.addEventListener("touchend", (event) => {
+    const start = tapStart;
+    tapStart = null;
+    const t = event.changedTouches[0];
+    const target = event.target;
+    if (!start || !t || performance.now() - start.at > 400 || Math.hypot(t.clientX - start.x, t.clientY - start.y) > 10) return;
+    if (!(target instanceof Element) || String(getSelection() || "")) return;
+    if (target.closest("a, button, input, textarea, select, label, summary, [contenteditable], [role=button], iframe, video, audio")) return;
+    event.preventDefault();
+    const typing = document.activeElement;
+    if (typing instanceof HTMLElement && typing.matches("input, textarea, select, [contenteditable]")) typing.blur();
+    target.dispatchEvent(new MouseEvent("click", {
+      bubbles: true, cancelable: true, view: window, clientX: t.clientX, clientY: t.clientY, screenX: t.screenX, screenY: t.screenY,
+    }));
+  }, { passive: false });
 
   const first = document.querySelector("[data-barba='container']");
   const start = () => {
