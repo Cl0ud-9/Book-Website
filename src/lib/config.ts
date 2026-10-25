@@ -1,7 +1,7 @@
 // Settings that come from the environment the site is built in (README: "Turning on accounts", "Counting visits").
 
 /** Where the site lives, with a trailing slash: canonical links, link previews, the feed and the sitemap */
-export const SITE = (process.env.SITE_URL || "https://the-bookshelf.pages.dev").replace(/\/?$/, "/");
+export const SITE = (process.env.SITE_URL || "https://the-bookshelf.cl0ud-9.workers.dev").replace(/\/?$/, "/");
 
 export interface AccountsConfig {
   apiKey: string;

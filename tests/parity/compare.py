@@ -16,7 +16,7 @@ VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "met
 # The parts that are built differently on purpose
 SKIP_LINK = re.compile(r"stylesheet|preload")
 # The old site's address and the new one's are the same place
-SITES = [("https://cl0ud-9.github.io/Book-Website/", "https://the-bookshelf.pages.dev/")]
+SITES = [("https://cl0ud-9.github.io/Book-Website/", "https://the-bookshelf.cl0ud-9.workers.dev/")]
 # Changes made on purpose, listed in tests/parity/intended.txt as "page<TAB>a regular expression the report matches"
 INTENDED = [line.split("\t", 1) for line in (Path(__file__).parent / "intended.txt").read_text(encoding="utf-8").splitlines()
             if line.strip() and not line.startswith("#")]

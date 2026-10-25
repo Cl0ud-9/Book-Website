@@ -6,7 +6,7 @@ import { serviceWorker } from "./integrations/service-worker.mjs";
 // The site is static: every page is built ahead of time. Pages keep the addresses they have always had
 // (books.html, book-dracula.html), so links shared over the years still work.
 export default defineConfig({
-  site: process.env.SITE_URL || "https://the-bookshelf.pages.dev",
+  site: process.env.SITE_URL || "https://the-bookshelf.cl0ud-9.workers.dev",
   build: { format: "file", assets: "_astro" },
   // Keep the spaces between inline elements as they are written (Astro 7 strips them by default, which ran words
   // together where a link or an icon meets text)

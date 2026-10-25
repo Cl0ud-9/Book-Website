@@ -15,7 +15,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com), and the versi
 - The libraries (GSAP, Lenis, Barba, Smooothy, epub.js, JSZip and Firebase) come from npm at pinned versions, bundled
   and fingerprinted by the build, so a returning visitor downloads only what changed. The reader, accounts and Your
   reading load only on the pages that use them. Lenis is updated to 1.3.27.
-- The site is published to Cloudflare Pages, with the books and covers kept in Cloudflare R2 rather than in git.
+- The site is published to Cloudflare (https://the-bookshelf.cl0ud-9.workers.dev), served as static files, with
+  long caching for the scripts and fonts. The books and covers are kept on a GitHub release rather than in git.
 - The repository is laid out by purpose: `src/` (pages, components, styles, scripts, fonts, icons), `data/`,
   `pipeline/` (fetching books, covers, fonts and link previews), `tests/` and `integrations/`. Generated pages, the
   copied libraries and the local server are no longer committed.

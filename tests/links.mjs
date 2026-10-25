@@ -5,7 +5,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 const dist = process.argv[2] || "dist";
-const site = (process.env.SITE_URL || "https://the-bookshelf.pages.dev").replace(/\/?$/, "/");
+const site = (process.env.SITE_URL || "https://the-bookshelf.cl0ud-9.workers.dev").replace(/\/?$/, "/");
 const missing = [];
 const exists = (ref, from) => {
   const path = ref.split(/[?#]/)[0].replace(/^\//, "");
