@@ -1,0 +1,15 @@
+# Response headers on Cloudflare. Pages and sw.js keep the default (checked on every visit), so a deploy shows at once.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# scripts, styles and fonts are named after their contents: a change is a new file
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# books, covers and link pictures change rarely: kept a day, then refreshed in the background
+/books/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/image/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800

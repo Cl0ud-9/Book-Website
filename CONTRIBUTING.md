@@ -12,7 +12,7 @@ The site is built with Astro and TypeScript (Node.js 22.12 or newer):
 
 ```bash
 npm install
-npm run assets:pull   # the books and covers (or python pipeline/library.py: see the README, Run it)
+npm run assets:pull   # the books and covers, from the library-assets release (needs the GitHub CLI, gh)
 npm run dev           # http://localhost:4321
 ```
 

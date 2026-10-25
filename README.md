@@ -3,7 +3,7 @@
 <p align="center"><strong>A free library of 161 classics to read in your browser or download, in a bright, playful site where everything moves.</strong></p>
 
 <p align="center">
-  <a href="https://the-bookshelf.pages.dev/"><img src="https://img.shields.io/badge/Live%20site-the--bookshelf.pages.dev-ff008c?style=for-the-badge" alt="Live site" height="34"></a>
+  <a href="https://the-bookshelf.cl0ud-9.workers.dev/"><img src="https://img.shields.io/badge/Live%20site-the--bookshelf.cl0ud--9.workers.dev-ff008c?style=for-the-badge" alt="Live site" height="34"></a>
 </p>
 
 <p align="center">
@@ -28,16 +28,16 @@ moved to Astro and TypeScript in version 4.
 
 | Page | What it does |
 |---|---|
-| [Home](https://the-bookshelf.pages.dev/) | Where to start, on a draggable shelf; the books you are reading; a line of the day; how it works; a book that opens as you scroll; the genres; questions; the book of the month and why it was chosen. |
-| [All books](https://the-bookshelf.pages.dev/books.html) | All 161 books, most read first: fiction or non-fiction, a genre or the From India shelf, a mood and a length, searchable by title, author or genre (accents optional), sorted by title or length. The choice is kept in the address, so it can be shared. |
-| [Genres](https://the-bookshelf.pages.dev/genres.html) | A shelf for each genre, fiction and non-fiction, and one of classics from India, its most read books first, to scroll or drag sideways. |
-| [Questions](https://the-bookshelf.pages.dev/faq.html) | Every question, by topic, with a list of topics that follows you down the page and marks the one you are reading. |
-| [A book](https://the-bookshelf.pages.dev/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description, details and edition, Read now, the EPUB download, Kindle and Kobo editions, a free LibriVox audiobook where there is one, Keep for offline reading, Before you start (who's who and what to know, with no spoilers) and Lines worth knowing for the most read books, and three related books. |
-| [The reader](https://the-bookshelf.pages.dev/read.html?book=pride-and-prejudice) | The book itself, in the page: its cover swings open, then pages turn on a laptop and scroll on a phone, with contents, highlights and notes, a word's meaning, text size, three page colours and three typefaces (Literata, made for reading on screens, by default). It remembers your place. |
-| [Your reading](https://the-bookshelf.pages.dev/reading.html) | Your week of reading, the books you are reading, your notes, the books kept for offline reading and the ones you finished, with Back up and Restore. |
-| [Your account](https://the-bookshelf.pages.dev/account.html) | Optional, and only once accounts are switched on (see below): sign in with Google or an email address, choose a name, a colour and a mark, and your reading is on every device you sign in on. |
-| [A reader's page](https://the-bookshelf.pages.dev/profile.html) | For readers who share it: their name and mark, what they are reading and have finished, their reading time and, if they choose, the lines they highlighted. Never their notes. |
-| [Privacy](https://the-bookshelf.pages.dev/privacy.html) | What is kept about you, where, and how to remove it. |
+| [Home](https://the-bookshelf.cl0ud-9.workers.dev/) | Where to start, on a draggable shelf; the books you are reading; a line of the day; how it works; a book that opens as you scroll; the genres; questions; the book of the month and why it was chosen. |
+| [All books](https://the-bookshelf.cl0ud-9.workers.dev/books.html) | All 161 books, most read first: fiction or non-fiction, a genre or the From India shelf, a mood and a length, searchable by title, author or genre (accents optional), sorted by title or length. The choice is kept in the address, so it can be shared. |
+| [Genres](https://the-bookshelf.cl0ud-9.workers.dev/genres.html) | A shelf for each genre, fiction and non-fiction, and one of classics from India, its most read books first, to scroll or drag sideways. |
+| [Questions](https://the-bookshelf.cl0ud-9.workers.dev/faq.html) | Every question, by topic, with a list of topics that follows you down the page and marks the one you are reading. |
+| [A book](https://the-bookshelf.cl0ud-9.workers.dev/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description, details and edition, Read now, the EPUB download, Kindle and Kobo editions, a free LibriVox audiobook where there is one, Keep for offline reading, Before you start (who's who and what to know, with no spoilers) and Lines worth knowing for the most read books, and three related books. |
+| [The reader](https://the-bookshelf.cl0ud-9.workers.dev/read.html?book=pride-and-prejudice) | The book itself, in the page: its cover swings open, then pages turn on a laptop and scroll on a phone, with contents, highlights and notes, a word's meaning, text size, three page colours and three typefaces (Literata, made for reading on screens, by default). It remembers your place. |
+| [Your reading](https://the-bookshelf.cl0ud-9.workers.dev/reading.html) | Your week of reading, the books you are reading, your notes, the books kept for offline reading and the ones you finished, with Back up and Restore. |
+| [Your account](https://the-bookshelf.cl0ud-9.workers.dev/account.html) | Optional, and only once accounts are switched on (see below): sign in with Google or an email address, choose a name, a colour and a mark, and your reading is on every device you sign in on. |
+| [A reader's page](https://the-bookshelf.cl0ud-9.workers.dev/profile.html) | For readers who share it: their name and mark, what they are reading and have finished, their reading time and, if they choose, the lines they highlighted. Never their notes. |
+| [Privacy](https://the-bookshelf.cl0ud-9.workers.dev/privacy.html) | What is kept about you, where, and how to remove it. |
 
 ## The details
 
@@ -152,15 +152,15 @@ With Node.js 22.12 or newer:
 
 ```bash
 npm install
-npm run assets:pull   # the books, covers and link pictures, from Cloudflare R2 into .assets/ (needs rclone, below)
+npm run assets:pull   # the books, covers and link pictures into .assets/ (needs the GitHub CLI, gh)
 npm run dev           # http://localhost:4321, reloading as you edit
 ```
 
 The site is built with [Astro](https://astro.build): every page is made ahead of time (`npm run build` writes the
-whole site to `dist/`, and `npm run preview` serves it). The books and covers are not kept in git; they live in an R2
-bucket, and `.assets/` is the local copy. Without access to the bucket, `python pipeline/library.py` fetches them from
-Standard Ebooks instead (slowly: it keeps to their limits). For R2, set up an rclone remote named `r2`
-(`rclone config`, provider Cloudflare, with an R2 API token's keys).
+whole site to `dist/`, and `npm run preview` serves it). The books and covers are not kept in git: they are one
+file on the repository's [`library-assets`](https://github.com/Cl0ud-9/Book-Website/releases/tag/library-assets)
+release, and `.assets/` is the local copy. `python pipeline/library.py` can also fetch them from Standard Ebooks
+(slowly: it keeps to their limits).
 
 An unfinished port of the original site to Angular, from the same course, is kept on the
 [`angular-port`](https://github.com/Cl0ud-9/Book-Website/tree/angular-port/angular) branch.
@@ -203,7 +203,7 @@ python pipeline/covers.py    # draws covers for books whose painting is not yet 
 python pipeline/listen.py    # finds each book's free LibriVox audiobook (data/librivox.json)
 python pipeline/fonts.py     # rebuilds the fonts from their sources (needs fonttools and brotli)
 python pipeline/social.py    # with npm run preview running: redraws the link previews and the home-screen icon
-npm run assets:push          # after any of these changes .assets/: uploads it to R2 for the deploy
+npm run assets:push          # after any of these changes .assets/: replaces the library-assets release file
 ```
 
 Before a change goes in:
@@ -248,22 +248,25 @@ out and deletes.
 
 Every pull request and push to `main` runs [`.github/workflows/ci.yml`](.github/workflows/ci.yml): the type check,
 the build, the link check and the browser checks. Every push to `main` also runs
-[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml): it fetches the books and covers from R2, builds the
-site for the day (for the book of the month), checks every local link, runs Lighthouse in its phone mode on six pages
-(three runs each, budgets in [`.lighthouserc.json`](.lighthouserc.json)), and publishes `dist/` to Cloudflare Pages. A
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml): it fetches the books and covers from the
+`library-assets` release, builds the site for the day (for the book of the month), checks every local link, runs
+Lighthouse in its phone mode on six pages (three runs each, budgets in [`.lighthouserc.json`](.lighthouserc.json)), and
+publishes `dist/` to Cloudflare Workers as static files ([`wrangler.jsonc`](wrangler.jsonc); no Worker code runs). A
 broken link, or a page that falls below its speed or accessibility budget, stops the deploy. It also runs on the first
-of every month.
+of every month. `public/_headers` sets how long browsers keep each kind of file, and `public/_redirects` serves the
+home page at the bare address (every other page keeps its `.html` address).
 
-**Setting up Cloudflare (free).**
+**Setting up Cloudflare (free).** A deploy by hand, from your own computer, needs only `npx wrangler@4.152.0 login`
+once, then `npm run build` and `npx wrangler@4.152.0 deploy`. For the workflow:
 
-1. At [dash.cloudflare.com](https://dash.cloudflare.com), under R2, create a bucket named `bookshelf-assets`, and an R2
-   API token that can read and write it. Upload the books once with `npm run assets:push`.
-2. Under Workers & Pages, create a Pages project named `the-bookshelf` (Direct Upload; the workflow uploads to it).
-   If that name is taken, choose another, and change `--project-name` in `deploy.yml` and `SITE_URL` (below).
-3. Create an API token with the Cloudflare Pages: Edit permission.
-4. In the repository's Settings, Secrets and variables, Actions: the secrets `CLOUDFLARE_API_TOKEN`,
-   `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY`, and the variable `CLOUDFLARE_ACCOUNT_ID`. The site's address for
-   links and previews is `https://the-bookshelf.pages.dev` unless a `SITE_URL` is set when it is built.
+1. At [dash.cloudflare.com](https://dash.cloudflare.com/profile/api-tokens), create an API token from the
+   **Edit Cloudflare Workers** template.
+2. In the repository's Settings, Secrets and variables, Actions: the secret `CLOUDFLARE_API_TOKEN`, and the variable
+   `CLOUDFLARE_ACCOUNT_ID` (shown by `npx wrangler@4.152.0 whoami`).
+
+The Worker is named `the-bookshelf` (in `wrangler.jsonc`), so the site is at
+`https://the-bookshelf.<your workers.dev subdomain>.workers.dev`. The address the pages give for links and previews is
+`https://the-bookshelf.cl0ud-9.workers.dev` unless a `SITE_URL` is set when it is built.
 
 **Turning on accounts (optional, free).** Accounts stay off, and the site says nothing about them, until it has a
 Firebase project:
@@ -271,7 +274,7 @@ Firebase project:
 1. At [console.firebase.google.com](https://console.firebase.google.com), add a project (Google Analytics is not
    needed). It stays on the free Spark plan.
 2. **Authentication**, Get started, then under Sign-in method switch on **Google** and **Email/Password**. Under
-   Settings, Authorized domains, add `the-bookshelf.pages.dev`.
+   Settings, Authorized domains, add `the-bookshelf.cl0ud-9.workers.dev`.
 3. **Firestore Database**, Create database, in production mode, in the region nearest your readers.
 4. In Firestore's **Rules** tab, replace the rules with [`firebase/firestore.rules`](firebase/firestore.rules) and
    Publish. (They keep each reader's data their own; without them the database refuses everything.)
@@ -326,13 +329,15 @@ src/scripts/        app.js (transitions, smooth scrolling and every animation), 
 src/assets/fonts/   Rubik, Figtree, Gochi Hand and Literata, Latin subset, built by pipeline/fonts.py
 src/icons/          Lucide icons, inlined in every page
 src/sw.template.js  the service worker; the build fills in the files it keeps
-public/image/       the logo and home-screen icons
+public/             image/ (the logo and home-screen icons), _headers and _redirects (for Cloudflare)
+wrangler.jsonc      how Cloudflare serves the built site
 data/               books.json, picks.json, quotes.json, guides.json, moods.json, librivox.json: written by the pipeline
 pipeline/           the Python scripts that fetch the books and make covers, fonts, lines and link previews
 integrations/       build steps: copying .assets/ into the site, and writing the service worker
 tests/              links.mjs, the browser checks (e2e/), and the page-by-page comparison with version 3 (parity/)
 firebase/           firestore.rules: who may read and write what in the accounts database
-.assets/            not in git: books/ (the EPUB files), image/covers/ and image/social/, kept in Cloudflare R2
+.assets/            not in git: books/ (the EPUB files), image/covers/ and image/social/, kept on the
+                    library-assets release (pipeline/assets.mjs)
 ```
 
 ## License

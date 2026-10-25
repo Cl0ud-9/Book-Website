@@ -15,8 +15,8 @@
     "check:links": "node tests/links.mjs",
     "test:e2e": "node tests/run-e2e.mjs",
     "test:parity": "python tests/parity/compare.py",
-    "assets:pull": "rclone copy r2:bookshelf-assets .assets --fast-list --transfers 16",
-    "assets:push": "rclone copy .assets r2:bookshelf-assets --fast-list --transfers 16",
+    "assets:pull": "node pipeline/assets.mjs pull",
+    "assets:push": "node pipeline/assets.mjs push",
     "emulators": "npx --yes firebase-tools@15.34.1 emulators:start --only auth,firestore --project demo-bookshelf"
   },
   "dependencies": {

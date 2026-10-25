@@ -1,0 +1,2 @@
+# The home page at the bare address (wrangler.jsonc serves every other page at its own .html address)
+/ /index.html 200

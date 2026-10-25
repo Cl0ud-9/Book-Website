@@ -1,0 +1,12 @@
+// The site on Cloudflare Workers: the built site (dist/) served as static files, no Worker code.
+// npm run build, then: npx wrangler@4.152.0 deploy   (the deploy workflow does this on every push to main)
+{
+  "name": "the-bookshelf",
+  "compatibility_date": "2026-10-19",
+  "assets": {
+    "directory": "./dist",
+    // pages keep the addresses they have always had (books.html, book-dracula.html): no redirects to /books
+    "html_handling": "none",
+    "not_found_handling": "404-page"
+  }
+}
