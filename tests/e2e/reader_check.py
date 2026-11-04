@@ -158,7 +158,8 @@ with sync_playwright() as p:
     page.goto(BASE + "read.html?book=the-wonderful-wizard-of-oz")
     page.wait_for_selector(".reader.is--ready", timeout=30000)
     page.wait_for_timeout(2500)
-    page.keyboard.press("ArrowRight"); page.keyboard.press("ArrowRight"); page.wait_for_timeout(1200)
+    # two quick turns, the second waiting for the first (and, past a chapter's end, for the next chapter's copies)
+    page.keyboard.press("ArrowRight"); page.keyboard.press("ArrowRight"); page.wait_for_timeout(2600)
     sel = page.evaluate(SELECT, [5, 0])
     page.wait_for_timeout(700)
     bar = page.locator("[data-select-bar]")
@@ -168,6 +169,37 @@ with sync_playwright() as p:
     title = bar.locator("[data-select-note]").get_attribute("title")
     say(title == "Add a note", "laptop: each tool is named on hover")
     page.screenshot(path=f"{OUT}/laptop-select.png")
+    # A phone whose pixels are not a whole number of the page's (2.625) left each turn a fraction past the page's edge, and
+    # every chapter's last page was skipped. Chrome's phone mode does not reproduce that fraction, so it is put there by hand.
+    ctx = br.new_context(viewport={"width": 411, "height": 791}, device_scale_factor=2.625, is_mobile=True, has_touch=True)
+    page = ctx.new_page()
+    page.goto(BASE + "faq.html")
+    page.evaluate("localStorage.setItem('bookshelf:reader', JSON.stringify({flow: 'pages'})); localStorage.setItem('bookshelf:tip-select', '1')")
+    page.goto(BASE + "read.html?book=pride-and-prejudice")
+    page.wait_for_selector(".reader.is--ready", timeout=30000)
+    page.wait_for_timeout(2500)
+    where = lambda: page.evaluate("[document.querySelector('[data-reader-chapter]').textContent.trim(), document.querySelector('[data-reader-page]').textContent.trim()]")
+    for _ in range(12):
+        numbers = where()[1].split()
+        if len(numbers) >= 4 and int(numbers[1]) == int(numbers[3]) - 1:
+            break
+        page.keyboard.press("ArrowRight"); page.wait_for_timeout(900)
+    second_last = where()
+    page.evaluate("document.querySelector('.epub-container').scrollLeft += 1")
+    page.keyboard.press("ArrowRight"); page.wait_for_timeout(1100)
+    last = where()
+    say(last[0] == second_last[0] and last[1].split()[1] == last[1].split()[3], f"a turn a little past the page's edge still reaches the chapter's last page ({second_last} to {last})")
+    # Scrolling, a page sized by the height of the screen (Dracula's dedication) keeps its size: in a frame as tall as its
+    # words, that height is the frame's own, and it grew for as long as the book stayed open
+    page.goto(BASE + "faq.html")
+    page.evaluate("localStorage.setItem('bookshelf:reader', JSON.stringify({flow: 'scroll'})); localStorage.removeItem('bookshelf:reading')")
+    page.goto(BASE + "read.html?book=dracula")
+    page.wait_for_selector(".reader.is--ready", timeout=30000)
+    page.wait_for_timeout(2500)
+    tall = page.evaluate("[...document.querySelectorAll('.epub-container iframe')].find(f => f.contentDocument.body.textContent.includes('Hommy-Beg'))?.offsetHeight")
+    say(tall is not None and tall < 791 * 1.2, f"scrolling: a dedication stays about a screen tall ({tall})")
+    say(page.evaluate("document.querySelector('[data-reader-chapter]').textContent.trim()") == "Dedication", "scrolling: the footer names the page it opened at")
+    ctx.close()
     br.close()
 print("failures:", bad)
 sys.exit(1 if bad else 0)

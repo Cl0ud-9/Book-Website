@@ -5,7 +5,7 @@ import ButtonAlt from "./ButtonAlt.astro";
 import Icon from "./Icon.astro";
 import { ACCOUNTS } from "../lib/config";
 
-const nav = [["books.html", "All books", "books"], ["genres.html", "Genres", "genres"], ["faq.html", "FAQ", "faq"]] as const;
+const nav = [["books", "All books", "books"], ["genres", "Genres", "genres"], ["faq", "FAQ", "faq"]] as const;
 ---
 <a class="skip-link" href="#main">Skip to content</a>
 <header class="header" data-header data-scrolling-started="false">
@@ -15,16 +15,16 @@ const nav = [["books.html", "All books", "books"], ["genres.html", "Genres", "ge
   </a>
   <nav class="header__nav" aria-label="Main">
     <ul class="header__nav-list">
-      {[...nav, ...(ACCOUNTS ? [["reading.html", "Your reading", "reading"] as const] : [])].map(([href, text, key]) => (
+      {[...nav, ...(ACCOUNTS ? [["reading", "Your reading", "reading"] as const] : [])].map(([href, text, key]) => (
         <li><a class="button" href={href} data-nav={key} data-button><span class="button__bg"></span><span class="button__text" data-button-text>{text}</span></a></li>
       ))}
       {ACCOUNTS ? (
         <>
-          <li data-when="out"><ButtonAlt href="login.html" text="Sign in" colour="orange" size="small" data-nav="account" /></li>
-          <li data-when="in"><a class="button-alt is--orange is--small is--me" href="account.html" data-button-alt data-nav="account" data-when="in"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-account-me-name>Your account</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><span class="avatar is--chip" data-account-me-avatar><Icon name="user" class="avatar__mark" /></span></span></a></li>
+          <li data-when="out"><ButtonAlt href="login" text="Sign in" colour="orange" size="small" data-nav="account" /></li>
+          <li data-when="in"><a class="button-alt is--orange is--small is--me" href="account" data-button-alt data-nav="account" data-when="in"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-account-me-name>Your account</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><span class="avatar is--chip" data-account-me-avatar><Icon name="user" class="avatar__mark" /></span></span></a></li>
         </>
       ) : (
-        <li><ButtonAlt href="reading.html" text="Your reading" colour="orange" size="small" data-nav="reading" /></li>
+        <li><ButtonAlt href="reading" text="Your reading" colour="orange" size="small" data-nav="reading" /></li>
       )}
     </ul>
   </nav>
@@ -41,18 +41,18 @@ const nav = [["books.html", "All books", "books"], ["genres.html", "Genres", "ge
     <button class="button-alt is--small menu-toggle is--close" type="button" data-menu-close><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-button-alt-text>Close</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><Icon name="close" class="button-alt__icon" /></span></button>
     <ul class="menu__list">
       <li><a class="menu__link" href="./" data-nav="home">Home</a></li>
-      <li><a class="menu__link" href="books.html" data-nav="books">All books</a></li>
-      <li><a class="menu__link" href="genres.html" data-nav="genres">Genres</a></li>
-      <li><a class="menu__link" href="faq.html" data-nav="faq">FAQ</a></li>
+      <li><a class="menu__link" href="books" data-nav="books">All books</a></li>
+      <li><a class="menu__link" href="genres" data-nav="genres">Genres</a></li>
+      <li><a class="menu__link" href="faq" data-nav="faq">FAQ</a></li>
     </ul>
     <div class="menu__account">
-      <ButtonAlt href="reading.html" text="Your reading" colour="white" />
-      <ButtonAlt href="books.html" text="Find a book" colour="black" />
+      <ButtonAlt href="reading" text="Your reading" colour="white" />
+      <ButtonAlt href="books" text="Find a book" colour="black" />
     </div>
     {ACCOUNTS && (
       <>
-        <div class="menu__me" data-when="out"><ButtonAlt href="login.html" text="Sign in" colour="orange" /><p class="menu__me-text">New here? <a href="signup.html">Create a free account</a></p></div>
-        <div class="menu__me" data-when="in"><a class="button-alt is--orange is--me" href="account.html" data-button-alt data-nav="account" data-when="in"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-account-me-name>Your account</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><span class="avatar is--chip" data-account-me-avatar><Icon name="user" class="avatar__mark" /></span></span></a></div>
+        <div class="menu__me" data-when="out"><ButtonAlt href="login" text="Sign in" colour="orange" /><p class="menu__me-text">New here? <a href="signup">Create a free account</a></p></div>
+        <div class="menu__me" data-when="in"><a class="button-alt is--orange is--me" href="account" data-button-alt data-nav="account" data-when="in"><span class="button-alt__text-wrap"><span class="button-alt__bg"></span><span class="button-alt__text" data-account-me-name>Your account</span></span><span class="button-alt__icon-wrap" aria-hidden="true"><span class="button-alt__bg"></span><span class="avatar is--chip" data-account-me-avatar><Icon name="user" class="avatar__mark" /></span></span></a></div>
       </>
     )}
     <p class="menu__note accent-note">See you between the pages!</p>

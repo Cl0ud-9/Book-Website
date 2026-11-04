@@ -5,6 +5,7 @@ usage: npm run build && npm run preview, then: python tests/e2e/check.py [BASE_U
 import json
 import sys
 import unicodedata
+import urllib.parse
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
@@ -84,15 +85,17 @@ with sync_playwright() as p:
     ok(not acc.evaluate("d => d.open"), "question closes")
 
     # the footer's feed of the book of the month
-    feed_link = page.locator(".footer a[href='feed.xml']")
-    ok(feed_link.count() == 1, "the footer links to the book-of-the-month feed")
-    feed_link.scroll_into_view_if_needed()
+    feed_url = page.locator(".footer [data-copy-feed]").get_attribute("data-copy-feed")
+    follow = page.locator(".footer__follow a")
+    ok(feed_url.endswith("/feed.xml") and follow.count() == 2 and all(urllib.parse.quote(feed_url, safe="") in follow.nth(i).get_attribute("href") for i in range(2)),
+       "the footer follows the book-of-the-month feed in Feedly or Inoreader, or copies its address")
+    page.locator(".footer [data-copy-feed]").scroll_into_view_if_needed()
     page.wait_for_timeout(1500)
     feed = page.request.get(BASE + "feed.xml")
     ok(feed.ok and "<entry>" in feed.text() and "Book of the month" in feed.text(), "the feed has the books of the month")
 
     # hash link on the same page scrolls instead of reloading
-    page.locator("footer a[href='index.html#new']").click()
+    page.locator("footer a[href='./#new']").click()
     page.wait_for_timeout(2200)
     new_top = page.locator("#new").bounding_box()["y"]
     ok(abs(new_top) < 120, f"New on the shelf link scrolls to the section (top at {new_top:.0f})")
@@ -105,7 +108,7 @@ with sync_playwright() as p:
         page.wait_for_timeout(300)
         page.screenshot(path=f"{OUT}/trans-{i}.png")
     page.wait_for_timeout(1500)
-    ok(page.url.endswith("books.html?genre=romance"), f"genre link opens the catalogue ({page.url})")
+    ok(page.url.endswith("/books?genre=romance"), f"genre link opens the catalogue ({page.url})")
     ok(page.locator("[data-barba-namespace=books]").count() == 1, "books page swapped in without reload")
     romance = [b for b in LIBRARY if "Romance" in b["genres"]]
     status = page.locator("[data-search-status]").inner_text()
@@ -152,7 +155,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(600)
     page.locator(".book-card").first.click(position={"x": 60, "y": 60})
     page.wait_for_timeout(3200)
-    ok(page.url.endswith(f"book-{first['slug']}.html"), f"a card opens its book page ({page.url})")
+    ok(page.url.endswith(f"/book-{first['slug']}"), f"a card opens its book page ({page.url})")
     ok(page.locator("h1").inner_text().strip() == first["title"], "book page shows the title")
     ok(page.locator(".book-about__facts dt").count() >= 4, "book page lists the details")
     ok(page.locator("[data-barba-namespace=book]").count() == 1, "book page swapped in without reload")
@@ -164,7 +167,7 @@ with sync_playwright() as p:
     # back: phones animate history moves themselves, so the page must appear at once with no squiggle over it
     page.go_back()
     page.wait_for_timeout(350)
-    ok(page.url.split("?")[0].endswith("books.html"), f"back returns to the catalogue ({page.url})")
+    ok(page.url.split("?")[0].endswith("/books"), f"back returns to the catalogue ({page.url})")
     covered = page.evaluate("getComputedStyle(document.querySelector('[data-transition-logo]')).opacity !== '0'")
     ok(page.locator("#search-box").is_visible() and not covered, "going back shows the page at once, no transition")
 
@@ -219,7 +222,7 @@ with sync_playwright() as p:
     if accounts_on:
         ok(page.locator("[data-auth-page][data-auth-mode=up]").count() == 1, "with accounts on, signup.html is the sign-up page")
     else:
-        ok(page.url.endswith("reading.html"), f"without accounts, the old sign-up address leads on ({page.url})")
+        ok(page.url.endswith("/reading"), f"without accounts, the old sign-up address leads on ({page.url})")
     page.goto(BASE + "account.html", wait_until="networkidle")
     page.wait_for_timeout(2500)
     if not accounts_on:
@@ -234,7 +237,7 @@ with sync_playwright() as p:
     page.wait_for_timeout(3000)
     page.locator(".header__nav [data-nav=genres]").click()
     page.wait_for_timeout(3200)
-    ok(page.url.endswith("genres.html") and page.locator("[data-barba-namespace=genres]").count() == 1,
+    ok(page.url.endswith("/genres") and page.locator("[data-barba-namespace=genres]").count() == 1,
        f"Genres opens the genres page without a reload ({page.url})")
     ok(page.locator("[data-nav=genres]").first.get_attribute("aria-current") == "page", "Genres marked current")
     genres = sorted({g for b in LIBRARY for g in b["genres"]})
@@ -252,10 +255,10 @@ with sync_playwright() as p:
     page.mouse.move(box["x"] + box["width"] * 0.2, box["y"] + box["height"] / 2, steps=12)
     page.mouse.up()
     page.wait_for_timeout(400)
-    ok(row.evaluate("r => r.scrollLeft") > 100 and page.url.endswith("genres.html"), "dragging a shelf scrolls it and opens nothing")
+    ok(row.evaluate("r => r.scrollLeft") > 100 and page.url.endswith("/genres"), "dragging a shelf scrolls it and opens nothing")
     page.locator(".header__nav [data-nav=faq]").click()
     page.wait_for_timeout(3200)
-    ok(page.url.endswith("faq.html") and page.locator("[data-barba-namespace=faq]").count() == 1, f"FAQ opens the questions page ({page.url})")
+    ok(page.url.endswith("/faq") and page.locator("[data-barba-namespace=faq]").count() == 1, f"FAQ opens the questions page ({page.url})")
     # a topic pill jumps to its questions and lights up; scrolling on lights the next topic
     pills = page.locator("[data-faq-pill]")
     pills.nth(2).click()
@@ -270,10 +273,10 @@ with sync_playwright() as p:
     lit = [i for i in range(pills.count()) if "is--active" in (pills.nth(i).get_attribute("class") or "")]
     ok(len(lit) == 1 and lit[0] >= 3, f"scrolling lights the topic being read (pill {lit})")
     # a link to a section of another page lands on that section
-    page.locator("footer a[href='index.html#new']").click()
+    page.locator("footer a[href='./#new']").click()
     page.wait_for_timeout(3500)
     new_top = page.locator("#new").bounding_box()["y"]
-    ok(page.url.endswith("index.html#new") and abs(new_top) < 120, f"a link to a section of home lands on it ({new_top:.0f})")
+    ok(page.url.endswith("/#new") and abs(new_top) < 120, f"a link to a section of home lands on it ({new_top:.0f})")
     print("desktop console:", errors or "clean")
     page.close()
 

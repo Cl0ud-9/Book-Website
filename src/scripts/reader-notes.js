@@ -661,11 +661,12 @@
     $("[data-reader-tip-ok]").addEventListener("click", dismissTip);
     ctx.on("ready", () => {
       if (seenTip() || notes.length || closed) return;
-      if (matchMedia("(pointer: coarse)").matches) $("[data-reader-tip-text]").textContent = "Press and hold a word to select it, then drag to choose more: highlight, add a note, look it up or share it as a picture.";
+      if (matchMedia("(pointer: coarse)").matches) $("[data-reader-tip-text]").textContent = "Press and hold a word to highlight it, add a note, look it up or share it. Drag to choose more.";
       setTimeout(() => {
         if (closed || seenTip()) return;
         tip.hidden = false;
-        ctx.gsap?.fromTo(tip, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out", clearProps: "transform,opacity" });
+        // its transform stays when it lands: taken off, Chrome counted the tip as having jumped from the top of the screen
+        ctx.gsap?.fromTo(tip, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out", clearProps: "opacity" });
       }, 1800);
     });
     ctx.onRendition((rendition) => rendition.on("selected", dismissTip));

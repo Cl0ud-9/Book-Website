@@ -35,11 +35,11 @@ class Pages(http.server.SimpleHTTPRequestHandler):
 
     def translate_path(self, path):
         rel = path.split("?", 1)[0].split("#", 1)[0].lstrip("/") or "index.html"
-        for root in (PAGES,):
-            full = os.path.join(root, *rel.split("/"))
-            if os.path.exists(full):
-                return full
-        return os.path.join(PAGES, *rel.split("/"))
+        full = os.path.join(PAGES, *rel.split("/"))
+        # a page's address has no .html, as on Cloudflare (/books is books.html, not the books/ folder)
+        if "." not in rel.split("/")[-1] and os.path.isfile(full + ".html"):
+            return full + ".html"
+        return full
 
     def log_message(self, *args):
         pass
@@ -117,7 +117,7 @@ with sync_playwright() as p:
     pa = a.new_page(); watch(pa, "A")
     pa.goto(BASE); pa.wait_for_timeout(2500)
     pa.locator("[data-menu-toggle]").click(); pa.wait_for_timeout(900)
-    say(pa.locator(".menu div[data-when=out] a[href='login.html']").is_visible() and pa.locator(".menu a[href='signup.html']").is_visible()
+    say(pa.locator(".menu div[data-when=out] a[href='login']").is_visible() and pa.locator(".menu a[href='signup']").is_visible()
         and pa.locator(".menu div[data-when=in]").is_hidden(), "A: signed out, the menu offers Sign in and Create a free account")
     pa.locator("[data-menu-close]").click(); pa.wait_for_timeout(700)
     shown = pa.evaluate("[...document.querySelectorAll('.open-book [data-book-open-button]')].filter(s => getComputedStyle(s).display !== 'none').map(s => s.textContent.trim())")
@@ -194,7 +194,7 @@ with sync_playwright() as p:
     pa.locator(".acct__switch:has([data-acct-lines])").click(); pa.wait_for_timeout(2500)
     pa.locator("[data-acct-copy]").click(); pa.wait_for_timeout(400)
     clip = pa.evaluate("navigator.clipboard.readText()")
-    say(clip.endswith(f"profile.html?u={HANDLE}"), f"A: Copy the link copies {clip}")
+    say(clip.endswith(f"/profile?u={HANDLE}"), f"A: Copy the link copies {clip}")
 
     # ---------- anyone can see it ----------
     v = br.new_context(viewport={"width": 1440, "height": 900}, service_workers="block")
@@ -205,7 +205,7 @@ with sync_playwright() as p:
     say("Frankenstein" in pv.locator("[data-profile-reading-list]").inner_text(), "visitor: and that Ada is reading Frankenstein")
     say(pv.locator("[data-profile-lines-list] .line").count() == 1, "visitor: and the line Ada highlighted")
     say(pv.locator("[data-profile-report]").get_attribute("href").startswith("https://github.com/"), "visitor: there is a way to report the page")
-    say(pv.locator("[data-profile-mine]").get_attribute("href") == "signup.html", "visitor: Make your own reader page leads to signing up")
+    say(pv.locator("[data-profile-mine]").get_attribute("href") == "signup", "visitor: Make your own reader page leads to signing up")
     pv.screenshot(path=f"{OUT}/acct-profile-laptop.png", full_page=True)
     pv.goto(BASE + "profile.html?u=nobody_here_123"); pv.wait_for_timeout(2500)
     say("no reader page" in pv.locator("[data-profile-status]").inner_text(), "visitor: an unknown reader is explained")
@@ -214,7 +214,7 @@ with sync_playwright() as p:
     b = br.new_context(viewport={"width": 1440, "height": 900}, service_workers="block")
     pb = b.new_page(); watch(pb, "B")
     pb.goto(BASE); pb.wait_for_timeout(2500)
-    say(pb.locator(".header li[data-when=out] a[href='login.html']").is_visible() and pb.locator(".header .button-alt.is--me").is_hidden(),
+    say(pb.locator(".header li[data-when=out] a[href='login']").is_visible() and pb.locator(".header .button-alt.is--me").is_hidden(),
         "B: signed out, the header's orange button is Sign in")
     pb.goto(BASE + "login.html"); wait_state(pb, "out"); pb.wait_for_timeout(300)
     pb.fill("input[name=email]", EMAIL); pb.fill("input[name=password]", "wrong password"); pb.locator("[data-acct-submit]").click()
@@ -316,8 +316,8 @@ with sync_playwright() as p:
     pb.goto(BASE + "account.html"); wait_state(pb, "in"); pb.wait_for_timeout(800)
     pb.locator("[data-acct-signout]").click(); wait_state(pb, "out"); pb.wait_for_timeout(500)
     say(pb.locator("[data-acct-out]").is_visible() and "still on this device" in pb.locator("[data-acct-message]").inner_text()
-        and pb.locator("[data-acct-out] a[href='login.html']").is_visible(), "B: Sign out, the reading stays on the device, and Sign in is offered")
-    say(pb.locator(".header li[data-when=out] a[href='login.html']").is_visible() and pb.locator(".header .button-alt.is--me").is_hidden(),
+        and pb.locator("[data-acct-out] a[href='login']").is_visible(), "B: Sign out, the reading stays on the device, and Sign in is offered")
+    say(pb.locator(".header li[data-when=out] a[href='login']").is_visible() and pb.locator(".header .button-alt.is--me").is_hidden(),
         "B: the header says Sign in again")
     pa.locator("[data-acct-delete]").click(); pa.wait_for_timeout(300)
     say("again" in pa.locator("[data-acct-delete]").inner_text(), "A: Delete asks to be pressed again")

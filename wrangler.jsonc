@@ -5,8 +5,8 @@
   "compatibility_date": "2026-10-19",
   "assets": {
     "directory": "./dist",
-    // pages keep the addresses they have always had (books.html, book-dracula.html): no redirects to /books
-    "html_handling": "none",
+    // pages have clean addresses (/books serves books.html); an old link to books.html is sent on to /books
+    "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
   }
 }

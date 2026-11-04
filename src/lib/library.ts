@@ -58,7 +58,7 @@ const BookSchema = z.object({
 export type Book = z.infer<typeof BookSchema> & {
   kind: "fiction" | "nonfiction";
   moods: string[];
-  /** reading time in minutes, at 275 words a minute */
+  /** reading time in minutes, at an average adult's silent reading pace (READING_PACE) */
   minutes: number;
   /** the card colour: a site colour name */
   colour: string;
@@ -73,17 +73,22 @@ function entries<T>(json: Record<string, unknown>, schema: z.ZodType<T>, file: s
   }));
 }
 
+/** Words a minute: silent reading in English averages about 260 for fiction and 238 for non-fiction (Brysbaert, 2019,
+    a review of 190 studies). Standard Ebooks' reading times assume 275, which made every book look a little shorter. */
+export const READING_PACE = { fiction: 260, nonfiction: 238 } as const;
+
 const moods = entries(moodsJson, z.array(z.string()), "moods.json");
 const parsed = z.array(BookSchema).parse(booksJson);
 const library: Book[] = parsed.map((b, n) => {
   const bookMoods = moods[b.slug] || [];
   const unknown = bookMoods.filter((m) => !(MOODS as readonly string[]).includes(m));
   if (unknown.length || !bookMoods.length) throw new Error(`${b.slug}: unknown mood ${unknown.join(", ")}, or no mood in data/moods.json`);
+  const kind = (NONFICTION as readonly string[]).includes(b.genres[0]) ? "nonfiction" : "fiction";
   return {
     ...b,
-    kind: (NONFICTION as readonly string[]).includes(b.genres[0]) ? "nonfiction" : "fiction",
+    kind,
     moods: bookMoods,
-    minutes: Math.round(b.words / 275),
+    minutes: Math.round(b.words / READING_PACE[kind]),
     // the card colours go round in the order of data/books.json, before the books are ranked
     colour: CARD_COLOURS[n % CARD_COLOURS.length],
   };
@@ -93,7 +98,15 @@ const rank = (b: Book): number => b.popularity || 10_000;
 /** Every book, most read first (Standard Ebooks' popularity order, saved by pipeline/library.py) */
 export const LIBRARY: readonly Book[] = [...library].sort((a, b) => rank(a) - rank(b));
 export const BOOK: Readonly<Record<string, Book>> = Object.fromEntries(LIBRARY.map((b) => [b.slug, b]));
-export const bookUrl = (slug: string): string => `book-${slug}.html`;
+export const bookUrl = (slug: string): string => `book-${slug}`;
+
+/** Books like this one: those sharing the most genres, then the rest of the shelf, most read first */
+export function relatedTo(slug: string, count = 3): string[] {
+  const b = BOOK[slug];
+  const shared = (o: Book): number => o.genres.filter((g) => b.genres.includes(g)).length;
+  return LIBRARY.filter((o) => o.slug !== slug).map((o, i) => [o, i] as const)
+    .sort(([x, i], [y, j]) => shared(y) - shared(x) || i - j).slice(0, count).map(([o]) => o.slug);
+}
 
 export function mostPopular(genre: string, skip: ReadonlySet<string> = new Set()): string {
   const found = LIBRARY.find((b) => b.genres.includes(genre) && !skip.has(b.slug));
@@ -123,7 +136,7 @@ const quote = (s: string): string =>
   encodeURIComponent(s).replace(/[!'()*]/g, (c) => `%${c.charCodeAt(0).toString(16).toUpperCase()}`).replaceAll("%2F", "/");
 
 /** The reader opens the book at these words, without moving your place in it */
-export const readAt = (slug: string, line: Quote): string => `read.html?book=${slug}&at=${quote(line.text)}&in=${quote(line.in)}`;
+export const readAt = (slug: string, line: Quote): string => `read?book=${slug}&at=${quote(line.text)}&in=${quote(line.in)}`;
 
 // ---- The book of the month ----
 
@@ -195,6 +208,8 @@ export function groupQuery(name: string): string {
 export function libraryData(): string {
   const data = Object.fromEntries(LIBRARY.map((b) => [b.slug, {
     title: b.title, author: b.author, epub: b.epub, colour: b.colour, minutes: b.minutes,
+    // what to read next, for the end of the book (more than shown, so books already read can be passed over)
+    next: relatedTo(b.slug, 6),
     // numbered poems keep their bare numbers in the reader's contents, where chapters become "Chapter I"
     ...(b.genres.includes("Poetry") ? { verse: 1 } : {}),
   }]));

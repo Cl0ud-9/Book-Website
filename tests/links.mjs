@@ -7,9 +7,14 @@ import { join } from "node:path";
 const dist = process.argv[2] || "dist";
 const site = (process.env.SITE_URL || "https://the-bookshelf.cl0ud-9.workers.dev").replace(/\/?$/, "/");
 const missing = [];
+// A page's address has no .html (Cloudflare serves /books from books.html), and a folder's is its index.html
+const fileFor = (path) => {
+  if (path === "." || path === "./" || path.endsWith("/")) return join(path, "index.html");
+  return /\.[a-z0-9]+$/i.test(path.split("/").pop()) ? path : `${path}.html`;
+};
 const exists = (ref, from) => {
   const path = ref.split(/[?#]/)[0].replace(/^\//, "");
-  if (path && !existsSync(join(dist, decodeURIComponent(path)))) missing.push(`${from}: missing ${ref}`);
+  if (path && !existsSync(join(dist, decodeURIComponent(fileFor(path))))) missing.push(`${from}: missing ${ref}`);
 };
 
 for (const page of readdirSync(dist).filter((f) => f.endsWith(".html"))) {

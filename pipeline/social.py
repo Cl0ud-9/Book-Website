@@ -1,6 +1,8 @@
 """Make the link-preview images (1200 x 630 JPEG, one for the site and one per book) and the home-screen icon.
 
-usage: npm run build && npm run preview, then: python pipeline/social.py [BASE_URL]   (needs Playwright, Pillow and Google Chrome)
+usage: npm run build && npm run preview, then: python pipeline/social.py [BASE_URL] [--missing]
+       (needs Playwright, Pillow and Google Chrome; --missing draws only the previews not made yet, for new books, and
+       leaves the icons alone)
 """
 import io
 import re
@@ -11,7 +13,9 @@ from PIL import Image
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parent.parent
-BASE = sys.argv[1] if len(sys.argv) > 1 else "http://127.0.0.1:4321/"
+ARGS = [a for a in sys.argv[1:] if not a.startswith("--")]
+BASE = ARGS[0] if ARGS else "http://127.0.0.1:4321/"
+MISSING = "--missing" in sys.argv
 OUT = ROOT / ".assets" / "image" / "social"
 
 
@@ -28,13 +32,19 @@ with sync_playwright() as p:
     OUT.mkdir(exist_ok=True)
     # Each page names its own preview in og:image; the first page to name one is the one pictured
     shots = {}
-    for html in [ROOT / "index.html", *sorted(ROOT.glob("book-*.html"))]:
-        image = re.search(r'property="og:image" content="[^"]*?(.assets/image/social/[^"]+)"', html.read_text(encoding="utf-8"))
-        shots.setdefault(image.group(1), "" if html.name == "index.html" else html.name)
+    built = ROOT / "dist"
+    for html in [built / "index.html", *sorted(built.glob("book-*.html"))]:
+        image = re.search(r'property="og:image" content="[^"]*/image/social/([^"/]+)"', html.read_text(encoding="utf-8"))
+        shots.setdefault(image.group(1), "" if html.name == "index.html" else html.stem)
     for image, name in shots.items():
+        if MISSING and (OUT / image).exists():
+            continue
         page.goto(BASE + name, wait_until="networkidle")
         page.wait_for_timeout(800)
-        save_jpeg(page.screenshot(), ROOT / image)
+        save_jpeg(page.screenshot(), OUT / image)
+    if MISSING:
+        browser.close()
+        sys.exit()
 
     # Home-screen icon: the logo edge to edge, since phones round the corners themselves
     logo = (ROOT / "public" / "image" / "logo.svg").read_text(encoding="utf-8").replace('rx="16" ', "")

@@ -10,9 +10,9 @@ import ShareButton from "../components/ShareButton.astro";
 import Tags from "../components/Tags.astro";
 import Base from "../layouts/Base.astro";
 import type { IconName } from "../lib/icons";
-import { BOOK, GUIDES, LIBRARY, LISTEN, QUOTES, bookUrl, ink, readAt } from "../lib/library";
+import { BOOK, GUIDES, LIBRARY, LISTEN, QUOTES, bookUrl, ink, readAt, relatedTo } from "../lib/library";
 import { BLOB_A, BLOB_B } from "../lib/shapes";
-import { quoteText, thousands } from "../lib/text";
+import { about, capital, quoteText, thousands } from "../lib/text";
 
 export function getStaticPaths() {
   return LIBRARY.map((b) => ({ params: { slug: b.slug } }));
@@ -20,12 +20,9 @@ export function getStaticPaths() {
 
 const { slug } = Astro.params as { slug: string };
 const b = BOOK[slug];
-// Related: books sharing the most genres, then the rest of the shelf in order
-const shared = (o: typeof b): number => o.genres.filter((g) => b.genres.includes(g)).length;
-const related = LIBRARY.filter((o) => o.slug !== slug).map((o, i) => [o, i] as const)
-  .sort(([x, i], [y, j]) => shared(y) - shared(x) || i - j).slice(0, 3).map(([o]) => o.slug);
+const related = relatedTo(slug);
 const facts: [IconName, string, string][] = [
-  ["clock", "Reading time", b.reading_time],
+  ["clock", "Reading time", `${capital(about(b.minutes))}, at an average pace`],
   ["layers", "Length", `${thousands(b.words)} words`],
   ["bookmark", "Genre", b.genres.join(" and ")],
   ["globe", "Language", "English"],
@@ -40,7 +37,7 @@ const lines = (QUOTES[slug] || []).slice(0, 3);
 <Base name="book" path={bookUrl(slug)} title={`${b.title} by ${b.author}, free | The Bookshelf`} description={b.abstract} theme={b.colour} book={slug}>
 <section class="book-hero" style={`--card:var(--${b.colour});--ink:${ink(b.colour)}`} data-intro-page aria-labelledby="page-title">
   <BgShapes paths={[["is--glow", BLOB_A], ["is--glow", BLOB_B]]} class="book-hero__shapes" small />
-  <a class="book-hero__back" href="books.html"><Icon name="left" /> All books</a>
+  <a class="book-hero__back" href="books"><Icon name="left" /> All books</a>
   <div class="book-hero__grid">
     <div class="book-hero__visual" data-book-tilt aria-hidden="true">
       <div class="book-hero__float" data-book-tilt-target><Book3D slug={slug} class="is--large" sizes="(max-width: 991px) 60vw, 30em" lazy={false} priority /></div>
@@ -52,9 +49,9 @@ const lines = (QUOTES[slug] || []).slice(0, 3);
       <p class="book-hero__author" data-hero-paragraph>by {b.author}</p>
       <p class="book-hero__hook accent-note" data-hero-handwritten-text>{b.abstract}</p>
       <div class="book-hero__buy" data-hero-button>
-        <p class="book-hero__price">Free <span class="book-hero__save">{b.reading_time}</span></p>
+        <p class="book-hero__price">Free <span class="book-hero__save">{capital(about(b.minutes))}</span></p>
         <div class="book-hero__actions">
-          <ButtonAlt href={`read.html?book=${slug}`} data-read-button={slug} text="Read now" colour="black" icon="read" />
+          <ButtonAlt href={`read?book=${slug}`} data-read-button={slug} text="Read now" colour="black" icon="read" />
           <ButtonAlt href={b.epub} download text="Download EPUB" colour="white" icon="download" />
         </div>
         <p class="book-hero__formats">Also for <a href={b.kindle}>Kindle</a> and <a href={b.kobo}>Kobo</a></p>

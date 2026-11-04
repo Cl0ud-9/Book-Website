@@ -7,14 +7,14 @@ import LibraryData from "../components/LibraryData.astro";
 import Base from "../layouts/Base.astro";
 import { ACCOUNTS } from "../lib/config";
 ---
-<Base name="reading" path="reading.html" title="Your reading | The Bookshelf" description="Your books, highlights, notes and reading time, kept on your own device.">
+<Base name="reading" path="reading" title="Your reading | The Bookshelf" description="Your books, highlights, notes and reading time, kept on your own device.">
 <HeroXs tint="pale-yellow" shapes="yellow" title="Your reading" note="Just for you">Your books, highlights, notes and reading time. {ACCOUNTS ? "Kept on this device, and in your account when you sign in." : "All of it lives on this device, and none of it is sent anywhere."}</HeroXs>
 <div class="mine" data-your-reading>
   <noscript><p class="mine__empty">Your reading needs JavaScript: it shows what this browser keeps for you.</p></noscript>
   {ACCOUNTS ? (
     // Where it is kept, in the page from the start, signed in or out (the boot script marks which); the script keeps it
     // current. Added by the script alone, it pushed the page down.
-    <p class="mine__account is--out" data-mine-account><span class="mine__account-text" data-when="out">Kept on this device only. Sign in to have it on every device, and never lose your place.</span><span class="mine__account-actions" data-when="out"><a class="mine__button is--small" href="login.html">Sign in</a><a class="mine__button is--small is--quiet" href="signup.html">Create an account</a></span><span data-when="in">Kept in your account. <a href="account.html">Your account</a></span></p>
+    <p class="mine__account is--out" data-mine-account><span class="mine__account-text" data-when="out">Kept on this device only. Sign in to have it on every device, and never lose your place.</span><span class="mine__account-actions" data-when="out"><a class="mine__button is--small" href="login">Sign in</a><a class="mine__button is--small is--quiet" href="signup">Create an account</a></span><span data-when="in">Kept in your account. <a href="account">Your account</a></span></p>
   ) : (
     <p class="mine__account" data-mine-account hidden></p>
   )}
@@ -34,7 +34,7 @@ import { ACCOUNTS } from "../lib/config";
   <section class="mine__section" id="books" aria-labelledby="books-title">
     <h2 class="mine__title heading-m" id="books-title">Reading now</h2>
     <ol class="mine__books" data-reading-list></ol>
-    <p class="mine__empty" data-reading-empty hidden>Books you open in the reader show up here, with how far you got. <a href="books.html">Find a book</a>.</p>
+    <p class="mine__empty" data-reading-empty hidden>Books you open in the reader show up here, with how far you got. <a href="books">Find a book</a>.</p>
   </section>
   <section class="mine__section" id="notes" aria-labelledby="notes-title">
     <h2 class="mine__title heading-m" id="notes-title">Your notes</h2>
