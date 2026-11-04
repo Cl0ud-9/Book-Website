@@ -1,0 +1,30 @@
+name: Old address
+# What is left of the old address (cl0ud-9.github.io/Book-Website): pages that send you on to the new one, and the removal of
+# the offline copies browsers kept. Run by hand when pipeline/old-site.mjs changes. The site itself is published by deploy.yml.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: node pipeline/old-site.mjs
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _old-site
+      - id: deployment
+        uses: actions/deploy-pages@v5
