@@ -34,3 +34,33 @@ p { -webkit-hyphens: auto; hyphens: auto; }
   section.epub-type-contains-word-imprint p { text-align: start; width: auto; }
 }
 
+
+/* ---------- The look of a printed book ----------
+   Each chapter opens with its first letter set large and the rest of the first line in small capitals, as printers
+   do. --bookshelf-accent is the page's own accent (reader.js sets it with the page's colours). */
+[role="doc-chapter"] > :is(h2, h3, header, hgroup) + p::first-letter {
+  float: left; margin: .06em .09em 0 0; font-size: 3.15em; line-height: .82; font-weight: 600;
+  color: var(--bookshelf-accent, currentColor);
+}
+[role="doc-chapter"] > :is(h2, h3, header, hgroup) + p { text-indent: 0; }
+[role="doc-chapter"] > :is(h2, h3, header, hgroup) + p::first-line { font-variant-caps: small-caps; letter-spacing: .04em; }
+/* the chapter's number or name, a little more spaced and set apart from the text */
+[role="doc-chapter"] > :is(h2, h3), [role="doc-chapter"] > :is(header, hgroup) > :is(h2, h3) { letter-spacing: .08em; }
+[role="doc-chapter"] > :is(h2, h3, header, hgroup) { margin-bottom: 1.6em; }
+
+/* A break between scenes: three small dots in the middle of the line, instead of a rule */
+hr {
+  width: 2.7em; height: .5em; margin: 1.6em auto; border: 0; opacity: .55; overflow: visible;
+  background: radial-gradient(circle, currentColor 0 .09em, transparent .1em) center / .9em .5em repeat-x;
+}
+
+/* Links (a note's number, a cross-reference) in the page's accent, underlined softly */
+a { color: var(--bookshelf-accent, currentColor) !important; text-decoration-thickness: .06em; text-underline-offset: .18em;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); }
+
+/* Scrolling down a book, each chapter ends with a small mark before the next begins. It hangs from the chapter itself:
+   epub.js sizes the chapter's frame from its contents, and a mark after them (on the body) was cut off. */
+:root.bookshelf-scroll body > :last-child:is([role="doc-chapter"], :has([role="doc-chapter"]))::after {
+  content: ""; display: block; width: 2.7em; height: .5em; margin: 3em auto 0; opacity: .4;
+  background: radial-gradient(circle, currentColor 0 .09em, transparent .1em) center / .9em .5em repeat-x;
+}

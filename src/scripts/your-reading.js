@@ -58,7 +58,7 @@
       img.loading = "lazy";
       const text = el("div", "mine__book-text");
       const title = el("a", "mine__book-title", book.title);
-      title.href = `book-${slug}.html`;
+      title.href = `book-${slug}`;
       text.append(title, el("p", "mine__book-author", book.author));
       li.append(img, text);
       extra(text, li);
@@ -138,7 +138,7 @@
         bar.setAttribute("aria-valuemin", "0");
         bar.setAttribute("aria-valuemax", "100");
         const go = el("a", "mine__button is--small", "Continue");
-        go.href = `read.html?book=${slug}`;
+        go.href = `read?book=${slug}`;
         go.prepend(icon("read"));
         text.append(el("p", "mine__meta", `${pct}% read · last opened ${ago(place.at)}`), bar, go);
       })));
@@ -165,7 +165,7 @@
       books.forEach((b) => list.append(bookItem(b.slug, (text, li) => {
         const actions = el("p", "mine__row");
         const go = el("a", "mine__button is--small", "Read");
-        go.href = `read.html?book=${b.slug}`;
+        go.href = `read?book=${b.slug}`;
         go.prepend(icon("read"));
         const remove = el("button", "mine__button is--small is--quiet", "Remove");
         remove.type = "button";
@@ -208,7 +208,7 @@
         const group = el("section", "mine__note-group");
         const head = el("h3", "mine__note-book");
         const link = el("a", null, library[slug].title);
-        link.href = `book-${slug}.html`;
+        link.href = `book-${slug}`;
         head.append(link, el("span", "mine__note-count", `${items.length} ${items.length === 1 ? "note" : "notes"}`));
         const list = el("ol", "mine__note-list");
         items.sort((a, b) => (a.percent ?? 0) - (b.percent ?? 0)).forEach((n) => {
@@ -221,7 +221,7 @@
           body.append(el("p", "mine__meta", [bookmark ? "Bookmark" : "", n.chapter, n.percent != null ? `${Math.round(n.percent * 100)}%` : ""].filter(Boolean).join(" · ")));
           const actions = el("p", "mine__row");
           const open = el("a", "mine__button is--small", "Open in the book");
-          open.href = `read.html?book=${slug}&note=${encodeURIComponent(n.id)}`;
+          open.href = `read?book=${slug}&note=${encodeURIComponent(n.id)}`;
           open.prepend(icon("read"));
           const remove = el("button", "mine__button is--small is--quiet", "Remove");
           remove.type = "button";
@@ -344,7 +344,7 @@
       banner.hidden = false;
       banner.replaceChildren();
       const link = el("a", null, "");
-      link.href = "account.html";
+      link.href = "account";
       banner.classList.toggle("is--out", now.state !== "in");
       if (now.state === "in") {
         banner.append(account.avatar(now.profile, "small"), el("span", null, `Kept in your account, @${now.profile.handle}${now.lastSync ? "" : " (keeping it now…)"}. `));
@@ -358,9 +358,9 @@
         banner.append(el("span", "mine__account-text", "Kept on this device only. Sign in to have it on every device, and never lose your place."));
         const actions = el("span", "mine__account-actions");
         const signIn = el("a", "mine__button is--small", "Sign in");
-        signIn.href = "login.html";
+        signIn.href = "login";
         const signUp = el("a", "mine__button is--small is--quiet", "Create an account");
-        signUp.href = "signup.html";
+        signUp.href = "signup";
         actions.append(signIn, signUp);
         banner.append(actions);
       }

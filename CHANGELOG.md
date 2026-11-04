@@ -5,7 +5,109 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
-## [4.0.0] - Unreleased
+## [4.1.0] - 2026-11-04
+
+### Added
+
+- 201 more books, 362 in all, from among Standard Ebooks' most read: Mansfield Park, Villette, David Copperfield, Bleak
+  House, Les Misérables, Notre-Dame de Paris, The Mill on the Floss, Silas Marner, Ivanhoe, Kidnapped, Kim, The Scarlet
+  Pimpernel, The Last of the Mohicans, Tarzan of the Apes, The Casebook of Sherlock Holmes, Whose Body?, The Railway
+  Children, Five Children and It, Pinocchio, Pollyanna, Anne of Avonlea, The House at Pooh Corner, Beatrix Potter's
+  tales, The Canterbury Tales, the Aeneid, Robert Frost, T. S. Eliot, Julius Caesar, Twelfth Night, Pygmalion, The
+  Cherry Orchard, Confucius, Descartes, Rousseau, The Book of Tea, Herodotus, Thucydides and more. Each is checked to be
+  free in India as well as the US, as before: Heidi (its translator died in 1968), Steppenwolf (1989) and Seven Pillars
+  of Wisdom (several of its illustrators) were left out, and so were three books whose translators' dates cannot be
+  found. Three whose cover paintings are not free there (Magritte, Picasso, and a painter whose dates are unknown) have
+  covers of our own. Among the next 81: Ulysses, In Search of Lost Time, The Sound and the Fury, Hemingway's stories,
+  Demons, The Pickwick Papers, Our Mutual Friend, Of Human Bondage, Nostromo, Strong Poison, Red Harvest, The Monk,
+  The Mysteries of Udolpho, six more of Shakespeare's plays and his poems, Metamorphoses, Leviathan, Hume, Seneca,
+  Epictetus and Grant's memoirs. Ten were left out on the same check (the reasons are in pipeline/library.py), and six
+  have covers of our own. And fifty more: Buddenbrooks, Sons and Lovers, Resurrection, Little Dorrit, Nicholas Nickleby,
+  Moll Flanders, The Mayor of Casterbridge, Shirley, This Side of Paradise, The Moon and Sixpence, The Prisoner of Zenda,
+  The Riddle of the Sands, Lady Audley's Secret, Melmoth the Wanderer, Twelve Years a Slave, The Autobiography of Mark
+  Twain, Bulfinch's Mythology, more of Oz, Chekhov's plays and Agamemnon.
+- The end of a book: turning on from its last page, or scrolling to the end of it, a card says you finished it, with
+  your time reading it on this device and three books like it to read next (ones you have not finished). Turn on again
+  for the edition's notes and licence.
+- Chapters open as in a printed book: the first letter set large in the page's accent colour and the rest of the first
+  line in small capitals. A break between scenes is three small dots rather than a rule, links take the page's accent
+  instead of browser blue, and scrolling, each chapter ends with a small mark before the next.
+
+### Changed
+
+- Clean page addresses: /books, /book-dracula, /read?book=dracula, with no .html. Old links ending in .html are sent on
+  to the new address, so links shared before still work.
+- Follow the feed opens Feedly ready to follow the book of the month, with Inoreader and "copy the feed address" for
+  any other reader. (The feed itself, opened in a browser, showed bare XML.)
+- A field's name rises into a gap whose edges are the border's own round ends, starting where the border runs straight,
+  instead of a square box cut out of the corner.
+- Two facing pages turn like paper: the page curls from its corner across the spine, its back showing the page it
+  becomes, and the page after it beneath. With a mouse, the corner lifts a little when the pointer comes near the edge
+  of a page, and a click there turns it (the middle of the page is left for reading and choosing words).
+- Reading times are worked out at an average adult's pace, about 260 words a minute for fiction and 238 for
+  non-fiction (Brysbaert, 2019), instead of Standard Ebooks' 275, and rounded to what an estimate can say: "About 2
+  hours", not "1 hour 58 minutes".
+
+### Performance
+
+- The covers that fan out beside a genre are fetched only when someone points at the genres, presses one or tabs to
+  one, and at the size a phone shows them: a phone scrolling past downloaded every one of them, 720 px wide, though it
+  never showed them (about 5 MB on Genres, 2.5 MB on the home page).
+- The reader starts downloading the book and its cover with the page, instead of after its own scripts, and the
+  closed book is on the desk from the first moment rather than once those scripts have come. The page is laid out as
+  the reader will want it from the start, and keeps a line for the author's name and the chapter's, so nothing moves
+  as it opens: a layout shift of 0.1 on a laptop and 0.3 on a phone (the tip, settling), and now and then over 0.6
+  on a phone, as each scrolled chapter was first laid out a word wide (epub.js makes its frame 0 wide) and then
+  across the screen. Each starts as wide as the book now. Opening at a chapter, the scroll no longer overshoots and
+  comes back: where the browser keeps the words still itself as chapters are added above, epub.js no longer moves
+  them by the same amount again.
+- Covers further down a page are fetched three screens before you reach them, instead of the first eighty all at
+  once after the page loads: All books on a phone fetched 7 MB of covers on arriving, and now 235 KB. A fast fling
+  through All books or the shelves still finds every cover on screen loaded.
+- A `favicon.ico`, for browsers that ask for one by that name (the pages name their own icon).
+- Scrolling the home page on a phone: the curved tagline is set up in a quarter of the time (its curve is sampled
+  every 16 units, not every 4), the confetti over the favourites is made bit by bit as it falls and with fewer bits on
+  a phone, the floating books bob on a layer of their own, and the handwritten names hidden behind the genres are no
+  longer drawn while they wait. Its longest pause, on a phone slowed to a mid-range one's speed, went from 359 ms to
+  under 150 ms.
+
+### Fixed
+
+- Beatrix Potter's tales could not be read here, only downloaded: at 50 MB they stayed on Standard Ebooks, whose server no
+  longer lets other sites read its files. They are kept here now, with their pictures made smaller.
+- Scrolling, a book opened at a chapter could name the page before it in the footer (Imprint), and keep that as your place.
+- Turning pages on many Android phones, every chapter's last page was skipped: the swipe or tap on the last page but
+  one went straight to the next chapter, and at the end of a book the card saying you finished it never came. A screen
+  whose pixels are not a whole number of the page's (2.625 is common) left each turn a fraction past the page's edge.
+- Scrolling, a book's dedication or epigraph kept growing for as long as the book stayed open, sliding the words below
+  it down the page: 80 books size such pages by the height of the screen, and in a chapter's frame that height is the
+  frame's own. They are now measured against the real window.
+- On Your reading and readers' pages the header's buttons were the page's own pale yellow, and disappeared; they are
+  white there, and every header button has a faint edge.
+- The current page's bookmark under its button stretched past its length and jerked from side to side, and its corner
+  showed beside the button's round end. It now unrolls smoothly from under the straight edge and sways a little.
+- A book opened for the first time started on the edition's title page and licence; it opens where the book itself
+  does (its first chapter, or a dedication), and the edition's pages stay in Contents under About this edition.
+- Scrolling on a phone, a place shown (the first chapter, a chapter from Contents) landed some way below where it
+  should, and the bars slipped away as if you had scrolled: epub.js counted the chapters it added above twice. Its own
+  scrolling as it drops a chapter above no longer brings the bars back either.
+- On a phone the book's title was cut short beside the tools ("Pride a…"); it takes two lines, and the tip about
+  choosing words is shorter and smaller.
+- A field Chrome filled in (a saved password) turned pale blue, leaving a white box around its name.
+- A double-click or a drag could select a book's cover (tinting it blue), the header or a button; pictures,
+  buttons and the moving parts can no longer be selected or dragged off, and words still can.
+- Pressing to turn several times quickly dropped all but one of the extra turns; each press now counts.
+- Turning a page into the next or previous chapter, on two facing pages: the copies of the new chapter, made as the
+  book moved into it, arrived in the middle of the turn and took the turning page with them, so the pages jumped. The
+  chapters either side are now copied ahead of time, so those turns curl like any other, with the right page on the
+  back, instead of blank paper and a pause.
+- The page copies a turn is drawn from were not laid out until the turn began (a rule hiding them overrode the one
+  keeping them ready), and lost the rules epub.js writes straight into the page's stylesheet, so at the end of a turn
+  the page could shift as the book took over; the spine's shade, the curl's light and its shadow also changed as it
+  landed. A page now lands exactly as the book shows it, highlights included, and the first turn in a chapter curls
+  rather than sliding.
+
+## [4.0.0] - 2026-10-31
 
 ### Changed
 

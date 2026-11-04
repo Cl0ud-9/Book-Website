@@ -68,13 +68,15 @@
   }
 
   // Links to a part of the page you are already on scroll there instead of loading anything. A link to a part of
-  // another page (index.html#new) is remembered here: the page change dropped the #part, and you landed at the top.
+  // another page (./#new) is remembered here: the page change dropped the #part, and you landed at the top. A page's
+  // address may end in .html or not, and the home page's in index (old links), or nothing.
   let pendingHash = "";
+  const samePage = (path) => path.replace(/\.html$/, "").replace(/\/index$/, "/");
   window.addEventListener("click", (event) => {
     const link = event.target.closest("a[href]");
     if (!link || event.metaKey || event.ctrlKey || event.shiftKey) return;
     const url = new URL(link.href, location.href);
-    const here = url.pathname.replace(/index\.html$/, "") === location.pathname.replace(/index\.html$/, "");
+    const here = samePage(url.pathname) === samePage(location.pathname);
     if (!here) {
       pendingHash = url.origin === location.origin ? url.hash : "";
       return;
@@ -929,6 +931,16 @@
     const scope = section.querySelector("[data-genre-interaction-scope]");
     const items = [...list.querySelectorAll("[data-genre-interaction-item]")];
     const boxes = [...section.querySelectorAll("[data-genre-interaction-box]")];
+    // The covers are fetched only once someone points into the genres, presses one or tabs to one (they are only ever
+    // shown then): a phone scrolling past, which cannot point, no longer downloads dozens of covers it never shows
+    const fetchCovers = () => {
+      section.querySelectorAll("img[data-srcset]").forEach((img) => {
+        img.srcset = img.dataset.srcset;
+        img.src = img.dataset.src;
+        img.removeAttribute("data-srcset");
+      });
+    };
+    ["pointerenter", "pointerdown", "focusin"].forEach((type) => section.addEventListener(type, fetchCovers, { once: true, passive: true }));
     let bounds = null;
     const activate = (item) => {
       const index = items.indexOf(item);
@@ -1079,8 +1091,10 @@
       const path = wrap.querySelector("path");
       const source = wrap.querySelector("[data-tagline-text]");
       const total = path.getTotalLength();
-      // Asking the path for points is slow on a phone, so it is sampled once and read from the samples after that
-      const STEP = 4;
+      // Asking the path for points is slow on a phone, so it is sampled once and read from the samples after that:
+      // every 16 units of its 1600 (4 px on a phone; 400 samples at every 4 took 80 ms there), and in between along
+      // the straight line, which on so gentle a curve is off by a fraction of a pixel
+      const STEP = 16;
       const samples = [];
       for (let d = 0; d <= total + STEP; d += STEP) {
         const point = path.getPointAtLength(Math.min(d, total));
@@ -1117,8 +1131,9 @@
         const box = ruler.getBoundingClientRect();
         const range = document.createRange();
         const text = ruler.firstChild;
-        starts = letters.map((_, i) => { range.setStart(text, i); range.setEnd(text, i + 1); return range.getBoundingClientRect().left - box.left; });
-        widths = letters.map((_, i) => { range.setStart(text, i); range.setEnd(text, i + 1); return range.getBoundingClientRect().width; });
+        const rects = letters.map((_, i) => { range.setStart(text, i); range.setEnd(text, i + 1); return range.getBoundingClientRect(); });
+        starts = rects.map((r) => r.left - box.left);
+        widths = rects.map((r) => r.width);
         length = box.width;
         baseline = baselineMark.getBoundingClientRect().bottom - box.top;
         letters.forEach((letter, i) => { letter.style.transformOrigin = `${widths[i] / 2}px ${baseline}px`; });
@@ -1189,10 +1204,19 @@
     (c) => `<svg viewBox="0 0 10 14"><rect x="1" y="1" width="8" height="12" rx="1.2" fill="${c}"/><rect x="1" y="1" width="2" height="12" fill="rgba(0,0,0,.2)"/></svg>`,
     (c) => `<svg viewBox="0 0 24 10"><path d="M2 6c3-4 5 4 8 0s5 4 8 0 3-2 4-2" fill="none" stroke="${c}" stroke-width="2.6" stroke-linecap="round"/></svg>`,
   ];
+  // each shape in each colour is drawn from its markup once, and copied after that
+  const confettiMade = new Map();
   function confettiBit() {
-    const bit = document.createElement("div");
-    bit.className = "confetti__bit";
-    bit.innerHTML = gsap.utils.random(CONFETTI_SHAPES)(gsap.utils.random(CONFETTI_COLOURS));
+    const shape = gsap.utils.random(0, CONFETTI_SHAPES.length - 1, 1);
+    const colour = gsap.utils.random(CONFETTI_COLOURS);
+    let made = confettiMade.get(`${shape}${colour}`);
+    if (!made) {
+      made = document.createElement("div");
+      made.className = "confetti__bit";
+      made.innerHTML = CONFETTI_SHAPES[shape](colour);
+      confettiMade.set(`${shape}${colour}`, made);
+    }
+    const bit = made.cloneNode(true);
     confettiBox.appendChild(bit);
     return bit;
   }
@@ -1216,12 +1240,16 @@
         onEnter: (self) => {
           if (running || self.direction !== 1 || reducedMotion()) return;
           running = true;
-          for (let i = 0; i < 46; i++) {
-            const bit = confettiBit();
-            const delay = gsap.utils.random(0, 1.2);
-            gsap.fromTo(bit, { x: gsap.utils.random(0, innerWidth), y: -40, rotation: gsap.utils.random(0, 360), scale: gsap.utils.random(0.6, 1.3) },
-              { y: innerHeight + 60, x: "+=" + gsap.utils.random(-120, 120), rotation: "+=" + gsap.utils.random(-540, 540), delay,
-                duration: gsap.utils.random(1.6, 2.6), ease: "power1.in", onComplete: () => bit.remove() });
+          // Each bit is made as it starts to fall, not all of them at once in the scroll that set them off (which held
+          // a phone's scrolling for a moment), and a phone's narrow screen takes fewer for the same shower
+          const count = innerWidth < 768 ? 24 : 46;
+          for (let i = 0; i < count; i++) {
+            gsap.delayedCall(gsap.utils.random(0, 1.2), () => {
+              const bit = confettiBit();
+              gsap.fromTo(bit, { x: gsap.utils.random(0, innerWidth), y: -40, rotation: gsap.utils.random(0, 360), scale: gsap.utils.random(0.6, 1.3) },
+                { y: innerHeight + 60, x: "+=" + gsap.utils.random(-120, 120), rotation: "+=" + gsap.utils.random(-540, 540),
+                  duration: gsap.utils.random(1.6, 2.6), ease: "power1.in", onComplete: () => bit.remove() });
+            });
           }
           gsap.delayedCall(4, () => { running = false; });
         },
@@ -1501,7 +1529,7 @@
     started.forEach(([slug, p]) => {
       const item = template.content.firstElementChild.cloneNode(true);
       const book = library[slug];
-      item.querySelector("a").href = `read.html?book=${slug}`;
+      item.querySelector("a").href = `read?book=${slug}`;
       item.querySelector("img").src = `image/covers/${slug}-360.webp`;
       item.querySelector("[data-continue-title]").textContent = book.title;
       item.querySelector("[data-continue-author]").textContent = book.author;
@@ -1540,7 +1568,7 @@
       const response = await fetch(epub, { mode: "cors" });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       await books.put(epub, response);
-      await Promise.allSettled([pages.add(`book-${slug}.html`), images.add(`image/covers/${slug}-360.webp`), images.add(`image/covers/${slug}-180.webp`)]);
+      await Promise.allSettled([pages.add(`book-${slug}`), images.add(`image/covers/${slug}-360.webp`), images.add(`image/covers/${slug}-180.webp`)]);
       navigator.storage?.persist?.().catch(() => {});
       writeKept({ ...readKept(), [slug]: { epub, at: Date.now() } });
     },
@@ -1801,25 +1829,36 @@
       footerParallax(container);
       catalogue(container);
       faqTopics(container);
-      preloadImages(container);
-      [breathingShapes, floatingBooks, waveButtons, sliders, fannedCards, genreCovers, genreShelves, momentumHover, bookPage]
+      [preloadImages, breathingShapes, floatingBooks, waveButtons, sliders, fannedCards, genreCovers, genreShelves, momentumHover, bookPage]
         .forEach((fn) => { const undo = fn(container); if (undo) pageCleanups.push(undo); });
     }, container);
   }
 
-  // Pictures lower on the page (covers, mostly) are fetched once the page has loaded, rather than as you reach them: a
-  // phone fetches a lazy picture only when it is nearly on screen, and the covers appeared one by one as you scrolled.
-  // A long list (all 161 books) keeps its lazy pictures past the first eighty.
+  // Pictures lower on the page (covers, mostly) are fetched a few screens before you reach them, rather than as they
+  // come on screen: a phone fetches a lazy picture only when it is nearly there, and the covers appeared one by one as
+  // you scrolled. (They were all fetched once the page had loaded, up to eighty: on All books, on a phone, that was 7 MB
+  // of covers a reader might never scroll to.) A slider or a shelf hides its own covers until they slide in, so it is
+  // watched as a whole, and its covers fetched together; so is a card or shelf the browser skips laying out while it
+  // is off screen (content-visibility), where a cover has no size to be seen by.
   function preloadImages(container) {
-    const lazy = [...container.querySelectorAll("img[loading='lazy']")].slice(0, 80);
-    if (!lazy.length) return;
-    const fetchAll = () => lazy.forEach((img) => {
-      if (!img.isConnected) return;
-      img.loading = "eager";
-      img.decode?.().catch(() => {});
+    const lazy = [...container.querySelectorAll("img[loading='lazy'][src]")];
+    if (!lazy.length || !("IntersectionObserver" in window)) return undefined;
+    const groups = new Map();
+    lazy.forEach((img) => {
+      const group = img.closest(".catalogue__grid .book-card, .shelves .shelf") || img.closest("[data-books-slider-viewport], [data-shelf-row]") || img;
+      groups.set(group, [...(groups.get(group) || []), img]);
     });
-    const soon = () => (window.requestIdleCallback ? requestIdleCallback(fetchAll, { timeout: 2500 }) : setTimeout(fetchAll, 600));
-    if (document.readyState === "complete") soon(); else window.addEventListener("load", soon, { once: true });
+    const io = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+      groups.get(entry.target)?.forEach((img) => {
+        img.loading = "eager";
+        img.decode?.().catch(() => {});
+      });
+    }), { rootMargin: "0px 0px 300% 0px" });
+    const start = () => groups.forEach((_, group) => io.observe(group));
+    if (document.readyState === "complete") start(); else window.addEventListener("load", start, { once: true });
+    return () => { io.disconnect(); window.removeEventListener("load", start); };
   }
 
   function destroyPage() {
@@ -1847,6 +1886,21 @@
     const link = event.target.closest?.("a[download]");
     const book = link?.getAttribute("href")?.match(/([a-z0-9-]+)\.epub/)?.[1];
     if (book) window.bookshelfTrack(`download/${book}`, document.title);
+  });
+
+  // The footer's "copy the feed address", for a feed reader other than the two it links to
+  document.addEventListener("click", async (event) => {
+    const button = event.target.closest?.("[data-copy-feed]");
+    if (!button) return;
+    const label = button.dataset.label ||= button.textContent;
+    try {
+      await navigator.clipboard.writeText(button.dataset.copyFeed);
+      button.textContent = "copied: paste it into your reader";
+    } catch {
+      button.textContent = button.dataset.copyFeed;
+    }
+    clearTimeout(Number(button.dataset.timer));
+    button.dataset.timer = String(setTimeout(() => { button.textContent = label; }, 2600));
   });
 
   function afterEnter() {

@@ -12,7 +12,7 @@ interface Props {
   groups?: readonly string[];
   moreLink?: string;
 }
-const { link, eyebrow = "Choose from", more = "and more!", groups = HOME_GROUPS, moreLink = "genres.html" } = Astro.props;
+const { link, eyebrow = "Choose from", more = "and more!", groups = HOME_GROUPS, moreLink = "genres" } = Astro.props;
 // each group shows four covers around it, its most read books, repeating a small group's own
 const coversFor = (g: string): string[] => {
   const mine = groupBooks(g).slice(0, 4).map((b) => b.slug);
@@ -34,7 +34,7 @@ const entries = [...groups.map((g) => [g, link(g), ""] as const), [more, moreLin
       ))}
     </ul>
     <div class="genre__holding" aria-hidden="true" data-genre-interaction-scope>{[0, 1, 2, 3].map((h) => (
-      <div class="genre__holder"><div class="genre__box" data-genre-interaction-box>{groups.map((g) => <Cover slug={coversFor(g)[h]} sizes="17em" alt="" class="genre__img" />)}<Cover slug={others[h]} sizes="17em" alt="" class="genre__img" /></div></div>
+      <div class="genre__holder"><div class="genre__box" data-genre-interaction-box>{groups.map((g) => <Cover slug={coversFor(g)[h]} sizes="(max-width: 991px) 8em, 17em" alt="" class="genre__img" defer />)}<Cover slug={others[h]} sizes="(max-width: 991px) 8em, 17em" alt="" class="genre__img" defer /></div></div>
     ))}</div>
   </div>
   <span class="genre__emblem"><Icon name="logo" /></span>

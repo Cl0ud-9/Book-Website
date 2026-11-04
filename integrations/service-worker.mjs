@@ -19,7 +19,7 @@ export function serviceWorker() {
       "astro:build:done": async ({ dir, logger }) => {
         const out = fileURLToPath(dir);
         const built = (await readdir(join(out, "_astro"))).sort().map((name) => `_astro/${name}`);
-        const shell = ["read.html", "reading.html", "account.html", ...built, "image/logo.svg", "manifest.webmanifest"];
+        const shell = ["read", "reading", "account", ...built, "image/logo.svg", "manifest.webmanifest"];
         const hash = createHash("sha1");
         for (const file of built) hash.update(await readFile(join(out, file)));
         const version = hash.digest("hex").slice(0, 8);

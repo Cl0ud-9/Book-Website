@@ -7,18 +7,32 @@ export const plain = (s: string): string => s.toLowerCase().normalize("NFD").rep
 export const slugify = (s: string): string =>
   s.toLowerCase().replace(/['’]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 
-/** "7 hours 24 minutes" -> "about 7 hours"; "1 hour 58 minutes" -> "about 2 hours"; "47 minutes" -> "about 47 minutes" */
-export function about(readingTime: string): string {
-  const hours = /(\d+) hours?/.exec(readingTime);
-  const minutes = /(\d+) minutes?/.exec(readingTime);
-  if (!hours) return `about ${readingTime}`;
-  const n = Number(hours[1]) + (minutes && Number(minutes[1]) >= 30 ? 1 : 0);
-  return `about ${n} hour${n !== 1 ? "s" : ""}`;
+// A reading time is an estimate (people read at different speeds), so it is rounded to what it can honestly say: to
+// 5 minutes under an hour, to half an hour up to 10 hours, and to the hour after that. Never "1 hour 58 minutes".
+function rounded(minutes: number): { hours: number; half: boolean; mins: number } {
+  if (minutes < 55) return { hours: 0, half: false, mins: Math.max(5, Math.round(minutes / 5) * 5) };
+  if (minutes < 600) {
+    const halves = Math.max(2, Math.round(minutes / 30));
+    return { hours: Math.floor(halves / 2), half: halves % 2 === 1, mins: 0 };
+  }
+  return { hours: Math.round(minutes / 60), half: false, mins: 0 };
 }
 
-/** "7 hours 24 minutes" reads as "7 h 24 min" on a card */
-export const shortTime = (readingTime: string): string =>
-  readingTime.replace(" hours", " h").replace(" hour", " h").replace(" minutes", " min").replace(" minute", " min");
+/** 118 -> "about 2 hours"; 137 -> "about 2½ hours"; 43 -> "about 45 minutes" */
+export function about(minutes: number): string {
+  const r = rounded(minutes);
+  if (!r.hours) return `about ${r.mins} minutes`;
+  return `about ${r.hours}${r.half ? "½" : ""} hour${r.hours > 1 || r.half ? "s" : ""}`;
+}
+
+/** The same on a card: "2 h", "2½ h", "45 min" */
+export function shortTime(minutes: number): string {
+  const r = rounded(minutes);
+  return r.hours ? `${r.hours}${r.half ? "½" : ""} h` : `${r.mins} min`;
+}
+
+/** "about 2 hours" -> "About 2 hours" */
+export const capital = (s: string): string => s.charAt(0).toUpperCase() + s.slice(1);
 
 /** A line as it is shown: in quotation marks unless it already has them, with an ellipsis where it begins or ends in
  * the middle of a sentence */

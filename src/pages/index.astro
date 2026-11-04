@@ -16,7 +16,7 @@ import Base from "../layouts/Base.astro";
 import { ACCOUNTS } from "../lib/config";
 import { BOOK, COVER, FEATURED, LIBRARY, TODAY, bookUrl, ink, monthKey, pickFor } from "../lib/library";
 import { BLOB_A, BLOB_B, BLOB_C, HERO_BAND, HERO_HILLS, HERO_RIDGE, TAGLINE, WHY_A, WHY_B, WHY_C } from "../lib/shapes";
-import { SPARKLE, about, burst, slugify, thousands } from "../lib/text";
+import { SPARKLE, about, burst, capital, slugify, thousands } from "../lib/text";
 
 const count = LIBRARY.length;
 // Four line drawings for "how it works"
@@ -51,7 +51,7 @@ const [back, front] = FEATURED.hero;
   <div class="hero__content">
     <h1 class="hero__title heading-xxl" id="hero-title" data-hero-title>Stories you can’t put down</h1>
     <p class="hero__text" data-hero-paragraph>The Bookshelf is a free library of the classics: {count} books to read right here or download, from Austen to Sherlock Holmes. No ads, no catch, and no account needed.</p>
-    <div data-hero-button><ButtonAlt href="books.html" text="Browse the shelf" /></div>
+    <div data-hero-button><ButtonAlt href="books" text="Browse the shelf" /></div>
   </div>
   <p class="hero__note accent-note" data-hero-handwritten-text>Free, forever!</p>
   <div class="hero__visual" data-hero-visual aria-hidden="true">
@@ -63,7 +63,7 @@ const [back, front] = FEATURED.hero;
 <section class="continue" aria-labelledby="continue-title" data-continue hidden>
   <h2 class="continue__title heading-m" id="continue-title">Continue reading</h2>
   <ul class="continue__list" data-continue-list></ul>
-  <template><li class="continue__item"><a class="continue__link" href="read.html">
+  <template><li class="continue__item"><a class="continue__link" href="read">
     <img src="" width={COVER.width} height={COVER.height} alt="" loading="lazy" decoding="async">
     <span class="continue__text"><span class="continue__book" data-continue-title></span><span class="continue__author" data-continue-author></span>
     <span class="continue__progress"><span data-continue-bar></span></span><span class="continue__percent" data-continue-percent></span></span>
@@ -92,7 +92,7 @@ const [back, front] = FEATURED.hero;
   <div class="flow__head">
     <h2 class="flow__title heading-l" id="flow-title">How it works</h2>
     <p class="flow__note accent-note" data-handwritten-text-inview>Easier than choosing what to read next</p>
-    <div class="flow__cta" data-plop-in><span class="flow__emblem" data-plop-in-item><Icon name="logo" /></span><ButtonAlt href="books.html" text="Start reading" size="small" /></div>
+    <div class="flow__cta" data-plop-in><span class="flow__emblem" data-plop-in-item><Icon name="logo" /></span><ButtonAlt href="books" text="Start reading" size="small" /></div>
   </div>
   <ol class="flow__cards" data-call-out>
     {STEPS.map(([colour, drawing, title, text], i) => (
@@ -127,14 +127,14 @@ const [back, front] = FEATURED.hero;
     <div class="open-book__final">
       <h2 class="open-book__title" id="open-title" data-book-open-title>Get lost in <span class="open-book__mark">a good book.</span></h2>
       <div class="open-book__buttons">
-        <span data-book-open-button><ButtonAlt href="books.html" text="Start reading" colour="black" /></span>
+        <span data-book-open-button><ButtonAlt href="books" text="Start reading" colour="black" /></span>
         {ACCOUNTS ? (
           <>
-            <span data-book-open-button data-when="out"><ButtonAlt href="signup.html" text="Create a free account" colour="orange" /></span>
-            <span data-book-open-button data-when="in"><ButtonAlt href="reading.html" text="Your reading" colour="orange" /></span>
+            <span data-book-open-button data-when="out"><ButtonAlt href="signup" text="Create a free account" colour="orange" /></span>
+            <span data-book-open-button data-when="in"><ButtonAlt href="reading" text="Your reading" colour="orange" /></span>
           </>
         ) : (
-          <span data-book-open-button><ButtonAlt href="reading.html" text="Your reading" colour="orange" /></span>
+          <span data-book-open-button><ButtonAlt href="reading" text="Your reading" colour="orange" /></span>
         )}
       </div>
       <p class="open-book__aside accent-note" data-book-open-aside>Made by readers, for readers</p>
@@ -142,7 +142,7 @@ const [back, front] = FEATURED.hero;
   </div>
 </section>
 
-<GenreBlock link={(g) => `books.html?genre=${slugify(g)}`} />
+<GenreBlock link={(g) => `books?genre=${slugify(g)}`} />
 
 <section class="why" aria-labelledby="why-title" data-benefits>
   <BgShapes paths={[["is--yellow", WHY_A], ["is--yellow", WHY_B], ["is--yellow", WHY_C]]} class="why__shapes" small />
@@ -168,7 +168,7 @@ const [back, front] = FEATURED.hero;
   <div class="faq__list">
     {QUESTIONS.map(([q, a]) => <Accordion question={q} answer={a} />)}
   </div>
-  <div class="faq__cta"><ButtonAlt href="faq.html" text="All questions" size="small" /><span class="faq__emblem"><Icon name="logo" /></span></div>
+  <div class="faq__cta"><ButtonAlt href="faq" text="All questions" size="small" /><span class="faq__emblem"><Icon name="logo" /></span></div>
 </section>
 
 <section class="gift" aria-labelledby="gift-title">
@@ -180,7 +180,7 @@ const [back, front] = FEATURED.hero;
     <div class="gift__content">
       <h2 class="gift__title heading-m" id="gift-title">A gift that always fits</h2>
       <p class="gift__text">Know someone who would love a classic? Every book here has its own page, free to share. Send them the link and they can start reading in seconds, on any phone or laptop.</p>
-      <ButtonAlt href="books.html" text="Find one to share" size="small" />
+      <ButtonAlt href="books" text="Find one to share" size="small" />
       <p class="gift__note accent-note" data-handwritten-text-inview>Wrapped with a ribbon. Naturally.</p>
     </div>
     <div class="gift__visual" data-gift aria-hidden="true"><div class="gift__item" data-gift-item><Book3D slug={FEATURED.gift} class="is--gift" sizes="(max-width: 991px) 50vw, 22em" ribbon /></div></div>
@@ -230,9 +230,9 @@ const [back, front] = FEATURED.hero;
     </article>
     <aside class="spotlight__facts" aria-label="Inside the book">
       <h4>Inside</h4>
-      <p>{spot.reading_time} of reading, {thousands(spot.words)} words.</p>
+      <p>{capital(about(spot.minutes))} of reading, {thousands(spot.words)} words.</p>
     </aside>
-    <p class="spotlight__quote is--right accent-note" data-handwritten-text-inview>{`That’s the first line. The last is ${about(spot.reading_time)} away.`}</p>
+    <p class="spotlight__quote is--right accent-note" data-handwritten-text-inview>{`That’s the first line. The last is ${about(spot.minutes)} away.`}</p>
   </div>
 </section>
 <LibraryData />

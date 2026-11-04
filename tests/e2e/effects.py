@@ -76,7 +76,7 @@ with sync_playwright() as p:
     page.goto(BASE, wait_until="networkidle"); page.wait_for_timeout(4000)
     home_effects(page, "home (first load)")
 
-    go(page, ".header__nav a[href='books.html']")
+    go(page, ".header__nav a[href='books']")
     nav_wave(page, "All books (after transition)")
     check(page, "All books (after transition)", "card cover lifts on hover", "getComputedStyle(document.querySelector('.book-card__cover')).translate",
           hover(page, ".book-card"), 700)

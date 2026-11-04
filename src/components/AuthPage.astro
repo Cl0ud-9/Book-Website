@@ -16,7 +16,7 @@ interface Props {
 }
 const { mode } = Astro.props;
 const up = mode === "up";
-const page = up ? "signup.html" : "login.html";
+const page = up ? "signup" : "login";
 const perks: [IconName, string][] = [["bookmark", "Your place in every book, on every device"], ["highlight", "Highlights and notes that follow you"],
   ["chart", "Your reading time and streak, all in one place"], ["user", "A reader page to share, if you want one"]];
 const GOOGLE_G = '<svg class="acct__g" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>'
@@ -37,7 +37,7 @@ const GOOGLE_G = '<svg class="acct__g" viewBox="0 0 48 48" aria-hidden="true"><p
   </div>
   <div class="auth__card" data-auth-card>
     <noscript><p class="mine__empty">Signing in needs JavaScript.</p></noscript>
-    <p class="mine__empty" data-acct-off hidden>Accounts aren’t switched on for this copy of the Bookshelf. Everything still works on this device: see <a href="reading.html">Your reading</a>.</p>
+    <p class="mine__empty" data-acct-off hidden>Accounts aren’t switched on for this copy of the Bookshelf. Everything still works on this device: see <a href="reading">Your reading</a>.</p>
     <p class="mine__empty acct__checking" data-acct-checking><Icon name="sync" />One moment…</p>
     <div class="auth__step" data-acct-out hidden>
       <h2 class="auth__card-title">{up ? "Start your shelf" : "Sign in to the Bookshelf"}</h2>
@@ -51,8 +51,8 @@ const GOOGLE_G = '<svg class="acct__g" viewBox="0 0 48 48" aria-hidden="true"><p
         {!up && <button type="button" class="acct__link" data-acct-forgot>Forgot your password?</button>}
       </form>
       <p class="acct__message" role="status" aria-live="polite" data-acct-message></p>
-      <p class="auth__switch">{up ? <>Already have an account? <a href="login.html">Sign in</a></> : <>New here? <a href="signup.html">Create a free account</a></>}</p>
-      <p class="acct__small">Your email is used only to sign you in. <a href="privacy.html">What an account keeps</a>.</p>
+      <p class="auth__switch">{up ? <>Already have an account? <a href="login">Sign in</a></> : <>New here? <a href="signup">Create a free account</a></>}</p>
+      <p class="acct__small">Your email is used only to sign you in. <a href="privacy">What an account keeps</a>.</p>
     </div>
     <AccountParts part="setup" class="auth__step" />
     <AccountParts part="merge" class="auth__step" />
@@ -60,8 +60,8 @@ const GOOGLE_G = '<svg class="acct__g" viewBox="0 0 48 48" aria-hidden="true"><p
       <span data-auth-done-avatar></span>
       <h2 class="auth__card-title" data-auth-done-title>You’re all set</h2>
       <p class="mine__text" data-auth-done-text></p>
-      <p class="mine__actions"><ButtonAlt href="reading.html" text="Your reading" colour="magenta" /><ButtonAlt href="books.html" text="Find a book" colour="black" /></p>
-      <p class="acct__small"><a href="account.html">Your account</a>: your name and mark, your reader page, signing out.</p>
+      <p class="mine__actions"><ButtonAlt href="reading" text="Your reading" colour="magenta" /><ButtonAlt href="books" text="Find a book" colour="black" /></p>
+      <p class="acct__small"><a href="account">Your account</a>: your name and mark, your reader page, signing out.</p>
     </div>
   </div>
 </section>
@@ -72,9 +72,9 @@ const GOOGLE_G = '<svg class="acct__g" viewBox="0 0 48 48" aria-hidden="true"><p
 <meta charset="UTF-8">
 <title>The Bookshelf</title>
 <meta name="robots" content="noindex">
-<link rel="canonical" href={`${SITE}reading.html`}>
-<meta http-equiv="refresh" content="0; url=reading.html">
+<link rel="canonical" href={`${SITE}reading`}>
+<meta http-equiv="refresh" content="0; url=reading">
 </head>
-<body><p><a href="reading.html">Continue to the Bookshelf</a></p></body>
+<body><p><a href="reading">Continue to the Bookshelf</a></p></body>
 </html>
 )}

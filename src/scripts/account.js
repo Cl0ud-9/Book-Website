@@ -531,7 +531,7 @@
     google, signIn, signUp, resetPassword, verifyAgain, refresh, signOut: signOutNow, saveProfile, setSharing, deleteAccount,
     reauthenticate, handleFree, loadProfile, sync: () => sync("asked"), settleReading, explain, checkHandle, checkName, suggest, avatar,
     COLOURS, MARKS, MARK_NAMES,
-    url: (handle) => new URL(`profile.html?u=${encodeURIComponent(handle)}`, document.baseURI).href,
+    url: (handle) => new URL(`profile?u=${encodeURIComponent(handle)}`, document.baseURI).href,
   };
   window.BookshelfAccount = api;
 

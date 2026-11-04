@@ -151,6 +151,14 @@ a { color: inherit; }
 button, input { font: inherit; color: inherit; }
 button { cursor: pointer; background: none; border: 0; padding: 0; }
 [hidden] { display: none !important; }
+/* Pictures, icons, buttons and the moving parts are not text: a click-drag or a double-click never selects them (it
+   tinted a whole book cover blue), and a picture is never dragged off as a file. Words to read stay selectable. */
+img, svg, picture, canvas, button, .button, .button-alt, .chip, .tag, label, .header, .menu, .book3d, .hero__visual,
+.open-book__scene, .gift__visual, .sticker, .why__stickers, .why__badge, .spotlight__sticker, .tagline, .ribbons,
+.reader__bar, .reader__foot, .reader__intro, .reader__curl, .reader__leaves, .footer__wordmark {
+  -webkit-user-select: none; user-select: none;
+}
+img, svg { -webkit-user-drag: none; }
 
 :focus-visible { outline: .2em solid var(--black); outline-offset: .2em; border-radius: .3em; }
 
@@ -233,32 +241,40 @@ html.is-carried .transition__logo { opacity: 1; }
 }
 .button__bg {
   position: absolute; inset: 0; border-radius: 10em; background: var(--button-bg);
+  /* a faint edge, so a button never disappears into a background of its own colour */
+  box-shadow: inset 0 0 0 .08em rgba(0, 0, 0, .07);
   transition: scale .15s var(--ease-soft-overshoot), transform .15s var(--ease-soft-overshoot);
 }
-/* The bookmark hangs from under the current page's button, like a ribbon out of a book. (It used to stick up out of
-   the top, where the edge of the window cut it off.) */
+/* on a pale yellow page (Your reading, a reader's page) the buttons are white, or they would be the page's colour */
+body:has(main[data-page-theme="pale-yellow"], main > .hero-xs.is--pale-yellow) .header .button { --button-bg: var(--white); }
+/* The bookmark hangs from under the current page's button, like a ribbon out of a book: tucked under the straight
+   part of its bottom edge (clear of the rounded end, where its corner showed), shaded where it comes out, unrolling
+   smoothly and swaying a little. (It used to stretch past its length on a bouncy curve and jerk side to side.) */
 .button__bg::after {
-  content: ""; position: absolute; right: 1.1em; top: 100%; z-index: -1;
-  width: .75em; height: 1.35em; background: var(--magenta);
+  content: ""; position: absolute; right: 1.7em; top: 100%; z-index: -1;
+  width: .7em; height: 1.3em;
+  background: linear-gradient(rgba(0, 0, 0, .22), rgba(0, 0, 0, 0) .5em), var(--magenta);
   clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 74%, 0 100%);
   transform-origin: top center;
-  translate: 0 -.4em;
+  translate: 0 -.35em;
   scale: 1 0;
-  transition: scale .25s var(--ease-smooth);
+  transition: scale .2s var(--ease-smooth);
 }
 .button[aria-current="page"] .button__bg::after {
   scale: 1 1;
-  transition: scale .45s .1s var(--ease-big-bounce);
-  animation: bookmark-wiggle 5.2s .6s infinite;
+  transition: scale .5s .15s var(--ease-smooth);
+  animation: bookmark-sway 4.8s 1s ease-in-out infinite;
 }
 .button__text { position: relative; }
 .button:active { scale: .955 .925; }
 
-@keyframes bookmark-wiggle {
-  0%, 86%, 100% { rotate: 0deg; }
-  89% { rotate: -14deg; }
-  92% { rotate: 10deg; }
-  95% { rotate: -6deg; }
+@keyframes bookmark-sway {
+  0%, 70%, 100% { rotate: 0deg; }
+  80% { rotate: -5deg; }
+  90% { rotate: 3deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .button[aria-current="page"] .button__bg::after { animation: none; transition: none; }
 }
 
 /* The split button: a text block and an arrow block that twist apart on hover */
@@ -559,6 +575,9 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 /* The books answer a tap with a little lean (floatingBooks in app.js); the rest of the visual lets touches through */
 .hero__book { pointer-events: auto; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .hero__float { position: relative; }
+/* the floating books bob on a layer of their own: moved without one, every frame of the bob had the browser lay out
+   the whole page's layers again, a few milliseconds a frame on a phone */
+[data-float] > :first-child { will-change: transform; }
 .hero__book .book3d { width: 100%; }
 .hero__book.is--main { width: 25em; right: 12%; top: 19%; }
 .hero__book.is--main .book3d { transform: perspective(140em) rotateY(-28deg) rotateX(10deg) rotateZ(-3deg); --d: 3.4em; }
@@ -772,9 +791,16 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 /* Twenty blurred layers only while the pointer is over the list, not all the time */
 .genre__list:hover :is(.genre__default, .genre__hover) { will-change: transform, filter; }
 .genre__default { font-family: var(--font-heading); font-weight: 900; font-size: 7.5em; letter-spacing: -.03em; line-height: .8; }
-.genre__hover { font-family: var(--font-hand); font-weight: 400; font-size: 8.5em; line-height: .8; opacity: 0; scale: .75 1.25; filter: blur(.0625em); }
+/* The handwritten name waits out of sight, blurred, until its genre is chosen. While it waits it is hidden outright
+   (once it has faded): fifteen huge blurred words, merely transparent, were still drawn on every frame as a phone
+   scrolled past, and held the scrolling back. */
+.genre__hover {
+  font-family: var(--font-hand); font-weight: 400; font-size: 8.5em; line-height: .8; opacity: 0; scale: .75 1.25; filter: blur(.0625em);
+  visibility: hidden;
+  transition: opacity .15s .05s var(--ease-smooth), scale .35s var(--ease-bounce), filter .25s .05s var(--ease-smooth), visibility 0s .4s;
+}
 .genre__item.is--active .genre__default { opacity: 0; scale: .75 1.25; filter: blur(.0625em); }
-.genre__item.is--active .genre__hover { opacity: 1; scale: 1; filter: blur(0); }
+.genre__item.is--active .genre__hover { opacity: 1; scale: 1; filter: blur(0); visibility: visible; transition-delay: .05s, 0s, .05s, 0s; }
 .genre__item.is--active + .genre__item .genre__link { translate: 0 2em; }
 .genre__item.is--active + .genre__item + .genre__item .genre__link { translate: 0 .75em; }
 .genre__item:has(+ .genre__item.is--active) .genre__link { translate: 0 -2em; }
@@ -1090,6 +1116,13 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 .footer__form-title em { font-style: italic; color: var(--yellow); }
 .footer__text { font-size: 1.375em; line-height: 1.4; color: rgba(255, 255, 255, .78); max-width: 26em; }
 .footer__field { display: flex; gap: .6em; margin-top: .6em; }
+.footer__follow { flex-direction: column; align-items: flex-start; gap: 1em; }
+.footer__follow-more { font-size: 1.125em; line-height: 1.5; color: rgba(255, 255, 255, .78); }
+.footer .footer__follow-more a, .footer__copy {
+  color: var(--white); font: inherit; font-weight: 600; text-decoration: underline; text-decoration-thickness: .08em;
+  text-underline-offset: .2em; background: none; border: 0; padding: 0; cursor: pointer;
+}
+.footer .footer__follow-more a:hover, .footer__copy:hover { color: var(--yellow); }
 .footer__nav { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2em; align-content: start; }
 .footer__heading {
   font-family: var(--font-body); font-size: 1em; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
@@ -1304,7 +1337,10 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 
 .catalogue { padding: 4em 2.5em 9em; display: grid; gap: 1.5em; justify-items: center; }
 .search { width: min(100%, 44em); }
-.search__field { --field-line: var(--black); --field-line-hover: var(--black); font-size: 1.4em; border-width: .14em; }
+.search__field {
+  --field-line: var(--black); --field-line-hover: var(--black); --field-bw: max(1px, round(down, .14em, 1px));
+  font-size: 1.4em; border-width: .14em; border-width: max(1px, round(down, .14em, 1px));
+}
 .search__field .field__input { height: 3em; }
 .search__field .field__icon { width: 1.25em; height: 1.25em; }
 .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: .5em; max-width: 60em; }
@@ -1779,6 +1815,9 @@ body:has(.reader) .header { display: none; }
 .reader__titles { flex: 1; min-width: 0; text-align: center; }
 .reader__title { font-family: var(--font-heading); font-weight: 900; font-size: 1.35em; letter-spacing: -.02em; line-height: 1.1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .reader__author { font-weight: 500; opacity: .75; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* their lines are kept while the book opens, so the bar and the footer do not grow (and move the book) when the
+   author's name and the chapter's come in */
+.reader__author:empty::before, .reader__chapter:empty::before { content: "\00a0"; }
 .reader__tools { display: flex; gap: .5em; }
 
 /* The book lies open on the desk: one page, or two facing pages with a spine between them when there is room.
@@ -1801,11 +1840,11 @@ body:has(.reader) .header { display: none; }
    shaded as it tilts from the light, and throws a soft shadow on the page beneath. Turning back, the page swings down
    over it. */
 .reader__book.is--turning { perspective: 2200px; }
-.reader__book.is--turning .reader__view { z-index: 1; will-change: transform; }
+.reader__book.is--turning .reader__view { z-index: 1; }
 .reader__leaves { position: absolute; inset: 0; pointer-events: none; }
-.reader__leaf { position: absolute; z-index: 3; transform-style: preserve-3d; will-change: transform; }
+.reader__leaf { position: absolute; z-index: 3; }
 /* waiting, a copy is laid out but unseen, so its fonts are loaded before it is needed */
-.reader__leaf[hidden] { display: block; visibility: hidden; }
+.reader__leaf[hidden] { display: block !important; visibility: hidden; } /* (over [hidden]'s display: none) */
 .reader__leaf.is--under { z-index: 0; }
 .reader__leaf-face {
   position: absolute; inset: 0; overflow: hidden; backface-visibility: hidden; background: var(--r-bg);
@@ -1832,11 +1871,22 @@ body:has(.reader) .header { display: none; }
    of the part already turned lies over it, lifted off the page by its shadow; the page uncovered is shaded along the
    fold */
 .reader__leaf.is--beneath { z-index: 2; }
-.reader__curl { position: absolute; inset: 0; z-index: 4; overflow: hidden; border-radius: inherit; pointer-events: none; }
-.reader__curl[hidden] { display: none; }
+.reader__curl { position: absolute; inset: 0; z-index: 5; overflow: hidden; border-radius: inherit; pointer-events: none; }
+/* while a page turns, the spine's shade stays over the pages (the copies of them, and the page landing): it used to
+   vanish from the side being turned, and come back as the turn ended */
+.reader.is--spread .reader__book.is--turning::after { z-index: 6; }
+/* waiting, it is laid out but unseen, so the copies in it are ready to draw the moment a page turns */
+.reader__curl[hidden] { display: block !important; visibility: hidden; }
 .reader__curl-shade, .reader__curl-flap, .reader__curl-back { position: absolute; inset: 0; }
 .reader__curl-flap { filter: drop-shadow(0 0 .6em rgba(0, 0, 0, .28)); }
 .reader__curl-back { background-color: var(--r-bg); }
+/* on two facing pages the back of the turning page is the page it becomes, mirrored across the fold as paper is; the
+   light and shadow of the bend lie over it */
+.reader__curl-page { position: absolute; top: 0; left: 0; transform-origin: 0 0; }
+.reader__curl-page[hidden] { display: block !important; visibility: hidden; }
+.reader__curl-light { position: absolute; inset: 0; }
+/* a corner that lifts a little when the pointer comes to the edge of the page: the page can be turned there */
+.reader__book.is--peek-next, .reader__book.is--peek-prev { cursor: pointer; }
 .reader__turn { display: grid; place-items: center; color: inherit; opacity: .5; transition: opacity .2s; }
 .reader__turn .icon { width: 2.2em; height: 2.2em; transition: translate .35s var(--ease-smooth); }
 .reader__turn:hover, .reader__turn:focus-visible { opacity: 1; }
@@ -1847,6 +1897,11 @@ body:has(.reader) .header { display: none; }
 .reader__intro { position: absolute; inset: 0; z-index: 3; display: none; place-items: center; background: var(--r-desk); pointer-events: none; }
 .reader.is--opening .reader__intro { display: grid; }
 .reader__intro-book { position: relative; width: min(16em, 38vw, 40svh); aspect-ratio: 2 / 3; perspective: 1800px; opacity: 0; }
+.reader.is--early .reader__intro-book { opacity: 1; }
+/* Scrolling, each chapter is as wide as the book from the start: epub.js makes its frame 0 wide and widens it
+   once the chapter is in, so the words were first laid out a word wide, then across the screen, which counted as the
+   whole chapter jumping (a layout shift of 1) */
+.reader.is--scrolled .epub-view, .reader.is--scrolled .epub-view > iframe { min-width: 100%; }
 .reader__intro-page, .reader__intro-cover, .reader__intro-cover img, .reader__intro-inside { position: absolute; inset: 0; border-radius: .2em .5em .5em .2em; }
 .reader__intro-page {
   background: var(--r-bg) repeating-linear-gradient(180deg, transparent 0 1.4em, var(--r-line) 1.4em calc(1.4em + 1px)) 0 2em / 100% calc(100% - 4em) no-repeat;
@@ -2009,14 +2064,16 @@ body:has(.reader) .header { display: none; }
 .reader__select.is--docked .reader__select-label { font-size: .68em; line-height: 1; }
 
 /* The first book opened on a device says how to mark words, once */
+/* centred by its margins rather than a translate, which the tip's entrance (a transform) would take over for a moment
+   and give back, shifting it on the page */
 .reader__tip {
-  position: fixed; z-index: 8; left: 50%; bottom: calc(4.2em + env(safe-area-inset-bottom, 0px)); translate: -50% 0;
+  position: fixed; z-index: 8; left: 0; right: 0; margin-inline: auto; bottom: calc(4.2em + env(safe-area-inset-bottom, 0px));
   display: flex; align-items: center; gap: .8em; width: min(32em, calc(100% - 1.5em)); padding: .8em .8em .8em 1em;
   border-radius: 1.1em; background: var(--r-fg); color: var(--r-bg); box-shadow: 0 1.2em 2.5em -1em rgba(0, 0, 0, .55); line-height: 1.4; font-weight: 600;
 }
 .reader__tip[hidden] { display: none; }
 /* it waits while a panel or a popup is open over the page */
-.reader:has(.reader__panel:not([hidden]), .reader__popup:not([hidden])) .reader__tip { display: none; }
+.reader:has(.reader__panel:not([hidden]), .reader__popup:not([hidden]), .reader__end:not([hidden])) .reader__tip { display: none; }
 .reader__tip > .icon { flex: none; width: 1.4em; height: 1.4em; color: #ffd24a; }
 .reader__tip-ok { flex: none; height: 2.3em; padding: 0 1em; border-radius: 10em; background: var(--r-bg); color: var(--r-fg); font-weight: 800; }
 
@@ -2048,6 +2105,33 @@ body:has(.reader) .header { display: none; }
 .reader__toast { display: flex; align-items: center; gap: .9em; width: max-content; max-width: calc(100vw - 2em); }
 .reader__toast-undo { color: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: .2em; padding: .15em .3em; border-radius: .4em; }
 .reader__toast-undo[hidden] { display: none; }
+
+/* The end of the book: a card over the page, with your time in it and three books to read next (reader.js, showEnd) */
+.reader__end {
+  position: absolute; inset: 0; z-index: 7; display: grid; place-items: center; padding: 1.25em; overflow: auto; overscroll-behavior: contain;
+  background: color-mix(in srgb, var(--r-desk) 70%, transparent); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.reader__end-card {
+  width: min(29em, 100%); padding: 1.75em 1.5em 1.5em; border-radius: 1.5em; text-align: center;
+  background: var(--r-bg); color: var(--r-fg); border: 1px solid var(--r-line); box-shadow: 0 2em 4em -2em rgba(0, 0, 0, .45);
+}
+.reader__end-cover {
+  display: block; width: 6em; height: auto; aspect-ratio: 2 / 3; margin: 0 auto 1.1em; object-fit: cover; border-radius: .25em .45em .45em .25em;
+  box-shadow: 0 1em 2em -1em rgba(0, 0, 0, .55), 0 0 0 1px var(--r-line);
+}
+.reader__end-kicker { font-family: Literata, Georgia, serif; font-style: italic; font-size: 1.1em; opacity: .7; }
+.reader__end-title { margin: .15em 0 .45em; font-family: var(--font-heading); font-weight: 900; font-size: 1.65em; line-height: 1.1; letter-spacing: -.02em; text-wrap: balance; }
+.reader__end-stats { font-weight: 600; opacity: .72; text-wrap: balance; }
+.reader__end-head { margin: 1.5em 0 .7em; font-size: .8em; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; opacity: .6; }
+.reader__end-next { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9em; text-align: left; }
+.reader__end-next a { display: grid; gap: .4em; color: inherit; font-size: .85em; font-weight: 700; line-height: 1.2; text-decoration: none; }
+.reader__end-next img {
+  width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; border-radius: .2em .35em .35em .2em;
+  box-shadow: 0 .6em 1.2em -.6em rgba(0, 0, 0, .5), 0 0 0 1px var(--r-line); transition: translate .35s var(--ease-smooth);
+}
+.reader__end-next a:hover img, .reader__end-next a:focus-visible img { translate: 0 -.3em; }
+.reader__end-by { font-weight: 600; opacity: .62; }
+.reader__end-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .5em; margin-top: 1.6em; }
 .reader__notes { display: grid; gap: .35em; }
 .reader__notes-head { margin: .9em 0 .35em; font-size: .8em; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; opacity: .6; }
 .reader__notes-head:first-of-type { margin-top: .25em; }
@@ -2122,8 +2206,11 @@ body:has(.reader) .header { display: none; }
   .reader__tool { flex-direction: column; justify-content: center; gap: .1em; height: 3em; width: 3.5em; padding: 0; border-radius: .9em; }
   .reader__tool-label { font-size: .68em; font-weight: 700; line-height: 1; }
   .reader__tools [data-reader-download] { display: none; }
-  .reader__title { font-size: 1.1em; }
-  .reader__author { font-size: .9em; }
+  /* the title takes two lines rather than being cut short beside the tools */
+  .reader__title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 1em; line-height: 1.08; white-space: normal; text-wrap: balance; }
+  .reader__author { font-size: .78em; }
+  .reader__tip { gap: .65em; padding: .6em .6em .6em .85em; font-size: .85em; line-height: 1.35; }
+  .reader__tip > .icon { width: 1.2em; height: 1.2em; }
   .reader__foot { grid-template-columns: minmax(0, 1fr) auto auto auto; gap: .75em; }
   .reader__left, .reader__page { font-size: .9em; }
   .reader__foot .reader__progress { display: none; }
@@ -2138,33 +2225,55 @@ body:has(.reader) .header { display: none; }
   --field-surface: var(--white); --field-fill: var(--white); --field-ink: var(--black); --field-muted: rgba(0, 0, 0, .62);
   --field-line: rgba(0, 0, 0, .42); --field-line-hover: rgba(0, 0, 0, .7); --field-accent: var(--magenta-ink);
   --field-pad: 1em; --field-start: 0em;
+  /* the border's colour and how thick it looks (with the focus ring), shared with the round ends of the gap. A border
+     is drawn a whole number of pixels thick, so its width is rounded here, and the ends are sized to match. */
+  --field-bw: max(1px, round(down, .12em, 1px)); --field-border: var(--field-line); --field-thick: var(--field-bw);
   position: relative; display: flex; align-items: center; min-width: 0; color: var(--field-ink);
-  border: .12em solid var(--field-line); border-radius: .9em; background: var(--field-fill);
+  border: .12em solid var(--field-border); border-width: max(1px, round(down, .12em, 1px)); border-radius: .9em;
+  background: var(--field-fill);
   transition: border-color .2s, box-shadow .2s;
 }
 .field.is--pill { border-radius: 10em; }
-.field:hover { border-color: var(--field-line-hover); }
-.field:focus-within { border-color: var(--field-accent); box-shadow: 0 0 0 .1em var(--field-accent); }
-.field:has(> .field__input[aria-invalid="true"]) { border-color: #a3141c; }
+.field:hover { --field-border: var(--field-line-hover); }
+.field:focus-within { --field-border: var(--field-accent); --field-thick: calc(var(--field-bw) + .1em); box-shadow: 0 0 0 .1em var(--field-accent); }
+.field:has(> .field__input[aria-invalid="true"]) { --field-border: #a3141c; }
 .field__input {
   flex: 1; align-self: stretch; min-width: 0; height: 3.1em; padding: 0 var(--field-pad); border: 0; outline: 0; border-radius: inherit;
   background: none; color: inherit; font: inherit; font-weight: 600;
 }
 .field__input::placeholder { color: transparent; }
+/* Chrome tints a field it filled in (a saved password) pale blue; the field keeps its own colour, so the gap the name
+   rises into matches it instead of showing as a white box */
+.field__input:is(:-webkit-autofill, :-webkit-autofill:hover, :-webkit-autofill:focus) {
+  -webkit-box-shadow: 0 0 0 10em var(--field-fill) inset; -webkit-text-fill-color: var(--field-ink); caret-color: var(--field-ink);
+}
 .field__label {
-  position: absolute; left: calc(var(--field-pad) + var(--field-start) - .3em); top: 50%; translate: 0 -50%; transform-origin: left center;
-  max-width: calc(100% - var(--field-pad) * 2 - var(--field-start)); padding: 0 .3em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  position: absolute; left: calc(var(--field-pad) + var(--field-start) - .32em); top: 50%; translate: 0 -50%; transform-origin: left center;
+  max-width: calc(100% - var(--field-pad) * 2 - var(--field-start)); padding: 0 .32em;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   color: var(--field-muted); font-weight: 500; line-height: 1.25; pointer-events: none;
   transition: top .22s var(--ease-smooth), left .22s var(--ease-smooth), scale .22s var(--ease-smooth), color .2s, background-color .2s;
 }
-/* risen: in the border, smaller, on a gap */
-:is(.field:focus-within, .field.is--select, .field:has(> .field__input:not(:placeholder-shown))) > .field__label {
-  top: 0; left: calc(var(--field-pad) - .3em); scale: .8; max-width: calc((100% - var(--field-pad)) / .8);
+/* risen: in the border, smaller, on a gap. The gap starts where the border runs straight, past the corner's curve
+   and the focus ring's (--field-gap; further in on a pill), so the border either side of it ends cleanly in a round cap
+   (below). The name then lines up with the words typed below it. */
+.field { --field-gap: calc(var(--field-pad) - .1em); }
+.field.is--pill { --field-gap: 1.45em; }
+:is(.field:focus-within, .field.is--select, .field:has(> .field__input:not(:placeholder-shown)), .field:has(> .field__input:-webkit-autofill)) > .field__label {
+  top: 0; left: var(--field-gap); scale: .8; max-width: calc((100% - var(--field-gap) - .5em) / .8);
   color: var(--field-ink); font-weight: 700; background: linear-gradient(var(--field-surface) 50%, var(--field-fill) 50%);
 }
-.field:has(> .field__input:-webkit-autofill) > .field__label {
-  top: 0; left: calc(var(--field-pad) - .3em); scale: .8; color: var(--field-ink); font-weight: 700; background: linear-gradient(var(--field-surface) 50%, var(--field-fill) 50%);
+/* the border ends in a round cap either side of the gap, instead of being cut off flat: half a dot of the border's
+   colour at each edge of the name (the other half is clipped), centred on the line (which lies just above the name's
+   middle; sizes are divided by .8, the name's scale) */
+:is(.field:focus-within, .field.is--select, .field:has(> .field__input:not(:placeholder-shown)), .field:has(> .field__input:-webkit-autofill)) > .field__label::before,
+:is(.field:focus-within, .field.is--select, .field:has(> .field__input:not(:placeholder-shown)), .field:has(> .field__input:-webkit-autofill)) > .field__label::after {
+  content: ""; position: absolute; top: calc(50% - var(--field-thick) / .8);
+  width: calc(var(--field-thick) / .8); height: calc(var(--field-thick) / .8); border-radius: 50%;
+  background: var(--field-border); transition: background-color .2s;
 }
+.field > .field__label::before { left: calc(var(--field-thick) / -1.6); }
+.field > .field__label::after { right: calc(var(--field-thick) / -1.6); }
 .field:focus-within > .field__label { color: var(--field-accent); }
 /* an icon or a sign before the words (a search, a username's @) */
 .field.is--icon { --field-start: 1.75em; padding-left: var(--field-pad); }

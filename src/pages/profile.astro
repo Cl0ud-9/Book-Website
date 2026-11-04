@@ -5,7 +5,7 @@ import LibraryData from "../components/LibraryData.astro";
 import Base from "../layouts/Base.astro";
 import { BLOB_A, BLOB_B } from "../lib/shapes";
 ---
-<Base name="profile" path="profile.html" title="A reader | The Bookshelf" description="A reader’s page at the Bookshelf." theme="pale-yellow" index={false}>
+<Base name="profile" path="profile" title="A reader | The Bookshelf" description="A reader’s page at the Bookshelf." theme="pale-yellow" index={false}>
 <section class="hero-xs is--pale-yellow acct__hero" data-intro-page aria-labelledby="page-title">
   <BgShapes paths={[["is--yellow", BLOB_A], ["is--yellow", BLOB_B]]} class="hero-xs__shapes" small />
   <span class="acct__hero-avatar" data-profile-avatar></span>
@@ -33,7 +33,7 @@ import { BLOB_A, BLOB_B } from "../lib/shapes";
     <h2 class="mine__title" id="p-lines-title">Lines they loved</h2>
     <ul class="lines__list" data-profile-lines-list></ul>
   </section>
-  <p class="acct__small" data-profile-foot hidden><a href="account.html" data-profile-mine>Make your own reader page</a> · <a href="#" data-profile-report>Report this page</a></p>
+  <p class="acct__small" data-profile-foot hidden><a href="account" data-profile-mine>Make your own reader page</a> · <a href="#" data-profile-report>Report this page</a></p>
 </div>
 <LibraryData />
 </Base>

@@ -14,17 +14,32 @@ const spacing = [["compact", "Compact"], ["normal", "Normal"], ["airy", "Airy"]]
 const flows: readonly (readonly [string, string, IconName])[] = [["scroll", "Scroll", "down"], ["pages", "Pages", "book"]];
 const swatches = [["yellow", "Yellow highlight"], ["green", "Green highlight"], ["blue", "Blue highlight"], ["pink", "Pink highlight"]] as const;
 ---
-<Base name="reader" path="read.html" title="Reading | The Bookshelf" description="Read a free classic in your browser." theme="pale-yellow" withFooter={false}>
+<Base name="reader" path="read" title="Reading | The Bookshelf" description="Read a free classic in your browser." theme="pale-yellow" withFooter={false}>
 <section class="reader" data-reader data-lenis-prevent aria-label="Reader">
+  <script is:inline>
+    // The layout the reader will choose (reader.js, layoutNow), set before the page is first drawn, so the book is not
+    // laid out as one page and then widened to two as the reader starts (on a slow connection Chrome draws the page
+    // before reaching the end of it)
+    (() => {
+      let flow = "scroll";
+      try { flow = JSON.parse(localStorage.getItem("bookshelf:reader"))?.flow || flow; } catch { /* the default */ }
+      const phone = matchMedia("(max-width: 767px), (max-height: 500px) and (pointer: coarse)").matches;
+      const layout = phone ? (flow === "pages" ? "single" : "scroll") : innerWidth >= 1100 ? "spread" : "single";
+      const reader = document.currentScript.parentElement;
+      reader.classList.toggle("is--scrolled", layout === "scroll");
+      reader.classList.toggle("is--spread", layout === "spread");
+      reader.classList.toggle("is--phone-pages", layout === "single" && phone);
+    })();
+  </script>
   <div class="reader__bar">
-    <a class="reader__back" href="books.html" data-reader-back><Icon name="left" /><span>Back</span></a>
+    <a class="reader__back" href="books" data-reader-back><Icon name="left" /><span>Back</span></a>
     <div class="reader__titles"><h1 class="reader__title" data-reader-title>Opening the book…</h1><p class="reader__author" data-reader-author></p></div>
     <div class="reader__tools">
       <button class="reader__tool" type="button" data-reader-bookmark aria-pressed="false" aria-label="Bookmark this page"><Icon name="bookmark" /><Icon name="bookmark-on" class="icon is--on" /><span class="reader__tool-label" data-reader-bookmark-label>Bookmark</span></button>
       <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-contents"><Icon name="contents" /><span class="reader__tool-label">Contents</span></button>
       <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-notes"><Icon name="highlight" /><span class="reader__tool-label">Notes</span></button>
       <button class="reader__tool" type="button" data-reader-toggle aria-expanded="false" aria-controls="reader-settings"><Icon name="type" /><span class="reader__tool-label">Text</span></button>
-      <a class="reader__tool" href="books.html" data-reader-download download><Icon name="download" /><span class="reader__tool-label">Download</span></a>
+      <a class="reader__tool" href="books" data-reader-download download><Icon name="download" /><span class="reader__tool-label">Download</span></a>
     </div>
   </div>
   <div class="reader__stage">
@@ -33,7 +48,7 @@ const swatches = [["yellow", "Yellow highlight"], ["green", "Green highlight"], 
       <div class="reader__view" data-reader-view></div>
       <span class="reader__ribbon" data-reader-ribbon aria-hidden="true" hidden></span>
       <div class="reader__leaves" data-reader-leaves aria-hidden="true"></div>
-      <div class="reader__curl" data-reader-curl aria-hidden="true" hidden><div class="reader__curl-shade"></div><div class="reader__curl-flap"><div class="reader__curl-back"></div></div></div>
+      <div class="reader__curl" data-reader-curl aria-hidden="true" hidden><div class="reader__curl-shade"></div><div class="reader__curl-flap"><div class="reader__curl-back"><div class="reader__curl-page" data-reader-curl-page hidden></div><div class="reader__curl-light"></div></div></div></div>
     </div>
     <div class="reader__intro" data-reader-intro aria-hidden="true">
       <div class="reader__intro-book" data-reader-intro-book>
@@ -44,7 +59,7 @@ const swatches = [["yellow", "Yellow highlight"], ["green", "Green highlight"], 
     <button class="reader__turn is--next" type="button" data-reader-next aria-label="Next page"><Icon name="next" /></button>
     <p class="reader__message" role="status" data-reader-message>Opening the book…</p>
     <button class="reader__return" type="button" data-reader-return hidden><Icon name="left" /><span>Back to <span data-reader-return-label>where you were</span></span></button>
-    <noscript><p class="reader__message">The reader needs JavaScript. Every book can also be downloaded from its page in <a href="books.html">All books</a>.</p></noscript>
+    <noscript><p class="reader__message">The reader needs JavaScript. Every book can also be downloaded from its page in <a href="books">All books</a>.</p></noscript>
   </div>
   <div class="reader__foot"><span class="reader__chapter" data-reader-chapter></span><span class="reader__progress"><span data-reader-bar></span></span><span class="reader__page" data-reader-page title="Pages in this chapter"></span><span class="reader__left" data-reader-left></span><span class="reader__percent" data-reader-percent></span></div>
   <nav class="reader__panel" id="reader-contents" aria-label="Contents" data-reader-panel hidden>
@@ -67,7 +82,7 @@ const swatches = [["yellow", "Yellow highlight"], ["green", "Green highlight"], 
     <div class="reader__setting"><span class="reader__label">Spacing</span><div class="reader__controls reader__segments" data-segmented>{spacing.map(([v, label]) => <button type="button" class="reader__choice is--spacing" data-reader-spacing={v} aria-pressed="false" aria-label={`${label} line spacing`}><span class={`reader__lines is--${v}`} aria-hidden="true"><i></i><i></i><i></i></span>{label}</button>)}</div></div>
     <div class="reader__setting" data-reader-flow-row><span class="reader__label">Reading</span><div class="reader__controls reader__segments" data-segmented>{flows.map(([v, label, icon]) => <button type="button" class="reader__choice" data-reader-flow={v} aria-pressed="false"><Icon name={icon} />{label}</button>)}</div></div>
     <div class="reader__setting" data-reader-screen-row hidden><span class="reader__label">Screen</span><div class="reader__controls"><button type="button" class="reader__choice" data-reader-fullscreen aria-pressed="false"><Icon name="expand" /><span data-reader-fullscreen-label>Full screen</span></button></div></div>
-    <div class="reader__setting is--book"><span class="reader__label">Book</span><div class="reader__controls"><a class="reader__choice" href="books.html" data-reader-download download><Icon name="download" />Download EPUB</a><span class="offline-row" data-offline-row hidden><OfflineControls /></span></div></div>
+    <div class="reader__setting is--book"><span class="reader__label">Book</span><div class="reader__controls"><a class="reader__choice" href="books" data-reader-download download><Icon name="download" />Download EPUB</a><span class="offline-row" data-offline-row hidden><OfflineControls /></span></div></div>
   </div>
   <div class="reader__panel is--notes" id="reader-notes" role="region" aria-label="Notes" data-reader-panel hidden>
     <h2 class="reader__panel-title">Notes</h2>
@@ -76,7 +91,7 @@ const swatches = [["yellow", "Yellow highlight"], ["green", "Green highlight"], 
     <ol class="reader__notes" data-bookmarks-list></ol>
     <h3 class="reader__notes-head" data-notes-head hidden>Highlights and notes</h3>
     <ol class="reader__notes" data-notes-list></ol>
-    <p class="reader__notes-actions"><button type="button" class="reader__choice" data-notes-export hidden><Icon name="download" />Export these notes</button><a class="reader__choice" href="reading.html#notes"><Icon name="library" />All your notes</a></p>
+    <p class="reader__notes-actions"><button type="button" class="reader__choice" data-notes-export hidden><Icon name="download" />Export these notes</button><a class="reader__choice" href="reading#notes"><Icon name="library" />All your notes</a></p>
     <p class="reader__notes-warning" data-notes-warning hidden>This browser is not keeping data, so notes last only until this tab closes.</p>
   </div>
   <div class="reader__select" role="toolbar" aria-label="Highlight the selected words" data-select-bar hidden>
@@ -104,9 +119,45 @@ const swatches = [["yellow", "Yellow highlight"], ["green", "Green highlight"], 
   <div class="reader__popup is--define" role="dialog" aria-label="Meaning" data-define hidden>
     <p class="reader__define-word" data-define-word></p>
     <div class="reader__define-body" data-define-body></div>
-    <p class="reader__popup-actions"><span class="reader__define-more">From <a data-define-more target="_blank" rel="noopener">Wiktionary</a>, under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span><button type="button" class="reader__choice" data-define-close>Close</button></p>
+    <p class="reader__popup-actions"><span class="reader__define-more">From <a href="https://en.wiktionary.org/" data-define-more target="_blank" rel="noopener">Wiktionary</a>, under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a></span><button type="button" class="reader__choice" data-define-close>Close</button></p>
+  </div>
+  <div class="reader__end" id="reader-end" role="dialog" aria-labelledby="reader-end-title" data-reader-panel data-reader-end hidden>
+    <div class="reader__end-card">
+      <img class="reader__end-cover" alt="" width="180" height="270" data-reader-end-cover>
+      <p class="reader__end-kicker">The End</p>
+      <h2 class="reader__end-title" id="reader-end-title">You finished <span data-reader-end-book></span></h2>
+      <p class="reader__end-stats" data-reader-end-stats hidden></p>
+      <h3 class="reader__end-head" data-reader-end-next-head hidden>Read next</h3>
+      <ol class="reader__end-next" data-reader-end-next></ol>
+      <p class="reader__end-actions"><a class="reader__choice is--strong" href="books" data-reader-end-page>About this book</a><button type="button" class="reader__choice" data-reader-end-close>Stay on this page</button></p>
+    </div>
   </div>
   <div class="reader__toast" role="status" data-reader-toast hidden><span data-toast-text></span><button type="button" class="reader__toast-undo" data-toast-undo hidden>Undo</button></div>
 </section>
 <LibraryData />
+<script is:inline>
+  // The book's file and the cover its opening shows start downloading with the page, while the reader's own scripts
+  // load (they ask for the same addresses, and get these)
+  (() => {
+    try {
+      const reader = document.querySelector("[data-reader]");
+      const slug = new URLSearchParams(location.search).get("book");
+      const info = slug && JSON.parse(document.querySelector("[data-library]").textContent)[slug];
+      if (!info) return;
+      const preload = (as, href) => {
+        const link = document.createElement("link");
+        Object.assign(link, { rel: "preload", as, href });
+        if (as === "fetch") link.crossOrigin = "anonymous";
+        document.head.append(link);
+      };
+      preload("fetch", info.epub);
+      // the closed book waits on the desk from the first moment, rather than once the reader's scripts have come
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        preload("image", `image/covers/${slug}-360.webp`);
+        reader.querySelector("[data-reader-intro-img]").src = `image/covers/${slug}-360.webp`;
+        reader.classList.add("is--opening", "is--early");
+      }
+    } catch { /* the reader fetches them itself */ }
+  })();
+</script>
 </Base>

@@ -28,7 +28,8 @@ AGENT = "Mozilla/5.0 (The Bookshelf library builder; https://github.com/Cl0ud-9/
 PAUSE = 2.5  # seconds between requests to standardebooks.org
 WIDTHS = (180, 360, 720, 1080)  # covers are 2:3
 PUBLISHERS = {"Chapman and Hall", "The Modern Library"}
-MAX_EPUB = 8_000_000  # bytes; bigger books are made lighter (see lighter()), or failing that stay on Standard Ebooks
+MAX_EPUB = 8_000_000  # bytes; bigger books are made lighter (see lighter())
+MAX_PICTURE_BOOK = 14_000_000  # bytes; what is left of a picture book once its pictures are made smaller (smaller_pictures())
 
 # The shelf: the Standard Ebooks edition of each book and its genres here (theirs have no Romance, for one).
 # Every book is in the public domain in the US (Standard Ebooks' rule) and in India (life of the author plus 60 years),
@@ -208,6 +209,219 @@ CATALOGUE = [
     ("anton-chekhov/short-fiction/constance-garnett", ["Literary fiction"]),
     ("o-henry/short-fiction", ["Literary fiction"]),
     ("jerome-k-jerome/three-men-in-a-boat", ["Literary fiction", "Adventure"]),
+    # More of the most read, added in 4.1 (each checked by pipeline/rights.py like the rest). Left out for India: Heidi
+    # (Elisabeth Stork, died 1968), Steppenwolf (Basil Creighton, 1989), Seven Pillars of Wisdom (illustrators who died
+    # after 1965), and The Idiot, the Nicomachean Ethics and From the Earth to the Moon, whose translators' dates
+    # cannot be found
+    ("jane-austen/mansfield-park", ["Romance"]),
+    ("charlotte-bronte/villette", ["Romance", "Literary fiction"]),
+    ("anne-bronte/agnes-grey", ["Romance"]),
+    ("thomas-hardy/far-from-the-madding-crowd", ["Romance", "Literary fiction"]),
+    ("edith-wharton/the-house-of-mirth", ["Literary fiction", "Romance"]),
+    ("arthur-conan-doyle/the-casebook-of-sherlock-holmes", ["Mystery"]),
+    ("g-k-chesterton/the-wisdom-of-father-brown", ["Mystery"]),
+    ("dorothy-l-sayers/whose-body", ["Mystery"]),
+    ("a-a-milne/the-red-house-mystery", ["Mystery"]),
+    ("baroness-orczy/the-scarlet-pimpernel", ["Adventure", "Romance"]),
+    ("walter-scott/ivanhoe", ["Adventure"]),
+    ("robert-louis-stevenson/kidnapped", ["Adventure"]),
+    ("rudyard-kipling/kim", ["Adventure", "Literary fiction"]),
+    ("james-fenimore-cooper/the-last-of-the-mohicans", ["Adventure"]),
+    ("edgar-rice-burroughs/tarzan-of-the-apes", ["Adventure"]),
+    ("jack-london/the-sea-wolf", ["Adventure"]),
+    ("mark-twain/the-prince-and-the-pauper", ["Adventure", "Children’s"]),
+    ("h-g-wells/the-first-men-in-the-moon", ["Science fiction"]),
+    ("charlotte-perkins-gilman/herland", ["Science fiction"]),
+    ("olaf-stapledon/last-and-first-men", ["Science fiction"]),
+    ("m-r-james/short-fiction", ["Horror"]),
+    ("h-p-lovecraft/the-case-of-charles-dexter-ward", ["Horror"]),
+    ("e-f-benson/ghost-stories", ["Horror"]),
+    ("horace-walpole/the-castle-of-otranto", ["Horror"]),
+    ("george-macdonald/the-princess-and-the-goblin", ["Fantasy", "Children’s"]),
+    ("george-macdonald/phantastes", ["Fantasy"]),
+    ("david-lindsay/a-voyage-to-arcturus", ["Fantasy", "Science fiction"]),
+    ("e-nesbit/five-children-and-it", ["Fantasy", "Children’s"]),
+    ("e-nesbit/the-railway-children", ["Children’s"]),
+    ("rudyard-kipling/just-so-stories", ["Children’s"]),
+    ("carlo-collodi/the-adventures-of-pinocchio", ["Children’s", "Fantasy"]),
+    ("eleanor-h-porter/pollyanna", ["Children’s"]),
+    ("l-m-montgomery/anne-of-avonlea", ["Children’s"]),
+    ("beatrix-potter/short-fiction", ["Children’s"]),
+    ("a-a-milne/the-house-at-pooh-corner", ["Children’s"]),
+    ("t-s-eliot/poetry", ["Poetry"]),
+    ("robert-frost/north-of-boston", ["Poetry"]),
+    ("geoffrey-chaucer/the-canterbury-tales", ["Poetry"]),
+    ("virgil/the-aeneid/john-dryden", ["Poetry", "Adventure"]),
+    ("william-shakespeare/julius-caesar", ["Plays"]),
+    ("william-shakespeare/the-merchant-of-venice", ["Plays"]),
+    ("william-shakespeare/twelfth-night", ["Plays", "Romance"]),
+    ("george-bernard-shaw/pygmalion", ["Plays"]),
+    ("sophocles/antigone/francis-storr", ["Plays"]),
+    ("anton-chekhov/the-cherry-orchard/constance-garnett", ["Plays"]),
+    ("charles-dickens/david-copperfield", ["Literary fiction"]),
+    ("charles-dickens/bleak-house", ["Literary fiction", "Mystery"]),
+    ("victor-hugo/les-miserables/isabel-f-hapgood", ["Literary fiction"]),
+    ("victor-hugo/notre-dame-de-paris/isabel-f-hapgood", ["Literary fiction", "Romance"]),
+    ("george-eliot/the-mill-on-the-floss", ["Literary fiction"]),
+    ("george-eliot/silas-marner", ["Literary fiction"]),
+    ("james-joyce/a-portrait-of-the-artist-as-a-young-man", ["Literary fiction"]),
+    ("thomas-mann/the-magic-mountain/h-t-lowe-porter", ["Literary fiction", "Philosophy"]),
+    ("edith-wharton/ethan-frome", ["Literary fiction"]),
+    ("joseph-conrad/lord-jim", ["Literary fiction", "Adventure"]),
+    ("willa-cather/my-antonia", ["Literary fiction"]),
+    ("ivan-turgenev/fathers-and-children/constance-garnett", ["Literary fiction"]),
+    ("j-w-von-goethe/the-sorrows-of-young-werther/r-d-boylan", ["Literary fiction", "Romance"]),
+    ("harriet-beecher-stowe/uncle-toms-cabin", ["Literary fiction", "History and politics"]),
+    ("confucius/analects/james-legge", ["Philosophy"]),
+    ("rene-descartes/philosophical-works/john-veitch", ["Philosophy"]),
+    ("jean-jacques-rousseau/the-social-contract/g-d-h-cole", ["Philosophy", "History and politics"]),
+    ("okakura-kakuzo/the-book-of-tea", ["Philosophy", "Essays and letters"]),
+    ("g-k-chesterton/orthodoxy", ["Philosophy", "Essays and letters"]),
+    ("w-h-davies/the-autobiography-of-a-super-tramp", ["Lives and memoirs"]),
+    ("thucydides/history-of-the-peloponnesian-war/richard-crawley", ["History and politics"]),
+    ("herodotus/histories/g-c-macaulay", ["History and politics"]),
+    ("edmund-burke/reflections-on-the-revolution-in-france", ["History and politics"]),
+    ("henry-david-thoreau/essays", ["Essays and letters"]),
+    ("washington-irving/the-sketchbook-of-geoffrey-crayon-gent", ["Essays and letters", "Horror"]),
+    # The next of the most read, added in 4.1 as well. Left out for India: Winesburg, Ohio (its introduction, Irving Howe,
+    # died 1993), the Tractatus (Bertrand Russell's introduction, 1970), Thomas Mann's stories (Kenneth Burke, 1993),
+    # Tolstoy's stories (R. S. Townsend, 1970) and Maupassant's (Storm Jameson, 1986); and, as nobody's dates can be found
+    # for one or more of those who worked on them, Gogol's and Akutagawa's stories, Noli Me Tángere, Beautiful Stories
+    # from Shakespeare and Gibbon's Decline and Fall
+    ("james-joyce/ulysses", ["Literary fiction"]),
+    ("marcel-proust/in-search-of-lost-time/c-k-scott-moncrieff", ["Literary fiction"]),
+    ("william-faulkner/as-i-lay-dying", ["Literary fiction"]),
+    ("william-faulkner/the-sound-and-the-fury", ["Literary fiction"]),
+    ("ernest-hemingway/short-fiction", ["Literary fiction"]),
+    ("fyodor-dostoevsky/demons/constance-garnett", ["Literary fiction", "Philosophy"]),
+    ("fyodor-dostoevsky/the-house-of-the-dead/constance-garnett", ["Literary fiction"]),
+    ("fyodor-dostoevsky/the-gambler/c-j-hogarth", ["Literary fiction"]),
+    ("fyodor-dostoevsky/poor-folk/c-j-hogarth", ["Literary fiction", "Romance"]),
+    ("charles-dickens/hard-times", ["Literary fiction"]),
+    ("charles-dickens/the-pickwick-papers", ["Literary fiction"]),
+    ("charles-dickens/our-mutual-friend", ["Literary fiction"]),
+    ("charles-dickens/the-mystery-of-edwin-drood", ["Mystery", "Literary fiction"]),
+    ("d-h-lawrence/lady-chatterleys-lover", ["Romance", "Literary fiction"]),
+    ("d-h-lawrence/the-rainbow", ["Literary fiction"]),
+    ("laurence-sterne/the-life-and-opinions-of-tristram-shandy-gentleman", ["Literary fiction"]),
+    ("w-somerset-maugham/of-human-bondage", ["Literary fiction"]),
+    ("joseph-conrad/the-secret-agent", ["Literary fiction"]),
+    ("joseph-conrad/nostromo", ["Literary fiction", "Adventure"]),
+    ("ford-madox-ford/the-good-soldier", ["Literary fiction"]),
+    ("virginia-woolf/jacobs-room", ["Literary fiction"]),
+    ("jack-london/martin-eden", ["Literary fiction"]),
+    ("henry-fielding/the-history-of-tom-jones-a-foundling", ["Literary fiction", "Romance"]),
+    ("nathaniel-hawthorne/the-house-of-the-seven-gables", ["Literary fiction", "Horror"]),
+    ("leo-tolstoy/hadji-murad/aylmer-maude", ["Literary fiction", "Adventure"]),
+    ("herman-melville/short-fiction", ["Literary fiction"]),
+    ("john-bunyan/the-pilgrims-progress", ["Literary fiction", "Philosophy"]),
+    ("charles-kingsley/hypatia", ["Literary fiction", "History and politics"]),
+    ("h-g-wells/the-wheels-of-chance", ["Literary fiction", "Adventure"]),
+    ("a-e-w-mason/the-house-of-the-arrow", ["Mystery"]),
+    ("a-e-w-mason/at-the-villa-rose", ["Mystery"]),
+    ("dorothy-l-sayers/strong-poison", ["Mystery"]),
+    ("dashiell-hammett/red-harvest", ["Mystery"]),
+    ("g-k-chesterton/the-incredulity-of-father-brown", ["Mystery"]),
+    ("g-k-chesterton/the-secret-of-father-brown", ["Mystery"]),
+    ("anna-katharine-green/hand-and-ring", ["Mystery"]),
+    ("marie-belloc-lowndes/the-chink-in-the-armour", ["Mystery", "Horror"]),
+    ("arthur-b-reeve/craig-kennedy-stories", ["Mystery"]),
+    ("john-william-polidori/the-vampire", ["Horror"]),
+    ("m-g-lewis/the-monk", ["Horror"]),
+    ("ann-radcliffe/the-mysteries-of-udolpho", ["Horror", "Romance"]),
+    ("john-meade-falkner/the-lost-stradivarius", ["Horror"]),
+    ("james-hogg/the-private-memoirs-and-confessions-of-a-justified-sinner", ["Horror", "Literary fiction"]),
+    ("algernon-blackwood/john-silence-stories", ["Horror"]),
+    ("arthur-machen/short-fiction", ["Horror", "Fantasy"]),
+    ("clark-ashton-smith/short-fiction", ["Fantasy", "Horror"]),
+    ("jane-c-loudon/the-mummy", ["Science fiction", "Horror"]),
+    ("edgar-allan-poe/the-narrative-of-arthur-gordon-pym-of-nantucket", ["Adventure", "Horror"]),
+    ("arthur-conan-doyle/brigadier-gerard-stories", ["Adventure"]),
+    ("alexandre-dumas/the-wolf-leader/alfred-allinson", ["Fantasy", "Adventure"]),
+    ("william-morris/the-well-at-the-worlds-end", ["Fantasy"]),
+    ("james-branch-cabell/the-line-of-love", ["Fantasy", "Romance"]),
+    ("a-n-afanasyev/russian-folktales/leonard-a-magnus", ["Fantasy", "Children’s"]),
+    ("william-shakespeare/richard-iii", ["Plays"]),
+    ("william-shakespeare/much-ado-about-nothing", ["Plays"]),
+    ("william-shakespeare/the-taming-of-the-shrew", ["Plays"]),
+    ("william-shakespeare/antony-and-cleopatra", ["Plays"]),
+    ("william-shakespeare/as-you-like-it", ["Plays"]),
+    ("william-shakespeare/the-winters-tale", ["Plays"]),
+    ("george-bernard-shaw/man-and-superman", ["Plays"]),
+    ("william-shakespeare/poetry", ["Poetry"]),
+    ("edmund-spenser/the-faerie-queene", ["Poetry", "Fantasy"]),
+    ("ovid/metamorphoses/various-translators", ["Poetry"]),
+    ("kahlil-gibran/jesus-the-son-of-man", ["Poetry", "Philosophy"]),
+    ("david-hume/a-treatise-of-human-nature", ["Philosophy"]),
+    ("david-hume/an-enquiry-concerning-human-understanding", ["Philosophy"]),
+    ("epictetus/short-works/george-long", ["Philosophy"]),
+    ("seneca/dialogues/aubrey-stewart", ["Philosophy"]),
+    ("thomas-hobbes/leviathan", ["Philosophy", "History and politics"]),
+    ("john-locke/two-treatises-of-government", ["Philosophy", "History and politics"]),
+    ("friedrich-nietzsche/the-genealogy-of-morals/horace-b-samuel", ["Philosophy"]),
+    ("william-james/pragmatism", ["Philosophy"]),
+    ("leo-tolstoy/a-confession/aylmer-maude", ["Philosophy", "Lives and memoirs"]),
+    ("leo-tolstoy/the-kingdom-of-god-is-within-you/leo-wiener", ["Philosophy"]),
+    ("leo-tolstoy/what-is-art/aylmer-maude", ["Philosophy", "Essays and letters"]),
+    ("adam-smith/the-theory-of-moral-sentiments", ["Philosophy"]),
+    ("thomas-a-kempis/the-imitation-of-christ/william-benham", ["Philosophy"]),
+    ("friedrich-engels/the-condition-of-the-working-class-in-england/florence-kelley-wischnewetzky", ["History and politics"]),
+    ("g-k-chesterton/whats-wrong-with-the-world", ["Essays and letters", "History and politics"]),
+    ("ulysses-s-grant/personal-memoirs-of-ulysses-s-grant", ["Lives and memoirs", "History and politics"]),
+    ("mark-twain/the-innocents-abroad", ["Lives and memoirs", "Adventure"]),
+    # Fifty more of the most read, added in 4.1 as well. Left out for India: The Gods of Mars and A General History of the
+    # Pirates (Frank Schoonover's cover, died 1972), the Continental Op stories (J. W. Schlaikjer's cover, 1982), Dead Souls
+    # (John Cournos's introduction, 1966); and, as a date cannot be found, Saki's stories, Don Juan and Pudd'nhead Wilson
+    ("john-gay/the-beggars-opera", ["Plays"]),
+    ("george-macdonald/lilith", ["Fantasy"]),
+    ("oscar-wilde/poetry", ["Poetry"]),
+    ("h-g-wells/the-food-of-the-gods", ["Science fiction"]),
+    ("thomas-mann/buddenbrooks/h-t-lowe-porter", ["Literary fiction"]),
+    ("g-k-chesterton/the-everlasting-man", ["Philosophy", "History and politics"]),
+    ("daniel-defoe/moll-flanders", ["Literary fiction", "Adventure"]),
+    ("leo-tolstoy/resurrection/louise-maude", ["Literary fiction"]),
+    ("alexandre-dumas/the-black-tulip/p-f-collier-and-son", ["Adventure", "Romance"]),
+    ("d-h-lawrence/sons-and-lovers", ["Literary fiction"]),
+    ("l-frank-baum/the-road-to-oz", ["Children’s", "Fantasy"]),
+    ("f-scott-fitzgerald/short-fiction", ["Literary fiction"]),
+    ("oscar-wilde/lord-arthur-saviles-crime-and-other-stories", ["Literary fiction", "Mystery"]),
+    ("aeschylus/agamemnon/gilbert-murray", ["Plays"]),
+    ("l-m-montgomery/anne-of-the-island", ["Children’s", "Romance"]),
+    ("thomas-hardy/the-return-of-the-native", ["Romance", "Literary fiction"]),
+    ("l-frank-baum/dorothy-and-the-wizard-in-oz", ["Children’s", "Fantasy"]),
+    ("solomon-northup/twelve-years-a-slave", ["Lives and memoirs", "History and politics"]),
+    ("charlotte-bronte/shirley", ["Romance", "Literary fiction"]),
+    ("m-e-braddon/lady-audleys-secret", ["Mystery"]),
+    ("george-macdonald/at-the-back-of-the-north-wind", ["Children’s", "Fantasy"]),
+    ("mark-twain/roughing-it", ["Lives and memoirs", "Adventure"]),
+    ("h-g-wells/in-the-days-of-the-comet", ["Science fiction"]),
+    ("charles-robert-maturin/melmoth-the-wanderer", ["Horror"]),
+    ("anton-chekhov/uncle-vanya/constance-garnett", ["Plays"]),
+    ("rudyard-kipling/captains-courageous", ["Adventure", "Children’s"]),
+    ("ring-lardner/gullibles-travels", ["Literary fiction"]),
+    ("charles-dickens/little-dorrit", ["Literary fiction"]),
+    ("joseph-conrad/the-rescue", ["Adventure", "Romance"]),
+    ("mark-twain/personal-recollections-of-joan-of-arc", ["Literary fiction", "History and politics"]),
+    ("l-frank-baum/the-marvelous-land-of-oz", ["Children’s", "Fantasy"]),
+    ("w-somerset-maugham/the-moon-and-sixpence", ["Literary fiction"]),
+    ("mark-twain/the-autobiography-of-mark-twain", ["Lives and memoirs"]),
+    ("elizabeth-von-arnim/the-enchanted-april", ["Romance", "Literary fiction"]),
+    ("ambrose-bierce/the-devils-dictionary", ["Essays and letters"]),
+    ("samuel-butler/erewhon", ["Science fiction", "Literary fiction"]),
+    ("willa-cather/the-professors-house", ["Literary fiction"]),
+    ("dashiell-hammett/the-dain-curse", ["Mystery"]),
+    ("pierre-choderlos-de-laclos/dangerous-liaisons/thomas-moore", ["Romance", "Literary fiction"]),
+    ("thomas-bulfinch/bulfinchs-mythology", ["Fantasy", "History and politics"]),
+    ("anton-chekhov/the-seagull/constance-garnett", ["Plays"]),
+    ("kahlil-gibran/the-madman", ["Poetry", "Philosophy"]),
+    ("edgar-rice-burroughs/the-warlord-of-mars", ["Science fiction", "Adventure"]),
+    ("robert-e-howard/short-fiction", ["Fantasy", "Adventure"]),
+    ("erskine-childers/the-riddle-of-the-sands", ["Adventure", "Mystery"]),
+    ("charles-dickens/nicholas-nickleby", ["Literary fiction"]),
+    ("thomas-hardy/the-mayor-of-casterbridge", ["Literary fiction"]),
+    ("anthony-hope/the-prisoner-of-zenda", ["Adventure", "Romance"]),
+    ("f-scott-fitzgerald/this-side-of-paradise", ["Literary fiction"]),
+    ("thomas-paine/the-age-of-reason", ["Philosophy"]),
 ]
 
 last_request = 0.0
@@ -417,6 +631,41 @@ def lighter(data):
     return out.getvalue()
 
 
+def smaller_pictures(data):
+    """A picture book still too heavy once lighter() has run (Beatrix Potter's tales, 449 watercolours): its pictures made
+    smaller, step by step, until it fits. 400 pixels across is plenty for these small pictures; below that they fall apart, so such
+    a book may be heavier than other books. The file names stay, so nothing in the text changes. The cover is left alone."""
+    source = zipfile.ZipFile(io.BytesIO(data))
+
+    def smaller(name, body, width, quality):
+        im = Image.open(io.BytesIO(body))
+        if im.width > width:
+            im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
+        out = io.BytesIO()
+        if name.endswith(".png"):
+            im.convert("RGBA").quantize(colors=64, method=Image.Quantize.FASTOCTREE).save(out, "PNG", optimize=True)
+        else:
+            im.convert("RGB").save(out, "JPEG", quality=quality, optimize=True, progressive=True)
+        return out.getvalue() if out.tell() < len(body) else body
+
+    result = data
+    for width, quality in ((640, 60), (520, 55), (440, 50), (400, 45)):
+        out = io.BytesIO()
+        with zipfile.ZipFile(out, "w") as target:
+            target.writestr(zipfile.ZipInfo("mimetype"), source.read("mimetype"), compress_type=zipfile.ZIP_STORED)
+            for item in source.infolist():
+                if item.filename == "mimetype":
+                    continue
+                body = source.read(item.filename)
+                if re.search(r"\.(png|jpe?g)$", item.filename) and "cover" not in item.filename:
+                    body = smaller(item.filename, body, width, quality)
+                target.writestr(item.filename, body, compress_type=zipfile.ZIP_DEFLATED)
+        result = out.getvalue()
+        if len(result) <= MAX_PICTURE_BOOK:
+            break
+    return result
+
+
 def black_line_art(png):
     """The PNG in sixteen levels of transparency, if it is black drawn on transparent and that makes it smaller"""
     im = Image.open(io.BytesIO(png))
@@ -483,11 +732,13 @@ def main():
             data = None
         if data is not None and len(data) > MAX_EPUB:
             data = lighter(data)
+        if data is not None and len(data) > MAX_EPUB:
+            data = smaller_pictures(data)
         if data is None:
             pass
-        elif len(data) > MAX_EPUB:
-            # Heavily illustrated editions run to tens of MB: those are read and downloaded from Standard Ebooks itself
-            # (its server allows other sites to read its files), so the repository stays small
+        elif len(data) > MAX_PICTURE_BOOK:
+            # Too heavy even so: linked to Standard Ebooks. Its server does not let other sites read its files, so such a
+            # book can only be downloaded, not read here; no book on the shelf should end up in this branch
             epub.unlink(missing_ok=True)
             book["epub"] = source
         else:
@@ -498,12 +749,12 @@ def main():
             book["epub"] = f"books/{book['slug']}.epub"
         book["size"] = len(data) if data else None
         book["popularity"] = ranks.get(se_path)
-        book["opening"] = opening_line(data if data and len(data) <= MAX_EPUB else None)
+        book["opening"] = opening_line(data if data and len(data) <= MAX_PICTURE_BOOK else None)
         book["kindle"] = f"{SE}{se_path}/downloads/{book['epub_name']}.azw3?source=download"
         book["kobo"] = f"{SE}{se_path}/downloads/{book['epub_name']}.kepub.epub?source=download"
         del book["epub_name"]
         books.append(book)
-        where = "fetched later" if data is None else f"{len(data) // 1024} KB" + (", from Standard Ebooks" if len(data) > MAX_EPUB else "")
+        where = "fetched later" if data is None else f"{len(data) // 1024} KB" + (", from Standard Ebooks" if len(data) > MAX_PICTURE_BOOK else "")
         print(f"{n:3}/{len(CATALOGUE)} {book['title']} ({where})", flush=True)
     books.extend(gutenberg_books(taken))
     (ROOT / "data" / "books.json").write_text(json.dumps(books, ensure_ascii=False, indent=1) + "\n", encoding="utf-8",

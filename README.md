@@ -1,6 +1,6 @@
 <h1 align="center">The Bookshelf</h1>
 
-<p align="center"><strong>A free library of 161 classics to read in your browser or download, in a bright, playful site where everything moves.</strong></p>
+<p align="center"><strong>A free library of 362 classics to read in your browser or download, in a bright, playful site where everything moves.</strong></p>
 
 <p align="center">
   <a href="https://the-bookshelf.cl0ud-9.workers.dev/"><img src="https://img.shields.io/badge/Live%20site-the--bookshelf.cl0ud--9.workers.dev-ff008c?style=for-the-badge" alt="Live site" height="34"></a>
@@ -21,7 +21,7 @@
 </p>
 
 The Bookshelf is a free library of the classics with a loud, warm personality: heavy type, handwritten notes,
-colour cards, stickers and motion everywhere you look. 161 books, from Austen and the Brontës to Sherlock Holmes,
+colour cards, stickers and motion everywhere you look. 362 books, from Austen and the Brontës to Sherlock Holmes,
 Frankenstein, Tagore and Marcus Aurelius, can be read right in the browser or downloaded for a phone, Kindle or Kobo. It began as a
 Web Technology course project, was rebuilt as an animated bookshop in version 2, became a library in version 3, and
 moved to Astro and TypeScript in version 4.
@@ -29,7 +29,7 @@ moved to Astro and TypeScript in version 4.
 | Page | What it does |
 |---|---|
 | [Home](https://the-bookshelf.cl0ud-9.workers.dev/) | Where to start, on a draggable shelf; the books you are reading; a line of the day; how it works; a book that opens as you scroll; the genres; questions; the book of the month and why it was chosen. |
-| [All books](https://the-bookshelf.cl0ud-9.workers.dev/books.html) | All 161 books, most read first: fiction or non-fiction, a genre or the From India shelf, a mood and a length, searchable by title, author or genre (accents optional), sorted by title or length. The choice is kept in the address, so it can be shared. |
+| [All books](https://the-bookshelf.cl0ud-9.workers.dev/books) | All 362 books, most read first: fiction or non-fiction, a genre or the From India shelf, a mood and a length, searchable by title, author or genre (accents optional), sorted by title or length. The choice is kept in the address, so it can be shared. |
 | [Genres](https://the-bookshelf.cl0ud-9.workers.dev/genres.html) | A shelf for each genre, fiction and non-fiction, and one of classics from India, its most read books first, to scroll or drag sideways. |
 | [Questions](https://the-bookshelf.cl0ud-9.workers.dev/faq.html) | Every question, by topic, with a list of topics that follows you down the page and marks the one you are reading. |
 | [A book](https://the-bookshelf.cl0ud-9.workers.dev/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description, details and edition, Read now, the EPUB download, Kindle and Kobo editions, a free LibriVox audiobook where there is one, Keep for offline reading, Before you start (who's who and what to know, with no spoilers) and Lines worth knowing for the most read books, and three related books. |
@@ -253,8 +253,8 @@ the build, the link check and the browser checks. Every push to `main` also runs
 Lighthouse in its phone mode on six pages (three runs each, budgets in [`.lighthouserc.json`](.lighthouserc.json)), and
 publishes `dist/` to Cloudflare Workers as static files ([`wrangler.jsonc`](wrangler.jsonc); no Worker code runs). A
 broken link, or a page that falls below its speed or accessibility budget, stops the deploy. It also runs on the first
-of every month. `public/_headers` sets how long browsers keep each kind of file, and `public/_redirects` serves the
-home page at the bare address (every other page keeps its `.html` address).
+of every month. `public/_headers` sets how long browsers keep each kind of file. Pages have clean addresses (`/books`
+serves `books.html`), and an old link ending in `.html` is sent on to the clean one.
 
 **Setting up Cloudflare (free).** A deploy by hand, from your own computer, needs only `npx wrangler@4.152.0 login`
 once, then `npm run build` and `npx wrangler@4.152.0 deploy`. For the workflow:
@@ -329,7 +329,7 @@ src/scripts/        app.js (transitions, smooth scrolling and every animation), 
 src/assets/fonts/   Rubik, Figtree, Gochi Hand and Literata, Latin subset, built by pipeline/fonts.py
 src/icons/          Lucide icons, inlined in every page
 src/sw.template.js  the service worker; the build fills in the files it keeps
-public/             image/ (the logo and home-screen icons), _headers and _redirects (for Cloudflare)
+public/             image/ (the logo and home-screen icons), and _headers (caching, for Cloudflare)
 wrangler.jsonc      how Cloudflare serves the built site
 data/               books.json, picks.json, quotes.json, guides.json, moods.json, librivox.json: written by the pipeline
 pipeline/           the Python scripts that fetch the books and make covers, fonts, lines and link previews

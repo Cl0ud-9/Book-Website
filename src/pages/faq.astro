@@ -8,7 +8,7 @@ import Base from "../layouts/Base.astro";
 import { FAQ_TOPICS } from "../lib/faq";
 import type { IconName } from "../lib/icons";
 ---
-<Base name="faq" path="faq.html" title="Common questions | The Bookshelf" description="How reading and downloading work on the Bookshelf, where the books come from and why they are free." theme="pale-blue">
+<Base name="faq" path="faq" title="Common questions | The Bookshelf" description="How reading and downloading work on the Bookshelf, where the books come from and why they are free." theme="pale-blue">
 <HeroXs tint="pale-blue" shapes="soft-blue" title="Common questions" note="Ask away!">Everything about reading, downloading and the books themselves.</HeroXs>
 <section class="faqs" aria-label="Questions by topic">
   <nav class="faqs__nav" aria-label="Topics">
@@ -32,7 +32,7 @@ import type { IconName } from "../lib/icons";
 <section class="faqs-cta" aria-labelledby="cta-title">
   <h2 class="faqs-cta__title heading-l" id="cta-title">Still curious?</h2>
   <p class="faqs-cta__text">The best answers are in the books.</p>
-  <ButtonAlt href="books.html" text="Browse all books" />
+  <ButtonAlt href="books" text="Browse all books" />
   <p class="faqs-cta__note accent-note" data-handwritten-text-inview>Made by readers, for readers</p>
 </section>
 </Base>

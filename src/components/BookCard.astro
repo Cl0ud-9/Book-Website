@@ -24,7 +24,7 @@ const sortTitle = plain(b.title).replace(/^the /, "").replace(/^a /, "");
   <Tags genres={b.genres} card={b.colour} />
   <Heading class="book-card__title" style={`--fit:${fit(b.title)}`}><a class="book-card__link" href={bookUrl(slug)} draggable="false">{b.title}</a></Heading>
   <p class="book-card__author">{b.author}</p>
-  <p class="book-card__time"><Icon name="clock" /><span><span class="sr-only">Reading time: </span>{shortTime(b.reading_time)}</span></p>
+  <p class="book-card__time"><Icon name="clock" /><span><span class="sr-only">Reading time: </span>{shortTime(b.minutes)}</span></p>
   <p class="book-card__hook">{b.abstract}</p>
   <span class="book-card__open" aria-hidden="true">Open the book <Icon name="arrow" /></span>
 </article>

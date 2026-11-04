@@ -409,7 +409,7 @@
       linesBox.disabled = !profile.public;
       $("[data-acct-lines-row]").classList.toggle("is--off", !profile.public);
       $("[data-acct-page-links]").hidden = !profile.public;
-      $("[data-acct-page-link]").href = `profile.html?u=${encodeURIComponent(profile.handle)}`;
+      $("[data-acct-page-link]").href = `profile?u=${encodeURIComponent(profile.handle)}`;
     }
 
     show("checking");
@@ -438,7 +438,7 @@
       status.innerHTML = "";
       status.append(mine ? "Looking for your own page? " : "This address doesn’t name a reader. ");
       const link = el("a", null, mine ? "Open it" : "Find a book instead");
-      link.href = mine ? `profile.html?u=${encodeURIComponent(mine)}` : "books.html";
+      link.href = mine ? `profile?u=${encodeURIComponent(mine)}` : "books";
       status.append(link, ".");
       return () => {};
     }
@@ -453,7 +453,7 @@
       img.loading = "lazy";
       const text = el("div", "mine__book-text");
       const title = el("a", "mine__book-title", b.title);
-      title.href = `book-${slug}.html`;
+      title.href = `book-${slug}`;
       text.append(title, el("p", "mine__book-author", b.author));
       extra?.(text);
       li.append(img, text);
@@ -502,7 +502,7 @@
         li.append(el("blockquote", "line__text", `“${line.text}”`));
         const from = el("p", "line__from");
         const link = el("a", null, library[line.book].title);
-        link.href = `book-${line.book}.html`;
+        link.href = `book-${line.book}`;
         from.append(link, `, ${library[line.book].author}`);
         li.append(from);
         return li;
@@ -518,7 +518,7 @@
       const mine = account.current().profile?.handle === data.handle;
       const own = $("[data-profile-mine]");
       own.textContent = mine ? "Change what your page shows" : "Make your own reader page";
-      own.href = mine || account.current().state === "in" ? "account.html" : "signup.html";
+      own.href = mine || account.current().state === "in" ? "account" : "signup";
       $("[data-profile-foot]").hidden = false;
     }).catch(() => {
       if (!closed) status.textContent = "This reader page didn’t load. Check your connection, then try again.";

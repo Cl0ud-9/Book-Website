@@ -11,7 +11,7 @@ const ACCOUNT_FAQ: Question[] = [
     ["What does an account add?",
       "Your reading on every device: sign in on your phone and your laptop, and your place in each book, your "
       + "highlights, notes and reading time are on both. You also get a name and a reader page you can share if you "
-      + "want to, with what you are reading and have finished.", ["Your account", "account.html"]],
+      + "want to, with what you are reading and have finished.", ["Your account", "account"]],
     ["Who can see my reading?",
       "Only you, unless you share your reader page. Then anyone with its link sees your name, the books you are "
       + "reading and have finished, your reading time and, if you choose, the lines you highlighted. Your notes are "
@@ -88,7 +88,7 @@ export const FAQ_TOPICS: readonly (readonly [key: string, name: string, colour: 
       + "month learns what people enjoy. If your browser asks sites not to track you, we count nothing at all. Your "
       + "reading stays on your own device" + (ACCOUNTS ? ", and in your account if you make one, where only you can see it." : ".")],
     ["What do you keep about me?",
-      "The privacy page says exactly what is kept, where, and how to remove it.", ["Read it", "privacy.html"]],
+      "The privacy page says exactly what is kept, where, and how to remove it.", ["Read it", "privacy"]],
   ]],
   ["account", "Your account", "pale-yellow", "sparkles", ACCOUNT_FAQ],
   ["contact", "Contact", "soft-orange", "mail", [
