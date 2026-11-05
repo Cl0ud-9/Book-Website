@@ -10,7 +10,7 @@ import ShareButton from "../components/ShareButton.astro";
 import Tags from "../components/Tags.astro";
 import Base from "../layouts/Base.astro";
 import type { IconName } from "../lib/icons";
-import { BOOK, GUIDES, LIBRARY, LISTEN, QUOTES, bookUrl, ink, readAt, relatedTo } from "../lib/library";
+import { AGE_NOTES, BOOK, GUIDES, LIBRARY, LISTEN, QUOTES, ageLabel, bookUrl, ink, readAt, relatedTo } from "../lib/library";
 import { BLOB_A, BLOB_B } from "../lib/shapes";
 import { about, capital, quoteText, thousands } from "../lib/text";
 
@@ -28,13 +28,20 @@ const facts: [IconName, string, string][] = [
   ["globe", "Language", "English"],
   ...(b.translator ? [["type", "Translated by", b.translator] as [IconName, string, string]] : []),
   ["sparkles", "Mood", b.moods.join(", ")],
+  ["star", "Suggested age", ageLabel(b.age)],
+  ...(b.notes.length ? [["star", "Good to know", b.notes.map((n) => AGE_NOTES[n]).join(", ")] as [IconName, string, string]] : []),
 ];
 // where this edition comes from, with a link to its page there
 const source: [string, string] = b.standard_ebooks ? [b.standard_ebooks, "Standard Ebooks"] : [b.gutenberg || "", "Project Gutenberg"];
 const guide = GUIDES[slug];
 const lines = (QUOTES[slug] || []).slice(0, 3);
 ---
-<Base name="book" path={bookUrl(slug)} title={`${b.title} by ${b.author}, free | The Bookshelf`} description={b.abstract} theme={b.colour} book={slug}>
+<Base name="book" path={bookUrl(slug)} title={`${b.title} by ${b.author}, free | The Bookshelf`} description={b.abstract} theme={b.colour} book={slug} age={b.age}>
+<section class="for-older" aria-label="For older readers">
+  <h2 class="for-older__title heading-m">This one’s for older readers</h2>
+  <p>Kids mode is on, so this book is put away for now. There are plenty more on the shelf.</p>
+  <p class="for-older__links"><a class="picked__action" href="books">See the books for you</a><a class="for-older__parents" href="reading#kids">Grown-ups: Kids mode</a></p>
+</section>
 <section class="book-hero" style={`--card:var(--${b.colour});--ink:${ink(b.colour)}`} data-intro-page aria-labelledby="page-title">
   <BgShapes paths={[["is--glow", BLOB_A], ["is--glow", BLOB_B]]} class="book-hero__shapes" small />
   <a class="book-hero__back" href="books"><Icon name="left" /> All books</a>

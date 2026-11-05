@@ -4,6 +4,15 @@ import { ACCOUNTS } from "./config";
 export type Question = readonly [question: string, answer: string, link?: readonly [string, string]];
 
 const ACCOUNT_FAQ: Question[] = [
+  ["Is it suitable for children?",
+    "Many of the books are, and many are not: these are classics, some with violence, frightening scenes or the attitudes of "
+    + "their time. Each book's page gives a suggested age and anything worth knowing first, and All books can filter by age. "
+    + "The ages are our own guide, not a certified rating. On a family's device, Kids mode hides books for older readers "
+    + "behind a PIN. It keeps everything on the device and collects nothing about your child, but it is a guard rail, not a "
+    + "lock: clearing the browser's data turns it off.", ["Kids mode", "reading#kids"]],
+  ["How do you choose books for me?",
+    "Tap a few covers and answer three quick questions, and we suggest books from your answers. It is worked out in your "
+    + "browser, and your answers stay on your device.", ["Find my next book", "start"]],
   ["Do I need an account?",
     "No. Reading, downloading, your place in each book, your highlights, notes and reading time all work without one. "
     + "They are kept on your own device, and Your reading shows them all."],

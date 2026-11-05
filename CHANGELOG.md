@@ -5,6 +5,34 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [4.2.0] - 2026-11-05
+
+### Added
+
+- Find my next book: tap a few covers, answer three quick questions, and get a shelf picked for you, on the home page and
+  in Your reading too. It is worked out in your browser, with no account, and your answers stay on your device.
+- A suggested age and notes on what's inside, for every book, on its page, with a filter on All books. A guide written for
+  this site, not a certified rating.
+- Kids mode, for a family's device: choose an age and a PIN, and books for older readers are hidden everywhere until the
+  PIN is given again. It keeps everything on the device, and nothing is counted while it is on.
+
+### Changed
+
+- A book opens where the story starts, as an e-reader's Start does, with a dedication or epigraph just before it. A
+  translator's note, an introduction or a list of sources stays in Contents.
+- The old address (cl0ud-9.github.io/Book-Website) is closed: every page there sends you to the same page here, offline
+  copies of the old site are removed, and what you read there comes along.
+
+### Performance
+
+- Scrolling through All books on a phone fetched 56 MB of covers and 221 book pages. Cards now stop at the 720 wide cover,
+  still twice the width they are shown at, and pages are only fetched ahead when you touch or hover over a link.
+
+### Fixed
+
+- With Chrome's Darken websites on, every book was drawn dark under pale bars, whatever page colour you chose. The page's
+  own "only light" was what stopped a book's frame from saying the same.
+
 ## [4.1.0] - 2026-11-04
 
 ### Added

@@ -60,6 +60,7 @@ import readerContentCss from "../styles/reader-content.css?url";
   const SIZES = [80, 90, 100, 110, 120, 135, 150, 170];
   // The edition's own pages (title page, imprint, colophon, licence) are kept apart from the chapters in Contents
   const ABOUT = /(^|\/)(titlepage|halftitlepage|imprint|colophon|uncopyright)\.xhtml$/;
+  const BEFORE_THE_STORY = /(^|\/)(dedication|epigraph|halftitlepage)(-\d+)?\.xhtml$/;
   const BEFORE_STORY = /(^|\/)(titlepage|halftitlepage|imprint|dedication|epigraph|introduction|preface|foreword|toc)\.xhtml$/;
 
   // Laptops turn pages, two at a time when there is room. Phones (and phones turned sideways) scroll down the book, or,
@@ -84,6 +85,12 @@ import readerContentCss from "../styles/reader-content.css?url";
     if (!info) {
       root.classList.add("is--missing");
       message.textContent = "That book isn’t on the shelf.";
+      return () => {};
+    }
+    if (window.BookshelfKids?.allows(info.age) === false) {
+      root.classList.add("is--missing");
+      root.classList.remove("is--opening", "is--early");
+      message.textContent = "This one’s for older readers. Kids mode is on, so it’s put away for now.";
       return () => {};
     }
 
@@ -114,6 +121,12 @@ import readerContentCss from "../styles/reader-content.css?url";
     const introBook = $("[data-reader-intro-book]");
     const introCover = $("[data-reader-intro-cover]");
     let closed = false;
+    // A browser set to darken pages (Chrome on Android can) leaves a page alone that says it has colours of its own, and the
+    // site's pages say so. But a frame's saying so (paint, above) only counts if the document around it does not say so too
+    // on its root and the <iframe> element does not inherit it: measured on a phone, either one had every book darkened,
+    // whatever page colour was chosen. So while a book is open the page says it on <body> (main.css), not on its root.
+    const lightOnly = document.querySelector('meta[name="color-scheme"]');
+    lightOnly?.remove();
     let entered = Promise.resolve();
     // (Opened straight from its address, the page shows the closed book already, is--early: read.astro)
     const early = root.classList.contains("is--early");
@@ -1032,7 +1045,7 @@ import readerContentCss from "../styles/reader-content.css?url";
       const stats = $("[data-reader-end-stats]");
       stats.hidden = seconds < 120;
       stats.textContent = `${hoursAndMinutes(seconds / 60)} of reading, on this device.`;
-      const picks = (info.next || []).filter((other) => library[other] && !finishedBook(other)).slice(0, 3);
+      const picks = (info.next || []).filter((other) => library[other] && !finishedBook(other) && window.BookshelfKids?.allows(library[other].age) !== false).slice(0, 3);
       $("[data-reader-end-next-head]").hidden = !picks.length;
       $("[data-reader-end-next]").replaceChildren(...picks.map((other) => {
         const li = document.createElement("li");
@@ -1850,10 +1863,22 @@ import readerContentCss from "../styles/reader-content.css?url";
     // Opened from a quote or a note (?at=<words>&in=<chapter file>, ?note=<id>): the notes plug-in looks for it once the
     // book is showing
     const saved = placeOf(slug);
-    // A book opened for the first time starts where the book itself does, past the edition's title page and imprint
-    // (they stay in Contents, under About this edition)
-    const start = saved?.cfi ? Promise.resolve(saved.cfi)
-      : book.loaded.spine.then(() => book.spine.spineItems.find((s) => s.linear && !ABOUT.test(s.href) && !/(^|\/)toc\.xhtml$/.test(s.href))?.href).catch(() => undefined);
+    // A book opened for the first time starts at the story, where the book itself says that is (its "bodymatter" landmark,
+    // the mark an e-reader's Start goes to), with a dedication or epigraph just before it. A translator's note, an editor's
+    // introduction or a list of sources stays in Contents. A book with no such mark starts past its title page and imprint.
+    const firstPage = async () => {
+      await book.loaded.spine;
+      const items = book.spine.spineItems;
+      const navigation = await book.loaded.navigation.catch(() => null);
+      const story = navigation?.landmark?.("bodymatter")?.href?.split("#")[0];
+      let at = story ? items.findIndex((s) => s.href.endsWith(story)) : -1;
+      if (at < 0) return items.find((s) => s.linear && !ABOUT.test(s.href) && !/(^|\/)toc\.xhtml$/.test(s.href))?.href;
+      for (let i = at - 1; i >= 0 && BEFORE_THE_STORY.test(items[i].href); i -= 1) {
+        if (!/halftitlepage/.test(items[i].href)) at = i;
+      }
+      return items[at].href;
+    };
+    const start = saved?.cfi ? Promise.resolve(saved.cfi) : firstPage().catch(() => undefined);
     start.then((first) => {
       opened = first;
       quietUntil = performance.now() + 1500; // the book laying itself out is not you scrolling
@@ -1870,6 +1895,7 @@ import readerContentCss from "../styles/reader-content.css?url";
 
     return () => {
       closed = true;
+      if (lightOnly) document.head.append(lightOnly);
       holds.forEach(clearTimeout);
       nudges.forEach(clearTimeout);
       clearTimeout(patience);

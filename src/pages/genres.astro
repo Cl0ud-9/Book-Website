@@ -25,7 +25,7 @@ const tint = (g: string): string => (["white", "black"].includes(TAG_COLOURS[g])
         </div>
         <ul class="shelf__row" data-shelf-row tabindex="0" aria-label={`${g} books`}>
           {mine.slice(0, 10).map((b) => (
-            <li class="shelf__item"><a class="shelf__book" href={bookUrl(b.slug)}>
+            <li class="shelf__item" data-age={b.age}><a class="shelf__book" href={bookUrl(b.slug)}>
               <Cover slug={b.slug} sizes="(max-width: 991px) 38vw, 13em" />
               <span class="shelf__title">{b.title}</span><span class="shelf__author">{b.author}</span></a></li>
           ))}

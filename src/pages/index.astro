@@ -55,8 +55,8 @@ const [back, front] = FEATURED.hero;
   </div>
   <p class="hero__note accent-note" data-hero-handwritten-text>Free, forever!</p>
   <div class="hero__visual" data-hero-visual aria-hidden="true">
-    <div class="hero__book is--back" data-float><div class="hero__float"><Book3D slug={back} sizes="(max-width: 991px) 38vw, 21em" lazy={false} /></div></div>
-    <div class="hero__book is--main" data-float><div class="hero__float"><Book3D slug={front} sizes="(max-width: 991px) 45vw, 26em" lazy={false} priority /></div></div>
+    <div class="hero__book is--back" data-float data-age={BOOK[back].age}><div class="hero__float"><Book3D slug={back} sizes="(max-width: 991px) 38vw, 21em" lazy={false} /></div></div>
+    <div class="hero__book is--main" data-float data-age={BOOK[front].age}><div class="hero__float"><Book3D slug={front} sizes="(max-width: 991px) 45vw, 26em" lazy={false} priority /></div></div>
   </div>
 </section>
 
@@ -82,7 +82,7 @@ const [back, front] = FEATURED.hero;
   </div>
   <div class="books__slider" data-books-slider-viewport tabindex="0" role="region" aria-label="Where to start. Use the arrow keys to browse.">
     <div class="books__list" data-books-slider-wrapper>
-      {FEATURED.shelf.map((s) => <div class="slide"><BookCard slug={s} sizes="(max-width: 991px) 60vw, 18em" /></div>)}
+      {FEATURED.shelf.map((s) => <div class="slide" data-age={BOOK[s].age}><BookCard slug={s} sizes="(max-width: 991px) 60vw, 18em" /></div>)}
     </div>
   </div>
 </section>
@@ -187,6 +187,15 @@ const [back, front] = FEATURED.hero;
   </div>
 </section>
 
+<section class="picked" data-picked aria-labelledby="picked-title">
+  <div class="picked__head">
+    <h2 class="picked__heading heading-m" id="picked-title" data-picked-title>Not sure what to read?</h2>
+    <p class="picked__text" data-picked-text>Tap a few covers, answer three quick questions, and we’ll pull some books off the shelf for you. About 30 seconds.</p>
+    <a class="picked__action" href="start" data-picked-action>Find my next book</a>
+  </div>
+  <ol class="picked__list" data-picked-list></ol>
+</section>
+
 <Ribbons />
 
 <section class="favs" aria-labelledby="favs-title" data-books-slider data-confetti-rain>
@@ -198,7 +207,7 @@ const [back, front] = FEATURED.hero;
   <div class="favs__slider" data-books-slider-viewport tabindex="0" role="region" aria-label="Where to begin. Use the arrow keys to browse.">
     <div class="favs__list" data-books-slider-wrapper>
       {FEATURED.starts.map(([s, label], i) => (
-        <div class="slide"><article class="fav-card" style={`--card:var(--${BOOK[s].colour});--ink:${ink(BOOK[s].colour)}`} data-books-slider-item>
+        <div class="slide" data-age={BOOK[s].age}><article class="fav-card" style={`--card:var(--${BOOK[s].colour});--ink:${ink(BOOK[s].colour)}`} data-books-slider-item>
           <div class="fav-card__cover"><Cover slug={s} sizes="(max-width: 991px) 60vw, 20em" /></div>
           <p class="fav-card__badge" aria-hidden="true"><svg viewBox="0 0 100 100"><path d={burst()} /></svg><span>#{i + 1}</span></p>
           <h3 class="fav-card__title"><a class="book-card__link" href={bookUrl(s)} draggable="false">{BOOK[s].title}</a></h3>
@@ -213,7 +222,7 @@ const [back, front] = FEATURED.hero;
   </div>
 </section>
 
-<section class="spotlight" aria-labelledby="spot-title" data-momentum-hover>
+<section class="spotlight" aria-labelledby="spot-title" data-momentum-hover data-age={spot.age}>
   <h2 class="spotlight__title heading-l" id="spot-title">Book of the month</h2>
   <p class="spotlight__text">{month}’s pick: {why[0].toLowerCase() + why.slice(1)} A new one on the first of every month.</p>
   <div class="spotlight__frame">

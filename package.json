@@ -1,6 +1,6 @@
 {
   "name": "the-bookshelf",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "The Bookshelf: a free library of classics to read in the browser or download, with page transitions and scroll animations.",
   "private": true,
   "type": "module",
@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "@barba/core": "2.10.3",
-    "@barba/prefetch": "2.2.0",
     "astro": "7.4.2",
     "epubjs": "0.3.93",
     "firebase": "12.19.0",
