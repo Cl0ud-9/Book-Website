@@ -16,9 +16,11 @@ interface Props {
 const { slug, sizes, lazy = true, class: className, priority = false, alt, defer = false } = Astro.props;
 const book = BOOK[slug];
 if (!book) throw new Error(`no book ${slug}`);
-const srcset = [180, 360, 720, 1080].map((w) => `image/covers/${slug}-${w}.webp ${w}w`).join(", ");
+// Only the big book at the top of a page goes to 1080. On a phone, a card's 80vw asked for it too, and scrolling through
+// All books fetched 56 MB of covers where 720 (still twice the width a card is shown at) takes half that.
+const srcset = (lazy ? [180, 360, 720] : [180, 360, 720, 1080]).map((w) => `image/covers/${slug}-${w}.webp ${w}w`).join(", ");
 ---
 <img src={defer ? undefined : `image/covers/${slug}-360.webp`} srcset={defer ? undefined : srcset} data-src={defer ? `image/covers/${slug}-360.webp` : undefined}
   data-srcset={defer ? srcset : undefined} sizes={sizes} width={COVER.width} height={COVER.height}
-  alt={alt ?? `${book.title} by ${book.author}, book cover`} class={className}
+  alt={alt ?? `${book.title} by ${book.author}, book cover`} class={className} data-age={book.age}
   loading={lazy ? "lazy" : undefined} decoding={lazy ? "async" : undefined} fetchpriority={priority ? "high" : undefined}>

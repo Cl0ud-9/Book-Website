@@ -22,7 +22,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CACHE = ROOT / "pipeline" / ".library-cache" / "rights"
-AGENT = "TheBookshelf/3 (https://cl0ud-9.github.io/Book-Website/) rights check"
+AGENT = "TheBookshelf/3 (https://the-bookshelf.cl0ud-9.workers.dev/) rights check"
 YEAR = datetime.date.today().year
 LAST_FREE_DEATH = YEAR - 61  # died in 1965 or before: free in India from 1 January 2026
 # Roles whose work is in the book (MARC relator codes). Standard Ebooks' own roles (producer, proofreader, transcriber,

@@ -6,7 +6,7 @@ import { mkdirSync } from "node:fs";
 
 const PORT = 4321;
 const BASE = `http://127.0.0.1:${PORT}/`;
-const SUITES = process.argv.slice(2).length ? process.argv.slice(2) : ["check", "effects", "library_check", "reader_check"];
+const SUITES = process.argv.slice(2).length ? process.argv.slice(2) : ["check", "effects", "library_check", "reader_check", "personal_check"];
 const python = process.env.PYTHON || "python";
 const shots = "test-results/e2e";
 mkdirSync(shots, { recursive: true });

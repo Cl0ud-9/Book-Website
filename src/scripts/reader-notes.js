@@ -574,7 +574,7 @@
     async function fetchMeaning(word) {
       for (const tryWord of [word.toLowerCase(), word]) {
         if (meanings.has(tryWord)) return meanings.get(tryWord);
-        const response = await fetch(WIKTIONARY + encodeURIComponent(tryWord), { headers: { "Api-User-Agent": "TheBookshelf (https://cl0ud-9.github.io/Book-Website/)" } });
+        const response = await fetch(WIKTIONARY + encodeURIComponent(tryWord), { headers: { "Api-User-Agent": "TheBookshelf (https://the-bookshelf.cl0ud-9.workers.dev/)" } });
         if (response.status === 404) continue;
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const data = await response.json();

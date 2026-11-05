@@ -12,6 +12,8 @@ import { SPRITE } from "../lib/icons";
 import { BOOK } from "../lib/library";
 
 interface Props {
+  /** a book's page: the youngest age the book is suggested for (Kids mode puts the page away below it) */
+  age?: number;
   /** the page's name for the page transitions (data-barba-namespace) */
   name: string;
   /** its address, relative to the site ("" for the home page) */
@@ -24,7 +26,7 @@ interface Props {
   withFooter?: boolean;
   index?: boolean;
 }
-const { name, path, title, description, theme = "yellow", book, withFooter = true, index = true } = Astro.props;
+const { name, path, title, description, theme = "yellow", book, withFooter = true, index = true, age } = Astro.props;
 // Link previews: a 1200 x 630 JPEG (made by pipeline/social.py), the size and format every app shows
 const social = book ? `image/social/${book}.jpg` : "image/social/home.jpg";
 const alt = book ? `The cover of ${BOOK[book].title} on its page at the Bookshelf` : "The Bookshelf home page";
@@ -47,7 +49,8 @@ const accounts = ACCOUNTS
   ? `window.bookshelfAccounts=${JSON.stringify(ACCOUNTS)};`
     + "try{var a=JSON.parse(localStorage.getItem('bookshelf:account'));if(a&&a.handle)document.documentElement.classList.add('is-signed-in')}catch(e){}"
   : "";
-const boot = `${accounts}(function(d){var r=d.documentElement;r.classList.add('js');${carried}${cover}})(document)`;
+const kids = "try{var k=JSON.parse(localStorage.getItem('bookshelf:kids'));if(k&&k.limit!=null)r.dataset.kids=k.limit}catch(e){}";
+const boot = `${accounts}(function(d){var r=d.documentElement;r.classList.add('js');${kids}${carried}${cover}})(document)`;
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -84,7 +87,7 @@ const boot = `${accounts}(function(d){var r=d.documentElement;r.classList.add('j
 <Fragment set:html={SPRITE} />
 <Transition />
 <Header />
-<main id="main" class="page" data-barba="container" data-barba-namespace={name} data-page-theme={theme}>
+<main id="main" class="page" data-barba="container" data-barba-namespace={name} data-page-theme={theme} data-age={age}>
 <slot />
 {withFooter && <Footer />}
 </main>

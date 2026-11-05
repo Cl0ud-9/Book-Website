@@ -1,6 +1,7 @@
 // The shelf: every book (data/books.json, made by pipeline/library.py), checked against a schema when the site is built,
 // and everything the pages work out from it (rankings, colours, moods, groups, the book of the month).
 import { z } from "astro/zod";
+import agesJson from "../../data/ages.json";
 import booksJson from "../../data/books.json";
 import guidesJson from "../../data/guides.json";
 import listenJson from "../../data/librivox.json";
@@ -32,6 +33,18 @@ export const ink = (colour: string): string => (DARK.has(colour) ? "#fff" : "#00
 /** a cover's size as stored (360 x 540, 2:3) */
 export const COVER = { width: 360, height: 540 } as const;
 
+/** A guide to who a book suits (data/ages.json), written by hand: the youngest age it is suggested for, and what a parent may want to know */
+export const AGE_NOTES = {
+  fear: "Frightening scenes", violence: "Violence", death: "Death or grief", sex: "Sexual themes", race: "Racial language or attitudes of its time",
+  slavery: "Slavery", suicide: "Suicide", substances: "Drink or drugs", war: "War", ideas: "Demanding adult ideas",
+} as const;
+export const ageLabel = (age: number): string => (age ? `${age} and up` : "All ages");
+
+const AGES = entries(agesJson, z.object({
+  age: z.union([z.literal(0), z.literal(10), z.literal(13), z.literal(16)]),
+  notes: z.array(z.enum(Object.keys(AGE_NOTES) as [keyof typeof AGE_NOTES, ...(keyof typeof AGE_NOTES)[]])),
+}), "ages.json");
+
 const BookSchema = z.object({
   title: z.string().min(1),
   author: z.string().min(1),
@@ -56,6 +69,9 @@ const BookSchema = z.object({
 });
 
 export type Book = z.infer<typeof BookSchema> & {
+  /** the youngest age it is suggested for; 0 is all ages */
+  age: 0 | 10 | 13 | 16;
+  notes: (keyof typeof AGE_NOTES)[];
   kind: "fiction" | "nonfiction";
   moods: string[];
   /** reading time in minutes, at an average adult's silent reading pace (READING_PACE) */
@@ -81,6 +97,8 @@ const moods = entries(moodsJson, z.array(z.string()), "moods.json");
 const parsed = z.array(BookSchema).parse(booksJson);
 const library: Book[] = parsed.map((b, n) => {
   const bookMoods = moods[b.slug] || [];
+  const guide = AGES[b.slug];
+  if (!guide) throw new Error(`${b.slug}: no entry in data/ages.json`);
   const unknown = bookMoods.filter((m) => !(MOODS as readonly string[]).includes(m));
   if (unknown.length || !bookMoods.length) throw new Error(`${b.slug}: unknown mood ${unknown.join(", ")}, or no mood in data/moods.json`);
   const kind = (NONFICTION as readonly string[]).includes(b.genres[0]) ? "nonfiction" : "fiction";
@@ -88,6 +106,8 @@ const library: Book[] = parsed.map((b, n) => {
     ...b,
     kind,
     moods: bookMoods,
+    age: guide.age,
+    notes: guide.notes,
     minutes: Math.round(b.words / READING_PACE[kind]),
     // the card colours go round in the order of data/books.json, before the books are ranked
     colour: CARD_COLOURS[n % CARD_COLOURS.length],
@@ -207,7 +227,7 @@ export function groupQuery(name: string): string {
 /** What the reader and "Continue reading" need to know about each book (read by the scripts from the page) */
 export function libraryData(): string {
   const data = Object.fromEntries(LIBRARY.map((b) => [b.slug, {
-    title: b.title, author: b.author, epub: b.epub, colour: b.colour, minutes: b.minutes,
+    title: b.title, author: b.author, epub: b.epub, colour: b.colour, minutes: b.minutes, age: b.age,
     // what to read next, for the end of the book (more than shown, so books already read can be passed over)
     next: relatedTo(b.slug, 6),
     // numbered poems keep their bare numbers in the reader's contents, where chapters become "Chapter I"

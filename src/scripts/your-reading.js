@@ -123,7 +123,7 @@
 
     function books() {
       const places = Object.entries(read(KEYS.places, {})).filter(([slug]) => library[slug]);
-      const reading = places.filter(([, p]) => !(p.done || p.seen?.finished) && (p.percent ?? 0) < 0.98).sort((a, b) => b[1].at - a[1].at);
+      const reading = places.filter(([slug, p]) => !(p.done || p.seen?.finished) && (p.percent ?? 0) < 0.98 && window.BookshelfKids?.allows(library[slug]?.age) !== false).sort((a, b) => b[1].at - a[1].at);
       const list = $("[data-reading-list]");
       list.innerHTML = "";
       reading.forEach(([slug, place]) => list.append(bookItem(slug, (text) => {

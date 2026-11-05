@@ -117,6 +117,10 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
+/* A browser set to darken pages leaves these alone; frames answer for themselves (reader.js, lightOnly) */
+body { color-scheme: only light; }
+iframe { color-scheme: normal; }
+
 html {
   /* Nothing may make the page wider than the screen, even for a moment while it animates in: on phones that would
      zoom the whole page out. clip (unlike hidden) keeps position: sticky working. */
@@ -2326,3 +2330,73 @@ body:has(.reader) .header { display: none; }
   .open-book__stage { position: relative; min-height: 100svh; height: auto; padding: 6em 1em; }
   .open-book__scene { display: none; }
 }
+
+/* ---------- Kids mode: books for older readers are put away (kids.js; html[data-kids] is set before the page is drawn) ---------- */
+
+html[data-kids="0"] :is([data-age="10"], [data-age="13"], [data-age="16"]):not(main),
+html[data-kids="10"] :is([data-age="13"], [data-age="16"]):not(main),
+html[data-kids="13"] [data-age="16"]:not(main) { display: none !important; }
+html[data-kids="0"] main:is([data-age="10"], [data-age="13"], [data-age="16"]) > :not(.for-older, .footer, footer),
+html[data-kids="10"] main:is([data-age="13"], [data-age="16"]) > :not(.for-older, .footer, footer),
+html[data-kids="13"] main[data-age="16"] > :not(.for-older, .footer, footer) { display: none !important; }
+.for-older { display: none; }
+html[data-kids="0"] main:is([data-age="10"], [data-age="13"], [data-age="16"]) > .for-older,
+html[data-kids="10"] main:is([data-age="13"], [data-age="16"]) > .for-older,
+html[data-kids="13"] main[data-age="16"] > .for-older {
+  display: grid; gap: 1em; justify-items: center; align-content: center; text-align: center; min-height: 70vh; padding: 7em 1.5em 3em; background: var(--pale-yellow);
+}
+.for-older__links { display: flex; flex-wrap: wrap; gap: 1em 1.5em; align-items: center; justify-content: center; }
+.for-older__parents { text-decoration: underline; }
+
+.kids { display: grid; gap: 1em; max-width: 42em; }
+.kids__form { display: flex; flex-wrap: wrap; gap: .75em; align-items: center; }
+.kids__form .field { flex: 1 1 11em; }
+.kids__form[hidden] { display: none; }
+.kids__now { flex: 1 1 100%; font-weight: 700; }
+.kids__status:empty { display: none; }
+.kids__status { font-weight: 600; }
+
+/* ---------- Your next book: the invitation, then the picks ---------- */
+
+.picked { display: grid; gap: 2em; padding: 4em 1.5em; background: var(--pale-green); }
+.picked.is--inside { padding: 1.75em; border-radius: 1.5em; margin-bottom: 2.5em; }
+.picked__head { display: grid; gap: .75em; justify-items: start; max-width: 42em; margin-inline: auto; width: 100%; }
+.picked:not(.has--picks) .picked__list { display: none; }
+.picked__action {
+  display: inline-block; padding: .8em 1.5em; border-radius: 99em; background: #000; color: #fff; font-weight: 700; text-decoration: none;
+  transition: translate .2s var(--ease-smooth);
+}
+.picked__action:focus-visible { outline: 3px solid #000; outline-offset: 3px; }
+@media (hover: hover) { .picked__action:hover { translate: 0 -2px; } }
+.picked__list { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5em, 1fr)); gap: 1.5em 1em; width: 100%; max-width: 72em; margin-inline: auto; padding: 0; list-style: none; }
+.picked__book { display: grid; gap: .25em; color: inherit; text-decoration: none; }
+.picked__book img { width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; border-radius: .6em; box-shadow: 0 .75em 1.25em -.75em rgba(0, 0, 0, .5); margin-bottom: .4em; transition: translate .2s var(--ease-smooth); }
+@media (hover: hover) { .picked__book:hover img { translate: 0 -3px; } }
+.picked__title { font-weight: 700; line-height: 1.2; }
+.picked__author, .picked__why { font-size: .85em; opacity: .75; }
+.picked__why { font-style: italic; }
+
+.start { padding: 2.5em 1.25em 5em; scroll-margin-top: 4em; }
+.start__stage { display: grid; gap: 1em; max-width: 56em; margin-inline: auto; justify-items: center; text-align: center; }
+.start__step { font-size: .9em; font-weight: 600; opacity: .7; }
+.start__ask { font-size: clamp(1.5em, 5vw, 2.25em); font-weight: 800; line-height: 1.15; margin: 0 0 .5em; }
+.start__answers { display: grid; grid-template-columns: repeat(auto-fit, minmax(13em, 1fr)); gap: .75em; width: 100%; max-width: 40em; }
+.start__answer {
+  padding: 1.1em 1.25em; border: 2px solid #000; border-radius: 1.25em; background: #fff; color: #000; font: inherit; font-weight: 700; cursor: pointer;
+  transition: background-color .15s, translate .2s var(--ease-smooth);
+}
+@media (hover: hover) { .start__answer:hover { background: var(--yellow); translate: 0 -2px; } }
+.start__answer:focus-visible, .start__cover:focus-visible, .start__next:focus-visible, .start__skip:focus-visible { outline: 3px solid #000; outline-offset: 3px; }
+.start__covers { display: grid; grid-template-columns: repeat(auto-fill, minmax(7em, 1fr)); gap: .75em; width: 100%; }
+.start__cover { position: relative; padding: 0; border: 0; border-radius: .6em; background: none; cursor: pointer; transition: translate .2s var(--ease-smooth); }
+.start__cover img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; border-radius: .6em; pointer-events: none; }
+.start__cover[aria-pressed="true"] { translate: 0 -4px; }
+.start__cover[aria-pressed="true"]::after {
+  content: "✓"; position: absolute; inset: auto .4em .4em auto; display: grid; place-items: center; width: 1.8em; height: 1.8em; border-radius: 50%; background: #000; color: #fff; font-weight: 800;
+}
+.start__cover[aria-pressed="true"] img { outline: 4px solid #000; outline-offset: 2px; }
+.start__foot { display: flex; flex-wrap: wrap; gap: 1em 1.5em; justify-content: center; align-items: center; margin-top: 1em; }
+.start__next { padding: .9em 2.5em; border: 0; border-radius: 99em; background: #000; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.start__skip { padding: .5em; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
+.start__stage .picked__list { text-align: left; }
+.start__ask:focus { outline: none; }

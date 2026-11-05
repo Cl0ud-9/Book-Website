@@ -1,0 +1,14 @@
+---
+// Your next book: three quick questions, answered in the browser (scripts/taste.js). No account needed, and nothing is sent.
+import HeroXs from "../components/HeroXs.astro";
+import Base from "../layouts/Base.astro";
+---
+<Base name="start" path="start" title="Find your next book | The Bookshelf" description="Tap a few covers, answer three quick questions, and get a shelf of free classics picked for you." theme="pale-blue">
+<HeroXs tint="pale-blue" shapes="soft-blue" title="Your next book" note="About 30 seconds">Tap a few covers, answer three quick questions, and we’ll pull some books off the shelf for you. No account needed, and your answers stay on this device.</HeroXs>
+<section class="start" data-start aria-label="Find your next book">
+  <div class="start__stage" data-start-stage aria-live="polite">
+    <p class="start__step">Getting the shelf ready…</p>
+  </div>
+  <noscript><p class="start__step">This page needs JavaScript. You can still <a href="books">browse all the books</a>.</p></noscript>
+</section>
+</Base>

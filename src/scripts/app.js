@@ -1355,6 +1355,7 @@
     const chips = [...rootEl.querySelectorAll(".chip")];
     const kinds = [...rootEl.querySelectorAll(".kinds [data-kind]")];
     const moodSelect = rootEl.querySelector("[data-mood]");
+    const ageSelect = rootEl.querySelector("[data-age-filter]");
     const lengthSelect = rootEl.querySelector("[data-length]");
     const clear = rootEl.querySelector("[data-clear-filters]");
     const cards = [...rootEl.querySelectorAll(".book-card")];
@@ -1369,6 +1370,7 @@
       collection: pick(params.get("collection"), chips.map((c) => c.dataset.collection).filter(Boolean)),
       mood: pick(params.get("mood"), [...(moodSelect?.options || [])].map((o) => o.value).filter(Boolean)),
       length: pick(params.get("length"), Object.keys(LENGTHS)),
+      age: pick(params.get("age"), ["0", "10", "13"]),
     };
     // a genre belongs to one kind: choosing it shows that kind, and a kind hides the other kind's genres
     const genreChip = () => chips.find((c) => c.dataset.genre && c.dataset.genre === state.genre);
@@ -1376,7 +1378,7 @@
 
     const keep = () => {
       const url = new URL(location.href);
-      ["kind", "genre", "collection", "mood", "length"].forEach((key) => {
+      ["kind", "genre", "collection", "mood", "length", "age"].forEach((key) => {
         if (state[key]) url.searchParams.set(key, state[key]); else url.searchParams.delete(key);
       });
       history.replaceState(history.state, "", url);
@@ -1393,6 +1395,8 @@
           && (!state.genre || d.genres.split(" ").includes(state.genre))
           && (!state.collection || d.collections.split(" ").includes(state.collection))
           && (!state.mood || d.moods.split(" ").includes(state.mood))
+          && (!state.age || Number(d.age) <= Number(state.age))
+          && window.BookshelfKids.allows(d.age)
           && Number(d.minutes) >= least && Number(d.minutes) < most;
         const was = !card.hidden;
         card.hidden = !match;
@@ -1404,6 +1408,7 @@
         c.setAttribute("aria-pressed", String(c.dataset.genre ? c.dataset.genre === state.genre : c.dataset.collection === state.collection));
       });
       if (moodSelect) moodSelect.value = state.mood;
+      if (ageSelect) ageSelect.value = state.age;
       if (lengthSelect) lengthSelect.value = state.length;
       const count = cards.filter((c) => !c.hidden).length;
       // what the books shown have in common, in words: "12 books match “sea” in Adventure, gripping, under 3 hours"
@@ -1414,11 +1419,12 @@
           : state.kind === "nonfiction" ? "non-fiction" : state.kind === "fiction" ? "fiction" : "",
         state.mood ? label(moodSelect) : "",
         state.length ? label(lengthSelect) : "",
+        state.age ? label(ageSelect) : "",
       ].filter(Boolean);
-      status.textContent = count === cards.length ? `Showing all ${count} books.`
+      status.textContent = !what.length ? `Showing all ${count} books.`
         : `${count} ${count === 1 ? "book matches" : "books match"}: ${what.join(", ")}.`;
       empty.hidden = count > 0;
-      clear.hidden = !(state.kind || state.genre || state.collection || state.mood || state.length || words.length);
+      clear.hidden = !(state.kind || state.genre || state.collection || state.mood || state.length || state.age || words.length);
       if (animate && shown.length && !reducedMotion()) {
         gsap.fromTo(shown, { scale: 0.6, rotate: () => gsap.utils.random(-8, 8) },
           { scale: 1, rotate: 0, duration: 0.7, ease: ELASTIC_SOFT, stagger: 0.04, clearProps: "scale,rotate" });
@@ -1446,6 +1452,7 @@
       change();
     }));
     moodSelect?.addEventListener("change", () => { state.mood = moodSelect.value; change(); });
+    ageSelect?.addEventListener("change", () => { state.age = ageSelect.value; change(); });
     lengthSelect?.addEventListener("change", () => { state.length = lengthSelect.value; change(); });
     clear.addEventListener("click", () => {
       Object.keys(state).forEach((key) => { state[key] = ""; });
@@ -1516,12 +1523,26 @@
     return () => { gone = true; undo?.(); };
   }
 
+  // Your next book: the questions, and a page's picks once you have answered them. taste.js and its data are only fetched
+  // on the page with the questions, or once there are answers to work from.
+  function startPage(page) {
+    const root = page.querySelector("[data-start]");
+    if (root) import("./taste.js").then((taste) => taste.ask(root)).catch(() => { root.querySelector("[data-start-stage]").textContent = "This didn’t load. Check your connection and try again."; });
+  }
+  function pickedBooks(page) {
+    const root = page.querySelector("[data-picked]");
+    if (!root) return;
+    let answered = false;
+    try { answered = Boolean(localStorage.getItem("bookshelf:taste")); } catch { /* no answers kept */ }
+    if (answered) import("./taste.js").then((taste) => taste.showPicks(root)).catch(() => {});
+  }
+
   // Home: the books you have started, newest first
   function continueReading(page) {
     const section = page.querySelector("[data-continue]");
     if (!section) return;
     const library = libraryOf(page);
-    const started = Object.entries(places()).filter(([slug, p]) => library[slug] && p.percent < 0.99)
+    const started = Object.entries(places()).filter(([slug, p]) => library[slug] && p.percent < 0.99 && window.BookshelfKids.allows(library[slug].age))
       .sort((a, b) => b[1].at - a[1].at).slice(0, 4);
     if (!started.length) return;
     const list = section.querySelector("[data-continue-list]");
@@ -1802,6 +1823,9 @@
     setCurrentNav(container.dataset.barbaNamespace);
     accordions(container);
     continueReading(container);
+    startPage(container);
+    pickedBooks(container);
+    window.BookshelfKids.panel(container);
     readButton(container);
     dailyLine(container);
     offlineButtons(container);
@@ -1877,7 +1901,7 @@
   const optedOut = navigator.globalPrivacyControl === true || navigator.doNotTrack === "1";
   const waiting = [];
   window.bookshelfTrack = (path, title, event = true) => {
-    if (!counter || optedOut) return;
+    if (!counter || optedOut || window.BookshelfKids.limit() !== null) return; // while Kids mode is on, nothing is counted
     const send = () => window.goatcounter.count({ path, title, event });
     if (window.goatcounter?.count) send(); else waiting.push(send);
   };
@@ -1948,6 +1972,7 @@
     }));
   }, { passive: false });
 
+  if (location.hash.startsWith("#bookshelf-moved=")) import("./moved.js").then((moved) => moved.arrive()).catch(() => {});
   const first = document.querySelector("[data-barba='container']");
   const start = () => {
     initPage(first);
@@ -1962,7 +1987,6 @@
   }
 
   const { barba } = window;
-  if (window.barbaPrefetch) barba.use(window.barbaPrefetch, { timeout: 2500, limit: 0 });
 
   // Barba answers a back or forward press during a transition by reloading the whole page. Registered before Barba's
   // own listener, this holds the press until the transition ends and then replays it, so the page swaps instead

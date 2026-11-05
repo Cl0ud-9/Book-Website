@@ -19,7 +19,7 @@ const b = BOOK[slug];
 const search = plain([b.title, b.author, ...b.genres, ...b.moods, ...b.collections.map((c) => COLLECTIONS[c])].join(" "));
 const sortTitle = plain(b.title).replace(/^the /, "").replace(/^a /, "");
 ---
-<article class={`book-card ${extra}`} id={`book-${slug}`} style={`--card:var(--${b.colour});--ink:${ink(b.colour)}`} data-search={search} data-genres={b.genres.map(slugify).join(" ")} data-book-kind={b.kind} data-moods={b.moods.map(slugify).join(" ")} data-collections={b.collections.join(" ")} data-minutes={b.minutes} data-rank={b.popularity || 9999} data-words={b.words} data-title={sortTitle} data-books-slider-item>
+<article class={`book-card ${extra}`} id={`book-${slug}`} data-age={b.age} style={`--card:var(--${b.colour});--ink:${ink(b.colour)}`} data-search={search} data-genres={b.genres.map(slugify).join(" ")} data-book-kind={b.kind} data-moods={b.moods.map(slugify).join(" ")} data-collections={b.collections.join(" ")} data-minutes={b.minutes} data-rank={b.popularity || 9999} data-words={b.words} data-title={sortTitle} data-books-slider-item>
   <div class="book-card__cover"><Cover slug={slug} sizes={sizes} lazy={lazy} /></div>
   <Tags genres={b.genres} card={b.colour} />
   <Heading class="book-card__title" style={`--fit:${fit(b.title)}`}><a class="book-card__link" href={bookUrl(slug)} draggable="false">{b.title}</a></Heading>

@@ -23,6 +23,7 @@ const count = LIBRARY.length;
   <div class="sorter">
     <label class="field is--select is--pill sorter__field"><select class="field__input" id="mood-books" data-mood><option value="">Any mood</option>{MOODS.map((m) => <option value={slugify(m)}>{m}</option>)}</select><span class="field__label">Mood</span></label>
     <label class="field is--select is--pill sorter__field"><select class="field__input" id="length-books" data-length><option value="">Any length</option>{LENGTHS.map(([key, label]) => <option value={key}>{label}</option>)}</select><span class="field__label">Length</span></label>
+    <label class="field is--select is--pill sorter__field"><select class="field__input" id="age-books" data-age-filter><option value="">Any age</option><option value="0">For all ages</option><option value="10">Fine from 10</option><option value="13">Fine from 13</option></select><span class="field__label">Age</span></label>
     <label class="field is--select is--pill sorter__field"><select class="field__input" id="sort-books" data-sort>
       <option value="rank">Most read</option><option value="title">Title, A to Z</option>
       <option value="short">Shortest first</option><option value="long">Longest first</option>

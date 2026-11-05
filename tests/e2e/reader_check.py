@@ -189,14 +189,14 @@ with sync_playwright() as p:
     page.keyboard.press("ArrowRight"); page.wait_for_timeout(1100)
     last = where()
     say(last[0] == second_last[0] and last[1].split()[1] == last[1].split()[3], f"a turn a little past the page's edge still reaches the chapter's last page ({second_last} to {last})")
-    # Scrolling, a page sized by the height of the screen (Dracula's dedication) keeps its size: in a frame as tall as its
+    # Scrolling, a page sized by the height of the screen (The Great Gatsby's dedication) keeps its size: in a frame as tall as its
     # words, that height is the frame's own, and it grew for as long as the book stayed open
     page.goto(BASE + "faq.html")
     page.evaluate("localStorage.setItem('bookshelf:reader', JSON.stringify({flow: 'scroll'})); localStorage.removeItem('bookshelf:reading')")
-    page.goto(BASE + "read.html?book=dracula")
+    page.goto(BASE + "read.html?book=the-great-gatsby")
     page.wait_for_selector(".reader.is--ready", timeout=30000)
     page.wait_for_timeout(2500)
-    tall = page.evaluate("[...document.querySelectorAll('.epub-container iframe')].find(f => f.contentDocument.body.textContent.includes('Hommy-Beg'))?.offsetHeight")
+    tall = page.evaluate("[...document.querySelectorAll('.epub-container iframe')].find(f => f.contentDocument.body.textContent.includes('Zelda'))?.offsetHeight")
     say(tall is not None and tall < 791 * 1.2, f"scrolling: a dedication stays about a screen tall ({tall})")
     say(page.evaluate("document.querySelector('[data-reader-chapter]').textContent.trim()") == "Dedication", "scrolling: the footer names the page it opened at")
     ctx.close()

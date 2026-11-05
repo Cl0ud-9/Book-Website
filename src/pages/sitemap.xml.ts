@@ -4,7 +4,7 @@ import { SITE } from "../lib/config";
 import { LIBRARY, bookUrl } from "../lib/library";
 
 export const GET: APIRoute = () => {
-  const urls = ["", "books", "genres", "faq", "reading", "privacy", ...LIBRARY.map((b) => bookUrl(b.slug))];
+  const urls = ["", "books", "genres", "start", "faq", "reading", "privacy", ...LIBRARY.map((b) => bookUrl(b.slug))];
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${
     urls.map((u) => `  <url><loc>${SITE}${u}</loc></url>\n`).join("")}</urlset>\n`;
   return new Response(body, { headers: { "Content-Type": "application/xml; charset=utf-8" } });

@@ -3,7 +3,3 @@ declare module "@barba/core" {
   const barba: unknown;
   export default barba;
 }
-declare module "@barba/prefetch" {
-  const prefetch: unknown;
-  export default prefetch;
-}
