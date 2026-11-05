@@ -173,8 +173,13 @@ with sync_playwright() as p:
     # ---------- read, highlight and choose a page colour on A, then keep it ----------
     pa.goto(BASE + "read.html?book=frankenstein")
     pa.wait_for_selector(".reader.is--ready", timeout=30000); pa.wait_for_timeout(2500)
-    pa.mouse.wheel(0, 3000); pa.wait_for_timeout(1500)
-    sel = pa.evaluate(SELECT, [6, 0]); pa.wait_for_timeout(800)
+    pa.mouse.move(195, 420); pa.mouse.wheel(0, 3000); pa.wait_for_timeout(1500)
+    sel = pa.evaluate(SELECT, [6, 0])
+    for _ in range(12):  # on, until a long paragraph starts on the screen: one can fill it
+        if sel: break
+        pa.mouse.wheel(0, 250); pa.wait_for_timeout(500)
+        sel = pa.evaluate(SELECT, [6, 0])
+    pa.wait_for_timeout(800)
     pa.locator("[data-select-bar] [data-style=pink]").click(); pa.wait_for_timeout(800)
     say(sel is not None and pa.locator(".epub-container g.note-pink").count() == 1, f"A: highlighted {sel and sel['text']!r}")
     pa.locator(".reader").evaluate("r => r.classList.remove('is--immersive')")
