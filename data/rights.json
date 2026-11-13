@@ -80,6 +80,38 @@
    }
   ]
  },
+ "a-dolls-house": {
+  "free": true,
+  "people": [
+   {
+    "died": 1906,
+    "free": true,
+    "name": "Henrik Ibsen",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q36661"
+   },
+   {
+    "died": 1945,
+    "free": true,
+    "name": "R. Farquharson Sharp",
+    "roles": [
+     "translator"
+    ],
+    "wikidata": "Q18911448"
+   },
+   {
+    "died": 1751,
+    "free": true,
+    "name": "Jacob Appel",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q6118295"
+   }
+  ]
+ },
  "a-farewell-to-arms": {
   "free": true,
   "people": [
@@ -872,6 +904,29 @@
    }
   ]
  },
+ "behind-a-mask": {
+  "free": true,
+  "people": [
+   {
+    "died": 1888,
+    "free": true,
+    "name": "Louisa May Alcott",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q185696"
+   },
+   {
+    "died": 1960,
+    "free": true,
+    "name": "Henry Lamb",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q3132896"
+   }
+  ]
+ },
  "beowulf": {
   "free": true,
   "people": [
@@ -1226,6 +1281,30 @@
    }
   ]
  },
+ "contending-forces": {
+  "free": true,
+  "people": [
+   {
+    "died": 1930,
+    "free": true,
+    "name": "Pauline E. Hopkins",
+    "roles": [
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q7155037"
+   },
+   {
+    "died": 1935,
+    "free": true,
+    "name": "Childe Hassam",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q737635"
+   }
+  ]
+ },
  "craig-kennedy-stories": {
   "free": true,
   "people": [
@@ -1245,6 +1324,29 @@
      "cover painting"
     ],
     "why": "not used: the book has its own cover"
+   }
+  ]
+ },
+ "cranford": {
+  "free": true,
+  "people": [
+   {
+    "died": 1865,
+    "free": true,
+    "name": "Elizabeth Gaskell",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q229226"
+   },
+   {
+    "died": 1926,
+    "free": true,
+    "name": "Helen Allingham",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q444581"
    }
   ]
  },
@@ -1415,6 +1517,39 @@
      "introduction"
     ],
     "wikidata": "Q1507776"
+   }
+  ]
+ },
+ "discourses-on-livy": {
+  "free": true,
+  "people": [
+   {
+    "died": 1527,
+    "free": true,
+    "name": "Niccolò Machiavelli",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q1399"
+   },
+   {
+    "died": 1921,
+    "free": true,
+    "name": "Ninian Hill Thomson",
+    "roles": [
+     "notes",
+     "translator"
+    ],
+    "wikidata": "Q18912360"
+   },
+   {
+    "died": 1832,
+    "free": true,
+    "name": "Guillaume Guillon Lethière",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q2703817"
    }
   ]
  },
@@ -1821,6 +1956,39 @@
    }
   ]
  },
+ "father-goriot": {
+  "free": true,
+  "people": [
+   {
+    "died": 1850,
+    "free": true,
+    "name": "Honoré de Balzac",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q9711"
+   },
+   {
+    "died": 1946,
+    "free": true,
+    "name": "Ellen Marriage",
+    "roles": [
+     "notes",
+     "translator"
+    ],
+    "wikidata": "Q5364934"
+   },
+   {
+    "died": 1894,
+    "free": true,
+    "name": "Gustave Caillebotte",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q295144"
+   }
+  ]
+ },
  "fathers-and-children": {
   "free": true,
   "people": [
@@ -1933,6 +2101,29 @@
      "cover painting"
     ],
     "wikidata": "Q7751"
+   }
+  ]
+ },
+ "george-macdonald-short-fiction": {
+  "free": true,
+  "people": [
+   {
+    "died": 1905,
+    "free": true,
+    "name": "George MacDonald",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q368519"
+   },
+   {
+    "died": 1924,
+    "free": true,
+    "name": "Torsten Wasastjerna",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q17384822"
    }
   ]
  },
@@ -2392,6 +2583,20 @@
    }
   ]
  },
+ "his-royal-nibs": {
+  "free": true,
+  "people": [
+   {
+    "died": 1954,
+    "free": true,
+    "name": "Winnifred Eaton Reeve",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q8025676"
+   }
+  ]
+ },
  "histories": {
   "free": true,
   "people": [
@@ -2564,6 +2769,38 @@
    }
   ]
  },
+ "ivanov": {
+  "free": true,
+  "people": [
+   {
+    "died": 1904,
+    "free": true,
+    "name": "Anton Chekhov",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q5685"
+   },
+   {
+    "died": 1946,
+    "free": true,
+    "name": "Constance Garnett",
+    "roles": [
+     "translator"
+    ],
+    "wikidata": "Q2495818"
+   },
+   {
+    "died": 1929,
+    "free": true,
+    "name": "Paul Mathey",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q3371802"
+   }
+  ]
+ },
  "j-sheridan-le-fanu-short-fiction": {
   "free": true,
   "people": [
@@ -2666,6 +2903,30 @@
    }
   ]
  },
+ "john-buchan-short-fiction": {
+  "free": true,
+  "people": [
+   {
+    "died": 1940,
+    "free": true,
+    "name": "John Buchan",
+    "roles": [
+     "notes",
+     "author"
+    ],
+    "wikidata": "Q333004"
+   },
+   {
+    "died": 1855,
+    "free": true,
+    "name": "Ernst Ferdinand Oehme",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q871427"
+   }
+  ]
+ },
  "john-donne-poetry": {
   "free": true,
   "people": [
@@ -2739,6 +3000,30 @@
      "cover painting"
     ],
     "why": "not used: the book has its own cover"
+   }
+  ]
+ },
+ "joseph-conrad-short-fiction": {
+  "free": true,
+  "people": [
+   {
+    "died": 1924,
+    "free": true,
+    "name": "Joseph Conrad",
+    "roles": [
+     "notes",
+     "author"
+    ],
+    "wikidata": "Q82925"
+   },
+   {
+    "died": 1929,
+    "free": true,
+    "name": "Henry Scott Tuke",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q463962"
    }
   ]
  },
@@ -2990,6 +3275,29 @@
      "cover painting"
     ],
     "wikidata": "Q437143"
+   }
+  ]
+ },
+ "lady-windermeres-fan": {
+  "free": true,
+  "people": [
+   {
+    "died": 1900,
+    "free": true,
+    "name": "Oscar Wilde",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q30875"
+   },
+   {
+    "died": 1895,
+    "free": true,
+    "name": "Berthe Morisot",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q105320"
    }
   ]
  },
@@ -3348,6 +3656,40 @@
    }
   ]
  },
+ "malleus-maleficarum": {
+  "free": true,
+  "people": [
+   {
+    "died": 1505,
+    "free": true,
+    "name": "Heinrich Kramer",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q61019"
+   },
+   {
+    "died": 1948,
+    "free": true,
+    "name": "Montague Summers",
+    "roles": [
+     "notes",
+     "translator",
+     "introduction"
+    ],
+    "wikidata": "Q712220"
+   },
+   {
+    "died": 1922,
+    "free": true,
+    "name": "Edgar Bundy",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q5337152"
+   }
+  ]
+ },
  "man-and-superman": {
   "free": true,
   "people": [
@@ -3423,6 +3765,37 @@
      "cover painting"
     ],
     "wikidata": "Q29380114"
+   }
+  ]
+ },
+ "mary-shelley-short-fiction": {
+  "free": true,
+  "people": [
+   {
+    "died": 1851,
+    "free": true,
+    "name": "Mary Shelley",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q47152"
+   },
+   {
+    "free": true,
+    "name": "Elizabeth Nitchie",
+    "roles": [
+     "notes"
+    ],
+    "why": "a volunteer, whose work is given to the public domain"
+   },
+   {
+    "died": 1938,
+    "free": true,
+    "name": "Thomas Wilmer Dewing",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q1378807"
    }
   ]
  },
@@ -3881,6 +4254,30 @@
    }
   ]
  },
+ "news-from-nowhere": {
+  "free": true,
+  "people": [
+   {
+    "died": 1896,
+    "free": true,
+    "name": "William Morris",
+    "roles": [
+     "notes",
+     "author"
+    ],
+    "wikidata": "Q182589"
+   },
+   {
+    "died": 1903,
+    "free": true,
+    "name": "Camille Pissarro",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q134741"
+   }
+  ]
+ },
  "nicholas-nickleby": {
   "free": true,
   "people": [
@@ -4092,6 +4489,40 @@
    }
   ]
  },
+ "oedipus-rex": {
+  "free": true,
+  "people": [
+   {
+    "died": -406,
+    "free": true,
+    "name": "Sophocles",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q7235"
+   },
+   {
+    "died": 1919,
+    "free": true,
+    "name": "Francis Storr",
+    "roles": [
+     "notes",
+     "translator",
+     "introduction"
+    ],
+    "wikidata": "Q16861781"
+   },
+   {
+    "died": 1898,
+    "free": true,
+    "name": "Gustave Moreau",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q203828"
+   }
+  ]
+ },
  "of-human-bondage": {
   "free": true,
   "people": [
@@ -4112,6 +4543,29 @@
      "cover painting"
     ],
     "wikidata": "Q437792"
+   }
+  ]
+ },
+ "of-one-blood": {
+  "free": true,
+  "people": [
+   {
+    "died": 1930,
+    "free": true,
+    "name": "Pauline E. Hopkins",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q7155037"
+   },
+   {
+    "died": 1864,
+    "free": true,
+    "name": "David Roberts",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q369776"
    }
   ]
  },
@@ -4434,6 +4888,40 @@
    }
   ]
  },
+ "philoctetes": {
+  "free": true,
+  "people": [
+   {
+    "died": -406,
+    "free": true,
+    "name": "Sophocles",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q7235"
+   },
+   {
+    "died": 1919,
+    "free": true,
+    "name": "Francis Storr",
+    "roles": [
+     "notes",
+     "translator",
+     "introduction"
+    ],
+    "wikidata": "Q16861781"
+   },
+   {
+    "died": 1867,
+    "free": true,
+    "name": "Jean-Auguste Dominique Ingres",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q23380"
+   }
+  ]
+ },
  "philosophical-works": {
   "free": true,
   "people": [
@@ -4740,6 +5228,31 @@
    }
   ]
  },
+ "religion-and-the-rise-of-capitalism": {
+  "free": true,
+  "people": [
+   {
+    "died": 1962,
+    "free": true,
+    "name": "R. H. Tawney",
+    "roles": [
+     "notes",
+     "author",
+     "introduction"
+    ],
+    "wikidata": "Q2589871"
+   },
+   {
+    "died": 1919,
+    "free": true,
+    "name": "Evelyn De Morgan",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q235903"
+   }
+  ]
+ },
  "resurrection": {
   "free": true,
   "people": [
@@ -4816,6 +5329,31 @@
      "cover painting"
     ],
     "wikidata": "Q45006"
+   }
+  ]
+ },
+ "robert-louis-stevenson-poetry": {
+  "free": true,
+  "people": [
+   {
+    "died": 1894,
+    "free": true,
+    "name": "Robert Louis Stevenson",
+    "roles": [
+     "notes",
+     "author",
+     "illustrator"
+    ],
+    "wikidata": "Q1512"
+   },
+   {
+    "died": 1905,
+    "free": true,
+    "name": "Albert Edelfelt",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q356644"
    }
   ]
  },
@@ -5133,6 +5671,53 @@
    }
   ]
  },
+ "sir-nigel": {
+  "free": true,
+  "people": [
+   {
+    "died": 1930,
+    "free": true,
+    "name": "Arthur Conan Doyle",
+    "roles": [
+     "author",
+     "introduction"
+    ],
+    "wikidata": "Q35610"
+   },
+   {
+    "died": 1945,
+    "free": true,
+    "name": "N. C. Wyeth",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q983349"
+   }
+  ]
+ },
+ "sister-carrie": {
+  "free": true,
+  "people": [
+   {
+    "died": 1945,
+    "free": true,
+    "name": "Theodore Dreiser",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q486096"
+   },
+   {
+    "died": 1935,
+    "free": true,
+    "name": "Childe Hassam",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q737635"
+   }
+  ]
+ },
  "sons-and-lovers": {
   "free": true,
   "people": [
@@ -5179,6 +5764,29 @@
      "cover painting"
     ],
     "wikidata": "Q719614"
+   }
+  ]
+ },
+ "suspense": {
+  "free": true,
+  "people": [
+   {
+    "died": 1903,
+    "free": true,
+    "name": "Henry Seton Merriman",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q5932767"
+   },
+   {
+    "died": 1919,
+    "free": true,
+    "name": "Oscar Kleineh",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q133836"
    }
   ]
  },
@@ -5463,6 +6071,54 @@
    }
   ]
  },
+ "the-art-of-illustration": {
+  "free": true,
+  "people": [
+   {
+    "died": 1892,
+    "free": true,
+    "name": "C. H. Spurgeon",
+    "roles": [
+     "notes",
+     "author"
+    ],
+    "wikidata": "Q278825"
+   },
+   {
+    "died": 1623,
+    "free": true,
+    "name": "Domenico Fetti",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q551695"
+   }
+  ]
+ },
+ "the-art-of-money-getting": {
+  "free": true,
+  "people": [
+   {
+    "died": 1891,
+    "free": true,
+    "name": "P. T. Barnum",
+    "roles": [
+     "author",
+     "introduction"
+    ],
+    "wikidata": "Q223766"
+   },
+   {
+    "died": 1946,
+    "free": true,
+    "name": "Joseph Stella",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q1347418"
+   }
+  ]
+ },
  "the-art-of-war": {
   "free": true,
   "people": [
@@ -5619,6 +6275,29 @@
      "cover painting"
     ],
     "wikidata": "Q365068"
+   }
+  ]
+ },
+ "the-beautiful-and-damned": {
+  "free": true,
+  "people": [
+   {
+    "died": 1940,
+    "free": true,
+    "name": "F. Scott Fitzgerald",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q93354"
+   },
+   {
+    "died": 1951,
+    "free": true,
+    "name": "J. C. Leyendecker",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q565457"
    }
   ]
  },
@@ -5902,6 +6581,37 @@
    }
   ]
  },
+ "the-cave-girl": {
+  "free": true,
+  "people": [
+   {
+    "died": 1950,
+    "free": true,
+    "name": "Edgar Rice Burroughs",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q148234"
+   },
+   {
+    "died": 1957,
+    "free": true,
+    "name": "J. Allen St. John",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q6104584"
+   },
+   {
+    "free": true,
+    "name": "Grosset &amp; Dunlap",
+    "roles": [
+     "notes"
+    ],
+    "why": "a volunteer, whose work is given to the public domain"
+   }
+  ]
+ },
  "the-cherry-orchard": {
   "free": true,
   "people": [
@@ -6079,6 +6789,40 @@
    }
   ]
  },
+ "the-decameron": {
+  "free": true,
+  "people": [
+   {
+    "died": 1375,
+    "free": true,
+    "name": "Giovanni Boccaccio",
+    "roles": [
+     "notes",
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q1402"
+   },
+   {
+    "died": 1916,
+    "free": true,
+    "name": "John Payne",
+    "roles": [
+     "translator"
+    ],
+    "wikidata": "Q6252329"
+   },
+   {
+    "died": 1646,
+    "free": true,
+    "name": "Francesco Furini",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q1356978"
+   }
+  ]
+ },
  "the-devils-dictionary": {
   "free": true,
   "people": [
@@ -6132,6 +6876,39 @@
      "cover painting"
     ],
     "wikidata": "Q130531"
+   }
+  ]
+ },
+ "the-emperor-of-portugallia": {
+  "free": true,
+  "people": [
+   {
+    "died": 1940,
+    "free": true,
+    "name": "Selma Lagerlöf",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q44519"
+   },
+   {
+    "died": 1937,
+    "free": true,
+    "name": "Velma Swanston Howard",
+    "roles": [
+     "notes",
+     "translator"
+    ],
+    "wikidata": "Q59628984"
+   },
+   {
+    "died": 1949,
+    "free": true,
+    "name": "Ellen Trotzig",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q4983437"
    }
   ]
  },
@@ -6195,6 +6972,21 @@
      "cover painting"
     ],
     "wikidata": "Q535393"
+   }
+  ]
+ },
+ "the-final-count": {
+  "free": true,
+  "people": [
+   {
+    "died": 1937,
+    "free": true,
+    "name": "H. C. McNeile",
+    "roles": [
+     "author",
+     "introduction"
+    ],
+    "wikidata": "Q3134064"
    }
   ]
  },
@@ -6331,6 +7123,29 @@
    }
   ]
  },
+ "the-gold-bag": {
+  "free": true,
+  "people": [
+   {
+    "died": 1942,
+    "free": true,
+    "name": "Carolyn Wells",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q5045486"
+   },
+   {
+    "died": 1948,
+    "free": true,
+    "name": "Irving Ramsey Wiles",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q3950852"
+   }
+  ]
+ },
  "the-golden-threshold": {
   "free": true,
   "people": [
@@ -6396,6 +7211,29 @@
      "cover painting"
     ],
     "why": "not used: the book has its own cover"
+   }
+  ]
+ },
+ "the-green-mummy": {
+  "free": true,
+  "people": [
+   {
+    "died": 1932,
+    "free": true,
+    "name": "Fergus Hume",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q866496"
+   },
+   {
+    "died": 1901,
+    "free": true,
+    "name": "Edward Mitchell Bannister",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q1293032"
    }
   ]
  },
@@ -6842,6 +7680,30 @@
    }
   ]
  },
+ "the-iron-heel": {
+  "free": true,
+  "people": [
+   {
+    "died": 1916,
+    "free": true,
+    "name": "Jack London",
+    "roles": [
+     "notes",
+     "author"
+    ],
+    "wikidata": "Q45765"
+   },
+   {
+    "died": 1944,
+    "free": true,
+    "name": "George Clausen",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q3760466"
+   }
+  ]
+ },
  "the-island-of-doctor-moreau": {
   "free": true,
   "people": [
@@ -7266,6 +8128,29 @@
    }
   ]
  },
+ "the-maracot-deep": {
+  "free": true,
+  "people": [
+   {
+    "died": 1930,
+    "free": true,
+    "name": "Arthur Conan Doyle",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q35610"
+   },
+   {
+    "died": 1926,
+    "free": true,
+    "name": "Eugen von Ransonnet-Villez",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q1373022"
+   }
+  ]
+ },
  "the-marvelous-land-of-oz": {
   "free": true,
   "people": [
@@ -7564,6 +8449,29 @@
    }
   ]
  },
+ "the-mystery-of-the-barranca": {
+  "free": true,
+  "people": [
+   {
+    "died": 1919,
+    "free": true,
+    "name": "Herman Whitaker",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q15459950"
+   },
+   {
+    "died": 1875,
+    "free": true,
+    "name": "Jean-François Millet",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q148458"
+   }
+  ]
+ },
  "the-narrative-of-arthur-gordon-pym-of-nantucket": {
   "free": true,
   "people": [
@@ -7586,6 +8494,53 @@
      "cover painting"
     ],
     "wikidata": "Q432266"
+   }
+  ]
+ },
+ "the-necromancers": {
+  "free": true,
+  "people": [
+   {
+    "died": 1914,
+    "free": true,
+    "name": "Robert Hugh Benson",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q246953"
+   },
+   {
+    "died": 1927,
+    "free": true,
+    "name": "Ambrose McEvoy",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q1846089"
+   }
+  ]
+ },
+ "the-night-land": {
+  "free": true,
+  "people": [
+   {
+    "died": 1918,
+    "free": true,
+    "name": "William Hope Hodgson",
+    "roles": [
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q919277"
+   },
+   {
+    "died": 1921,
+    "free": true,
+    "name": "Fernand Khnopff",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q559559"
    }
   ]
  },
@@ -7765,6 +8720,29 @@
    }
   ]
  },
+ "the-place-called-dagon": {
+  "free": true,
+  "people": [
+   {
+    "died": 1954,
+    "free": true,
+    "name": "Herbert Gorman",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q5894712"
+   },
+   {
+    "died": 1840,
+    "free": true,
+    "name": "Caspar David Friedrich",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q104884"
+   }
+  ]
+ },
  "the-portrait-of-a-lady": {
   "free": true,
   "people": [
@@ -7871,6 +8849,29 @@
    }
   ]
  },
+ "the-prisoner-in-the-opal": {
+  "free": true,
+  "people": [
+   {
+    "died": 1948,
+    "free": true,
+    "name": "A. E. W. Mason",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q382786"
+   },
+   {
+    "died": 1932,
+    "free": true,
+    "name": "Alfred Henry Maurer",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q1387251"
+   }
+  ]
+ },
  "the-prisoner-of-zenda": {
   "free": true,
   "people": [
@@ -7955,6 +8956,47 @@
    }
   ]
  },
+ "the-pursuit-of-god": {
+  "free": true,
+  "people": [
+   {
+    "died": 1963,
+    "free": true,
+    "name": "A. W. Tozer",
+    "roles": [
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q404008"
+   },
+   {
+    "died": 1952,
+    "free": true,
+    "name": "Samuel M. Zwemer",
+    "roles": [
+     "introduction"
+    ],
+    "wikidata": "Q260510"
+   },
+   {
+    "died": 1886,
+    "free": true,
+    "name": "Andrzej Bronisław Grabowski",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q514955"
+   },
+   {
+    "free": true,
+    "name": "Jonathan McPherson",
+    "roles": [
+     "notes"
+    ],
+    "why": "a volunteer, whose work is given to the public domain"
+   }
+  ]
+ },
  "the-railway-children": {
   "free": true,
   "people": [
@@ -7998,6 +9040,29 @@
      "cover painting"
     ],
     "wikidata": "Q159297"
+   }
+  ]
+ },
+ "the-red-badge-of-courage": {
+  "free": true,
+  "people": [
+   {
+    "died": 1900,
+    "free": true,
+    "name": "Stephen Crane",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q206534"
+   },
+   {
+    "died": 1910,
+    "free": true,
+    "name": "Winslow Homer",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q344838"
    }
   ]
  },
@@ -8552,6 +9617,29 @@
    }
   ]
  },
+ "the-sowers": {
+  "free": true,
+  "people": [
+   {
+    "died": 1903,
+    "free": true,
+    "name": "Henry Seton Merriman",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q5932767"
+   },
+   {
+    "died": 1930,
+    "free": true,
+    "name": "Ilya Repin",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q172911"
+   }
+  ]
+ },
  "the-story-of-doctor-dolittle": {
   "free": true,
   "people": [
@@ -8618,6 +9706,30 @@
      "cover painting"
     ],
     "wikidata": "Q460198"
+   }
+  ]
+ },
+ "the-sword-of-damocles": {
+  "free": true,
+  "people": [
+   {
+    "died": 1935,
+    "free": true,
+    "name": "Anna Katharine Green",
+    "roles": [
+     "notes",
+     "author"
+    ],
+    "wikidata": "Q442130"
+   },
+   {
+    "died": 1923,
+    "free": true,
+    "name": "Frederic M. Bell-Smith",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q5497096"
    }
   ]
  },
@@ -8713,6 +9825,30 @@
      "cover painting"
     ],
     "wikidata": "Q159297"
+   }
+  ]
+ },
+ "the-theory-of-the-leisure-class": {
+  "free": true,
+  "people": [
+   {
+    "died": 1929,
+    "free": true,
+    "name": "Thorstein Veblen",
+    "roles": [
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q73646"
+   },
+   {
+    "died": 1945,
+    "free": true,
+    "name": "Eleanor Fortescue-Brickdale",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q434282"
    }
   ]
  },
@@ -8926,6 +10062,29 @@
    }
   ]
  },
+ "the-vultures": {
+  "free": true,
+  "people": [
+   {
+    "died": 1903,
+    "free": true,
+    "name": "Henry Seton Merriman",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q5932767"
+   },
+   {
+    "died": 1883,
+    "free": true,
+    "name": "Eva Gonzalès",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q464300"
+   }
+  ]
+ },
  "the-war-of-the-worlds": {
   "free": true,
   "people": [
@@ -9052,6 +10211,29 @@
      "notes"
     ],
     "why": "a volunteer, whose work is given to the public domain"
+   }
+  ]
+ },
+ "the-white-company": {
+  "free": true,
+  "people": [
+   {
+    "died": 1930,
+    "free": true,
+    "name": "Arthur Conan Doyle",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q35610"
+   },
+   {
+    "died": 1945,
+    "free": true,
+    "name": "N. C. Wyeth",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q983349"
    }
   ]
  },
@@ -9205,6 +10387,29 @@
    }
   ]
  },
+ "the-worm-ouroboros": {
+  "free": true,
+  "people": [
+   {
+    "died": 1945,
+    "free": true,
+    "name": "E. R. Eddison",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q260982"
+   },
+   {
+    "died": 1770,
+    "free": true,
+    "name": "Giovanni Battista Tiepolo",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q186202"
+   }
+  ]
+ },
  "this-side-of-paradise": {
   "free": true,
   "people": [
@@ -9341,6 +10546,39 @@
    }
   ]
  },
+ "travel-essays": {
+  "free": true,
+  "people": [
+   {
+    "died": 1894,
+    "free": true,
+    "name": "Robert Louis Stevenson",
+    "roles": [
+     "notes",
+     "author"
+    ],
+    "wikidata": "Q1512"
+   },
+   {
+    "died": 1939,
+    "free": true,
+    "name": "Alfred-Louis Brunet-Debaines",
+    "roles": [
+     "illustrator"
+    ],
+    "wikidata": "Q4722175"
+   },
+   {
+    "died": 1867,
+    "free": true,
+    "name": "Théodore Rousseau",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q310025"
+   }
+  ]
+ },
  "treasure-island": {
   "free": true,
   "people": [
@@ -9362,6 +10600,49 @@
      "cover painting"
     ],
     "wikidata": "Q983349"
+   }
+  ]
+ },
+ "tusculan-disputations": {
+  "free": true,
+  "people": [
+   {
+    "died": -43,
+    "free": true,
+    "name": "Cicero",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q1541"
+   },
+   {
+    "died": 1891,
+    "free": true,
+    "name": "C. D. Yonge",
+    "roles": [
+     "notes",
+     "translator",
+     "introduction",
+     "preface"
+    ],
+    "wikidata": "Q4205941"
+   },
+   {
+    "died": 1825,
+    "free": true,
+    "name": "Henry Fuseli",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q122382"
+   },
+   {
+    "free": true,
+    "name": "David M. Gross",
+    "roles": [
+     "editor"
+    ],
+    "why": "a volunteer, whose work is given to the public domain"
    }
   ]
  },
@@ -9875,6 +11156,29 @@
      "cover painting"
     ],
     "wikidata": "Q45431"
+   }
+  ]
+ },
+ "wolf-solent": {
+  "free": true,
+  "people": [
+   {
+    "died": 1963,
+    "free": true,
+    "name": "John Cowper Powys",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q1398332"
+   },
+   {
+    "died": 1886,
+    "free": true,
+    "name": "Asher Brown Durand",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q391608"
    }
   ]
  },

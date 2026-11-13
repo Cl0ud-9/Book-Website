@@ -5,6 +5,8 @@ books and covers are copied here and served with the site. Downloads are cached 
 out, so a re-run only fetches what is new and never hammers their server.
 
 usage: python pipeline/library.py [--refresh-popularity]   (needs Pillow; writes data/books.json, .assets/image/covers/, .assets/books/)
+       python pipeline/library.py --keep   takes the books already on the shelf from data/books.json and .assets (run
+       npm run assets:pull first) and fetches only the new ones: the download cache is not needed for a new batch.
 Then run npm run build to regenerate the pages.
 """
 import html
@@ -422,6 +424,61 @@ CATALOGUE = [
     ("anthony-hope/the-prisoner-of-zenda", ["Adventure", "Romance"]),
     ("f-scott-fitzgerald/this-side-of-paradise", ["Literary fiction"]),
     ("thomas-paine/the-age-of-reason", ["Philosophy"]),
+    # Fifty more of the most read, added in 4.3. Left out for India: Krakatit (Salvador Dalí's cover, died 1989); and, as a
+    # date cannot be found for a translator, illustrator or cover painter, Robur the Conqueror, Demian, Sentimental
+    # Education, Within and Without, Sailing Alone Around the World, The Birds, A Book-Lover's Holidays in the Open, Twenty
+    # Years After and The Mystery of the Yellow Room. Not taken: Pilgrimage's later volumes on their own (Oberland, The
+    # Trap), and more than three books by one author in a batch
+    ("henry-seton-merriman/suspense", ["Romance", "Literary fiction"]),
+    ("joseph-conrad/short-fiction", ["Literary fiction", "Adventure"]),
+    ("pauline-e-hopkins/of-one-blood", ["Adventure", "Fantasy"]),
+    ("henry-seton-merriman/the-sowers", ["Adventure", "Romance"]),
+    ("selma-lagerlof/the-emperor-of-portugallia/velma-swanston-howard", ["Literary fiction"]),
+    ("henry-seton-merriman/the-vultures", ["Adventure", "Mystery"]),
+    ("john-buchan/short-fiction", ["Adventure", "Horror"]),
+    ("a-e-w-mason/the-prisoner-in-the-opal", ["Mystery"]),
+    ("herman-whitaker/the-mystery-of-the-barranca", ["Adventure", "Romance"]),
+    ("fergus-hume/the-green-mummy", ["Mystery"]),
+    ("anton-chekhov/ivanov/constance-garnett", ["Plays"]),
+    ("carolyn-wells/the-gold-bag", ["Mystery"]),
+    ("arthur-conan-doyle/sir-nigel", ["Adventure"]),
+    ("edgar-rice-burroughs/the-cave-girl", ["Adventure", "Romance"]),
+    ("winnifred-eaton-reeve/his-royal-nibs", ["Romance", "Adventure"]),
+    ("herbert-gorman/the-place-called-dagon", ["Horror"]),
+    ("pauline-e-hopkins/contending-forces", ["Literary fiction", "Romance"]),
+    ("cicero/tusculan-disputations/c-d-yonge", ["Philosophy"]),
+    ("c-h-spurgeon/the-art-of-illustration", ["Essays and letters"]),
+    ("h-c-mcneile/the-final-count", ["Mystery", "Adventure"]),
+    ("heinrich-kramer/malleus-maleficarum/montague-summers", ["History and politics", "Philosophy"]),
+    ("sophocles/philoctetes/francis-storr", ["Plays"]),
+    ("sophocles/oedipus-rex/francis-storr", ["Plays"]),
+    ("a-w-tozer/the-pursuit-of-god", ["Philosophy"]),
+    ("f-scott-fitzgerald/the-beautiful-and-damned", ["Literary fiction"]),
+    ("robert-hugh-benson/the-necromancers", ["Horror"]),
+    ("george-macdonald/short-fiction", ["Fantasy", "Children’s"]),
+    ("giovanni-boccaccio/the-decameron/john-payne", ["Literary fiction"]),
+    ("thorstein-veblen/the-theory-of-the-leisure-class", ["History and politics"]),
+    ("p-t-barnum/the-art-of-money-getting", ["Essays and letters"]),
+    ("stephen-crane/the-red-badge-of-courage", ["Literary fiction", "Adventure"]),
+    ("anna-katharine-green/the-sword-of-damocles", ["Mystery", "Literary fiction"]),
+    ("niccolo-machiavelli/discourses-on-livy/ninian-hill-thomson", ["History and politics", "Philosophy"]),
+    ("louisa-may-alcott/behind-a-mask", ["Romance", "Mystery"]),
+    ("john-cowper-powys/wolf-solent", ["Literary fiction"]),
+    ("arthur-conan-doyle/the-white-company", ["Adventure"]),
+    ("william-hope-hodgson/the-night-land", ["Science fiction", "Horror"]),
+    ("e-r-eddison/the-worm-ouroboros", ["Fantasy"]),
+    ("robert-louis-stevenson/travel-essays", ["Essays and letters", "Lives and memoirs"]),
+    ("oscar-wilde/lady-windermeres-fan", ["Plays"]),
+    ("arthur-conan-doyle/the-maracot-deep", ["Science fiction", "Adventure"]),
+    ("r-h-tawney/religion-and-the-rise-of-capitalism", ["History and politics"]),
+    ("henrik-ibsen/a-dolls-house/r-farquharson-sharp", ["Plays"]),
+    ("robert-louis-stevenson/poetry", ["Poetry"]),
+    ("theodore-dreiser/sister-carrie", ["Literary fiction"]),
+    ("elizabeth-gaskell/cranford", ["Literary fiction"]),
+    ("mary-shelley/short-fiction", ["Literary fiction", "Horror"]),
+    ("honore-de-balzac/father-goriot/ellen-marriage", ["Literary fiction"]),
+    ("william-morris/news-from-nowhere", ["Science fiction", "Philosophy"]),
+    ("jack-london/the-iron-heel", ["Science fiction", "History and politics"]),
 ]
 
 last_request = 0.0
@@ -683,14 +740,35 @@ def black_line_art(png):
     return small.getvalue() if len(small.getvalue()) < len(png) else None
 
 
+def already_here():
+    """The books on the shelf whose files are all in .assets, by their Standard Ebooks address (--keep)"""
+    out = {}
+    listed = ROOT / "data" / "books.json"
+    for book in json.loads(listed.read_text(encoding="utf-8")) if listed.exists() else []:
+        found = re.match(re.escape(SE) + r"(.+?)/downloads/", book.get("kindle") or "")
+        covers = all((ROOT / ".assets" / "image" / "covers" / f"{book['slug']}-{w}.webp").exists() for w in WIDTHS)
+        local = book.get("epub", "")
+        if found and covers and (not local.startswith("books/") or (ROOT / ".assets" / local).exists()):
+            out[found.group(1)] = book
+    return out
+
+
 def main():
     (ROOT / "data").mkdir(exist_ok=True)
     (ROOT / ".assets" / "books").mkdir(exist_ok=True)
     (ROOT / ".assets" / "image" / "covers").mkdir(parents=True, exist_ok=True)
     taken, books, skipped, capped = set(), [], [], []
     ranks = popularity([path for path, _ in CATALOGUE], refresh="--refresh-popularity" in sys.argv)
+    shelf = already_here() if "--keep" in sys.argv else {}
     for n, (se_path, genres) in enumerate(CATALOGUE, 1):
         key = se_path.replace("/", "_")
+        if se_path in shelf:
+            book = {**shelf[se_path], "genres": genres, "popularity": ranks.get(se_path),
+                    "collections": ["india"] if se_path.startswith("rabindranath-tagore/") else []}
+            taken.add(book["slug"])
+            books.append(book)
+            print(f"{n:3}/{len(CATALOGUE)} {book['title']} (kept)", flush=True)
+            continue
         try:
             page = cached(f"{key}.html", SE + se_path)
             book = parse(page, se_path)

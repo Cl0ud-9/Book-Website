@@ -5,6 +5,17 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [4.3.0] - 2026-11-14
+
+### Added
+
+- 50 more books, 412 in all, the next of Standard Ebooks' most read: The Red Badge of Courage, A Doll's House, Oedipus
+  Rex, The Decameron, Father Goriot, Sister Carrie, Cranford, The Beautiful and Damned, Lady Windermere's Fan, The White
+  Company, Sir Nigel, The Maracot Deep, The Worm Ouroboros, The Night Land, The Iron Heel, News from Nowhere, Discourses
+  on Livy, The Theory of the Leisure Class, Pauline Hopkins's Of One Blood, the short fiction of Conrad, Buchan,
+  MacDonald and Mary Shelley, Stevenson's poems and travels, and more. Each is checked to be free in India too, and has
+  its genres, moods and suggested age.
+
 ## [4.2.0] - 2026-11-05
 
 ### Added
