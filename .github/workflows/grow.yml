@@ -118,13 +118,19 @@ jobs:
           path: test-results
           if-no-files-found: ignore
       - name: Ask for a refill when the queue runs low
-        if: success()
+        if: always() && hashFiles('grow.log') != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if grep -q '^QUEUE LOW' grow.log && [ -z "$(gh issue list --state open --search 'in:title \"The book queue is low\"' --json number --jq '.[0].number')" ]; then
-            gh issue create --title "The book queue is low" \
-              --body "$(grep '^QUEUE LOW\|waiting in the queue' grow.log | head -2)
-
-Ask Claude to refill pipeline/queue.json: the next of Standard Ebooks' most read, each with genres, moods, a suggested age and notes, in the queue's format. Books set aside with a reason are in pipeline/queue-skipped.json."
+          if grep -q '^QUEUE LOW' grow.log; then
+            open=$(gh issue list --state open --search "The book queue is low in:title" --json number --jq 'length')
+            if [ "$open" = 0 ]; then
+              {
+                grep 'waiting in the queue' grow.log | tail -1
+                echo
+                echo "Ask Claude to refill pipeline/queue.json: the next of Standard Ebooks' most read books, each with genres, moods, a suggested age and notes, in the queue's format."
+                echo "Books set aside, with the reason, are in pipeline/queue-skipped.json."
+              } > issue.md
+              gh issue create --title "The book queue is low" --body-file issue.md
+            fi
           fi
