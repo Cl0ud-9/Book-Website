@@ -1,0 +1,798 @@
+[
+ {
+  "path": "mor-jokai/the-slaves-of-the-padishah/robert-nisbet-bain",
+  "genres": [
+   "Adventure",
+   "Romance"
+  ],
+  "moods": [
+   "Adventurous",
+   "Gripping"
+  ],
+  "age": 13,
+  "notes": [
+   "violence"
+  ]
+ },
+ {
+  "path": "charles-dickens/martin-chuzzlewit",
+  "genres": [
+   "Literary fiction"
+  ],
+  "moods": [
+   "Funny",
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "death"
+  ]
+ },
+ {
+  "path": "willa-cather/death-comes-for-the-archbishop",
+  "genres": [
+   "Literary fiction"
+  ],
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "race",
+   "violence"
+  ]
+ },
+ {
+  "path": "lord-dunsany/the-charwomans-shadow",
+  "genres": [
+   "Fantasy"
+  ],
+  "moods": [
+   "Heartwarming",
+   "Adventurous"
+  ],
+  "age": 10,
+  "notes": []
+ },
+ {
+  "path": "william-shakespeare/coriolanus",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Dark",
+   "Gripping"
+  ],
+  "age": 13,
+  "notes": [
+   "violence",
+   "war"
+  ]
+ },
+ {
+  "path": "john-webster/the-duchess-of-malfi",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Dark",
+   "Eerie",
+   "Gripping"
+  ],
+  "age": 16,
+  "notes": [
+   "violence",
+   "death"
+  ]
+ },
+ {
+  "path": "william-shakespeare/measure-for-measure",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Dark",
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "sex",
+   "ideas"
+  ]
+ },
+ {
+  "path": "william-congreve/the-way-of-the-world",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Funny",
+   "Romantic"
+  ],
+  "age": 13,
+  "notes": [
+   "sex"
+  ]
+ },
+ {
+  "path": "sinclair-lewis/main-street",
+  "genres": [
+   "Literary fiction"
+  ],
+  "moods": [
+   "Thoughtful",
+   "Funny"
+  ],
+  "age": 13,
+  "notes": []
+ },
+ {
+  "path": "g-k-chesterton/the-napoleon-of-notting-hill",
+  "genres": [
+   "Science fiction",
+   "Adventure"
+  ],
+  "moods": [
+   "Funny",
+   "Adventurous",
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "violence",
+   "war"
+  ]
+ },
+ {
+  "path": "charles-dickens/barnaby-rudge",
+  "genres": [
+   "Literary fiction",
+   "Adventure"
+  ],
+  "moods": [
+   "Gripping",
+   "Dark"
+  ],
+  "age": 13,
+  "notes": [
+   "violence",
+   "death"
+  ]
+ },
+ {
+  "path": "willa-cather/o-pioneers",
+  "genres": [
+   "Literary fiction",
+   "Romance"
+  ],
+  "moods": [
+   "Thoughtful",
+   "Romantic"
+  ],
+  "age": 13,
+  "notes": [
+   "death"
+  ]
+ },
+ {
+  "path": "george-eliot/daniel-deronda",
+  "genres": [
+   "Literary fiction",
+   "Romance"
+  ],
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "death"
+  ]
+ },
+ {
+  "path": "henry-george/progress-and-poverty",
+  "genres": [
+   "History and politics",
+   "Philosophy"
+  ],
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "ideas"
+  ]
+ },
+ {
+  "path": "h-rider-haggard/she",
+  "genres": [
+   "Adventure",
+   "Fantasy"
+  ],
+  "moods": [
+   "Adventurous",
+   "Eerie",
+   "Gripping"
+  ],
+  "age": 13,
+  "notes": [
+   "race",
+   "violence",
+   "death"
+  ]
+ },
+ {
+  "path": "a-e-w-mason/the-four-feathers",
+  "genres": [
+   "Adventure"
+  ],
+  "moods": [
+   "Adventurous",
+   "Gripping"
+  ],
+  "age": 13,
+  "notes": [
+   "war",
+   "violence",
+   "race"
+  ]
+ },
+ {
+  "path": "thomas-de-quincey/confessions-of-an-english-opium-eater",
+  "genres": [
+   "Lives and memoirs"
+  ],
+  "moods": [
+   "Dark",
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "substances"
+  ]
+ },
+ {
+  "path": "joseph-jacobs/indian-fairy-tales",
+  "genres": [
+   "Children’s",
+   "Fantasy"
+  ],
+  "moods": [
+   "Heartwarming",
+   "Funny"
+  ],
+  "age": 10,
+  "notes": [
+   "fear"
+  ]
+ },
+ {
+  "path": "g-k-chesterton/heretics",
+  "genres": [
+   "Essays and letters",
+   "Philosophy"
+  ],
+  "moods": [
+   "Thoughtful",
+   "Funny"
+  ],
+  "age": 13,
+  "notes": [
+   "ideas"
+  ]
+ },
+ {
+  "path": "john-muir/my-first-summer-in-the-sierra",
+  "genres": [
+   "Science and nature",
+   "Lives and memoirs"
+  ],
+  "moods": [
+   "Adventurous",
+   "Heartwarming",
+   "Thoughtful"
+  ],
+  "age": 0,
+  "notes": []
+ },
+ {
+  "path": "w-somerset-maugham/ashenden",
+  "genres": [
+   "Mystery",
+   "Literary fiction"
+  ],
+  "moods": [
+   "Gripping",
+   "Dark",
+   "Funny"
+  ],
+  "age": 13,
+  "notes": [
+   "war",
+   "death"
+  ]
+ },
+ {
+  "path": "william-shakespeare/loves-labours-lost",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Funny",
+   "Romantic"
+  ],
+  "age": 13,
+  "notes": [
+   "sex"
+  ]
+ },
+ {
+  "path": "nella-larsen/quicksand",
+  "genres": [
+   "Literary fiction"
+  ],
+  "moods": [
+   "Dark",
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "race",
+   "sex",
+   "death"
+  ]
+ },
+ {
+  "path": "l-frank-baum/ozma-of-oz",
+  "genres": [
+   "Children’s",
+   "Fantasy"
+  ],
+  "moods": [
+   "Adventurous",
+   "Funny",
+   "Heartwarming"
+  ],
+  "age": 0,
+  "notes": []
+ },
+ {
+  "path": "moliere/tartuffe/curtis-hidden-page",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Funny"
+  ],
+  "age": 13,
+  "notes": []
+ },
+ {
+  "path": "william-shakespeare/richard-ii",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Dark",
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "violence",
+   "death"
+  ]
+ },
+ {
+  "path": "samuel-pepys/the-diary",
+  "genres": [
+   "Lives and memoirs",
+   "History and politics"
+  ],
+  "moods": [
+   "Funny",
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "sex",
+   "death"
+  ]
+ },
+ {
+  "path": "george-macdonald/poetry",
+  "genres": [
+   "Poetry"
+  ],
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 10,
+  "notes": []
+ },
+ {
+  "path": "felix-salten/bambi/whittaker-chambers",
+  "genres": [
+   "Children’s",
+   "Literary fiction"
+  ],
+  "moods": [
+   "Heartwarming",
+   "Dark"
+  ],
+  "age": 10,
+  "notes": [
+   "death"
+  ]
+ },
+ {
+  "path": "anthony-trollope/barchester-towers",
+  "genres": [
+   "Literary fiction",
+   "Romance"
+  ],
+  "moods": [
+   "Funny",
+   "Romantic"
+  ],
+  "age": 13,
+  "notes": []
+ },
+ {
+  "path": "louis-joseph-vance/the-lone-wolf",
+  "genres": [
+   "Mystery",
+   "Adventure"
+  ],
+  "moods": [
+   "Gripping",
+   "Adventurous"
+  ],
+  "age": 13,
+  "notes": [
+   "violence"
+  ]
+ },
+ {
+  "path": "nikolai-gogol/the-inspector-general/thomas-seltzer",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Funny"
+  ],
+  "age": 10,
+  "notes": []
+ },
+ {
+  "path": "george-bernard-shaw/saint-joan",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Thoughtful",
+   "Gripping"
+  ],
+  "age": 13,
+  "notes": [
+   "violence",
+   "death"
+  ]
+ },
+ {
+  "path": "lord-dunsany/the-book-of-wonder/sidney-h-sime",
+  "genres": [
+   "Fantasy"
+  ],
+  "moods": [
+   "Eerie",
+   "Funny",
+   "Adventurous"
+  ],
+  "age": 10,
+  "notes": [
+   "fear"
+  ]
+ },
+ {
+  "path": "sophocles/ajax/francis-storr",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Dark"
+  ],
+  "age": 16,
+  "notes": [
+   "suicide",
+   "violence"
+  ]
+ },
+ {
+  "path": "herman-melville/typee",
+  "genres": [
+   "Adventure",
+   "Literary fiction"
+  ],
+  "moods": [
+   "Adventurous"
+  ],
+  "age": 13,
+  "notes": [
+   "race",
+   "violence"
+  ]
+ },
+ {
+  "path": "henry-james/the-ambassadors",
+  "genres": [
+   "Literary fiction"
+  ],
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "ideas"
+  ]
+ },
+ {
+  "path": "peter-kropotkin/mutual-aid",
+  "genres": [
+   "Science and nature",
+   "Philosophy"
+  ],
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "ideas"
+  ]
+ },
+ {
+  "path": "emile-zola/germinal/havelock-ellis",
+  "genres": [
+   "Literary fiction"
+  ],
+  "moods": [
+   "Dark",
+   "Gripping"
+  ],
+  "age": 16,
+  "notes": [
+   "violence",
+   "death",
+   "sex"
+  ]
+ },
+ {
+  "path": "hilaire-belloc/the-cruise-of-the-nona",
+  "genres": [
+   "Lives and memoirs",
+   "Adventure"
+  ],
+  "moods": [
+   "Adventurous",
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": []
+ },
+ {
+  "path": "edgar-rice-burroughs/the-master-mind-of-mars",
+  "genres": [
+   "Science fiction",
+   "Adventure"
+  ],
+  "moods": [
+   "Adventurous",
+   "Eerie"
+  ],
+  "age": 13,
+  "notes": [
+   "violence"
+  ]
+ },
+ {
+  "path": "josephine-tey/the-man-in-the-queue",
+  "genres": [
+   "Mystery"
+  ],
+  "moods": [
+   "Gripping"
+  ],
+  "age": 13,
+  "notes": [
+   "violence"
+  ]
+ },
+ {
+  "path": "l-m-montgomery/emily-of-new-moon",
+  "genres": [
+   "Children’s",
+   "Literary fiction"
+  ],
+  "moods": [
+   "Heartwarming",
+   "Thoughtful"
+  ],
+  "age": 10,
+  "notes": [
+   "death"
+  ]
+ },
+ {
+  "path": "richard-henry-dana-jr/two-years-before-the-mast",
+  "genres": [
+   "Lives and memoirs",
+   "Adventure"
+  ],
+  "moods": [
+   "Adventurous",
+   "Gripping"
+  ],
+  "age": 13,
+  "notes": [
+   "violence"
+  ]
+ },
+ {
+  "path": "james-joyce/poetry",
+  "genres": [
+   "Poetry"
+  ],
+  "moods": [
+   "Romantic",
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": []
+ },
+ {
+  "path": "anton-chekhov/three-sisters/julius-west",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Thoughtful",
+   "Dark"
+  ],
+  "age": 13,
+  "notes": [
+   "death"
+  ]
+ },
+ {
+  "path": "mor-jokai/midst-the-wild-carpathians/robert-nisbet-bain",
+  "genres": [
+   "Adventure",
+   "Romance"
+  ],
+  "moods": [
+   "Adventurous",
+   "Gripping"
+  ],
+  "age": 13,
+  "notes": [
+   "violence",
+   "war"
+  ]
+ },
+ {
+  "path": "c-s-lewis/poetry",
+  "genres": [
+   "Poetry"
+  ],
+  "moods": [
+   "Dark",
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "war",
+   "ideas"
+  ]
+ },
+ {
+  "path": "samuel-butler/the-way-of-all-flesh",
+  "genres": [
+   "Literary fiction"
+  ],
+  "moods": [
+   "Funny",
+   "Thoughtful",
+   "Dark"
+  ],
+  "age": 16,
+  "notes": [
+   "sex",
+   "ideas"
+  ]
+ },
+ {
+  "path": "christopher-marlowe/the-tragical-history-of-doctor-faustus",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Dark",
+   "Eerie"
+  ],
+  "age": 13,
+  "notes": [
+   "fear",
+   "death"
+  ]
+ },
+ {
+  "path": "lord-dunsany/the-gods-of-pegana",
+  "genres": [
+   "Fantasy"
+  ],
+  "moods": [
+   "Eerie",
+   "Thoughtful"
+  ],
+  "age": 10,
+  "notes": []
+ },
+ {
+  "path": "hugh-lofting/the-voyages-of-doctor-dolittle",
+  "genres": [
+   "Children’s",
+   "Adventure"
+  ],
+  "moods": [
+   "Adventurous",
+   "Funny",
+   "Heartwarming"
+  ],
+  "age": 10,
+  "notes": [
+   "race"
+  ]
+ },
+ {
+  "path": "johnston-mcculley/the-mark-of-zorro",
+  "genres": [
+   "Adventure",
+   "Romance"
+  ],
+  "moods": [
+   "Adventurous",
+   "Gripping",
+   "Romantic"
+  ],
+  "age": 13,
+  "notes": [
+   "violence"
+  ]
+ },
+ {
+  "path": "sophocles/electra/francis-storr",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Dark"
+  ],
+  "age": 13,
+  "notes": [
+   "violence",
+   "death"
+  ]
+ },
+ {
+  "path": "sophocles/oedipus-at-colonus/francis-storr",
+  "genres": [
+   "Plays"
+  ],
+  "moods": [
+   "Thoughtful",
+   "Dark"
+  ],
+  "age": 13,
+  "notes": [
+   "death"
+  ]
+ }
+]

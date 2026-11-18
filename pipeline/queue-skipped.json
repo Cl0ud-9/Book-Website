@@ -1,0 +1,216 @@
+[
+ {
+  "path": "alexander-pushkin/eugene-onegin/henry-spalding",
+  "genres": [
+   "Poetry",
+   "Romance"
+  ],
+  "moods": [
+   "Romantic",
+   "Dark"
+  ],
+  "age": 13,
+  "notes": [
+   "death"
+  ],
+  "why": "Henry Spalding (notes, translator, died unknown)"
+ },
+ {
+  "path": "ring-lardner/short-fiction",
+  "genres": [
+   "Literary fiction"
+  ],
+  "moods": [
+   "Funny",
+   "Dark"
+  ],
+  "age": 13,
+  "notes": [
+   "race"
+  ],
+  "why": "Edward Hopper (cover painting, died 1967)"
+ },
+ {
+  "path": "john-dewey/democracy-and-education",
+  "genres": [
+   "Philosophy"
+  ],
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "ideas"
+  ],
+  "why": "Norman Rockwell (cover painting, died 1978)"
+ },
+ {
+  "path": "carolyn-wells/the-clue",
+  "genres": [
+   "Mystery"
+  ],
+  "moods": [
+   "Gripping"
+  ],
+  "age": 13,
+  "notes": [
+   "violence"
+  ],
+  "why": "Frances Rogers (cover painting, died 1974)"
+ },
+ {
+  "path": "jules-verne/five-weeks-in-a-balloon/william-lackland",
+  "genres": [
+   "Adventure",
+   "Science fiction"
+  ],
+  "moods": [
+   "Adventurous"
+  ],
+  "age": 10,
+  "notes": [
+   "race"
+  ],
+  "why": "William Lackland (translator, died unknown)"
+ },
+ {
+  "path": "aristotle/nicomachean-ethics/f-h-peters",
+  "genres": [
+   "Philosophy"
+  ],
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "ideas"
+  ],
+  "why": "F. H. Peters (notes, translator, preface, died unknown)"
+ },
+ {
+  "path": "apuleius/the-golden-ass/william-adlington",
+  "genres": [
+   "Fantasy",
+   "Literary fiction"
+  ],
+  "moods": [
+   "Funny",
+   "Adventurous"
+  ],
+  "age": 16,
+  "notes": [
+   "sex",
+   "violence"
+  ],
+  "why": "William Adlington (notes, translator, introduction, died unknown)"
+ },
+ {
+  "path": "e-e-smith/the-skylark-of-space",
+  "genres": [
+   "Science fiction"
+  ],
+  "moods": [
+   "Adventurous"
+  ],
+  "age": 13,
+  "notes": [
+   "violence"
+  ],
+  "why": "Hugo Gernsback (preface, died 1967)"
+ },
+ {
+  "path": "rudolph-erich-raspe/the-surprising-adventures-of-baron-munchausen",
+  "genres": [
+   "Adventure",
+   "Children’s"
+  ],
+  "moods": [
+   "Funny",
+   "Adventurous"
+  ],
+  "age": 10,
+  "notes": [],
+  "why": "Gottfried Franz (cover painting, died unknown)"
+ },
+ {
+  "path": "thea-von-harbou/metropolis/the-readers-library",
+  "genres": [
+   "Science fiction"
+  ],
+  "moods": [
+   "Dark",
+   "Gripping"
+  ],
+  "age": 13,
+  "notes": [
+   "violence"
+  ],
+  "why": "The Readers Library (translator, died unknown)"
+ },
+ {
+  "path": "dorothy-l-sayers/lord-peter-views-the-body",
+  "genres": [
+   "Mystery"
+  ],
+  "moods": [
+   "Gripping",
+   "Funny"
+  ],
+  "age": 13,
+  "notes": [
+   "violence"
+  ],
+  "why": "Leonard Campbell Taylor (cover painting, died 1969)"
+ },
+ {
+  "path": "richard-marsh/the-beetle",
+  "genres": [
+   "Horror"
+  ],
+  "moods": [
+   "Eerie",
+   "Gripping",
+   "Dark"
+  ],
+  "age": 16,
+  "notes": [
+   "fear",
+   "sex",
+   "violence"
+  ],
+  "why": "Jan Augustin van der Goes (cover painting, died unknown)"
+ },
+ {
+  "path": "j-sheridan-le-fanu/the-room-in-the-dragon-volant",
+  "genres": [
+   "Horror",
+   "Mystery"
+  ],
+  "moods": [
+   "Eerie",
+   "Gripping"
+  ],
+  "age": 13,
+  "notes": [
+   "fear"
+  ],
+  "why": "Victor Marec (cover painting, died unknown)"
+ },
+ {
+  "path": "jacob-riis/how-the-other-half-lives",
+  "genres": [
+   "History and politics",
+   "Essays and letters"
+  ],
+  "moods": [
+   "Dark",
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "race",
+   "death"
+  ],
+  "why": "John R. Grabach (cover painting, died 1981)"
+ }
+]

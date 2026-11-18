@@ -5,6 +5,21 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [4.4.0] - 2026-11-18
+
+### Added
+
+- 50 more books, 462 in all, the next of Standard Ebooks' most read: An American Tragedy, Women in Love, Dombey and Son,
+  The Old Curiosity Shop, Romola, The Forsyte Saga, The Golden Bowl, Waverley, Clarissa, Quo Vadis,
+  Captain Blood, The Black Arrow, Trent's Last Case, The Rubaiyat of Omar Khayyam, Shackleton's South, The Worst Journey
+  in the World, three Shakespeare plays, Aeschylus' Eumenides and Libation-Bearers, The Education of Henry Adams,
+  Geronimo's and Yung Wing's lives, and more. Each is checked to be free in India too, and has its genres, moods and
+  suggested age.
+- The shelf now grows by itself: the next books, chosen and described by hand ahead of time, wait in pipeline/queue.json,
+  and every morning a workflow (grow.yml) takes the next two, checks everyone whose work is in them died in time for
+  India's public domain, and adds, builds and publishes them. Books that fail the check are set aside with the reason,
+  and when the queue runs low an issue asks for a refill.
+
 ## [4.3.0] - 2026-11-14
 
 ### Added

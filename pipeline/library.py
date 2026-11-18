@@ -479,6 +479,57 @@ CATALOGUE = [
     ("honore-de-balzac/father-goriot/ellen-marriage", ["Literary fiction"]),
     ("william-morris/news-from-nowhere", ["Science fiction", "Philosophy"]),
     ("jack-london/the-iron-heel", ["Science fiction", "History and politics"]),
+    ("henry-seton-merriman/barlasch-of-the-guard", ["Adventure", "History and politics"]),
+    ("henry-seton-merriman/with-edged-tools", ["Adventure", "Romance"]),
+    ("j-storer-clouston/the-man-from-the-clouds", ["Adventure", "Mystery"]),
+    ("diogenes-laertius/the-lives-and-opinions-of-eminent-philosophers/c-d-yonge", ["Philosophy", "Lives and memoirs"]),
+    ("william-shakespeare/alls-well-that-ends-well", ["Plays"]),
+    ("charlotte-m-yonge/the-clever-woman-of-the-family", ["Literary fiction", "Romance"]),
+    ("frank-hamilton-cushing/zuni-folktales", ["Fantasy", "Children’s"]),
+    ("samuel-richardson/clarissa", ["Literary fiction", "Romance"]),
+    ("h-c-mcneile/the-black-gang", ["Mystery", "Adventure"]),
+    ("theodore-dreiser/an-american-tragedy", ["Literary fiction"]),
+    ("oscar-wilde/an-ideal-husband", ["Plays"]),
+    ("edgar-rice-burroughs/the-land-that-time-forgot", ["Science fiction", "Adventure"]),
+    ("ernest-shackleton/south", ["Lives and memoirs", "Adventure"]),
+    ("d-h-lawrence/women-in-love", ["Literary fiction", "Romance"]),
+    ("charles-dickens/dombey-and-son", ["Literary fiction"]),
+    ("theodore-roosevelt/an-autobiography", ["Lives and memoirs", "History and politics"]),
+    ("henryk-sienkiewicz/quo-vadis/jeremiah-curtin", ["Romance", "History and politics"]),
+    ("aeschylus/the-eumenides/gilbert-murray", ["Plays"]),
+    ("george-macdonald/if-i-had-a-father", ["Literary fiction"]),
+    ("geronimo/geronimos-story-of-his-life", ["Lives and memoirs", "History and politics"]),
+    ("omar-khayyam/the-rubaiyat-of-omar-khayyam/edward-fitzgerald", ["Poetry", "Philosophy"]),
+    ("margaret-cavendish/the-blazing-world", ["Science fiction", "Fantasy"]),
+    ("edgar-rice-burroughs/at-the-earths-core", ["Science fiction", "Adventure"]),
+    ("apsley-cherry-garrard/the-worst-journey-in-the-world", ["Lives and memoirs", "Adventure"]),
+    ("w-somerset-maugham/the-painted-veil", ["Literary fiction", "Romance"]),
+    ("oscar-wilde/a-woman-of-no-importance", ["Plays"]),
+    ("aeschylus/the-libation-bearers/gilbert-murray", ["Plays"]),
+    ("arthur-machen/the-three-impostors", ["Horror", "Mystery"]),
+    ("william-shakespeare/the-comedy-of-errors", ["Plays"]),
+    ("john-galsworthy/the-forsyte-saga", ["Literary fiction", "Romance"]),
+    ("william-shakespeare/henry-v", ["Plays"]),
+    ("henry-adams/the-education-of-henry-adams", ["Lives and memoirs", "History and politics"]),
+    ("anthony-trollope/the-warden", ["Literary fiction"]),
+    ("h-c-mcneile/the-third-round", ["Mystery", "Adventure"]),
+    ("george-eliot/romola", ["Literary fiction", "Romance"]),
+    ("charles-dickens/the-old-curiosity-shop", ["Literary fiction"]),
+    ("ben-jonson/the-alchemist", ["Plays"]),
+    ("yung-wing/my-life-in-china-and-america", ["Lives and memoirs", "History and politics"]),
+    ("robert-louis-stevenson/the-black-arrow", ["Adventure", "Romance"]),
+    ("rafael-sabatini/captain-blood", ["Adventure", "Romance"]),
+    ("e-c-bentley/trents-last-case", ["Mystery"]),
+    ("edgar-saltus/the-perfume-of-eros", ["Literary fiction", "Romance"]),
+    ("walter-scott/waverley", ["Romance", "Adventure"]),
+    ("john-stuart-mill/the-subjection-of-women", ["Philosophy", "History and politics"]),
+    ("henry-james/the-golden-bowl", ["Literary fiction", "Romance"]),
+    ("anthony-trollope/the-way-we-live-now", ["Literary fiction"]),
+    ("daniel-defoe/a-journal-of-the-plague-year", ["Literary fiction", "History and politics"]),
+    ("anonymous/the-pearl/sophie-jewett", ["Poetry", "Fantasy"]),
+    ("h-g-wells/the-world-set-free", ["Science fiction", "Philosophy"]),
+    ("alfred-lord-tennyson/idylls-of-the-king", ["Poetry", "Fantasy"]),
+    # pipeline/grow.py adds the next books from pipeline/queue.json above this line
 ]
 
 last_request = 0.0
@@ -758,8 +809,17 @@ def main():
     (ROOT / ".assets" / "books").mkdir(exist_ok=True)
     (ROOT / ".assets" / "image" / "covers").mkdir(parents=True, exist_ok=True)
     taken, books, skipped, capped = set(), [], [], []
-    ranks = popularity([path for path, _ in CATALOGUE], refresh="--refresh-popularity" in sys.argv)
     shelf = already_here() if "--keep" in sys.argv else {}
+    if shelf:
+        # --keep: the books already here keep their rank, and only the new ones are looked up (a failed lookup, such as
+        # Standard Ebooks' download cap, leaves them unranked until the next run rather than stopping the run)
+        ranks = {p: b.get("popularity") for p, b in shelf.items()}
+        try:
+            ranks.update(popularity([path for path, _ in CATALOGUE if path not in shelf]))
+        except urllib.error.URLError as error:
+            print(f"popularity of the new books not read this time: {error}", flush=True)
+    else:
+        ranks = popularity([path for path, _ in CATALOGUE], refresh="--refresh-popularity" in sys.argv)
     for n, (se_path, genres) in enumerate(CATALOGUE, 1):
         key = se_path.replace("/", "_")
         if se_path in shelf:
