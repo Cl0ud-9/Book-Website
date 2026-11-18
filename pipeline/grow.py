@@ -31,7 +31,8 @@ LOW = 10  # with fewer than this many books left, the workflow opens an issue as
 
 def read_keep_newlines(path):
     """The file's text as \\n, and the newline to write it back with (the repo may sit on Windows or Linux)."""
-    raw = path.read_text(encoding="utf-8", newline="")
+    with open(path, encoding="utf-8", newline="") as f:  # (Path.read_text has no newline option before Python 3.13)
+        raw = f.read()
     return raw.replace("\r\n", "\n"), ("\r\n" if "\r\n" in raw else "\n")
 
 
