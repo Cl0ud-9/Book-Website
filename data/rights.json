@@ -10517,6 +10517,31 @@
    }
   ]
  },
+ "the-slaves-of-the-padishah": {
+  "free": true,
+  "people": [
+   {
+    "died": 1904,
+    "free": true,
+    "name": "Mór Jókai",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q379621"
+   },
+   {
+    "died": 1909,
+    "free": true,
+    "name": "Robert Nisbet Bain",
+    "roles": [
+     "notes",
+     "translator",
+     "introduction"
+    ],
+    "wikidata": "Q2158388"
+   }
+  ]
+ },
  "the-social-contract": {
   "free": true,
   "people": [

@@ -12463,6 +12463,33 @@
   "kobo": "https://standardebooks.org/ebooks/alfred-lord-tennyson/idylls-of-the-king/downloads/alfred-lord-tennyson_idylls-of-the-king.kepub.epub?source=download"
  },
  {
+  "title": "The Slaves of the Padishah",
+  "author": "Mór Jókai",
+  "translator": "Robert Nisbet Bain",
+  "abstract": "A Transylvanian nobel tries to consolidate Ottoman power over Eastern Europe.",
+  "description": [
+   "Michael Teleki, a Transylvanian noble and councilor to Prince Apafi, is an ambitious and cunning politician who seeks to increase his power and social status. In order to do that, he attempts to manipulate members of the Ottoman Sultanate to attack Hungary, with hopes that he will become its Palatine.",
+   "A sequel to ’Midst the Wild Carpathians, The Slaves of the Padishah sees the return of most of the characters of the previous novel. Much like the first installment, this novel is a fictionalized version of real events: in this case, the loss of Turkish control over Hungary and the expansion of the Holy Roman Empire to territories previously controlled by the Sultanate."
+  ],
+  "words": 116154,
+  "reading_time": "7 hours 3 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/mor-jokai/the-slaves-of-the-padishah/robert-nisbet-bain",
+  "slug": "the-slaves-of-the-padishah",
+  "genres": [
+   "Adventure",
+   "Romance"
+  ],
+  "collections": [],
+  "spine": "#25251d",
+  "epub": "books/the-slaves-of-the-padishah.epub",
+  "size": 863222,
+  "popularity": 640,
+  "opening": "The S—— family was one of the richest in Wallachia, and consequently one of the most famous.",
+  "kindle": "https://standardebooks.org/ebooks/mor-jokai/the-slaves-of-the-padishah/robert-nisbet-bain/downloads/mor-jokai_the-slaves-of-the-padishah_robert-nisbet-bain.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/mor-jokai/the-slaves-of-the-padishah/robert-nisbet-bain/downloads/mor-jokai_the-slaves-of-the-padishah_robert-nisbet-bain.kepub.epub?source=download"
+ },
+ {
   "title": "The Golden Threshold",
   "author": "Sarojini Naidu",
   "translator": null,
