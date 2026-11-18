@@ -1855,7 +1855,8 @@ body:has(.reader) .header { display: none; }
   box-shadow: 0 0 calc(var(--shade, 0) * 3em) rgba(0, 0, 0, calc(var(--shade, 0) * .25));
 }
 .reader__leaf.is--under .reader__leaf-face { box-shadow: none; }
-.reader__mirror { position: absolute; top: 0; left: 0; max-width: none; border: 0; background: var(--r-bg); pointer-events: none; }
+.reader__mirror { position: absolute; top: 0; left: 0; max-width: none; border: 0; background: var(--r-bg); pointer-events: none; overflow: hidden; scrollbar-width: none; }
+.reader__mirror::-webkit-scrollbar { display: none; }
 .reader__mirror[hidden] { display: none; }
 .reader__marks { position: absolute; top: 0; left: 0; overflow: visible; pointer-events: none; }
 /* the light on a page as it lifts: darker at the edge it turns on, a gleam where it bends */

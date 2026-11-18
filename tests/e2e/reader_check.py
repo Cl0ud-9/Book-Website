@@ -201,5 +201,29 @@ with sync_playwright() as p:
     say(page.evaluate("document.querySelector('[data-reader-chapter]').textContent.trim()") == "Dedication", "scrolling: the footer names the page it opened at")
     ctx.close()
     br.close()
+
+# The copies of the page that a turn lifts (src/scripts/reader.js, "mirrors") must never show a scrollbar. Windows draws real ones
+# where phones and Playwright's own Chrome (--hide-scrollbars) do not, and a copy of the next or the previous chapter, many pages
+# wide, showed one across the page as the book turned into it. So this browser is asked to draw them.
+with sync_playwright() as p2:
+    bw = p2.chromium.launch(channel="chrome", ignore_default_args=["--hide-scrollbars"])
+    pg = bw.new_context(viewport={"width": 1920, "height": 1080}, service_workers="block").new_page()
+    pg.goto(BASE + "read.html?book=frankenstein")
+    pg.wait_for_selector(".reader.is--ready", timeout=30000)
+    pg.wait_for_timeout(3000)
+    pg.mouse.move(960, 500)
+    probe = """() => [...document.querySelectorAll('.reader__mirror')].filter((m) => {
+        for (let n = m; n && n !== document.body; n = n.parentElement) { const cs = getComputedStyle(n); if (n.hidden || cs.visibility === 'hidden' || cs.display === 'none') return false; }
+        return true; }).map((m) => { const w = m.contentWindow, d = m.contentDocument.documentElement;
+        return { bar: w.innerHeight - d.clientHeight > 0 || w.innerWidth - d.clientWidth > 0, scrolling: m.getAttribute('scrolling') }; })"""
+    samples, bars, unguarded = 0, 0, 0
+    for turn in range(14):  # across several chapters of short letters: the neighbours' copies are the wide ones
+        pg.keyboard.press("ArrowRight")
+        for _ in range(24):
+            for m in pg.evaluate(probe):
+                samples += 1; bars += m["bar"]; unguarded += m["scrolling"] != "no"
+            pg.wait_for_timeout(40)
+    say(samples > 50 and bars == 0 and unguarded == 0, f"turning pages across chapters, no page copy shows a scrollbar ({samples} samples, {bars} with a bar, {unguarded} not marked scrolling=no)")
+    bw.close()
 print("failures:", bad)
 sys.exit(1 if bad else 0)

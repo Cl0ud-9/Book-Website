@@ -1144,6 +1144,7 @@ import readerContentCss from "../styles/reader-content.css?url";
           m.className = "reader__mirror";
           m.setAttribute("aria-hidden", "true");
           m.setAttribute("sandbox", "allow-same-origin"); // the book's own copy: no scripts
+          m.setAttribute("scrolling", "no"); // a copy wider than its frame showed a scrollbar across the page on Windows
           m.tabIndex = -1;
           m.style.width = width;
           m.style.height = `${frame.offsetHeight}px`;
@@ -1523,7 +1524,7 @@ import readerContentCss from "../styles/reader-content.css?url";
       const moved = () => Promise.resolve(go()).catch(() => {}).then(() => (c.edge ? laidOut() : undefined));
       const tl = gsap.timeline({ onComplete: () => (close ? moved() : Promise.resolve()).then(() => { hideLeaves(); resolve(); }) });
       if (!close) tl.add(() => { tl.pause(); moved().then(() => tl.resume()); });
-      tl.to(s, { t: 1, duration: 0.3 + 0.55 * (1 - from), ease: from ? "power2.out" : "power2.inOut", onUpdate: () => bend(c, s.t) });
+      tl.to(s, { t: 1, duration: 0.2 + 0.4 * (1 - from), ease: from ? "power2.out" : "power1.inOut", onUpdate: () => bend(c, s.t) });
       // into another chapter the back is plain paper, lying over the copy of this spread's other page: that copy goes,
       // and the paper fades to show the page the book has moved to
       if (!close) tl.set(c.under, { visibility: "hidden" }).to(curl, { opacity: 0, duration: 0.2, ease: "power1.out" });
@@ -1531,12 +1532,15 @@ import readerContentCss from "../styles/reader-content.css?url";
     });
     const slide = (dir, go) => new Promise((resolve) => {
       const tl = gsap.timeline({ onComplete: resolve });
-      tl.to(view, { x: `${-1.5 * dir}%`, opacity: 0, duration: 0.16, ease: "power2.in" })
+      tl.to(view, { x: `${-1.5 * dir}%`, opacity: 0, duration: 0.12, ease: "power2.in" })
         .add(() => { tl.pause(); Promise.resolve(go()).catch(() => {}).then(() => tl.resume()); })
-        .fromTo(view, { x: `${1.5 * dir}%` }, { x: 0, opacity: 1, duration: 0.36, ease: "power3.out", immediateRender: false });
+        .fromTo(view, { x: `${1.5 * dir}%` }, { x: 0, opacity: 1, duration: 0.26, ease: "power3.out", immediateRender: false });
       turning = tl;
     });
-    // Turns asked for while one is under way wait their turn (each press counts, up to six), and hurry
+    // Turns asked for while one is under way wait their turn (each press counts, up to ten), and hurry: the more are
+    // waiting, the faster each one turns, so a run of presses (or a key held down) flicks through the pages at the pace
+    // it is asked for, rather than playing each curl through at a fixed pace and dropping presses past six
+    const hurry = () => Math.min(5, 1.8 + 0.45 * Math.abs(queued));
     const turned = () => {
       turning = null;
       takeCopies();
@@ -1544,7 +1548,7 @@ import readerContentCss from "../styles/reader-content.css?url";
       const dir = Math.sign(queued);
       queued -= dir;
       turn(dir);
-      if (queued) turning?.timeScale(2.5);
+      if (queued) turning?.timeScale(hurry());
     };
     const canTurn = (dir) => Boolean(current) && !(dir > 0 ? current.atEnd : current.atStart);
     function turn(dir, y) {
@@ -1558,7 +1562,7 @@ import readerContentCss from "../styles/reader-content.css?url";
       if (!gsap) return go();
       if (!canTurn(dir)) return undefined;
       // pressed again mid-turn: this one hurries and the next follows straight on
-      if (turning) { queued = Math.max(-6, Math.min(6, queued + dir)); turning.timeScale(2.5); return undefined; }
+      if (turning) { queued = Math.max(-10, Math.min(10, queued + dir)); turning.timeScale(hurry()); return undefined; }
       hoverBack?.kill();
       const start = () => {
         const from = hover?.dir === dir ? hover.s.t : 0;
@@ -1571,10 +1575,11 @@ import readerContentCss from "../styles/reader-content.css?url";
       // The copies of this chapter are not made yet (it has just opened, or the book has just moved into it): they are
       // made now, and the turn waits a moment for them, so it curls like every other rather than sliding
       prepareTurn(true);
-      if (!building) return start();
+      // (with more turns already waiting, nobody is waiting for a curl: the page slides, and they go on)
+      if (!building || queued) return start();
       const waiting = { timeScale: () => {}, kill: () => { waiting.off = true; } };
       turning = waiting;
-      const until = performance.now() + 700;
+      const until = performance.now() + 450;
       return new Promise((resolve) => {
         const check = () => {
           if (waiting.off || closed) { resolve(); return; }

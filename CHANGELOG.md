@@ -5,6 +5,20 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [4.4.1] - 2026-11-19
+
+### Fixed
+
+- On Windows, a grey scrollbar could appear across the open book as the pages turned, most often turning into a new
+  chapter. The copies of the pages that a turn lifts were not told to hide their scrollbars, and Windows draws them where
+  phones do not. A test now looks for it with scrollbars switched on.
+
+### Changed
+
+- Turning pages is quicker: one turn takes about 0.6 seconds instead of 0.9 and starts at once. Pressing quickly, or holding
+  an arrow key, keeps up with you (up to ten turns wait, and the more are waiting the faster each goes) instead of dropping
+  presses, and a turn into a new chapter slides straight across when more are waiting rather than stopping for its curl.
+
 ## [4.4.0] - 2026-11-18
 
 ### Added
