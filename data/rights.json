@@ -1712,6 +1712,30 @@
    }
   ]
  },
+ "death-comes-for-the-archbishop": {
+  "free": true,
+  "people": [
+   {
+    "died": 1947,
+    "free": true,
+    "name": "Willa Cather",
+    "roles": [
+     "notes",
+     "author"
+    ],
+    "wikidata": "Q229480"
+   },
+   {
+    "died": 1943,
+    "free": true,
+    "name": "Marsden Hartley",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q553259"
+   }
+  ]
+ },
  "demons": {
   "free": true,
   "people": [
@@ -4140,6 +4164,22 @@
      "cover painting"
     ],
     "wikidata": "Q163543"
+   }
+  ]
+ },
+ "martin-chuzzlewit": {
+  "free": true,
+  "people": [
+   {
+    "died": 1870,
+    "free": true,
+    "name": "Charles Dickens",
+    "roles": [
+     "notes",
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q5686"
    }
   ]
  },

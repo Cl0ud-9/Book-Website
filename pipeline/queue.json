@@ -1,33 +1,5 @@
 [
  {
-  "path": "charles-dickens/martin-chuzzlewit",
-  "genres": [
-   "Literary fiction"
-  ],
-  "moods": [
-   "Funny",
-   "Thoughtful"
-  ],
-  "age": 13,
-  "notes": [
-   "death"
-  ]
- },
- {
-  "path": "willa-cather/death-comes-for-the-archbishop",
-  "genres": [
-   "Literary fiction"
-  ],
-  "moods": [
-   "Thoughtful"
-  ],
-  "age": 13,
-  "notes": [
-   "race",
-   "violence"
-  ]
- },
- {
   "path": "lord-dunsany/the-charwomans-shadow",
   "genres": [
    "Fantasy"

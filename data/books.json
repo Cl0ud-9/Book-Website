@@ -12490,6 +12490,60 @@
   "kobo": "https://standardebooks.org/ebooks/mor-jokai/the-slaves-of-the-padishah/robert-nisbet-bain/downloads/mor-jokai_the-slaves-of-the-padishah_robert-nisbet-bain.kepub.epub?source=download"
  },
  {
+  "title": "Martin Chuzzlewit",
+  "author": "Charles Dickens",
+  "translator": null,
+  "abstract": "A young man is spurned by his wealthy grandfather and attempts to make it on his own.",
+  "description": [
+   "Old Martin Chuzzlewit is a wealthy old man beset with health problems, who sees everyone around him—family, friends, and strangers—as after his money. He has isolated himself from society, keeping with him only a young woman, Mary, whom he raised as an orphan. He has told her she will inherit nothing from him, to ensure that her service is purely for service’s sake.",
+   "Young Martin Chuzzlewit, for whom the novel is named, is the elder’s grandson. He loves his grandfather and is beloved by him, until young Martin and Mary fall in love with one another. Old Martin promptly disowns young Martin, and throws him out. Young Martin then signs on as an apprentice to a local architect, and there meets Tom Pinch, a former student who is now the architect’s dogsbody.",
+   "The rest of the novel follows young Martin and Tom and the usual Dickensian cast of supporting characters on their adventures together and apart, including a disastrous trip to the United States for young Martin. The trip provides Dickens the opportunity to skewer American sensibilities as he had so often British ones."
+  ],
+  "words": 337951,
+  "reading_time": "20 hours 29 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/charles-dickens/martin-chuzzlewit",
+  "slug": "martin-chuzzlewit",
+  "genres": [
+   "Literary fiction"
+  ],
+  "collections": [],
+  "spine": "#4b3e2c",
+  "epub": "books/martin-chuzzlewit.epub",
+  "size": 1148927,
+  "popularity": 576,
+  "opening": "Introductory, concerning the pedigree of the Chuzzlewit family.",
+  "kindle": "https://standardebooks.org/ebooks/charles-dickens/martin-chuzzlewit/downloads/charles-dickens_martin-chuzzlewit.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/charles-dickens/martin-chuzzlewit/downloads/charles-dickens_martin-chuzzlewit.kepub.epub?source=download"
+ },
+ {
+  "title": "Death Comes for the Archbishop",
+  "author": "Willa Cather",
+  "translator": null,
+  "abstract": "A priest makes the difficult journey from the Great Lakes to the vast territory of 1850s New Mexico to establish a diocese.",
+  "description": [
+   "Set in the 1850s, this short novel is about the struggles and triumphs of a bishop, Jean Marie Latour, and his loyal friend and vicar, Father Joseph Vaillant. They have been sent to reawaken and spread the Roman Catholic faith in an area where it has grown weak: New Mexico, recently annexed by the United States. Desolate and remote, the territory is home to many diverse groups: Mexicans, including those on ranches established for hundreds of years; Indians, who have been there much longer and who are divided by language and customs into thirty nations; and newcomers—hunters, fur trappers, and those seeking gold. This book is as much their story as it is the story of the priests and the vast changes the land itself underwent in those years.",
+   "Death Comes for the Archbishop was a departure for Willa Cather, who had already published eight novels before publishing this one in 1927. The novel doesn’t try to follow a single unified story the way many historical novels do; instead, its nine chapters are episodic, filled with stories, legends, histories, and descriptions of the Southwest, which Cather had been visiting for many years before she started writing it.",
+   "Many of its main characters, including the bishop and his vicar, are thinly disguised versions of real-life historical figures, while other famous New Mexicans of the day, including the frontiersman Kit Carson and the “powerful old priest,” Antonio José Martínez, appear under their actual names."
+  ],
+  "words": 69786,
+  "reading_time": "4 hours 14 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/willa-cather/death-comes-for-the-archbishop",
+  "slug": "death-comes-for-the-archbishop",
+  "genres": [
+   "Literary fiction"
+  ],
+  "collections": [],
+  "spine": "#444a47",
+  "epub": "books/death-comes-for-the-archbishop.epub",
+  "size": 728474,
+  "popularity": 524,
+  "opening": "One summer evening in the year 1848, three Cardinals and a missionary Bishop from America were dining together in the gardens of a villa in the Sabine hills, overlooking Rome.",
+  "kindle": "https://standardebooks.org/ebooks/willa-cather/death-comes-for-the-archbishop/downloads/willa-cather_death-comes-for-the-archbishop.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/willa-cather/death-comes-for-the-archbishop/downloads/willa-cather_death-comes-for-the-archbishop.kepub.epub?source=download"
+ },
+ {
   "title": "The Golden Threshold",
   "author": "Sarojini Naidu",
   "translator": null,

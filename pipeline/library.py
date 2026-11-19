@@ -530,6 +530,8 @@ CATALOGUE = [
     ("h-g-wells/the-world-set-free", ["Science fiction", "Philosophy"]),
     ("alfred-lord-tennyson/idylls-of-the-king", ["Poetry", "Fantasy"]),
     ("mor-jokai/the-slaves-of-the-padishah/robert-nisbet-bain", ["Adventure", "Romance"]),
+    ("charles-dickens/martin-chuzzlewit", ["Literary fiction"]),
+    ("willa-cather/death-comes-for-the-archbishop", ["Literary fiction"]),
     # pipeline/grow.py adds the next books from pipeline/queue.json above this line
 ]
 
