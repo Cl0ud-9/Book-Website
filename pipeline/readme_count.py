@@ -6,7 +6,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 count = len(json.loads((ROOT / "data" / "books.json").read_text(encoding="utf-8")))
 readme = ROOT / "README.md"
-raw = readme.read_text(encoding="utf-8", newline="")
+with open(readme, encoding="utf-8", newline="") as f:  # (Path.read_text has no newline option before Python 3.13)
+    raw = f.read()
 text = raw
 for pattern, fill in ((r"library of \d+ classics", f"library of {count} classics"), (r"\d+ books, from Austen", f"{count} books, from Austen"),
                       (r"All \d+ books, most read first", f"All {count} books, most read first")):
