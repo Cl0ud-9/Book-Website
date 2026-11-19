@@ -51,7 +51,7 @@
       const book = library[slug];
       const li = el("li", "mine__book");
       const img = el("img", "mine__cover");
-      img.src = `image/covers/${slug}-180.webp`;
+      img.src = `image/covers/${slug}-360.webp`;
       img.alt = "";
       img.width = 90;
       img.height = 135;

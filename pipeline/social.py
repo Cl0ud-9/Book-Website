@@ -35,7 +35,8 @@ with sync_playwright() as p:
     built = ROOT / "dist"
     for html in [built / "index.html", *sorted(built.glob("book-*.html"))]:
         image = re.search(r'property="og:image" content="[^"]*/image/social/([^"/]+)"', html.read_text(encoding="utf-8"))
-        shots.setdefault(image.group(1), "" if html.name == "index.html" else html.stem)
+        if image:  # (a book added automatically has its cover for a preview, not a picture of its own)
+            shots.setdefault(image.group(1), "" if html.name == "index.html" else html.stem)
     for image, name in shots.items():
         if MISSING and (OUT / image).exists():
             continue

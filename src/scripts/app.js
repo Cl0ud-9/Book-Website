@@ -1381,7 +1381,7 @@
   const shelfCard = (b) => {
     const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
     const tag = (g) => { const c = shelfData.tag[g] || "white"; return c === b.colour ? "white" : c; };
-    const srcset = [180, 360, 720].map((w) => `image/covers/${b.id}-${w}.webp ${w}w`).join(", ");
+    const srcset = [360, 720].map((w) => `image/covers/${b.id}-${w}.webp ${w}w`).join(", ");
     const el = document.createElement("article");
     el.className = "book-card";
     el.id = `book-${b.id}`;
@@ -1731,7 +1731,7 @@
       const response = await fetch(epub, { mode: "cors" });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       await books.put(epub, response);
-      await Promise.allSettled([pages.add(`book-${slug}`), images.add(`image/covers/${slug}-360.webp`), images.add(`image/covers/${slug}-180.webp`)]);
+      await Promise.allSettled([pages.add(`book-${slug}`), images.add(`image/covers/${slug}-360.webp`)]);
       navigator.storage?.persist?.().catch(() => {});
       writeKept({ ...readKept(), [slug]: { epub, at: Date.now() } });
     },

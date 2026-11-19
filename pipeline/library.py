@@ -28,7 +28,7 @@ CACHE = ROOT / "pipeline" / ".library-cache"
 SE = "https://standardebooks.org/ebooks/"
 AGENT = "Mozilla/5.0 (The Bookshelf library builder; https://github.com/Cl0ud-9/Book-Website)"
 PAUSE = 2.5  # seconds between requests to standardebooks.org
-WIDTHS = (180, 360, 720, 1080)  # covers are 2:3
+WIDTHS = (360, 720)  # covers are 2:3; each size is one more file on a site that may hold 20,000
 PUBLISHERS = {"Chapman and Hall", "The Modern Library"}
 MAX_EPUB = 8_000_000  # bytes; bigger books are made lighter (see lighter())
 MAX_PICTURE_BOOK = 14_000_000  # bytes; what is left of a picture book once its pictures are made smaller (smaller_pictures())
@@ -932,7 +932,8 @@ def main():
     # Files of books that have left the shelf
     slugs = {b["slug"] for b in books}
     for f in [*(ROOT / ".assets" / "books").glob("*.epub"), *(ROOT / ".assets" / "image" / "covers").glob("*.webp")]:
-        if f.name.rsplit("-", 1)[0] not in slugs and f.stem not in slugs:
+        width = re.search(r"-(\d+)\.webp$", f.name)
+        if (f.name.rsplit("-", 1)[0] not in slugs and f.stem not in slugs) or (width and int(width.group(1)) not in WIDTHS):
             f.unlink()
             print(f"removed {f.relative_to(ROOT)}")
     size = sum(f.stat().st_size for f in (ROOT / ".assets" / "books").glob("*.epub")) + sum(

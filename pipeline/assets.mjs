@@ -5,7 +5,9 @@
 // order they were made, so a later one replaces an earlier one's copy of a file.
 // (The first release kept everything in one assets.tar. A pull still reads that when there is no manifest, and the first
 // push writes the shards and removes it.)
-// usage: node pipeline/assets.mjs pull | push   (npm run assets:pull, npm run assets:push; needs the GitHub CLI, gh)
+// A file the manifest does not list is not part of the set: a pull deletes it (so what was taken off the shelf, or a size
+// of cover no longer made, is not built into the site), and `push --prune` takes from the manifest what is no longer in .assets.
+// usage: node pipeline/assets.mjs pull | push [--prune]   (npm run assets:pull, npm run assets:push; needs the GitHub CLI, gh)
 import { spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { createReadStream, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
@@ -72,6 +74,13 @@ try {
       run("tar", ["-xf", join(scratch, shard), "-C", DIR]);
       rmSync(join(scratch, shard), { force: true }); // (one at a time: they add up)
     }
+    if (manifest) {
+      let removed = 0;
+      for (const path of Object.keys(localFiles())) {
+        if (!manifest.files[path]) { rmSync(join(DIR, path)); removed += 1; }
+      }
+      if (removed) console.log(`${DIR}/: ${removed} files the manifest does not list were removed`);
+    }
     console.log(`${DIR}/: the books, covers and link pictures, from the ${TAG} release (${shards.length} ${shards.length === 1 ? "file" : "files"})`);
   } else if (mode === "push") {
     if (!existsSync(`${DIR}/books`) || !existsSync(`${DIR}/image`)) {
@@ -91,7 +100,13 @@ try {
       const hash = await sha1(path);
       if (manifest.files[path]?.sha1 !== hash) changed.push({ path, hash, size: sizes[path] });
     }
-    if (!changed.length && before) {
+    let pruned = 0;
+    if (before && process.argv.includes("--prune")) {
+      for (const path of Object.keys(manifest.files)) {
+        if (!(path in sizes)) { delete manifest.files[path]; pruned += 1; }
+      }
+    }
+    if (!changed.length && before && !pruned) {
       console.log(`${DIR}/ is already on the ${TAG} release: nothing new`);
     } else {
       // new shards of what is new or changed, each no bigger than the limit
@@ -120,7 +135,7 @@ try {
       run("gh", ["release", "upload", TAG, join(scratch, MANIFEST), "--repo", REPO, "--clobber"]);
       // the first release's one big file is replaced by the shards
       if (!before) quiet("gh", ["release", "delete-asset", TAG, LEGACY, "--repo", REPO, "--yes"]);
-      console.log(`${DIR}/ uploaded to the ${TAG} release: ${changed.length} new or changed files`);
+      console.log(`${DIR}/ uploaded to the ${TAG} release: ${changed.length} new or changed files${pruned ? `, ${pruned} no longer listed` : ""}`);
     }
   } else {
     console.error("usage: node pipeline/assets.mjs pull | push");
