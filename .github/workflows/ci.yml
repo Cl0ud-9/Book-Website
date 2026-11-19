@@ -38,10 +38,12 @@ jobs:
         run: npm run build
       - name: Every local link, image and font resolves
         run: npm run check:links
-      - name: It works in a browser
+      - name: The rules that grow the shelf by itself (names, duplicates, who is free in India, genres)
         run: |
-          pip install playwright==1.64.0
-          npm run test:e2e
+          pip install pillow playwright==1.64.0
+          python tests/pipeline_check.py
+      - name: It works in a browser
+        run: npm run test:e2e
       - name: Keep the screenshots
         if: failure()
         uses: actions/upload-artifact@v7

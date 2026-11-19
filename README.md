@@ -1,6 +1,6 @@
 <h1 align="center">The Bookshelf</h1>
 
-<p align="center"><strong>A free library of 465 classics to read in your browser or download, in a bright, playful site where everything moves.</strong></p>
+<p align="center"><strong>A free library of 475 classics to read in your browser or download, in a bright, playful site where everything moves.</strong></p>
 
 <p align="center">
   <a href="https://the-bookshelf.cl0ud-9.workers.dev/"><img src="https://img.shields.io/badge/Live%20site-the--bookshelf.cl0ud--9.workers.dev-ff008c?style=for-the-badge" alt="Live site" height="34"></a>
@@ -21,7 +21,7 @@
 </p>
 
 The Bookshelf is a free library of the classics with a loud, warm personality: heavy type, handwritten notes,
-colour cards, stickers and motion everywhere you look. 465 books, from Austen and the Brontës to Sherlock Holmes,
+colour cards, stickers and motion everywhere you look. 475 books, from Austen and the Brontës to Sherlock Holmes,
 Frankenstein, Tagore and Marcus Aurelius, can be read right in the browser or downloaded for a phone, Kindle or Kobo. It began as a
 Web Technology course project, was rebuilt as an animated bookshop in version 2, became a library in version 3, and
 moved to Astro and TypeScript in version 4.
@@ -29,7 +29,7 @@ moved to Astro and TypeScript in version 4.
 | Page | What it does |
 |---|---|
 | [Home](https://the-bookshelf.cl0ud-9.workers.dev/) | Where to start, on a draggable shelf; the books you are reading; a line of the day; how it works; a book that opens as you scroll; the genres; questions; the book of the month and why it was chosen. |
-| [All books](https://the-bookshelf.cl0ud-9.workers.dev/books) | All 465 books, most read first: fiction or non-fiction, a genre or the From India shelf, a mood and a length, searchable by title, author or genre (accents optional), sorted by title or length. The choice is kept in the address, so it can be shared. |
+| [All books](https://the-bookshelf.cl0ud-9.workers.dev/books) | All 475 books, most read first: fiction or non-fiction, a genre or the From India shelf, a mood and a length, searchable by title, author or genre (accents optional), sorted by title or length. The choice is kept in the address, so it can be shared. |
 | [Genres](https://the-bookshelf.cl0ud-9.workers.dev/genres.html) | A shelf for each genre, fiction and non-fiction, and one of classics from India, its most read books first, to scroll or drag sideways. |
 | [Questions](https://the-bookshelf.cl0ud-9.workers.dev/faq.html) | Every question, by topic, with a list of topics that follows you down the page and marks the one you are reading. |
 | [A book](https://the-bookshelf.cl0ud-9.workers.dev/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description, details and edition, Read now, the EPUB download, Kindle and Kobo editions, a free LibriVox audiobook where there is one, Keep for offline reading, Before you start (who's who and what to know, with no spoilers) and Lines worth knowing for the most read books, and three related books. |
@@ -157,10 +157,11 @@ npm run dev           # http://localhost:4321, reloading as you edit
 ```
 
 The site is built with [Astro](https://astro.build): every page is made ahead of time (`npm run build` writes the
-whole site to `dist/`, and `npm run preview` serves it). The books and covers are not kept in git: they are one
-file on the repository's [`library-assets`](https://github.com/Cl0ud-9/Book-Website/releases/tag/library-assets)
-release, and `.assets/` is the local copy. `python pipeline/library.py` can also fetch them from Standard Ebooks
-(slowly: it keeps to their limits).
+whole site to `dist/`, and `npm run preview` serves it). The books and covers are not kept in git: they are a few
+archives and a manifest on the repository's [`library-assets`](https://github.com/Cl0ud-9/Book-Website/releases/tag/library-assets)
+release, and `.assets/` is the local copy (`npm run assets:pull`; a push uploads only what is new, as a new archive, so the
+set can grow past the 2 GB a file on a release can hold). `python pipeline/library.py` can also fetch them from Standard
+Ebooks (slowly: it keeps to their limits).
 
 An unfinished port of the original site to Angular, from the same course, is kept on the
 [`angular-port`](https://github.com/Cl0ud-9/Book-Website/tree/angular-port/angular) branch.
@@ -179,6 +180,18 @@ script fetches each book's details, cover and EPUB (slowly, and only once: they 
 page from what it fetched (`data/books.json`, checked against a schema in `src/lib/library.ts` on every build). What
 the home page features is `FEATURED` in `src/lib/library.ts`.
 
+**How the shelf grows by itself.** `.github/workflows/grow.yml` runs every morning. It takes the next few books from
+`pipeline/queue.json` (Standard Ebooks' most read, with genres, moods and ages written by hand ahead of time) and the next
+of Project Gutenberg's most downloaded English books (`pipeline/gutenberg_feed.py`, whose genres, moods and ages are worked
+out from Gutenberg's own shelves, subjects and summaries, cautiously, and marked as such on the book's page). Every book is
+checked first: everyone who wrote or translated it must have died in 1965 or before, so it is free in India as well as the
+United States (`pipeline/rights.py`, and for Gutenberg its catalogue's death years; anonymous books and books with a date
+missing are left out), and it must not already be on the shelf (`pipeline/names.py`). Gutenberg's text-only EPUB is kept
+as it is, licence page and all, with a cover drawn for the site. The daily numbers are the repository variables
+`GROW_BOOKS` (10) and `GROW_GUTENBERG` (50). `tests/pipeline_check.py` tests these rules. The All books page builds its
+cards a batch at a time from `catalogue.json`, so the page does not grow with the shelf; the shelf can hold about 2,700
+books on Cloudflare's free plan (20,000 files, about seven for each book).
+
 **How the books are ranked.** Standard Ebooks lists its whole catalogue by how often each book is downloaded there;
 the library script records each book's place in that list (`popularity`), and the site orders by it: All books,
 every genre shelf and Where to start (the top ten) show the most read first, and Not sure where to begin? offers the
@@ -196,7 +209,8 @@ open book and the gift are chosen by hand, for how their covers look.
 
 ```bash
 python pipeline/library.py   # fetches new books into data/books.json and .assets/ (needs Pillow)
-python pipeline/grow.py      # adds the next books from pipeline/queue.json; a daily workflow runs it (grow.yml)
+python pipeline/grow.py      # adds the next books from pipeline/queue.json (Standard Ebooks, hand-chosen); a daily workflow runs it (grow.yml)
+python pipeline/gutenberg_feed.py   # adds the next of Project Gutenberg's most downloaded English books, automatically (grow.yml runs it too)
 python pipeline/picks.py     # chooses the books of the month for the year ahead (data/picks.json)
 python pipeline/rights.py    # checks every author, translator, illustrator and cover painter is free in India too
 python pipeline/quotes.py    # finds each line in data/quotes.json in its book, for "Open at this line"

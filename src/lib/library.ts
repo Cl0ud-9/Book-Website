@@ -40,10 +40,9 @@ export const AGE_NOTES = {
 } as const;
 export const ageLabel = (age: number): string => (age ? `${age} and up` : "All ages");
 
-const AGES = entries(agesJson, z.object({
-  age: z.union([z.literal(0), z.literal(10), z.literal(13), z.literal(16)]),
-  notes: z.array(z.enum(Object.keys(AGE_NOTES) as [keyof typeof AGE_NOTES, ...(keyof typeof AGE_NOTES)[]])),
-}), "ages.json");
+const AgeSchema = z.union([z.literal(0), z.literal(10), z.literal(13), z.literal(16)]);
+const NoteSchema = z.enum(Object.keys(AGE_NOTES) as [keyof typeof AGE_NOTES, ...(keyof typeof AGE_NOTES)[]]);
+const AGES = entries(agesJson, z.object({ age: AgeSchema, notes: z.array(NoteSchema) }), "ages.json");
 
 const BookSchema = z.object({
   title: z.string().min(1),
@@ -66,12 +65,20 @@ const BookSchema = z.object({
   opening: z.string().nullable(),
   kindle: z.url(),
   kobo: z.url(),
+  // Books added by pipeline/gutenberg_feed.py carry their own moods, age and notes (worked out from Gutenberg's details, not
+  // written by hand); the others have them in data/moods.json and data/ages.json
+  moods: z.array(z.string()).optional(),
+  age: AgeSchema.optional(),
+  notes: z.array(NoteSchema).optional(),
+  auto: z.boolean().optional(),
 });
 
-export type Book = z.infer<typeof BookSchema> & {
+export type Book = Omit<z.infer<typeof BookSchema>, "age" | "notes" | "moods" | "auto"> & {
   /** the youngest age it is suggested for; 0 is all ages */
   age: 0 | 10 | 13 | 16;
   notes: (keyof typeof AGE_NOTES)[];
+  /** its age, moods and genres were worked out by a script from Project Gutenberg's details, not chosen by hand */
+  auto: boolean;
   kind: "fiction" | "nonfiction";
   moods: string[];
   /** reading time in minutes, at an average adult's silent reading pace (READING_PACE) */
@@ -96,8 +103,8 @@ export const READING_PACE = { fiction: 260, nonfiction: 238 } as const;
 const moods = entries(moodsJson, z.array(z.string()), "moods.json");
 const parsed = z.array(BookSchema).parse(booksJson);
 const library: Book[] = parsed.map((b, n) => {
-  const bookMoods = moods[b.slug] || [];
-  const guide = AGES[b.slug];
+  const bookMoods = b.moods ?? moods[b.slug] ?? [];
+  const guide = b.age !== undefined ? { age: b.age, notes: b.notes ?? [] } : AGES[b.slug];
   if (!guide) throw new Error(`${b.slug}: no entry in data/ages.json`);
   const unknown = bookMoods.filter((m) => !(MOODS as readonly string[]).includes(m));
   if (unknown.length || !bookMoods.length) throw new Error(`${b.slug}: unknown mood ${unknown.join(", ")}, or no mood in data/moods.json`);
@@ -105,6 +112,7 @@ const library: Book[] = parsed.map((b, n) => {
   return {
     ...b,
     kind,
+    auto: b.auto ?? false,
     moods: bookMoods,
     age: guide.age,
     notes: guide.notes,

@@ -4,6 +4,7 @@ what arrives from the old address, where a book opens, and the opt-out from a br
 usage: npm run build && npm run preview, then: python tests/e2e/personal_check.py [BASE_URL]   (needs Playwright and Google Chrome)
 """
 import json
+import re
 import sys
 from urllib.parse import quote
 from playwright.sync_api import sync_playwright
@@ -12,6 +13,22 @@ BASE = sys.argv[1] if len(sys.argv) > 1 else "http://localhost:3000/"
 BASE = BASE.rstrip("/") + "/"
 bad = 0
 
+
+
+def load_all(page):
+    """All books builds its cards a batch at a time, as the end of the list comes near: scroll on until every one is built"""
+    for _ in range(150):
+        n = page.locator(".book-card").count()
+        page.evaluate("window.scrollTo(0, document.body.scrollHeight)"); page.wait_for_timeout(200)
+        if page.locator(".book-card").count() == n and page.evaluate("document.querySelector('[data-search-more]').hidden"):
+            break
+    page.evaluate("window.scrollTo(0, 0)")
+    return page.locator(".book-card").count()
+
+
+def count(page):
+    """How many books the page says it shows (the list is built a batch at a time, so the cards in it are not the count)"""
+    return int(re.search(r"(\d+)", page.inner_text("[data-search-status]")).group(1))
 
 def say(ok, what):
     global bad
@@ -32,18 +49,18 @@ with sync_playwright() as p:
     page.on("pageerror", lambda e: errors.append(str(e)[:160]))
     page.goto(BASE + "books")
     page.wait_for_selector(".book-card")
-    everyone = page.evaluate(VISIBLE)
+    everyone = count(page)
     srcset = page.evaluate("document.querySelector('.book-card img').getAttribute('srcset') || document.querySelector('.book-card img').dataset.srcset || ''")
     say("1080w" not in srcset and "720w" in srcset, f"a card's cover stops at 720 wide ({srcset[-40:]})")
     page.select_option("[data-age-filter]", "10")
-    page.wait_for_timeout(300)
-    young = page.evaluate(VISIBLE)
+    page.wait_for_timeout(900)
+    young = count(page)
     say(0 < young < everyone, f"the age filter narrows the shelf ({everyone} to {young})")
     say("age=10" in page.url, "and stays in the address")
     page.goto(BASE + "books?age=0")
     page.wait_for_selector(".book-card", state="attached")
-    page.wait_for_timeout(300)
-    say(0 < page.evaluate(VISIBLE) < young, "the address sets the filter")
+    page.wait_for_timeout(900)
+    say(0 < count(page) < young, "the address sets the filter")
     page.goto(BASE + "book-dracula")
     facts = page.inner_text(".book-about__facts")
     say("13 and up" in facts and "Frightening scenes" in facts, "a book's page gives its suggested age and notes")
@@ -70,9 +87,11 @@ with sync_playwright() as p:
     page.wait_for_selector(".book-card", state="attached")
     page.wait_for_timeout(400)
     say(page.evaluate("document.documentElement.dataset.kids") == "10", "Kids mode is on from the first script after a reload")
-    shown = page.evaluate(VISIBLE)
+    page.wait_for_timeout(900)
+    shown = count(page)
     say(0 < shown < everyone, f"All books shows only what is allowed ({shown})")
-    say(page.evaluate("[...document.querySelectorAll('.book-card')].filter(c => c.offsetParent !== null).every(c => Number(c.dataset.age) <= 10)"), "and nothing older")
+    cards = load_all(page)
+    say(cards == shown and page.evaluate("[...document.querySelectorAll('.book-card')].every(c => Number(c.dataset.age) <= 10)"), f"and nothing older ({cards} cards built)")
     say(str(shown) in page.inner_text("[data-search-status]"), "the count says the same")
     page.goto(BASE + "book-dracula")
     say(page.locator(".for-older").is_visible() and page.locator(".book-hero").is_hidden(), "an older book's page is put away")

@@ -1,10 +1,16 @@
 name: Grow
-# Every morning, the shelf grows by itself: pipeline/grow.py takes the next books from pipeline/queue.json (chosen and
-# described by hand, ahead of time), checks each is free in India (pipeline/rights.py), and adds it to the catalogue.
-# Then the library data is rebuilt, the site is built and checked, the books and covers go onto the library-assets
-# release, the change is committed to main, and the site is published. When the queue runs low, an issue asks for a
-# refill. On a day the queue is empty, or Standard Ebooks' download cap is reached before anything was added, the run
-# ends quietly and the next one carries on.
+# Every morning, the shelf grows by itself, from two places:
+#   - pipeline/grow.py takes the next books from pipeline/queue.json (Standard Ebooks' most read, chosen and described by
+#     hand ahead of time),
+#   - pipeline/gutenberg_feed.py takes the next of Project Gutenberg's most downloaded English books, with their genres, moods
+#     and ages worked out from Gutenberg's own details (see its notes).
+# Each book is checked to be free in India (pipeline/rights.py's rule) before it is added. Then the library data is rebuilt,
+# the site is built and checked, the books and covers go onto the library-assets release, the change is committed to main,
+# and the site is published. When the hand-chosen queue runs low, an issue asks for a refill. On a day with nothing new, or when
+# a source cannot be reached, the run ends quietly and the next one carries on.
+#
+# How many each day: the repository variables GROW_BOOKS (hand-chosen, 10 if not set) and GROW_GUTENBERG (50 if not set), under
+# Settings, Secrets and variables, Actions, Variables. Or by hand, from the Actions page, for one run.
 #
 # Uses the same secrets and variables as deploy.yml (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, FIREBASE_CONFIG,
 # GOATCOUNTER). A push made here does not start the Check or Deploy workflows (GitHub holds back workflows started by
@@ -13,10 +19,13 @@ on:
   workflow_dispatch:
     inputs:
       books:
-        description: "How many books to add"
-        default: "2"
+        description: "How many hand-chosen books to add (empty: GROW_BOOKS, or 10)"
+        default: ""
+      gutenberg:
+        description: "How many books to add from Project Gutenberg (empty: GROW_GUTENBERG, or 50)"
+        default: ""
   schedule:
-    - cron: "30 3 * * *" # 9:00 in India, every morning
+    - cron: "30 3 * * *" # 9:00 in India, every morning (GitHub often starts it a few hours later)
 permissions:
   contents: write
   issues: write
@@ -26,12 +35,13 @@ concurrency:
 jobs:
   grow:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90
     environment:
       name: production
       url: https://the-bookshelf.cl0ud-9.workers.dev
     env:
       ASTRO_TELEMETRY_DISABLED: "1"
+      PYTHONIOENCODING: utf-8
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -47,37 +57,61 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: npm run assets:pull
-      - name: The next books from the queue
+      - name: The next hand-chosen books, from the queue
         id: grow
         env:
-          BOOKS: ${{ inputs.books || '2' }}
+          BOOKS: ${{ inputs.books || vars.GROW_BOOKS || '10' }}
         run: |
+          touch grow.log
           set +e
           python pipeline/grow.py "$BOOKS" | tee grow.log
           code=${PIPESTATUS[0]}
           set -e
+          echo "failed=0" >> "$GITHUB_OUTPUT"
           if [ "$code" = 3 ] || [ "$code" = 4 ]; then
-            echo "nothing to add today (code $code)"
-            echo "added=0" >> "$GITHUB_OUTPUT"
+            echo "nothing from the queue today (code $code)"
           elif [ "$code" != 0 ]; then
-            exit "$code"
-          else
-            echo "added=$(grep -c '^added ' grow.log)" >> "$GITHUB_OUTPUT"
+            echo "::error::pipeline/grow.py failed (exit $code); the rest of the run carries on without it"
+            echo "failed=1" >> "$GITHUB_OUTPUT"
           fi
+      - name: More books, from Project Gutenberg
+        id: gutenberg
+        env:
+          BOOKS: ${{ inputs.gutenberg || vars.GROW_GUTENBERG || '50' }}
+        run: |
+          touch gutenberg.log
+          set +e
+          python pipeline/gutenberg_feed.py "$BOOKS" | tee gutenberg.log
+          code=${PIPESTATUS[0]}
+          set -e
+          echo "failed=0" >> "$GITHUB_OUTPUT"
+          if [ "$code" = 3 ] || [ "$code" = 4 ]; then
+            echo "nothing from Project Gutenberg today (code $code)"
+          elif [ "$code" != 0 ]; then
+            echo "::error::pipeline/gutenberg_feed.py failed (exit $code); the rest of the run carries on without it"
+            echo "failed=1" >> "$GITHUB_OUTPUT"
+          fi
+      - name: What was added
+        id: added
+        run: |
+          cat grow.log gutenberg.log > added.log
+          echo "count=$(grep -c '^added ' added.log || true)" >> "$GITHUB_OUTPUT"
       - name: Fetch the new books and rebuild the library data
-        if: steps.grow.outputs.added != '0'
-        run: python pipeline/library.py --keep
+        if: steps.added.outputs.count != '0'
+        run: |
+          python pipeline/library.py --keep
+          python pipeline/readme_count.py
       - name: Write the rights check into data/rights.json
-        if: steps.grow.outputs.added != '0'
-        run: python pipeline/rights.py $(grep '^added ' grow.log | sed 's/^added \([^:]*\):.*/.assets\/books\/\1.epub/')
+        if: steps.added.outputs.count != '0'
+        run: python pipeline/rights.py $(grep '^added ' added.log | sed 's/^added \([^:]*\):.*/.assets\/books\/\1.epub/')
       - name: Build
-        if: steps.grow.outputs.added != '0'
+        if: steps.added.outputs.count != '0'
         env:
           FIREBASE_CONFIG: ${{ vars.FIREBASE_CONFIG }}
           GOATCOUNTER: ${{ vars.GOATCOUNTER }}
         run: npm run build
       - name: Link previews for the new books
-        if: steps.grow.outputs.added != '0'
+        if: steps.added.outputs.count != '0'
         run: |
           npx astro preview --port 4321 --host 127.0.0.1 &
           preview=$!
@@ -86,26 +120,29 @@ jobs:
           kill "$preview" || true
           npm run build
       - name: Every local link, image and font resolves
-        if: steps.grow.outputs.added != '0'
+        if: steps.added.outputs.count != '0'
         run: npm run check:links
       - name: The shelf still works in a browser
-        if: steps.grow.outputs.added != '0'
+        if: steps.added.outputs.count != '0'
         run: npm run test:e2e -- library_check
       - name: Put the new books and covers on the library-assets release
-        if: steps.grow.outputs.added != '0'
+        if: steps.added.outputs.count != '0'
         env:
           GH_TOKEN: ${{ github.token }}
         run: npm run assets:push
       - name: Commit to main, under the librarian's name
-        if: steps.grow.outputs.added != '0'
+        if: steps.added.outputs.count != '0'
         run: |
           git config user.name "Cl0ud-9"
           git config user.email "tonpe.parag1@gmail.com"
           git add pipeline data README.md
-          git commit -m "Grow the shelf: $(grep '^added ' grow.log | sed 's/^added [^:]*: //' | paste -sd ';' - | sed 's/;/; /g')"
+          total=$(grep -c '^added ' added.log)
+          names=$(grep '^added ' added.log | sed 's/^added [^:]*: //; s/ (Project Gutenberg.*//' | head -4 | paste -sd ';' - | sed 's/;/; /g')
+          git commit -m "Grow the shelf: $total books ($names and more)"
+          git pull --rebase origin main
           git push
       - name: Publish to Cloudflare
-        if: steps.grow.outputs.added != '0'
+        if: steps.added.outputs.count != '0'
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
@@ -134,3 +171,8 @@ jobs:
               gh issue create --title "The book queue is low" --body-file issue.md
             fi
           fi
+      - name: Say so, if a source failed
+        if: steps.grow.outputs.failed == '1' || steps.gutenberg.outputs.failed == '1'
+        run: |
+          echo "A source of books failed today (see its step above); what the other found was published."
+          exit 1

@@ -2,5 +2,6 @@
 // copies the site used to carry), then accounts and the site itself. Modules run in the order they are imported.
 import "./globals";
 import "./kids.js";
+import "./library-data.js";
 import "./account.js";
 import "./app.js";

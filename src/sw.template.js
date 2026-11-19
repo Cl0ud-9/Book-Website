@@ -49,6 +49,16 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
+  // The library (every book's title, author and what to read next): from the network, so new books are in it; the last copy
+  // when there is no connection
+  if (url.pathname.endsWith("/library.json") || url.pathname === "/library.json") {
+    event.respondWith(fetch(request).then((response) => {
+      if (response.ok) { const copy = response.clone(); caches.open(PAGES).then((cache) => cache.put(request, copy)); }
+      return response;
+    }).catch(async () => (await caches.match(request)) || Response.error()));
+    return;
+  }
+
   // Covers: the kept copy at once, refreshed in the background
   if (url.pathname.includes("/image/covers/")) {
     event.respondWith(caches.open(IMAGES).then(async (cache) => {

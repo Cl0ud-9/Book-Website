@@ -3,7 +3,7 @@
 The queue is written ahead of time, by hand: the next of Standard Ebooks' most read, each already given its genres,
 moods, suggested age and notes (the judgments a script should not make). This script does the mechanical part: fetch
 the book, check that everyone whose work is in it died in time for it to be free in India (pipeline/rights.py), and
-only then write it into CATALOGUE in pipeline/library.py, data/moods.json, data/ages.json and the README's count.
+only then write it into CATALOGUE in pipeline/library.py, data/moods.json, data/ages.json (the README's count is kept by pipeline/readme_count.py).
 A book that is not clearly free is set aside in pipeline/queue-skipped.json, with who blocked it, and the next book
 in the queue takes its place. The daily workflow (.github/workflows/grow.yml) runs this, then pipeline/library.py
 --keep and the build, so new books appear without anyone at the keyboard.
@@ -20,6 +20,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import library as L  # noqa: E402  (the shelf's own fetcher, parser and slugs, so a book is read one way only)
 import rights as R  # noqa: E402
+from names import on_the_shelf, pair  # noqa: E402
 
 ROOT = L.ROOT
 QUEUE = ROOT / "pipeline" / "queue.json"
@@ -48,7 +49,9 @@ def fetch_and_clear(wanted):
     """Walk the queue: fetch each book and check its rights, until `wanted` books are cleared or the queue ends."""
     queue = json.loads(QUEUE.read_text(encoding="utf-8"))
     skipped = json.loads(SKIPPED.read_text(encoding="utf-8")) if SKIPPED.exists() else []
-    taken = {b["slug"] for b in json.loads((ROOT / "data" / "books.json").read_text(encoding="utf-8"))}
+    shelf = json.loads((ROOT / "data" / "books.json").read_text(encoding="utf-8"))
+    taken = {b["slug"] for b in shelf}
+    here = {pair(b["title"], b["author"]) for b in shelf if b.get("gutenberg")}  # (a Standard Ebooks edition replaces nothing, so only these)
     added, capped = [], False
     while queue and len(added) < wanted:
         entry = queue[0]
@@ -71,6 +74,10 @@ def fetch_and_clear(wanted):
             print(f"skipped {entry['path']}: {error}", flush=True)
             continue
         queue.pop(0)
+        if on_the_shelf(book["title"], book["author"], here):
+            skipped.append({**entry, "why": "already on the shelf (from Project Gutenberg)"})
+            print(f"skipped {entry['path']}: already on the shelf", flush=True)
+            continue
         verdict = R.check(L.CACHE / f"{key}.epub")
         if not verdict["free"]:
             who = "; ".join(f"{p['name']} ({', '.join(p['roles'])}, died {p.get('died') or 'unknown'})"
@@ -104,13 +111,6 @@ def main():
         for b in added:
             ages[b["slug"]] = {"age": b["age"], "notes": b["notes"]}
         write_json(ROOT / "data" / "ages.json", {"_about": ages.pop("_about"), **{k: ages[k] for k in sorted(ages)}})
-        # the README's count
-        before = len(json.loads((ROOT / "data" / "books.json").read_text(encoding="utf-8")))
-        after = before + len(added)
-        readme = ROOT / "README.md"
-        text, newline = read_keep_newlines(readme)
-        text = text.replace(f"{before} books", f"{after} books").replace(f"{before} classics", f"{after} classics")
-        readme.write_text(text.replace("\n", newline), encoding="utf-8", newline="")
     QUEUE.write_text(json.dumps(queue, ensure_ascii=False, indent=1) + "\n", encoding="utf-8", newline="\n")
     if skipped:
         SKIPPED.write_text(json.dumps(skipped, ensure_ascii=False, indent=1) + "\n", encoding="utf-8", newline="\n")

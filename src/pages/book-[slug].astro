@@ -28,7 +28,7 @@ const facts: [IconName, string, string][] = [
   ["globe", "Language", "English"],
   ...(b.translator ? [["type", "Translated by", b.translator] as [IconName, string, string]] : []),
   ["sparkles", "Mood", b.moods.join(", ")],
-  ["star", "Suggested age", ageLabel(b.age)],
+  ["star", "Suggested age", b.auto ? `${ageLabel(b.age)} (a cautious guess from its genre)` : ageLabel(b.age)],
   ...(b.notes.length ? [["star", "Good to know", b.notes.map((n) => AGE_NOTES[n]).join(", ")] as [IconName, string, string]] : []),
 ];
 // where this edition comes from, with a link to its page there

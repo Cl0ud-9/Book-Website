@@ -1094,6 +1094,20 @@
    }
   ]
  },
+ "barry-locke-half-back": {
+  "free": true,
+  "people": [
+   {
+    "died": 1944,
+    "free": true,
+    "name": "Ralph Henry Barbour",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "beatrix-potter-short-fiction": {
   "free": true,
   "people": [
@@ -2555,6 +2569,29 @@
      "cover painting"
     ],
     "wikidata": "Q1418901"
+   }
+  ]
+ },
+ "grimms-fairy-tales": {
+  "free": true,
+  "people": [
+   {
+    "died": 1863,
+    "free": true,
+    "name": "Jacob Grimm",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1859,
+    "free": true,
+    "name": "Wilhelm Grimm",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -5960,6 +5997,20 @@
    }
   ]
  },
+ "second-treatise-of-government": {
+  "free": true,
+  "people": [
+   {
+    "died": 1704,
+    "free": true,
+    "name": "John Locke",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "seneca-dialogues": {
   "free": true,
   "people": [
@@ -6443,6 +6494,20 @@
    }
   ]
  },
+ "the-adventures-of-ferdinand-count-fathom": {
+  "free": true,
+  "people": [
+   {
+    "died": 1771,
+    "free": true,
+    "name": "Tobias Smollett",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-adventures-of-huckleberry-finn": {
   "free": true,
   "people": [
@@ -6487,6 +6552,20 @@
      "cover painting"
     ],
     "wikidata": "Q632046"
+   }
+  ]
+ },
+ "the-adventures-of-roderick-random": {
+  "free": true,
+  "people": [
+   {
+    "died": 1771,
+    "free": true,
+    "name": "Tobias Smollett",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -7408,6 +7487,29 @@
    }
   ]
  },
+ "the-confessions-of-st-augustine": {
+  "free": true,
+  "people": [
+   {
+    "died": 430,
+    "free": true,
+    "name": "Augustine",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1882,
+    "free": true,
+    "name": "E. Edward Bouverie Pusey",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-consolation-of-philosophy": {
   "free": true,
   "people": [
@@ -7729,6 +7831,20 @@
      "cover painting"
     ],
     "wikidata": "Q150679"
+   }
+  ]
+ },
+ "the-expedition-of-humphry-clinker": {
+  "free": true,
+  "people": [
+   {
+    "died": 1771,
+    "free": true,
+    "name": "Tobias Smollett",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -8740,6 +8856,20 @@
      "cover painting"
     ],
     "wikidata": "Q983349"
+   }
+  ]
+ },
+ "the-legend-of-sleepy-hollow": {
+  "free": true,
+  "people": [
+   {
+    "died": 1859,
+    "free": true,
+    "name": "Washington Irving",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -10799,6 +10929,29 @@
    }
   ]
  },
+ "the-string-of-pearls": {
+  "free": true,
+  "people": [
+   {
+    "died": 1859,
+    "free": true,
+    "name": "Thomas Peckett Prest",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1884,
+    "free": true,
+    "name": "James Malcolm Rymer",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-subjection-of-women": {
   "free": true,
   "people": [
@@ -11698,6 +11851,20 @@
    }
   ]
  },
+ "the-yellow-wallpaper": {
+  "free": true,
+  "people": [
+   {
+    "died": 1935,
+    "free": true,
+    "name": "Charlotte Perkins Gilman",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "this-side-of-paradise": {
   "free": true,
   "people": [
@@ -12036,6 +12203,29 @@
    }
   ]
  },
+ "twenty-years-after": {
+  "free": true,
+  "people": [
+   {
+    "died": 1870,
+    "free": true,
+    "name": "Alexandre Dumas",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1888,
+    "free": true,
+    "name": "Auguste Maquet",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "two-treatises-of-government": {
   "free": true,
   "people": [
@@ -12274,6 +12464,38 @@
      "cover painting"
     ],
     "wikidata": "Q193064"
+   }
+  ]
+ },
+ "war-and-peace": {
+  "free": true,
+  "people": [
+   {
+    "died": 1910,
+    "free": true,
+    "name": "Leo Tolstoy",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1938,
+    "free": true,
+    "name": "Aylmer Maude",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1939,
+    "free": true,
+    "name": "Louise Maude",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },

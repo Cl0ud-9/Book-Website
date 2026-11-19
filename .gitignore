@@ -28,3 +28,4 @@ Thumbs.db
 
 # the library-assets archive while it is being made or uploaded (npm run assets:push)
 assets.tar
+.assets-*

@@ -458,7 +458,7 @@
   // you highlighted. Never your notes.
   async function publish(force) {
     if (!profile?.public || !user) return;
-    const library = libraryData();
+    const library = await libraryData();
     const places = Object.entries(read(KEYS.places, {})).filter(([slug]) => library[slug]);
     const stats = addStats(addStats({ days: {}, books: {} }, read(KEYS.stats, {})), read(KEYS.others, {}));
     const finished = places.filter(([, p]) => p.done || p.seen?.finished).sort((a, b) => (b[1].done || b[1].at) - (a[1].done || a[1].at));
@@ -494,7 +494,7 @@
     return import("./notes-store.js").then(() => window.BookshelfNotes);
   }
   function libraryData() {
-    try { return JSON.parse(document.querySelector("[data-library]")?.textContent || "{}"); } catch { return {}; }
+    return window.BookshelfLibrary.load().catch(() => ({}));
   }
 
   // Something new to keep (a page turned, a highlight): kept in the account a little later, not on every page turn, so

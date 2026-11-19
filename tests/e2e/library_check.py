@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 L = json.load(open(ROOT / "data" / "books.json", encoding="utf-8"))
 NONFIC = {"Philosophy", "Lives and memoirs", "History and politics", "Science and nature", "Essays and letters"}
 moods = json.load(open(ROOT / "data" / "moods.json", encoding="utf-8"))
+moods.update({b["slug"]: b["moods"] for b in L if b.get("moods")})  # (the books added automatically carry their own)
 n_non = sum(1 for b in L if b["genres"][0] in NONFIC)
 n_india = sum(1 for b in L if "india" in b.get("collections", []))
 n_funny_short = sum(1 for b in L if "Funny" in moods[b["slug"]] and round(b["words"] / 275) < 180)
@@ -24,6 +25,17 @@ n_funny_short = sum(1 for b in L if "Funny" in moods[b["slug"]] and round(b["wor
 
 bad = 0
 
+
+
+def load_all(page):
+    """All books builds its cards a batch at a time, as the end of the list comes near: scroll on until every one is built"""
+    for _ in range(150):
+        n = page.locator(".book-card").count()
+        page.evaluate("window.scrollTo(0, document.body.scrollHeight)"); page.wait_for_timeout(200)
+        if page.locator(".book-card").count() == n and page.evaluate("document.querySelector('[data-search-more]').hidden"):
+            break
+    page.evaluate("window.scrollTo(0, 0)")
+    return page.locator(".book-card").count()
 
 def say(ok, msg):
     global bad
@@ -46,27 +58,39 @@ with sync_playwright() as p:
         page.on("pageerror", lambda e: errs.append(str(e)[:200]))
         page.on("console", lambda m: errs.append("console: " + m.text[:150]) if m.type == "error" else None)
 
+        # a card the browser builds (from catalogue.json, as the list is scrolled) is the card the page was built with
+        page.goto(BASE + "books.html"); page.wait_for_selector(".book-card"); page.wait_for_timeout(1500)
+        squash = r"""el => el && el.outerHTML.replace(/>\s+</g, '><').replace(/\s+/g, ' ').replace(' is--waiting', '').replace(' is--rising', '').replace(/ loading="(lazy|eager)"/, '').replace('class="book-card "', 'class="book-card"')"""
+        built = [x["slug"] for x in sorted(L, key=lambda x: x["popularity"] or 10_000)[:3]]
+        server = [page.evaluate(squash, page.locator(f"#book-{slug}").element_handle()) for slug in built]
+        page.goto(BASE + "books.html?sort=title"); page.wait_for_selector(".book-card"); page.wait_for_timeout(1000)
+        for slug in built:
+            for _ in range(60):
+                if page.locator(f"#book-{slug}").count(): break
+                page.evaluate("window.scrollTo(0, document.body.scrollHeight)"); page.wait_for_timeout(200)
+        browser_made = [page.evaluate(squash, page.locator(f"#book-{slug}").element_handle()) for slug in built]
+        say(all(server) and server == browser_made, f"{label}: a card built in the browser is the page's own card ({len(server)} compared)")
         # catalogue filters
         page.goto(BASE + "books.html"); page.wait_for_timeout(2500)
         say(f"all {len(L)} books" in status(page), f"{label}: All books shows all {len(L)}: {status(page)!r}")
         page.locator(".kinds [data-kind=nonfiction]").click(); page.wait_for_timeout(500)
-        visible = page.locator(".book-card:not([hidden])").count()
+        visible = load_all(page)
         chips = page.locator(".chips li:not([hidden]) .chip").all_inner_texts()
         say(visible == n_non and "Romance" not in chips and "Lives and memoirs" in chips, f"{label}: Non-fiction shows {visible}/{n_non}, chips {chips}")
         say("kind=nonfiction" in page.url, f"{label}: the choice is kept in the address")
         page.locator(".chip", has_text="Lives and memoirs").click(); page.wait_for_timeout(500)
-        say(page.locator(".book-card:not([hidden])").count() == sum(1 for x in L if "Lives and memoirs" in x["genres"]), f"{label}: a non-fiction genre: {status(page)!r}")
+        say(load_all(page) == sum(1 for x in L if "Lives and memoirs" in x["genres"]), f"{label}: a non-fiction genre: {status(page)!r}")
         page.locator(".kinds [data-kind=fiction]").click(); page.wait_for_timeout(500)
         say("genre=" not in page.url and page.locator(".chip[aria-pressed=true]").count() == 0, f"{label}: switching to Fiction drops the non-fiction genre")
         page.locator(".kinds [data-kind='']").click(); page.wait_for_timeout(400)
         page.locator(".chip.is--collection").click(); page.wait_for_timeout(500)
-        say(page.locator(".book-card:not([hidden])").count() == n_india, f"{label}: From India shows {n_india}: {status(page)!r}")
+        say(load_all(page) == n_india, f"{label}: From India shows {n_india}: {status(page)!r}")
         page.locator(".chip.is--collection").click(); page.wait_for_timeout(300)
         page.select_option("[data-mood]", "funny"); page.select_option("[data-length]", "short"); page.wait_for_timeout(500)
-        say(page.locator(".book-card:not([hidden])").count() == n_funny_short and "mood=funny" in page.url and "length=short" in page.url,
+        say(load_all(page) == n_funny_short and "mood=funny" in page.url and "length=short" in page.url,
             f"{label}: Funny and under 3 hours: {status(page)!r} (expected {n_funny_short})")
         page.reload(); page.wait_for_timeout(2500)
-        say(page.locator(".book-card:not([hidden])").count() == n_funny_short and page.locator("[data-mood]").input_value() == "funny",
+        say(load_all(page) == n_funny_short and page.locator("[data-mood]").input_value() == "funny",
             f"{label}: a reload keeps the filters")
         page.select_option("[data-mood]", "eerie"); page.locator(".chip", has_text="Romance").click(); page.wait_for_timeout(500)
         empty = page.locator("[data-search-empty]").is_visible()

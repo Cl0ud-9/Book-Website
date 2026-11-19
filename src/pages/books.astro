@@ -7,6 +7,9 @@ import { COLLECTIONS, GENRES, LENGTHS, LIBRARY, MOODS, NONFICTION } from "../lib
 import { slugify } from "../lib/text";
 
 const count = LIBRARY.length;
+// Only the first cards are in the page, the most read; the rest are built from catalogue.json as they are scrolled to
+// (scripts/app.js, catalogue), so the page does not grow with the shelf
+const FIRST = 48;
 ---
 <Base name="books" path="books" title="All books | The Bookshelf" description={`All ${count} free classics on the Bookshelf, searchable by title, author and genre.`} theme="pale-blue">
 <HeroXs tint="pale-blue" shapes="soft-blue" title="All books" note="Go on, pick three">All {count} classics in one place, every one of them free. Search by title, author or genre.</HeroXs>
@@ -33,8 +36,10 @@ const count = LIBRARY.length;
   <h2 class="sr-only">Books</h2>
   <p class="catalogue__status" role="status" aria-live="polite" data-search-status>Showing all {count} books.</p>
   <div class="catalogue__grid" data-search-grid>
-    {LIBRARY.map((b) => <BookCard slug={b.slug} sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" />)}
+    {LIBRARY.slice(0, FIRST).map((b) => <BookCard slug={b.slug} sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" />)}
   </div>
+  <div class="catalogue__more" data-search-more aria-hidden="true"></div>
+  <noscript><p class="catalogue__empty">Showing the {FIRST} most read of {count} books. Turn on JavaScript to search and see them all.</p></noscript>
   <p class="catalogue__empty" data-search-empty hidden>No books match. Try another word, or clear the filters.</p>
 </section>
 </Base>

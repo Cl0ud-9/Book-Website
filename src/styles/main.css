@@ -1365,7 +1365,10 @@ html.is-signed-in [data-when="out"], html:not(.is-signed-in) [data-when="in"] { 
 .catalogue__grid .book-card:hover { rotate: 0deg; scale: 1.02; }
 /* The browser skips laying out cards far below the screen until you scroll near them: with the whole library on one
    page, laying out every card held a phone's main thread for about a second */
-.catalogue__grid .book-card { content-visibility: auto; contain-intrinsic-size: auto 28em; }
+/* (a card not yet seen is assumed this tall; its real height is 48 to 58 em, typically 53, so the page is about the height it
+   will be, and Back, which scrolls to where you were, lands where you were. 28 em was half of it.) */
+.catalogue__grid .book-card { content-visibility: auto; contain-intrinsic-size: auto 53em; }
+@media (min-width: 600px) and (max-width: 991px) { .catalogue__grid .book-card { contain-intrinsic-size: auto 46em; } }
 .shelves .shelf { content-visibility: auto; contain-intrinsic-size: auto 36em; }
 /* Waiting below the screen, then rising into place (app.js riseIn) */
 .is--waiting { opacity: 0; translate: 0 4em; }
@@ -2401,3 +2404,9 @@ html[data-kids="13"] main[data-age="16"] > .for-older {
 .start__skip { padding: .5em; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
 .start__stage .picked__list { text-align: left; }
 .start__ask:focus { outline: none; }
+
+/* the end of what All books has built so far: the next batch comes when this nears the screen (scripts/app.js, catalogue) */
+.catalogue__more { height: 1px; width: 100%; align-self: stretch; }
+/* cards are added below what is on screen: the browser must not move the page to keep the end marker where it was (that pinned the
+   page to the bottom, and built the whole shelf) */
+.catalogue, .catalogue__grid, .catalogue__more { overflow-anchor: none; }

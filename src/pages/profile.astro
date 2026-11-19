@@ -1,7 +1,6 @@
 ---
 // A reader's page (profile.html?u=username): filled in by the account page script from what they chose to share
 import BgShapes from "../components/BgShapes.astro";
-import LibraryData from "../components/LibraryData.astro";
 import Base from "../layouts/Base.astro";
 import { BLOB_A, BLOB_B } from "../lib/shapes";
 ---
@@ -35,5 +34,4 @@ import { BLOB_A, BLOB_B } from "../lib/shapes";
   </section>
   <p class="acct__small" data-profile-foot hidden><a href="account" data-profile-mine>Make your own reader page</a> · <a href="#" data-profile-report>Report this page</a></p>
 </div>
-<LibraryData />
 </Base>

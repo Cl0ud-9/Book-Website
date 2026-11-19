@@ -661,10 +661,36 @@ def reading_time(words):
     return " ".join(parts)
 
 
-def gutenberg_books(taken):
+def gutenberg_books(taken, kept=None):
+    """The books from Project Gutenberg (data/gutenberg.json). Those chosen by hand are fetched here, with a cover from
+    pipeline/covers.py. Those added by pipeline/gutenberg_feed.py ("auto") already have their file, cover and details, and
+    only become books here. With `kept` (--keep), a book already on the shelf is taken as it is."""
     books = []
     source = ROOT / "data" / "gutenberg.json"
     for entry in json.loads(source.read_text(encoding="utf-8")) if source.exists() else []:
+        page = f"https://www.gutenberg.org/ebooks/{entry['id']}"
+        if kept and page in kept:
+            taken.add(kept[page]["slug"])
+            books.append(kept[page])
+            print(f"    {kept[page]['title']} (Project Gutenberg, kept)", flush=True)
+            continue
+        if entry.get("auto"):
+            slug = entry["slug"]
+            taken.add(slug)
+            have = (ROOT / ".assets" / "books" / f"{slug}.epub").exists() and all(
+                (ROOT / ".assets" / "image" / "covers" / f"{slug}-{w}.webp").exists() for w in WIDTHS)
+            if not have:
+                raise SystemExit(f"{slug}: its file or cover is missing: run pipeline/gutenberg_feed.py (and npm run assets:pull)")
+            books.append({
+                "title": entry["title"], "author": entry["author"], "translator": entry["translator"], "abstract": entry["abstract"],
+                "description": entry["description"], "words": entry["words"], "reading_time": reading_time(entry["words"]), "language": "en",
+                "standard_ebooks": None, "gutenberg": page, "slug": slug, "genres": entry["genres"], "collections": entry.get("collections", []),
+                "spine": entry["spine"], "epub": f"books/{slug}.epub", "size": entry["size"], "popularity": entry.get("rank"), "opening": None,
+                "kindle": f"{page}.kf8.images", "kobo": f"{page}.epub3.images",
+                # worked out by pipeline/gutenberg_feed.py, not written by hand (the site says so on the book's page)
+                "moods": entry["moods"], "age": entry["age"], "notes": entry["notes"], "auto": True,
+            })
+            continue
         data = cached(f"pg{entry['id']}.epub", GUTENBERG.format(id=entry["id"]), binary=True)
         archive = zipfile.ZipFile(io.BytesIO(data))
         words_text = " ".join(text(archive.read(n).decode("utf-8", "ignore")) for n in archive.namelist() if n.endswith((".xhtml", ".html", ".htm")))
@@ -813,6 +839,8 @@ def main():
     (ROOT / ".assets" / "image" / "covers").mkdir(parents=True, exist_ok=True)
     taken, books, skipped, capped = set(), [], [], []
     shelf = already_here() if "--keep" in sys.argv else {}
+    listed = ROOT / "data" / "books.json"
+    shelf_before = json.loads(listed.read_text(encoding="utf-8")) if listed.exists() else []
     if shelf:
         # --keep: the books already here keep their rank, and only the new ones are looked up (a failed lookup, such as
         # Standard Ebooks' download cap, leaves them unranked until the next run rather than stopping the run)
@@ -897,7 +925,8 @@ def main():
         books.append(book)
         where = "fetched later" if data is None else f"{len(data) // 1024} KB" + (", from Standard Ebooks" if len(data) > MAX_PICTURE_BOOK else "")
         print(f"{n:3}/{len(CATALOGUE)} {book['title']} ({where})", flush=True)
-    books.extend(gutenberg_books(taken))
+    kept_gutenberg = {b["gutenberg"]: b for b in shelf_before if b.get("gutenberg")} if "--keep" in sys.argv else None
+    books.extend(gutenberg_books(taken, kept_gutenberg))
     (ROOT / "data" / "books.json").write_text(json.dumps(books, ensure_ascii=False, indent=1) + "\n", encoding="utf-8",
                                                  newline="\n")
     # Files of books that have left the shelf

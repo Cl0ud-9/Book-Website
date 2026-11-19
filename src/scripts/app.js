@@ -1348,6 +1348,59 @@
 
   // All books: search; fiction or non-fiction; a genre or a collection (From India); mood and length. Every choice is
   // kept in the address, so Back, a reload or a shared link shows the same books.
+  /* All books. The page holds only the first cards; the whole shelf comes as catalogue.json (every book in brief, with what a
+     card shows already worked out) once a choice, a search or the scrolling needs it, and the cards are built from it a batch
+     at a time as the end of the list comes near. Search, the filters and the sorting work on all of it, so the page stays the
+     same size however many books there are on the shelf. */
+  const SHELF_BATCH = 48;
+  let shelfData = null; // catalogue.json, once it has come (kept as the pages change, for coming back to the list)
+  let shelfLoading = null;
+  let shelfWas = { query: "", shown: 0 }; // how far down the list you were when you left it
+  const shelfNeed = () => (shelfLoading ||= fetch("catalogue.json")
+    .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+    .then((json) => {
+      const slug = (s) => s.toLowerCase().replace(/['’]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+      const plain = (s) => s.toLowerCase().normalize("NFD").replace(/\p{Mn}/gu, "");
+      shelfData = {
+        ...json,
+        books: json.books.map(([id, title, author, g, m, kind, age, minutes, words, rank, colour, fit, time, abstract, collections], order) => {
+          const genres = g.map((n) => json.genres[n]);
+          const moods = m.map((n) => json.moods[n]);
+          return {
+            id, title, author, genres, genreKeys: genres.map(slug), moods, moodKeys: moods.map(slug), kind, age, minutes, words, rank,
+            colour, fit, time, abstract, collections, order,
+            search: plain([title, author, ...genres, ...moods, ...collections.map((c) => json.collections[c])].join(" ")),
+            sortTitle: plain(title).replace(/^the /, "").replace(/^a /, ""),
+          };
+        }),
+      };
+      return shelfData;
+    }).catch((error) => { shelfLoading = null; throw error; }));
+
+  // A card, as BookCard.astro makes it (tests/e2e/library_check.py compares the two)
+  const shelfCard = (b) => {
+    const esc = (s) => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    const tag = (g) => { const c = shelfData.tag[g] || "white"; return c === b.colour ? "white" : c; };
+    const srcset = [180, 360, 720].map((w) => `image/covers/${b.id}-${w}.webp ${w}w`).join(", ");
+    const el = document.createElement("article");
+    el.className = "book-card";
+    el.id = `book-${b.id}`;
+    el.dataset.age = b.age;
+    el.setAttribute("style", `--card:var(--${b.colour});--ink:${shelfData.ink[b.colour]}`);
+    Object.assign(el.dataset, {
+      search: b.search, genres: b.genreKeys.join(" "), bookKind: b.kind ? "nonfiction" : "fiction", moods: b.moodKeys.join(" "),
+      collections: b.collections.join(" "), minutes: b.minutes, rank: b.rank, words: b.words, title: b.sortTitle, booksSliderItem: "",
+    });
+    el.innerHTML = ` <div class="book-card__cover"><img src="image/covers/${b.id}-360.webp" srcset="${srcset}" sizes="(max-width: 767px) 80vw, (max-width: 991px) 40vw, 20em" width="360" height="540" alt="${esc(`${b.title} by ${b.author}, book cover`)}" data-age="${b.age}" loading="lazy" decoding="async"></div> `
+      + `<ul class="tags" aria-label="Genres">${b.genres.map((g) => `<li class="tag" style="--tag:var(--${tag(g)})">${esc(g)}</li>`).join("")}</ul> `
+      + `<h3 class="book-card__title" style="--fit:${b.fit}"><a class="book-card__link" href="book-${b.id}" draggable="false">${esc(b.title)}</a></h3> `
+      + `<p class="book-card__author">${esc(b.author)}</p> `
+      + `<p class="book-card__time"><svg class="icon" aria-hidden="true"><use href="#i-clock"></use></svg><span><span class="sr-only">Reading time: </span>${esc(b.time)}</span></p> `
+      + `<p class="book-card__hook">${esc(b.abstract)}</p> `
+      + `<span class="book-card__open" aria-hidden="true">Open the book <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></span>`;
+    return el;
+  };
+
   function catalogue(page) {
     const rootEl = page.querySelector("[data-search-root]");
     if (!rootEl) return;
@@ -1358,7 +1411,9 @@
     const ageSelect = rootEl.querySelector("[data-age-filter]");
     const lengthSelect = rootEl.querySelector("[data-length]");
     const clear = rootEl.querySelector("[data-clear-filters]");
-    const cards = [...rootEl.querySelectorAll(".book-card")];
+    const grid = rootEl.querySelector("[data-search-grid]");
+    const more = rootEl.querySelector("[data-search-more]");
+    const sorter = rootEl.querySelector("[data-sort]");
     const status = rootEl.querySelector("[data-search-status]");
     const empty = rootEl.querySelector("[data-search-empty]");
     const LENGTHS = { short: [0, 180], medium: [180, 480], long: [480, Infinity] };
@@ -1375,6 +1430,17 @@
     // a genre belongs to one kind: choosing it shows that kind, and a kind hides the other kind's genres
     const genreChip = () => chips.find((c) => c.dataset.genre && c.dataset.genre === state.genre);
     if (state.genre && genreChip()) state.kind = genreChip().dataset.chipKind;
+    // Sorting: most read (the shelf's own order), title, or length; kept in the address so Back returns to it
+    const orders = {
+      rank: (a, b) => a.rank - b.rank || a.order - b.order,
+      title: (a, b) => a.sortTitle.localeCompare(b.sortTitle),
+      short: (a, b) => a.words - b.words || a.order - b.order,
+      long: (a, b) => b.words - a.words || a.order - b.order,
+    };
+    const wanted = params.get("sort");
+    if (sorter && orders[wanted]) sorter.value = wanted;
+    const sortKey = () => (sorter && orders[sorter.value] ? sorter.value : "rank");
+    const stops = [];
 
     const keep = () => {
       const url = new URL(location.href);
@@ -1383,25 +1449,55 @@
       });
       history.replaceState(history.state, "", url);
     };
-    const apply = (animate = true) => {
-      // Accents dropped, as in the cards' search text, so "bronte" finds Brontë
-      const words = input.value.trim().toLowerCase().normalize("NFD").replace(/\p{Mn}/gu, "").split(/\s+/).filter(Boolean);
+
+    let refreshing = 0;
+    let matches = []; // the books for the choices made, in the order chosen
+    let shown = grid.querySelectorAll(".book-card").length; // how many of them are in the grid (at first, the page's own)
+    const words = () => input.value.trim().toLowerCase().normalize("NFD").replace(/\p{Mn}/gu, "").split(/\s+/).filter(Boolean);
+    // (Kids mode leaves some books out: the page's own cards are not the list, and its count is not the count)
+    const choosing = () => Boolean(state.kind || state.genre || state.collection || state.mood || state.length || state.age || words().length || sortKey() !== "rank"
+      || document.documentElement.dataset.kids);
+    const matching = () => {
+      const w = words();
       const [least, most] = LENGTHS[state.length] || [0, Infinity];
-      const shown = [];
-      cards.forEach((card) => {
-        const d = card.dataset;
-        const match = words.every((w) => d.search.includes(w))
-          && (!state.kind || d.bookKind === state.kind)
-          && (!state.genre || d.genres.split(" ").includes(state.genre))
-          && (!state.collection || d.collections.split(" ").includes(state.collection))
-          && (!state.mood || d.moods.split(" ").includes(state.mood))
-          && (!state.age || Number(d.age) <= Number(state.age))
-          && window.BookshelfKids.allows(d.age)
-          && Number(d.minutes) >= least && Number(d.minutes) < most;
-        const was = !card.hidden;
-        card.hidden = !match;
-        if (match && !was) shown.push(card);
-      });
+      return shelfData.books.filter((b) => w.every((x) => b.search.includes(x))
+        && (!state.kind || (b.kind ? "nonfiction" : "fiction") === state.kind)
+        && (!state.genre || b.genreKeys.includes(state.genre))
+        && (!state.collection || b.collections.includes(state.collection))
+        && (!state.mood || b.moodKeys.includes(state.mood))
+        && (!state.age || b.age <= Number(state.age))
+        && window.BookshelfKids.allows(b.age)
+        && b.minutes >= least && b.minutes < most).sort(orders[sortKey()]);
+    };
+    // The next batch of cards, rising in as they come into view
+    const append = (count = SHELF_BATCH) => {
+      const made = matches.slice(shown, shown + count).map(shelfCard);
+      if (!made.length) return made;
+      grid.append(...made);
+      shown += made.length;
+      const stop = riseIn(made);
+      if (stop) stops.push(stop);
+      return made;
+    };
+    // while the end of the list is within reach, the next batch is built
+    const fill = () => {
+      if (!shelfData || shown >= matches.length) { more.hidden = Boolean(shelfData); return; }
+      more.hidden = false;
+      // (a page that is still being slid in has no layout yet: its marker would be at 0, and the whole shelf would be built)
+      const rects = more.getClientRects();
+      if (rects.length && rects[0].top < innerHeight + 1800) {
+        append();
+        if (shown < matches.length) requestAnimationFrame(fill); else more.hidden = true;
+        // the page is longer: what is measured from its end (the footer's effects) is measured again, once it is still
+        clearTimeout(refreshing);
+        refreshing = setTimeout(() => whenStill(() => ScrollTrigger.refresh()), 250);
+      }
+    };
+    const apply = (animate = true) => {
+      matches = matching();
+      grid.replaceChildren();
+      shown = 0;
+      const made = append();
       kinds.forEach((k) => k.setAttribute("aria-pressed", String(k.dataset.kind === state.kind)));
       chips.forEach((c) => {
         c.parentElement.hidden = Boolean(state.kind && c.dataset.chipKind && c.dataset.chipKind !== state.kind);
@@ -1410,11 +1506,11 @@
       if (moodSelect) moodSelect.value = state.mood;
       if (ageSelect) ageSelect.value = state.age;
       if (lengthSelect) lengthSelect.value = state.length;
-      const count = cards.filter((c) => !c.hidden).length;
+      const count = matches.length;
       // what the books shown have in common, in words: "12 books match “sea” in Adventure, gripping, under 3 hours"
       const label = (select) => select?.selectedOptions[0]?.textContent.toLowerCase();
       const what = [
-        words.length ? `“${input.value.trim()}”` : "",
+        words().length ? `“${input.value.trim()}”` : "",
         state.genre ? genreChip()?.textContent : state.collection ? chips.find((c) => c.dataset.collection === state.collection)?.textContent
           : state.kind === "nonfiction" ? "non-fiction" : state.kind === "fiction" ? "fiction" : "",
         state.mood ? label(moodSelect) : "",
@@ -1424,16 +1520,28 @@
       status.textContent = !what.length ? `Showing all ${count} books.`
         : `${count} ${count === 1 ? "book matches" : "books match"}: ${what.join(", ")}.`;
       empty.hidden = count > 0;
-      clear.hidden = !(state.kind || state.genre || state.collection || state.mood || state.length || state.age || words.length);
-      if (animate && shown.length && !reducedMotion()) {
-        gsap.fromTo(shown, { scale: 0.6, rotate: () => gsap.utils.random(-8, 8) },
+      clear.hidden = !(state.kind || state.genre || state.collection || state.mood || state.length || state.age || words().length);
+      if (animate && made.length && !reducedMotion()) {
+        const first = made.slice(0, 24);
+        gsap.fromTo(first, { scale: 0.6, rotate: () => gsap.utils.random(-8, 8) },
           { scale: 1, rotate: 0, duration: 0.7, ease: ELASTIC_SOFT, stagger: 0.04, clearProps: "scale,rotate" });
-        gsap.fromTo(shown, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out", stagger: 0.04, clearProps: "opacity" });
+        gsap.fromTo(first, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out", stagger: 0.04, clearProps: "opacity" });
       }
+      more.hidden = shown >= count;
       if (animate) ScrollTrigger.refresh();
+      fill();
     };
-    const change = () => { keep(); apply(); };
-    input.addEventListener("input", () => apply());
+    // a choice, a search or the sorting needs the whole shelf
+    let stopped = false;
+    let started = false; // the page's own cards have been taken on, or a choice has replaced them
+    const act = (job) => {
+      started = true;
+      return shelfNeed().then(() => { if (!stopped) job(); }).catch(() => {
+        status.textContent = "The books didn’t load. Check your connection and try again.";
+      });
+    };
+    const change = () => act(() => { keep(); apply(); });
+    input.addEventListener("input", () => act(() => apply()));
     rootEl.querySelector("[data-search-form]").addEventListener("submit", (event) => event.preventDefault());
     kinds.forEach((k) => k.addEventListener("click", () => {
       state.kind = k.dataset.kind;
@@ -1460,47 +1568,73 @@
       change();
       input.focus();
     });
-    apply(false);
-    // Sorting: most read (the shelf's own order), title, or length; kept in the address so Back returns to it
-    const grid = rootEl.querySelector("[data-search-grid]");
-    const sorter = rootEl.querySelector("[data-sort]");
-    const orders = {
-      rank: (a, b) => a.dataset.rank - b.dataset.rank,
-      title: (a, b) => a.dataset.title.localeCompare(b.dataset.title),
-      short: (a, b) => a.dataset.words - b.dataset.words,
-      long: (a, b) => b.dataset.words - a.dataset.words,
+    sorter?.addEventListener("change", () => {
+      const url = new URL(location.href);
+      if (sorter.value === "rank") url.searchParams.delete("sort"); else url.searchParams.set("sort", sorter.value);
+      history.replaceState(history.state, "", url);
+      act(() => apply());
+    });
+
+    // The first cards are the page's own, in the shelf's order. With nothing chosen they stay; the rest of the shelf is
+    // fetched when the end of them comes near, or a control is touched, and the list carries on from them.
+    const own = [...grid.querySelectorAll(".book-card")];
+    const startUp = () => {
+      matches = matching();
+      // the page's own cards are the first of the shelf in its order, unless a mode (Kids mode) leaves some of them out
+      const same = own.length <= matches.length && own.every((card, i) => card.id === `book-${matches[i].id}`);
+      if (!choosing() && same) {
+        shown = own.length;
+        more.hidden = shown >= matches.length;
+        // coming back to the list from a book, as far down as you were (the scrolling is put back after the page is built)
+        const back = shelfWas.query === location.search && shelfWas.shown > shown && scrollMemory.has(location.href);
+        if (back) append(Math.min(shelfWas.shown, 600) - shown);
+        status.textContent = `Showing all ${matches.length} books.`;
+        fill();
+      } else apply(false);
     };
-    const sortBy = (key, animate) => {
-      if (!orders[key]) return;
-      grid.append(...[...cards].sort(orders[key]));
-      if (animate && !reducedMotion()) {
-        const inView = cards.filter((c) => !c.hidden && c.getBoundingClientRect().top < innerHeight && c.getBoundingClientRect().bottom > 0);
-        gsap.fromTo(inView, { y: "2em", opacity: 0, rotate: () => gsap.utils.random(-4, 4) },
-          { y: "0em", opacity: 1, rotate: 0, duration: 0.6, ease: "back.out(1.6)", stagger: 0.03, clearProps: "rotate" });
-      }
-      ScrollTrigger.refresh();
-    };
-    if (sorter) {
-      const wanted = new URLSearchParams(location.search).get("sort");
-      if (orders[wanted]) { sorter.value = wanted; sortBy(wanted, false); }
-      sorter.addEventListener("change", () => {
-        const url = new URL(location.href);
-        if (sorter.value === "rank") url.searchParams.delete("sort"); else url.searchParams.set("sort", sorter.value);
-        history.replaceState(history.state, "", url);
-        sortBy(sorter.value, true);
-      });
+    if (choosing()) { // the page's own cards would be the wrong ones
+      grid.replaceChildren();
+      status.textContent = "Finding the books…";
     }
-    // Cards rise in as they come into view, a row or two at a time
-    const stop = riseIn(cards);
-    if (stop) pageCleanups.push(stop);
+    const idle = () => {
+      if (started) return Promise.resolve();
+      started = true;
+      return shelfNeed().then(() => { if (!stopped) startUp(); }).catch(() => { more.hidden = true; started = false; });
+    };
+    if (choosing() || shelfData) idle();
+    else {
+      // fetched when the end of the page's cards comes near, or a control is touched
+      const watcher = new IntersectionObserver((entries) => { if (entries.some((e) => e.isIntersecting)) { watcher.disconnect(); idle(); } }, { rootMargin: "1800px 0px" });
+      watcher.observe(more);
+      rootEl.addEventListener("pointerdown", () => { watcher.disconnect(); idle(); }, { once: true });
+      rootEl.addEventListener("focusin", () => { watcher.disconnect(); idle(); }, { once: true });
+      stops.push(() => watcher.disconnect());
+    }
+    let scrollQueued = false;
+    const onScroll = () => {
+      if (scrollQueued || !shelfData || shown >= matches.length) return;
+      scrollQueued = true;
+      requestAnimationFrame(() => { scrollQueued = false; fill(); });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    // Cards are added below what is on screen. With scroll anchoring the browser moves the page to keep something after them
+    // (the footer) where it was, which pinned the page to the bottom as the list grew, and built the whole shelf.
+    document.documentElement.style.overflowAnchor = "none";
+    const stopOwn = riseIn(own);
+    if (stopOwn) stops.push(stopOwn);
+    pageCleanups.push(() => {
+      stopped = true;
+      shelfWas = { query: location.search, shown };
+      window.removeEventListener("scroll", onScroll);
+      clearTimeout(refreshing);
+      document.documentElement.style.removeProperty("overflow-anchor");
+      stops.forEach((stop) => stop());
+    });
   }
 
   /* ---------------- The library: reading, and coming back to a book ---------------- */
 
-  const libraryOf = (page) => {
-    const data = page.querySelector("[data-library]");
-    try { return data ? JSON.parse(data.textContent) : {}; } catch { return {}; }
-  };
+  const libraryOf = () => window.BookshelfLibrary.load();
   const places = () => {
     try { return JSON.parse(localStorage.getItem("bookshelf:reading")) || {}; } catch { return {}; }
   };
@@ -1518,7 +1652,7 @@
     let undo = null;
     let gone = false;
     const shown = pageShown;
-    loadReader().then(() => { if (!gone) undo = window.BookshelfReader.open(root, libraryOf(page), shown); })
+    Promise.all([loadReader(), libraryOf()]).then(([, library]) => { if (!gone) undo = window.BookshelfReader.open(root, library, shown); })
       .catch(() => { root.querySelector("[data-reader-message]").textContent = "The reader didn’t load. Check your connection and try again."; });
     return () => { gone = true; undo?.(); };
   }
@@ -1541,10 +1675,18 @@
   function continueReading(page) {
     const section = page.querySelector("[data-continue]");
     if (!section) return;
-    const library = libraryOf(page);
-    const started = Object.entries(places()).filter(([slug, p]) => library[slug] && p.percent < 0.99 && window.BookshelfKids.allows(library[slug].age))
-      .sort((a, b) => b[1].at - a[1].at).slice(0, 4);
-    if (!started.length) return;
+    if (!Object.values(places()).some((p) => p.percent < 0.99)) return; // nothing started: the library is not even fetched
+    let gone = false;
+    libraryOf().then((library) => {
+      if (gone) return;
+      const started = Object.entries(places()).filter(([slug, p]) => library[slug] && p.percent < 0.99 && window.BookshelfKids.allows(library[slug].age))
+        .sort((a, b) => b[1].at - a[1].at).slice(0, 4);
+      if (!started.length) return;
+      showStarted(section, library, started);
+    }).catch(() => { /* the section stays away */ });
+    return () => { gone = true; };
+  }
+  function showStarted(section, library, started) {
     const list = section.querySelector("[data-continue-list]");
     const template = section.querySelector("template");
     started.forEach(([slug, p]) => {
@@ -1648,8 +1790,8 @@
     if (!root) return null;
     let undo = null;
     let gone = false;
-    Promise.all([import("./notes-store.js"), import("./your-reading.js")])
-      .then(() => { if (!gone) undo = window.BookshelfYourReading.init(root, libraryOf(page)); })
+    Promise.all([import("./notes-store.js"), import("./your-reading.js"), libraryOf()])
+      .then(([, , library]) => { if (!gone) undo = window.BookshelfYourReading.init(root, library); })
       .catch(() => { root.prepend(Object.assign(document.createElement("p"), { className: "mine__empty", textContent: "This page didn’t load. Check your connection and try again." })); });
     return () => { gone = true; undo?.(); };
   }
@@ -1660,8 +1802,8 @@
     if (!root) return null;
     let undo = null;
     let gone = false;
-    import("./account-page.js")
-      .then(() => { if (!gone) undo = window.BookshelfAccountPage.init(root, libraryOf(page)); })
+    Promise.all([import("./account-page.js"), libraryOf()])
+      .then(([, library]) => { if (!gone) undo = window.BookshelfAccountPage.init(root, library); })
       .catch(() => root.prepend(Object.assign(document.createElement("p"), { className: "mine__empty", textContent: "This page didn’t load. Check your connection and try again." })));
     return () => { gone = true; undo?.(); };
   }
@@ -1822,7 +1964,8 @@
     awaitShown();
     setCurrentNav(container.dataset.barbaNamespace);
     accordions(container);
-    continueReading(container);
+    const closeContinue = continueReading(container);
+    if (closeContinue) pageCleanups.push(closeContinue);
     startPage(container);
     pickedBooks(container);
     window.BookshelfKids.panel(container);

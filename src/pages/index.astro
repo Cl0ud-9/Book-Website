@@ -9,7 +9,6 @@ import Cover from "../components/Cover.astro";
 import DailyLine from "../components/DailyLine.astro";
 import GenreBlock from "../components/GenreBlock.astro";
 import Icon from "../components/Icon.astro";
-import LibraryData from "../components/LibraryData.astro";
 import Ribbons from "../components/Ribbons.astro";
 import Tags from "../components/Tags.astro";
 import Base from "../layouts/Base.astro";
@@ -34,7 +33,7 @@ const STEPS = [
 ] as const;
 const QUESTIONS = [
   ["Are the books really free?", `Yes, all ${count} of them, to read here or to download and keep. They are out of copyright, so they belong to everyone.`],
-  ["Where do the books come from?", "They are public-domain editions from Standard Ebooks, carefully proofread and beautifully typeset, with the art on their covers taken from public-domain paintings."],
+  ["Where do the books come from?", "Most are public-domain editions from Standard Ebooks, carefully proofread and beautifully typeset, chosen by hand; the rest are the most read books from Project Gutenberg. Every one is out of copyright in India as well as the United States."],
   ["Can I read on my Kindle, Kobo or phone?", "Yes. Every book page has an EPUB download for phones and most e-readers, and links to Kindle and Kobo editions. Or just press Read now and read in your browser."],
   ["Will it remember where I stopped?", `Yes: open the book again and it picks up on your page. ${ACCOUNTS ? "With an account, it does on your other devices too." : "It is kept on your device, so there is no account to make."}`],
   ["Why are there no new bestsellers?", "Recent books are still under copyright, so they cannot be shared for free. Your local library can lend you most of them, often as ebooks through an app like Libby."],
@@ -244,5 +243,4 @@ const [back, front] = FEATURED.hero;
     <p class="spotlight__quote is--right accent-note" data-handwritten-text-inview>{`That’s the first line. The last is ${about(spot.minutes)} away.`}</p>
   </div>
 </section>
-<LibraryData />
 </Base>

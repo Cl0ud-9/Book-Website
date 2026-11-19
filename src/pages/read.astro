@@ -2,7 +2,6 @@
 // The reader: the book itself (epub.js), its bar and footer, and the Contents, Text and Notes panels, the highlight bar
 // and the popups. The reader script fills it in.
 import Icon from "../components/Icon.astro";
-import LibraryData from "../components/LibraryData.astro";
 import OfflineControls from "../components/OfflineControls.astro";
 import Base from "../layouts/Base.astro";
 import { ACCOUNTS } from "../lib/config";
@@ -134,7 +133,6 @@ const swatches = [["yellow", "Yellow highlight"], ["green", "Green highlight"], 
   </div>
   <div class="reader__toast" role="status" data-reader-toast hidden><span data-toast-text></span><button type="button" class="reader__toast-undo" data-toast-undo hidden>Undo</button></div>
 </section>
-<LibraryData />
 <script is:inline>
   // The book's file and the cover its opening shows start downloading with the page, while the reader's own scripts
   // load (they ask for the same addresses, and get these)
@@ -142,15 +140,15 @@ const swatches = [["yellow", "Yellow highlight"], ["green", "Green highlight"], 
     try {
       const reader = document.querySelector("[data-reader]");
       const slug = new URLSearchParams(location.search).get("book");
-      const info = slug && JSON.parse(document.querySelector("[data-library]").textContent)[slug];
-      if (!info) return;
+      // (every book's file is books/<its address>.epub; one that is not on the shelf simply finds nothing there)
+      if (!slug || !/^[a-z0-9-]+$/.test(slug)) return;
       const preload = (as, href) => {
         const link = document.createElement("link");
         Object.assign(link, { rel: "preload", as, href });
         if (as === "fetch") link.crossOrigin = "anonymous";
         document.head.append(link);
       };
-      preload("fetch", info.epub);
+      preload("fetch", `books/${slug}.epub`);
       // the closed book waits on the desk from the first moment, rather than once the reader's scripts have come
       if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
         preload("image", `image/covers/${slug}-360.webp`);

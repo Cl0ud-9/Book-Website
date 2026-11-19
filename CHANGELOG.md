@@ -5,6 +5,33 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [4.5.0] - 2026-11-19
+
+### Added
+
+- The shelf grows by itself, a lot faster. Every morning a workflow adds up to 10 hand-chosen Standard Ebooks (from a queue)
+  and up to 50 of Project Gutenberg's most downloaded English books. Each is checked first: everyone who wrote or translated
+  it must have died in 1965 or before, so it is free in India as well as the United States (anonymous books, and books with a
+  date missing, are left out), and it must not already be on the shelf.
+- The first books from Project Gutenberg this way. Their genres, moods and suggested ages are worked out from Gutenberg's own
+  shelves, subjects and summaries, cautiously (a story is "16 and up" unless it is for children), and the book's page says so.
+  Gutenberg's file is kept as it is, with its licence page, and a cover drawn for the site replaces its own.
+- Tests for the rules that grow the shelf (names, duplicates, who is free in India, genres), run on every change.
+
+### Changed
+
+- All books builds its cards a batch at a time as you scroll, from one small file of the whole shelf, so the page is about the
+  same size however many books there are (783 KB became 111 KB at 463 books, and stays that at thousands). Search, the filters
+  and the sorting still cover every book. The home page is half the size, as the details of every book are fetched only by the
+  pages that need them (the reader, Your reading, your account, and Continue reading once you have started a book).
+- The books and covers are kept on the release as archives and a manifest, and only what is new is uploaded, so the set can
+  grow past 2 GB.
+
+### Fixed
+
+- Back to All books lands where you were: cards that had not been seen yet were assumed half as tall as they are, so the page
+  was shorter than you left it.
+
 ## [4.4.1] - 2026-11-19
 
 ### Fixed

@@ -17,6 +17,17 @@ fails = []
 LIBRARY = json.loads((Path(__file__).resolve().parents[2] / "data" / "books.json").read_text(encoding="utf-8"))
 
 
+
+def load_all(page):
+    """All books builds its cards a batch at a time, as the end of the list comes near: scroll on until every one is built"""
+    for _ in range(150):
+        n = page.locator(".book-card").count()
+        page.evaluate("window.scrollTo(0, document.body.scrollHeight)"); page.wait_for_timeout(200)
+        if page.locator(".book-card").count() == n and page.evaluate("document.querySelector('[data-search-more]').hidden"):
+            break
+    page.evaluate("window.scrollTo(0, 0)")
+    return page.locator(".book-card").count()
+
 def plain(text):
     return "".join(c for c in unicodedata.normalize("NFD", text.lower()) if unicodedata.category(c) != "Mn")
 
@@ -131,20 +142,26 @@ with sync_playwright() as p:
     ok(page.locator("[data-search-empty]").is_visible(), "no-match message shows")
     page.fill("#search-box", "")
     page.wait_for_timeout(400)
-    ok(page.locator(".book-card").count() == len(LIBRARY), f"the catalogue has every book ({len(LIBRARY)})")
+    page.locator(".kinds [data-kind='']").click()  # (un-picking the genre leaves its kind, Fiction, chosen)
+    page.wait_for_timeout(500)
+    built = load_all(page)
+    ok(built == len(LIBRARY), f"the catalogue has every book ({len(LIBRARY)}; {built} built, status {page.locator('[data-search-status]').inner_text()!r}, url {page.url})")
     # sorting: by length, by title, back to most read, and the choice is kept in the address
     order = "() => [...document.querySelectorAll('.book-card')].map(c => [c.dataset.title, +c.dataset.words, +c.dataset.rank])"
     page.select_option("[data-sort]", "short")
     page.wait_for_timeout(400)
+    load_all(page)
     cards = page.evaluate(order)
     ok([c[1] for c in cards] == sorted(c[1] for c in cards) and "sort=short" in page.url, "Shortest first sorts by length")
     page.select_option("[data-sort]", "title")
     page.wait_for_timeout(400)
+    load_all(page)
     titles = [c[0] for c in page.evaluate(order)]
     in_order = page.evaluate("t => t.every((x, i) => !i || t[i - 1].localeCompare(x) <= 0)", titles)
     ok(in_order and "sort=title" in page.url, f"Title, A to Z sorts by title ({titles[:3]})")
     page.select_option("[data-sort]", "rank")
     page.wait_for_timeout(400)
+    load_all(page)
     cards = page.evaluate(order)
     ok([c[2] for c in cards] == sorted(c[2] for c in cards) and "sort=" not in page.url, "Most read puts the most read first")
     page.screenshot(path=f"{OUT}/books.png")

@@ -7,7 +7,8 @@ const ACCOUNT_FAQ: Question[] = [
   ["Is it suitable for children?",
     "Many of the books are, and many are not: these are classics, some with violence, frightening scenes or the attitudes of "
     + "their time. Each book's page gives a suggested age and anything worth knowing first, and All books can filter by age. "
-    + "The ages are our own guide, not a certified rating. On a family's device, Kids mode hides books for older readers "
+    + "The ages are our own guide, not a certified rating, and for the books that come in automatically from Project Gutenberg "
+    + "they are a cautious guess from the book's genre, which the book's page says. On a family's device, Kids mode hides books for older readers "
     + "behind a PIN. It keeps everything on the device and collects nothing about your child, but it is a guard rail, not a "
     + "lock: clearing the browser's data turns it off.", ["Kids mode", "reading#kids"]],
   ["How do you choose books for me?",
@@ -65,9 +66,13 @@ export const FAQ_TOPICS: readonly (readonly [key: string, name: string, colour: 
   ]],
   ["books", "The books", "pale-pink", "bookmark", [
     ["Where do the books come from?",
-      "Almost all are Standard Ebooks editions: public-domain classics carefully proofread and typeset by volunteers, "
-      + "with covers made from public-domain paintings. A few classics from India that Standard Ebooks does not have "
-      + "come from Project Gutenberg. Each book's page says which edition it is."],
+      "Two places. Most are Standard Ebooks editions: public-domain classics carefully proofread and typeset by volunteers, "
+      + "with covers made from public-domain paintings, and chosen by hand. The rest come from Project Gutenberg, the most "
+      + "downloaded English books there, which are added automatically a few at a time. Those are Gutenberg's own files, "
+      + "kept as they are (with Gutenberg's licence page at the start), with a cover drawn for this site; their genres, "
+      + "moods and ages are worked out from Gutenberg's details by a script, so they may be less exact. Every book, from "
+      + "either place, is checked to be out of copyright in India as well as the United States: everyone who wrote or "
+      + "translated it died in 1965 or before. Each book's page says which edition it is."],
     ["How are the books ranked?",
       "By how much they are read. The order comes from Standard Ebooks' popularity ranking, so All books starts "
       + "with the most read, and Where to start on the home page is the top ten."],

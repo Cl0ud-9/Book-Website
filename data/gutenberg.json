@@ -152,5 +152,503 @@
     "died": 1938
    }
   ]
+ },
+ {
+  "id": 2600,
+  "title": "War and Peace",
+  "author": "Leo Tolstoy",
+  "slug": "war-and-peace",
+  "rank": 25,
+  "translator": "Aylmer Maude and Louise Maude",
+  "genres": [
+   "Literary fiction"
+  ],
+  "collections": [],
+  "abstract": "Set during the Napoleonic Wars, it chronicles the French invasion of Russia through five interlocking narratives following different Russian…",
+  "description": [
+   "\"War and Peace\" by graf Leo Tolstoy is a literary work published in 1869. Set during the Napoleonic Wars, it chronicles the French invasion of Russia through five interlocking narratives following different Russian aristocratic families. The work blends fictional storytelling with philosophical discussions about history, war, and power. Tolstoy himself hesitated to classify it, saying it is \"not a novel, even less is it a poem, and still less a historical chronicle.\" It remains one of the most praised classics of world literature.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 574196,
+  "spine": "#842e15",
+  "size": 1800699,
+  "auto": true,
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [],
+  "people": [
+   {
+    "name": "Leo Tolstoy",
+    "roles": [
+     "author"
+    ],
+    "died": 1910
+   },
+   {
+    "name": "Aylmer Maude",
+    "roles": [
+     "translator"
+    ],
+    "died": 1938
+   },
+   {
+    "name": "Louise Maude",
+    "roles": [
+     "translator"
+    ],
+    "died": 1939
+   }
+  ]
+ },
+ {
+  "id": 1952,
+  "title": "The Yellow Wallpaper",
+  "author": "Charlotte Perkins Gilman",
+  "slug": "the-yellow-wallpaper",
+  "rank": 26,
+  "translator": null,
+  "genres": [
+   "Horror",
+   "Literary fiction"
+  ],
+  "collections": [],
+  "abstract": "This landmark work of feminist literature and horror fiction follows a woman confined to a nursery by her physician husband as treatment for…",
+  "description": [
+   "\"The Yellow Wallpaper\" by Charlotte Perkins Gilman is a short story published in January 1892. This landmark work of feminist literature and horror fiction follows a woman confined to a nursery by her physician husband as treatment for \"temporary nervous depression.\" Forbidden from working or writing, she documents her experience through secret journal entries. With nothing to occupy her mind but the room's disturbing yellow wallpaper, she descends into madness, becoming obsessed with its strange patterns and the figures she perceives within it.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 6265,
+  "spine": "#121529",
+  "size": 58274,
+  "auto": true,
+  "moods": [
+   "Eerie",
+   "Dark",
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "fear"
+  ],
+  "people": [
+   {
+    "name": "Charlotte Perkins Gilman",
+    "roles": [
+     "author"
+    ],
+    "died": 1935
+   }
+  ]
+ },
+ {
+  "id": 1259,
+  "title": "Twenty Years After",
+  "author": "Alexandre Dumas and Auguste Maquet",
+  "slug": "twenty-years-after",
+  "rank": 27,
+  "translator": null,
+  "genres": [
+   "Literary fiction",
+   "Adventure"
+  ],
+  "collections": [],
+  "abstract": "D'Artagnan, still a lowly lieutenant after two decades, is summoned by the despised Cardinal Mazarin during France's brewing rebellion.",
+  "description": [
+   "\"Twenty years after\" by Alexandre Dumas and Auguste Maquet is a novel serialized from January to August 1845. D'Artagnan, still a lowly lieutenant after two decades, is summoned by the despised Cardinal Mazarin during France's brewing rebellion. Tasked with reuniting the legendary musketeers, he tracks down his old friends—now scattered across vastly different lives. As political turmoil engulfs both France and England during the English Civil War, the four heroes must navigate their conflicting loyalties and set aside their differences for one last mission.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 247419,
+  "spine": "#28201d",
+  "size": 713497,
+  "auto": true,
+  "moods": [
+   "Thoughtful",
+   "Adventurous",
+   "Gripping"
+  ],
+  "age": 16,
+  "notes": [],
+  "people": [
+   {
+    "name": "Alexandre Dumas",
+    "roles": [
+     "author"
+    ],
+    "died": 1870
+   },
+   {
+    "name": "Auguste Maquet",
+    "roles": [
+     "author"
+    ],
+    "died": 1888
+   }
+  ]
+ },
+ {
+  "id": 2160,
+  "title": "The Expedition of Humphry Clinker",
+  "author": "Tobias Smollett",
+  "slug": "the-expedition-of-humphry-clinker",
+  "rank": 31,
+  "translator": null,
+  "genres": [
+   "Literary fiction"
+  ],
+  "collections": [],
+  "abstract": "Six correspondents—including a gouty Welsh squire, his husband-hunting sister, and their servants—chronicle a journey through England and…",
+  "description": [
+   "\"The Expedition of Humphry Clinker\" by Tobias Smollett is an epistolary novel published in 1771. Six correspondents—including a gouty Welsh squire, his husband-hunting sister, and their servants—chronicle a journey through England and Scotland's fashionable spa towns and resorts. Through wildly contrasting letters describing the same events, Smollett satirizes eighteenth-century British society, class pretensions, and urban life. The mysterious ostler Humphry Clinker joins their travels, bringing comic misadventures, romantic entanglements, and surprising revelations that transform the expedition.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 153009,
+  "spine": "#2d256a",
+  "size": 448802,
+  "auto": true,
+  "moods": [
+   "Funny",
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [],
+  "people": [
+   {
+    "name": "Tobias Smollett",
+    "roles": [
+     "author"
+    ],
+    "died": 1771
+   }
+  ]
+ },
+ {
+  "id": 59828,
+  "title": "The String of Pearls",
+  "author": "Thomas Peckett Prest and James Malcolm Rymer",
+  "slug": "the-string-of-pearls",
+  "rank": 37,
+  "translator": null,
+  "genres": [
+   "Mystery",
+   "Romance",
+   "Literary fiction"
+  ],
+  "collections": [],
+  "abstract": "A Domestic Romance.\" by Rymer et al. is a penny dreadful serial published from 1846 to 1847.",
+  "description": [
+   "\"The String of Pearls; Or, The Barber of Fleet Street. A Domestic Romance.\" by Rymer et al. is a penny dreadful serial published from 1846 to 1847. This tale introduces Sweeney Todd, the murderous barber of Fleet Street who kills his customers and delivers their corpses to Mrs. Lovett, who bakes the flesh into meat pies. When a sailor mysteriously disappears after visiting Todd's shop, friends and loved ones investigate, uncovering a horrifying secret beneath St. Dunstan's church that reveals the true scale of Todd's crimes.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 449102,
+  "spine": "#4d0e0e",
+  "size": 1218868,
+  "auto": true,
+  "moods": [
+   "Gripping",
+   "Romantic",
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "violence"
+  ],
+  "people": [
+   {
+    "name": "Thomas Peckett Prest",
+    "roles": [
+     "author"
+    ],
+    "died": 1859
+   },
+   {
+    "name": "James Malcolm Rymer",
+    "roles": [
+     "author"
+    ],
+    "died": 1884
+   }
+  ]
+ },
+ {
+  "id": 6761,
+  "title": "The Adventures of Ferdinand Count Fathom",
+  "author": "Tobias Smollett",
+  "slug": "the-adventures-of-ferdinand-count-fathom",
+  "rank": 40,
+  "translator": null,
+  "genres": [
+   "Literary fiction",
+   "Adventure"
+  ],
+  "collections": [],
+  "abstract": "\"The Adventures of Ferdinand Count Fathom\" by Tobias Smollett is a satirical novel written in the mid-18th century.",
+  "description": [
+   "\"The Adventures of Ferdinand Count Fathom\" by Tobias Smollett is a satirical novel written in the mid-18th century. The narrative follows the cunning and morally ambiguous character of Ferdinand Count Fathom, a man of mysterious parentage armed with an extraordinary talent for deception and manipulation. The story sets the stage for themes of vice and virtue, exploring Fathom’s escapades and schemes as he navigates a world ripe for exploitation.  The opening of the novel introduces Fathom in an unusual light—born under strange circumstances to a mother who flitted between roles in military encampments and armies. We explore the early influence of his mother, an adventurous and fierce figure whose exploits paint a picture of a wild and unrestrained environment. As Fathom grows, he exhibits a blend of charisma and villainy, drawing the attention of powerful patrons while developing ambitions of his own. With a sharp wit and an ability to adapt, he becomes both an object of admiration and contempt, preparing the reader for a complex journey through deceit, ambition, and the nature of morality.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 163316,
+  "spine": "#0c2a28",
+  "size": 604517,
+  "auto": true,
+  "moods": [
+   "Thoughtful",
+   "Adventurous",
+   "Gripping"
+  ],
+  "age": 16,
+  "notes": [],
+  "people": [
+   {
+    "name": "Tobias Smollett",
+    "roles": [
+     "author"
+    ],
+    "died": 1771
+   }
+  ]
+ },
+ {
+  "id": 4085,
+  "title": "The Adventures of Roderick Random",
+  "author": "Tobias Smollett",
+  "slug": "the-adventures-of-roderick-random",
+  "rank": 43,
+  "translator": null,
+  "genres": [
+   "Literary fiction",
+   "Adventure"
+  ],
+  "collections": [],
+  "abstract": "Smollett is a picaresque novel published in 1748.",
+  "description": [
+   "\"The Adventures of Roderick Random\" by T. Smollett is a picaresque novel published in 1748. Born to a Scottish gentleman and cast out by his family, young Roderick Random must survive by his wits alone in eighteenth-century Britain. From London to the West Indies, he encounters malice, deception, and hypocrisy at every turn while pursuing wealthy women and seeking his rightful place as a gentleman. Drawing on Smollett's own naval experience, this satirical tale exposes the brutality and corruption of its age.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 193378,
+  "spine": "#292164",
+  "size": 575251,
+  "auto": true,
+  "moods": [
+   "Thoughtful",
+   "Adventurous",
+   "Gripping"
+  ],
+  "age": 16,
+  "notes": [],
+  "people": [
+   {
+    "name": "Tobias Smollett",
+    "roles": [
+     "author"
+    ],
+    "died": 1771
+   }
+  ]
+ },
+ {
+  "id": 2591,
+  "title": "Grimms' Fairy Tales",
+  "author": "Jacob Grimm and Wilhelm Grimm",
+  "slug": "grimms-fairy-tales",
+  "rank": 45,
+  "translator": null,
+  "genres": [
+   "Fantasy",
+   "Children’s",
+   "Literary fiction"
+  ],
+  "collections": [],
+  "abstract": "\"Grimms' Fairy Tales\" by Jacob Grimm and Wilhelm Grimm is a German collection of fairy tales first published in 1812.",
+  "description": [
+   "\"Grimms' Fairy Tales\" by Jacob Grimm and Wilhelm Grimm is a German collection of fairy tales first published in 1812. Beginning with 86 stories and eventually expanding to 210 tales across seven editions, this seminal work transformed oral folklore into written literature. The brothers collected stories from friends, acquaintances, and old books to preserve German cultural history. What started as a scholarly project evolved through decades of revisions, with tales added and removed, content adjusted for young readers, and illustrations incorporated to become a cornerstone of Western children's literature.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 102336,
+  "spine": "#3f4a15",
+  "size": 314051,
+  "auto": true,
+  "moods": [
+   "Adventurous",
+   "Heartwarming",
+   "Thoughtful"
+  ],
+  "age": 10,
+  "notes": [],
+  "people": [
+   {
+    "name": "Jacob Grimm",
+    "roles": [
+     "author"
+    ],
+    "died": 1863
+   },
+   {
+    "name": "Wilhelm Grimm",
+    "roles": [
+     "author"
+    ],
+    "died": 1859
+   }
+  ]
+ },
+ {
+  "id": 3296,
+  "title": "The Confessions of St. Augustine",
+  "author": "Augustine",
+  "slug": "the-confessions-of-st-augustine",
+  "rank": 54,
+  "translator": "E. Edward Bouverie Pusey",
+  "genres": [
+   "Philosophy",
+   "Lives and memoirs"
+  ],
+  "collections": [],
+  "abstract": "Augustine\" by Bishop of Hippo Saint Augustine is an autobiographical work written between AD 397 and 400.",
+  "description": [
+   "\"The Confessions of St. Augustine\" by Bishop of Hippo Saint Augustine is an autobiographical work written between AD 397 and 400. In thirteen books composed as prayers to God, Augustine recounts his turbulent journey from a sinful youth to Christian conversion. He reflects on his immoral past, his time following Manichaeism, and the influential figures who guided him toward faith. Considered the first Western autobiography, this intimate spiritual memoir explores themes of sin, redemption, and humanity's restless search for divine truth.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 112306,
+  "spine": "#10203b",
+  "size": 308104,
+  "auto": true,
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "ideas"
+  ],
+  "people": [
+   {
+    "name": "Augustine",
+    "roles": [
+     "author"
+    ],
+    "died": 430
+   },
+   {
+    "name": "E. Edward Bouverie Pusey",
+    "roles": [
+     "translator"
+    ],
+    "died": 1882
+   }
+  ]
+ },
+ {
+  "id": 78118,
+  "title": "Barry Locke, half-back",
+  "author": "Ralph Henry Barbour",
+  "slug": "barry-locke-half-back",
+  "rank": 55,
+  "translator": null,
+  "genres": [
+   "Children’s"
+  ],
+  "collections": [],
+  "abstract": "It follows Barry Locke, a new boy at Broadmoor School, as he navigates housing mishaps, shifting friendships, and the pull between football…",
+  "description": [
+   "\"Barry Locke, half-back\" by Ralph Henry Barbour is a school sports novel written in the early 20th century. It follows Barry Locke, a new boy at Broadmoor School, as he navigates housing mishaps, shifting friendships, and the pull between football, baseball, and school cliques; key figures include his status‑minded friend Clyde Allen, the wry and grounded Crawford “Peaches” Jones, and sensitive violinist Alonzo “Zo” Fessenden.\n\nThe opening of the book traces Barry’s arrival in the Connecticut village of Wessex, where a promised dorm room falls through and he instead boards with kindly Mrs. Lyle, meeting her daughter Betty, the quirky specimen-collector Toby Nott, and the affable Peaches Jones. Barry registers, samples campus life, buys a sturdy second‑hand desk, and endures Clyde’s attempts to steer him toward “the right sort” of friends and clubs while discouraging baseball and Jones. On “Pup Night” he intervenes when Third Class boys try to drag the panicked Fourth Class Zo Fessenden to the pond, scuffling with Rusty Waterman until Peaches steps in, and the three begin a quiet friendship. These chapters establish Barry’s daily routine, early football Saturdays, and the warm porch camaraderie at the Lyles, while hinting at the social divides Barry must choose his way through.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 67311,
+  "spine": "#0a4145",
+  "size": 249107,
+  "auto": true,
+  "moods": [
+   "Heartwarming"
+  ],
+  "age": 10,
+  "notes": [],
+  "people": [
+   {
+    "name": "Ralph Henry Barbour",
+    "roles": [
+     "author"
+    ],
+    "died": 1944
+   }
+  ]
+ },
+ {
+  "id": 7370,
+  "title": "Second Treatise of Government",
+  "author": "John Locke",
+  "slug": "second-treatise-of-government",
+  "rank": 60,
+  "translator": null,
+  "genres": [
+   "History and politics",
+   "Philosophy"
+  ],
+  "collections": [],
+  "abstract": "Writing anonymously during England's turbulent revolution, Locke outlines a radical vision of society founded on natural rights and government by…",
+  "description": [
+   "\"Second Treatise of Government\" by John Locke is a political philosophy work published in 1689. Writing anonymously during England's turbulent revolution, Locke outlines a radical vision of society founded on natural rights and government by consent rather than divine authority. His ideas challenge the established order, arguing that legitimate power flows from the people, not kings claiming God-given rule. This foundational text of liberal political theory emerged from dangerous conspiracies and exile, so controversial that Locke never acknowledged authorship during his lifetime.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 56806,
+  "spine": "#3f4a15",
+  "size": 173304,
+  "auto": true,
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "war",
+   "ideas"
+  ],
+  "people": [
+   {
+    "name": "John Locke",
+    "roles": [
+     "author"
+    ],
+    "died": 1704
+   }
+  ]
+ },
+ {
+  "id": 41,
+  "title": "The Legend of Sleepy Hollow",
+  "author": "Washington Irving",
+  "slug": "the-legend-of-sleepy-hollow",
+  "rank": 61,
+  "translator": null,
+  "genres": [
+   "Fantasy",
+   "Children’s",
+   "Literary fiction"
+  ],
+  "collections": [],
+  "abstract": "Set in 1790 in a secluded glen near Tarrytown, it follows Ichabod Crane, a superstitious schoolmaster who competes with local rowdy Brom Bones for…",
+  "description": [
+   "\"The Legend of Sleepy Hollow\" by Washington Irving is a short story written in 1820. Set in 1790 in a secluded glen near Tarrytown, it follows Ichabod Crane, a superstitious schoolmaster who competes with local rowdy Brom Bones for the affections of wealthy Katrina Van Tassel. After a harvest party filled with ghost stories about a Headless Horseman, Ichabod encounters a terrifying cloaked rider on his journey home. The next morning, he has vanished, leaving only mysterious clues behind.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 12400,
+  "spine": "#1f3e2a",
+  "size": 68848,
+  "auto": true,
+  "moods": [
+   "Adventurous",
+   "Heartwarming",
+   "Thoughtful"
+  ],
+  "age": 10,
+  "notes": [],
+  "people": [
+   {
+    "name": "Washington Irving",
+    "roles": [
+     "author"
+    ],
+    "died": 1859
+   }
+  ]
  }
 ]
