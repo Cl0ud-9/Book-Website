@@ -23,6 +23,20 @@
    }
   ]
  },
+ "a-christmas-carol-in-prose": {
+  "free": true,
+  "people": [
+   {
+    "died": 1870,
+    "free": true,
+    "name": "Charles Dickens",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "a-confession": {
   "free": true,
   "people": [
@@ -637,6 +651,20 @@
      "cover painting"
     ],
     "wikidata": "Q773855"
+   }
+  ]
+ },
+ "an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations": {
+  "free": true,
+  "people": [
+   {
+    "died": 1790,
+    "free": true,
+    "name": "Adam Smith",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -1459,6 +1487,43 @@
      "cover painting"
     ],
     "wikidata": "Q344838"
+   }
+  ]
+ },
+ "carmen": {
+  "free": true,
+  "people": [
+   {
+    "died": 1870,
+    "free": true,
+    "name": "Prosper Mérimée",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1936,
+    "free": true,
+    "name": "Mary Loyd",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "changeling-and-other-stories": {
+  "free": true,
+  "people": [
+   {
+    "died": 1928,
+    "free": true,
+    "name": "Donn Byrne",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -7183,6 +7248,20 @@
    }
   ]
  },
+ "the-call-of-cthulhu": {
+  "free": true,
+  "people": [
+   {
+    "died": 1937,
+    "free": true,
+    "name": "H. Howard Phillips Lovecraft",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-call-of-the-wild": {
   "free": true,
   "people": [
@@ -10104,6 +10183,20 @@
    }
   ]
  },
+ "the-problem-of-cell-13": {
+  "free": true,
+  "people": [
+   {
+    "died": 1912,
+    "free": true,
+    "name": "Jacques Futrelle",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-professors-house": {
   "free": true,
   "people": [
@@ -10271,6 +10364,29 @@
      "cover painting"
     ],
     "wikidata": "Q2017560"
+   }
+  ]
+ },
+ "the-republic": {
+  "free": true,
+  "people": [
+   {
+    "died": -348,
+    "free": true,
+    "name": "Plato",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1893,
+    "free": true,
+    "name": "Benjamin Jowett",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -12499,6 +12615,29 @@
    }
   ]
  },
+ "washington-confidential": {
+  "free": true,
+  "people": [
+   {
+    "died": 1954,
+    "free": true,
+    "name": "Jack Lait",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1963,
+    "free": true,
+    "name": "Lee Mortimer",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "waverley": {
   "free": true,
   "people": [
@@ -12649,6 +12788,29 @@
    }
   ]
  },
+ "white-nights-and-other-stories": {
+  "free": true,
+  "people": [
+   {
+    "died": 1881,
+    "free": true,
+    "name": "Fyodor Dostoyevsky",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1946,
+    "free": true,
+    "name": "Constance Garnett",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "whose-body": {
   "free": true,
   "people": [
@@ -12670,6 +12832,20 @@
      "cover painting"
     ],
     "wikidata": "Q214905"
+   }
+  ]
+ },
+ "whose-body-a-lord-peter-wimsey-novel": {
+  "free": true,
+  "people": [
+   {
+    "died": 1957,
+    "free": true,
+    "name": "Dorothy Dorothy Leigh Sayers",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },

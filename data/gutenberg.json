@@ -650,5 +650,419 @@
     "died": 1859
    }
   ]
+ },
+ {
+  "id": 68283,
+  "title": "The call of Cthulhu",
+  "author": "H. Howard Phillips Lovecraft",
+  "slug": "the-call-of-cthulhu",
+  "rank": 69,
+  "translator": null,
+  "genres": [
+   "Mystery",
+   "Science fiction",
+   "Literary fiction"
+  ],
+  "collections": [],
+  "abstract": "P.",
+  "description": [
+   "\"The Call of Cthulhu\" by H. P. Lovecraft is a cosmic horror short story written in 1926 and published in 1928. After inheriting his grand-uncle's mysterious notes, Francis Wayland Thurston pieces together a terrifying puzzle involving disturbing dreams, ancient cults, and a monstrous entity called Cthulhu. His investigation leads him across continents, from New Orleans rituals to a nightmare city on an uncharted island, where something immense and ancient awaits. As Thurston uncovers the truth, he realizes he may become the next target.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 12167,
+  "spine": "#1f3e2a",
+  "size": 71650,
+  "auto": true,
+  "moods": [
+   "Gripping",
+   "Adventurous",
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "violence"
+  ],
+  "people": [
+   {
+    "name": "H. Howard Phillips Lovecraft",
+    "roles": [
+     "author"
+    ],
+    "died": 1937
+   }
+  ]
+ },
+ {
+  "id": 46,
+  "title": "A Christmas Carol in Prose",
+  "author": "Charles Dickens",
+  "slug": "a-christmas-carol-in-prose",
+  "rank": 75,
+  "translator": null,
+  "genres": [
+   "Literary fiction",
+   "Children’s",
+   "Horror"
+  ],
+  "collections": [],
+  "abstract": "\"A Christmas Carol in Prose; Being a Ghost Story of Christmas\" by Charles Dickens is a novella published in 1843.",
+  "description": [
+   "\"A Christmas Carol in Prose; Being a Ghost Story of Christmas\" by Charles Dickens is a novella published in 1843. It tells the story of Ebenezer Scrooge, a greedy miser who despises Christmas. Through supernatural visits from four ghosts—Jacob Marley and the spirits of Christmas Past, Present, and Future—Scrooge undergoes a profound transformation. This beloved tale has become one of Dickens's most famous works, adapted countless times across virtually every medium and performance genre since its publication.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 29474,
+  "spine": "#152842",
+  "size": 123912,
+  "auto": true,
+  "moods": [
+   "Thoughtful",
+   "Heartwarming",
+   "Eerie"
+  ],
+  "age": 16,
+  "notes": [
+   "fear"
+  ],
+  "people": [
+   {
+    "name": "Charles Dickens",
+    "roles": [
+     "author"
+    ],
+    "died": 1870
+   }
+  ]
+ },
+ {
+  "id": 57669,
+  "title": "The problem of Cell 13",
+  "author": "Jacques Futrelle",
+  "slug": "the-problem-of-cell-13",
+  "rank": 77,
+  "translator": null,
+  "genres": [
+   "Mystery",
+   "Literary fiction"
+  ],
+  "collections": [],
+  "abstract": "The tale features Augustus S.",
+  "description": [
+   "\"The Problem of Cell 13\" by Jacques Futrelle is a short story first published in 1905. The tale features Augustus S. F. X. Van Dusen, \"The Thinking Machine,\" who claims nothing is impossible when the human mind is properly applied. To prove his theory, he accepts an extraordinary challenge: escape from a prison cell within one week. This acclaimed mystery has been adapted multiple times for television, radio, and stage, and appears in numerous collections of greatest detective stories.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 79668,
+  "spine": "#0c2a28",
+  "size": 220505,
+  "auto": true,
+  "moods": [
+   "Gripping",
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "violence"
+  ],
+  "people": [
+   {
+    "name": "Jacques Futrelle",
+    "roles": [
+     "author"
+    ],
+    "died": 1912
+   }
+  ]
+ },
+ {
+  "id": 2465,
+  "title": "Carmen",
+  "author": "Prosper Mérimée",
+  "slug": "carmen",
+  "rank": 79,
+  "translator": "Mary Loyd",
+  "genres": [
+   "Mystery",
+   "Romance",
+   "Literary fiction"
+  ],
+  "collections": [],
+  "abstract": "In the lonely hills of Andalusia, a scholar meets a notorious outlaw named Don José, who tells the tale of his tragic downfall.",
+  "description": [
+   "\"Carmen\" by Prosper Mérimée is a novella written and first published in 1845. In the lonely hills of Andalusia, a scholar meets a notorious outlaw named Don José, who tells the tale of his tragic downfall. His story revolves around Carmen, a captivating Romani woman whose fierce independence and refusal to be tamed leads to jealousy, violence, and death. This dark narrative of passion and fate later inspired Bizet's famous opera.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 24511,
+  "spine": "#10312f",
+  "size": 111083,
+  "auto": true,
+  "moods": [
+   "Gripping",
+   "Romantic",
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "violence"
+  ],
+  "people": [
+   {
+    "name": "Prosper Mérimée",
+    "roles": [
+     "author"
+    ],
+    "died": 1870
+   },
+   {
+    "name": "Mary Loyd",
+    "roles": [
+     "translator"
+    ],
+    "died": 1936
+   }
+  ]
+ },
+ {
+  "id": 58820,
+  "title": "Whose Body? A Lord Peter Wimsey Novel",
+  "author": "Dorothy Dorothy Leigh Sayers",
+  "slug": "whose-body-a-lord-peter-wimsey-novel",
+  "rank": 80,
+  "translator": null,
+  "genres": [
+   "Mystery",
+   "Literary fiction"
+  ],
+  "collections": [],
+  "abstract": "A Lord Peter Wimsey Novel\" by Dorothy L.",
+  "description": [
+   "\"Whose Body? A Lord Peter Wimsey Novel\" by Dorothy L. Sayers is a mystery novel published in 1923. When an architect discovers a naked corpse wearing only pince-nez spectacles in his London bathtub, the amateur detective Lord Peter Wimsey takes on the puzzling case. The body appears connected to the mysterious disappearance of financier Sir Reuben Levy, but evidence suggests otherwise. As Wimsey investigates alongside Inspector Parker, the trail leads to a teaching hospital and a respected surgeon, where secrets darker than anyone imagined await discovery.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 61959,
+  "spine": "#0b474a",
+  "size": 239246,
+  "auto": true,
+  "moods": [
+   "Gripping",
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "violence"
+  ],
+  "people": [
+   {
+    "name": "Dorothy Dorothy Leigh Sayers",
+    "roles": [
+     "author"
+    ],
+    "died": 1957
+   }
+  ]
+ },
+ {
+  "id": 3300,
+  "title": "An Inquiry into the Nature and Causes of the Wealth of Nations",
+  "author": "Adam Smith",
+  "slug": "an-inquiry-into-the-nature-and-causes-of-the-wealth-of-nations",
+  "rank": 81,
+  "translator": null,
+  "genres": [
+   "History and politics"
+  ],
+  "collections": [],
+  "abstract": "\"An Inquiry into the Nature and Causes of the Wealth of Nations\" by Adam Smith is a treatise published in 1776.",
+  "description": [
+   "\"An Inquiry into the Nature and Causes of the Wealth of Nations\" by Adam Smith is a treatise published in 1776. This foundational work of classical economics examines what builds nations' wealth at the dawn of the Industrial Revolution. Smith introduces revolutionary concepts like division of labor, free markets, and the \"invisible hand\" of self-interest guiding economic activity. Challenging the mercantilist policies of his era, he argues that supply and demand should determine commerce rather than government regulation, establishing theoretical foundations that would shape economic thought for centuries.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 383931,
+  "spine": "#55152a",
+  "size": 831782,
+  "auto": true,
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "war"
+  ],
+  "people": [
+   {
+    "name": "Adam Smith",
+    "roles": [
+     "author"
+    ],
+    "died": 1790
+   }
+  ]
+ },
+ {
+  "id": 1497,
+  "title": "The Republic",
+  "author": "Plato",
+  "slug": "the-republic",
+  "rank": 82,
+  "translator": "Benjamin Jowett",
+  "genres": [
+   "Philosophy"
+  ],
+  "collections": [],
+  "abstract": "Through conversations between Socrates and various Athenians, the work explores the meaning of justice and whether the just person is happier than…",
+  "description": [
+   "\"The Republic\" by Plato is a Socratic dialogue written around 375 BC. Through conversations between Socrates and various Athenians, the work explores the meaning of justice and whether the just person is happier than the unjust. Socrates examines existing forms of government and proposes an ideal city-state ruled by philosopher-kings. The dialogue ranges across profound questions: the nature of the soul, the role of poetry, love, aging, and the purpose of political power itself.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 217912,
+  "spine": "#1f3e2a",
+  "size": 515589,
+  "auto": true,
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "ideas"
+  ],
+  "people": [
+   {
+    "name": "Plato",
+    "roles": [
+     "author"
+    ],
+    "died": -348
+   },
+   {
+    "name": "Benjamin Jowett",
+    "roles": [
+     "translator"
+    ],
+    "died": 1893
+   }
+  ]
+ },
+ {
+  "id": 59892,
+  "title": "Changeling, and Other Stories",
+  "author": "Donn Byrne",
+  "slug": "changeling-and-other-stories",
+  "rank": 83,
+  "translator": null,
+  "genres": [
+   "Mystery",
+   "Literary fiction"
+  ],
+  "collections": [],
+  "abstract": "\"Changeling and Other Stories\" by Donn Byrne is a collection of short stories written in the early 20th century.",
+  "description": [
+   "\"Changeling and Other Stories\" by Donn Byrne is a collection of short stories written in the early 20th century. The title story, \"Changeling,\" introduces readers to Anna Janssen, a chorus girl on trial for the murder of her former lover, Alastair de Vries, as the courtroom drama unfolds with a backdrop of public scrutiny and personal transformation. The collection blends themes of crime, justice, and human relationships, and it appears to delve into deeper issues of identity and redemption.  The opening of \"Changeling\" establishes a tense courtroom atmosphere where the prosecution builds its case against Anna Janssen, who appears both striking and enigmatic. As the district attorney presents evidence and witnesses testify, the complexities of Anna's character come to light. A vivid description contrasts her present legal predicament with her passionate past as an influential figure in New York’s nightlife. The narrative shifts to her defense, led by the skilled Howard Donegan, who seems disinterested in cross-examining witnesses, prompting concern for Anna’s fate. This setup foreshadows a rich exploration of her story and the moral dilemmas surrounding her actions, setting a compelling stage for the ensuing drama.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 94935,
+  "spine": "#1f3e2a",
+  "size": 265351,
+  "auto": true,
+  "moods": [
+   "Gripping",
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [
+   "violence"
+  ],
+  "people": [
+   {
+    "name": "Donn Byrne",
+    "roles": [
+     "author"
+    ],
+    "died": 1928
+   }
+  ]
+ },
+ {
+  "id": 63469,
+  "title": "Washington Confidential",
+  "author": "Jack Lait and Lee Mortimer",
+  "slug": "washington-confidential",
+  "rank": 84,
+  "translator": null,
+  "genres": [
+   "History and politics"
+  ],
+  "collections": [],
+  "abstract": "\"Washington Confidential\" by Jack Lait and Lee Mortimer is a revealing and controversial exposé written in the early 1950s.",
+  "description": [
+   "\"Washington Confidential\" by Jack Lait and Lee Mortimer is a revealing and controversial exposé written in the early 1950s. This book offers a gritty look at the underbelly of Washington, D.C., exploring issues of corruption, vice, and the peculiarities of life in the nation’s capital. Through their journalistic lens, the authors promise an unfiltered narrative that challenges the sanitized image of Washington as the seat of political power.  The opening of \"Washington Confidential\" sets the stage for this exploration by framing the city as a paradox. Lait and Mortimer share their intent to dissect Washington, revealing it as a place of stark contradictions—architectural beauty alongside moral decay. They describe how Washington's political landscape is intertwined with vice, crime, and an extraordinary excess of government employees who engage in dubious activities. Their tone is acerbic and satirical, giving readers a sense that much of what lies beneath the surface of this capital city is overshadowed by a casual acceptance of vice, hinting at a darker reality far removed from the official narratives of governance and reform.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 125428,
+  "spine": "#1f3e2a",
+  "size": 446289,
+  "auto": true,
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 13,
+  "notes": [
+   "war"
+  ],
+  "people": [
+   {
+    "name": "Jack Lait",
+    "roles": [
+     "author"
+    ],
+    "died": 1954
+   },
+   {
+    "name": "Lee Mortimer",
+    "roles": [
+     "author"
+    ],
+    "died": 1963
+   }
+  ]
+ },
+ {
+  "id": 36034,
+  "title": "White Nights, and Other Stories",
+  "author": "Fyodor Dostoyevsky",
+  "slug": "white-nights-and-other-stories",
+  "rank": 86,
+  "translator": "Constance Garnett",
+  "genres": [
+   "Literary fiction"
+  ],
+  "collections": [],
+  "abstract": "\"White Nights and Other Stories\" by Fyodor Dostoyevsky is a collection of short stories written in the mid-19th century.",
+  "description": [
+   "\"White Nights and Other Stories\" by Fyodor Dostoyevsky is a collection of short stories written in the mid-19th century. The title story, \"White Nights,\" revolves around an unnamed narrator who leads a solitary life in St. Petersburg and unexpectedly finds connection with a mysterious young woman named Nastenka. The collection explores themes of loneliness, longing, and the complexities of human relationships through the lens of Dostoyevsky's profound psychological insight.  At the start of \"White Nights,\" the narrator describes his feelings of desolation as he wanders through St. Petersburg, reflecting on his profound loneliness as the city empties out for the summer. He encounters Nastenka, who is weeping at the canal, and in their interaction, a delicate bond begins to form. The narrator, filled with shyness, provides her a sense of safety in the face of an unwanted advance from a drunken gentleman. Their conversation reveals much about their longing for connection and inner turmoil, setting the stage for a passionate, albeit complex, relationship marked by unspoken emotions and dreams intertwined with reality. As the night unfolds, the narrator's infatuation with Nastenka deepens, but her heart seems already tethered to someone else, creating a poignant tension that is typical of Dostoyevsky's compelling storytelling.",
+   "This description comes from Project Gutenberg’s catalogue, where an automatic tool wrote it."
+  ],
+  "words": 120747,
+  "spine": "#3f4a15",
+  "size": 306444,
+  "auto": true,
+  "moods": [
+   "Thoughtful"
+  ],
+  "age": 16,
+  "notes": [],
+  "people": [
+   {
+    "name": "Fyodor Dostoyevsky",
+    "roles": [
+     "author"
+    ],
+    "died": 1881
+   },
+   {
+    "name": "Constance Garnett",
+    "roles": [
+     "translator"
+    ],
+    "died": 1946
+   }
+  ]
  }
 ]
