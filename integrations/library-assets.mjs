@@ -37,7 +37,10 @@ export function libraryAssets(dir = ".assets") {
           logger.warn(`${dir}/ is missing: the site was built without its books and covers`);
           return;
         }
-        await cp(root, fileURLToPath(out), { recursive: true });
+        // Covers are made in two sizes now. The release still holds the other two of every older book (nobody has taken them off it),
+        // and each file in the site counts against the free plan's 20,000, so those are left out of it.
+        const obsolete = /-(180|1080)\.webp$/;
+        await cp(root, fileURLToPath(out), { recursive: true, filter: (source) => !obsolete.test(source) });
         logger.info(`copied ${dir}/ (books, covers, link pictures) into the site`);
       },
     },

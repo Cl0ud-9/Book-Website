@@ -189,8 +189,9 @@ United States (`pipeline/rights.py`, and for Gutenberg its catalogue's death yea
 missing are left out), and it must not already be on the shelf (`pipeline/names.py`). Gutenberg's text-only EPUB is kept
 as it is, licence page and all, with a cover drawn for the site. The daily numbers are the repository variables
 `GROW_BOOKS` (10) and `GROW_GUTENBERG` (50). `tests/pipeline_check.py` tests these rules. The All books page builds its
-cards a batch at a time from `catalogue.json`, so the page does not grow with the shelf; the shelf can hold about 2,700
-books on Cloudflare's free plan (20,000 files, about seven for each book).
+cards a batch at a time from `catalogue.json`, so the page does not grow with the shelf. Every file on the site counts against
+Cloudflare's free plan (20,000), so a book is kept small: its page, its EPUB and a cover in two sizes (and, for the hand-chosen
+ones, a link-preview picture; an automatic book's cover is its preview). That is 4 or 5 files a book, room for about 4,800 books.
 
 **How the books are ranked.** Standard Ebooks lists its whole catalogue by how often each book is downloaded there;
 the library script records each book's place in that list (`popularity`), and the site orders by it: All books,

@@ -5,6 +5,14 @@ What changed in each version of The Bookshelf.
 The format follows [Keep a Changelog](https://keepachangelog.com), and the versions follow
 [Semantic Versioning](https://semver.org).
 
+## [4.5.1] - 2026-11-20
+
+### Changed
+
+- Fewer files for each book, so the free hosting holds about 4,800 books instead of 2,700: a cover is made in two sizes (360 and
+  720 wide) instead of four, and a book added automatically uses its cover as its link preview instead of a picture of its own.
+  Every file on the site counts against the free plan's 20,000.
+
 ## [4.5.0] - 2026-11-19
 
 ### Added
