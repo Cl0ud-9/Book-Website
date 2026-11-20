@@ -464,5 +464,15 @@
  "idylls-of-the-king": ["Adventurous", "Romantic", "Dark"],
  "the-slaves-of-the-padishah": ["Adventurous", "Gripping"],
  "martin-chuzzlewit": ["Funny", "Thoughtful"],
- "death-comes-for-the-archbishop": ["Thoughtful"]
+ "death-comes-for-the-archbishop": ["Thoughtful"],
+ "the-charwomans-shadow": ["Heartwarming", "Adventurous"],
+ "coriolanus": ["Dark", "Gripping"],
+ "the-duchess-of-malfi": ["Dark", "Eerie", "Gripping"],
+ "measure-for-measure": ["Dark", "Thoughtful"],
+ "the-way-of-the-world": ["Funny", "Romantic"],
+ "main-street": ["Thoughtful", "Funny"],
+ "the-napoleon-of-notting-hill": ["Funny", "Adventurous", "Thoughtful"],
+ "barnaby-rudge": ["Gripping", "Dark"],
+ "o-pioneers": ["Thoughtful", "Romantic"],
+ "daniel-deronda": ["Thoughtful"]
 }

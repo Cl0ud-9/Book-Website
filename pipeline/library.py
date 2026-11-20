@@ -532,6 +532,16 @@ CATALOGUE = [
     ("mor-jokai/the-slaves-of-the-padishah/robert-nisbet-bain", ["Adventure", "Romance"]),
     ("charles-dickens/martin-chuzzlewit", ["Literary fiction"]),
     ("willa-cather/death-comes-for-the-archbishop", ["Literary fiction"]),
+    ("lord-dunsany/the-charwomans-shadow", ["Fantasy"]),
+    ("william-shakespeare/coriolanus", ["Plays"]),
+    ("john-webster/the-duchess-of-malfi", ["Plays"]),
+    ("william-shakespeare/measure-for-measure", ["Plays"]),
+    ("william-congreve/the-way-of-the-world", ["Plays"]),
+    ("sinclair-lewis/main-street", ["Literary fiction"]),
+    ("g-k-chesterton/the-napoleon-of-notting-hill", ["Science fiction", "Adventure"]),
+    ("charles-dickens/barnaby-rudge", ["Literary fiction", "Adventure"]),
+    ("willa-cather/o-pioneers", ["Literary fiction", "Romance"]),
+    ("george-eliot/daniel-deronda", ["Literary fiction", "Romance"]),
     # pipeline/grow.py adds the next books from pipeline/queue.json above this line
 ]
 

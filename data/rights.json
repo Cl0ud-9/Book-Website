@@ -221,6 +221,34 @@
    }
   ]
  },
+ "a-municipal-feud": {
+  "free": true,
+  "people": [
+   {
+    "died": 1950,
+    "free": true,
+    "name": "Ernest Haycox",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "a-pair-of-blue-eyes": {
+  "free": true,
+  "people": [
+   {
+    "died": 1928,
+    "free": true,
+    "name": "Thomas Hardy",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "a-portrait-of-the-artist-as-a-young-man": {
   "free": true,
   "people": [
@@ -421,6 +449,20 @@
    }
   ]
  },
+ "a-young-mans-story": {
+  "free": true,
+  "people": [
+   {
+    "died": 1926,
+    "free": true,
+    "name": "Sarah Doudney",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "agamemnon": {
   "free": true,
   "people": [
@@ -507,6 +549,20 @@
      "illustrator"
     ],
     "wikidata": "Q457881"
+   }
+  ]
+ },
+ "all-about-coffee": {
+  "free": true,
+  "people": [
+   {
+    "died": 1945,
+    "free": true,
+    "name": "William William Harrison Ukers",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -914,6 +970,29 @@
    }
   ]
  },
+ "apology": {
+  "free": true,
+  "people": [
+   {
+    "died": -348,
+    "free": true,
+    "name": "Plato",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1893,
+    "free": true,
+    "name": "Benjamin Jowett",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "around-the-world-in-eighty-days": {
   "free": true,
   "people": [
@@ -967,6 +1046,20 @@
      "cover painting"
     ],
     "wikidata": "Q123071"
+   }
+  ]
+ },
+ "as-a-man-thinketh": {
+  "free": true,
+  "people": [
+   {
+    "died": 1912,
+    "free": true,
+    "name": "James Allen",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -1119,6 +1212,30 @@
      "cover painting"
     ],
     "wikidata": "Q127017"
+   }
+  ]
+ },
+ "barnaby-rudge": {
+  "free": true,
+  "people": [
+   {
+    "died": 1870,
+    "free": true,
+    "name": "Charles Dickens",
+    "roles": [
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q5686"
+   },
+   {
+    "died": 1909,
+    "free": true,
+    "name": "William Powell Frith",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q955750"
    }
   ]
  },
@@ -1314,6 +1431,20 @@
    }
   ]
  },
+ "borrowed-feathers": {
+  "free": true,
+  "people": [
+   {
+    "died": 1916,
+    "free": true,
+    "name": "Ruth Lamb",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "brigadier-gerard-stories": {
   "free": true,
   "people": [
@@ -1400,6 +1531,20 @@
      "notes"
     ],
     "why": "a volunteer, whose work is given to the public domain"
+   }
+  ]
+ },
+ "camille-la-dame-aux-camilias": {
+  "free": true,
+  "people": [
+   {
+    "died": 1895,
+    "free": true,
+    "name": "Alexandre Dumas",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -1513,6 +1658,20 @@
    }
   ]
  },
+ "carmilla": {
+  "free": true,
+  "people": [
+   {
+    "died": 1873,
+    "free": true,
+    "name": "Joseph Sheridan Le Fanu",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "changeling-and-other-stories": {
   "free": true,
   "people": [
@@ -1547,6 +1706,20 @@
      "cover painting"
     ],
     "wikidata": "Q34661"
+   }
+  ]
+ },
+ "claribel-b": {
+  "free": true,
+  "people": [
+   {
+    "died": 1899,
+    "free": true,
+    "name": "Lucy Ellen Guernsey",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -1607,6 +1780,20 @@
    }
   ]
  },
+ "common-sense": {
+  "free": true,
+  "people": [
+   {
+    "died": 1809,
+    "free": true,
+    "name": "Thomas Paine",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "conan-stories": {
   "free": true,
   "people": [
@@ -1651,6 +1838,37 @@
      "cover painting"
     ],
     "wikidata": "Q737635"
+   }
+  ]
+ },
+ "coriolanus": {
+  "free": true,
+  "people": [
+   {
+    "died": 1616,
+    "free": true,
+    "name": "William Shakespeare",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q692"
+   },
+   {
+    "died": 1830,
+    "free": true,
+    "name": "Thomas Lawrence",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q312096"
+   },
+   {
+    "free": true,
+    "name": "Emma Sweeney",
+    "roles": [
+     "notes"
+    ],
+    "why": "a volunteer, whose work is given to the public domain"
    }
   ]
  },
@@ -1767,6 +1985,30 @@
    }
   ]
  },
+ "daniel-deronda": {
+  "free": true,
+  "people": [
+   {
+    "died": 1880,
+    "free": true,
+    "name": "George Eliot",
+    "roles": [
+     "notes",
+     "author"
+    ],
+    "wikidata": "Q131333"
+   },
+   {
+    "died": 1904,
+    "free": true,
+    "name": "Stephen Pearce",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q1917139"
+   }
+  ]
+ },
  "david-copperfield": {
   "free": true,
   "people": [
@@ -1788,6 +2030,20 @@
      "cover painting"
     ],
     "wikidata": "Q164979"
+   }
+  ]
+ },
+ "de-profundis": {
+  "free": true,
+  "people": [
+   {
+    "died": 1900,
+    "free": true,
+    "name": "Oscar Wilde",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -1923,6 +2179,29 @@
      "cover painting"
     ],
     "wikidata": "Q2703817"
+   }
+  ]
+ },
+ "discourses-on-the-first-decade-of-titus-livius": {
+  "free": true,
+  "people": [
+   {
+    "died": 1527,
+    "free": true,
+    "name": "Niccolò Machiavelli",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1921,
+    "free": true,
+    "name": "Ninian Hill Thomson",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -2233,6 +2512,20 @@
    }
   ]
  },
+ "essays-by-ralph-waldo-emerson": {
+  "free": true,
+  "people": [
+   {
+    "died": 1882,
+    "free": true,
+    "name": "Ralph Waldo Emerson",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "ethan-frome": {
   "free": true,
   "people": [
@@ -2254,6 +2547,29 @@
      "cover painting"
     ],
     "wikidata": "Q736843"
+   }
+  ]
+ },
+ "ethics": {
+  "free": true,
+  "people": [
+   {
+    "died": 1677,
+    "free": true,
+    "name": "Spinoza",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1892,
+    "free": true,
+    "name": "R. H. Robert Harvey Monro Elwes",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -2611,6 +2927,20 @@
      "cover painting"
     ],
     "wikidata": "Q691796"
+   }
+  ]
+ },
+ "grateful-peters-new-years-gift": {
+  "free": true,
+  "people": [
+   {
+    "died": 1916,
+    "free": true,
+    "name": "Ruth Lamb",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -3268,6 +3598,20 @@
    }
   ]
  },
+ "italian-popular-tales": {
+  "free": true,
+  "people": [
+   {
+    "died": 1927,
+    "free": true,
+    "name": "Thomas Frederick Crane",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "ivanhoe": {
   "free": true,
   "people": [
@@ -3655,6 +3999,20 @@
      "cover painting"
     ],
     "wikidata": "Q16066599"
+   }
+  ]
+ },
+ "kate-mulhall-b-a-romance-of-the-oregon-trail": {
+  "free": true,
+  "people": [
+   {
+    "died": 1928,
+    "free": true,
+    "name": "Ezra Meeker",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -4099,6 +4457,43 @@
    }
   ]
  },
+ "love-and-freindship-sic": {
+  "free": true,
+  "people": [
+   {
+    "died": 1817,
+    "free": true,
+    "name": "Jane Austen",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "lyrical-ballads-with-a-few-other-poems-1798": {
+  "free": true,
+  "people": [
+   {
+    "died": 1834,
+    "free": true,
+    "name": "Samuel Taylor Coleridge",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1850,
+    "free": true,
+    "name": "William Wordsworth",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "m-r-james-short-fiction": {
   "free": true,
   "people": [
@@ -4177,6 +4572,30 @@
      "cover painting"
     ],
     "wikidata": "Q155626"
+   }
+  ]
+ },
+ "main-street": {
+  "free": true,
+  "people": [
+   {
+    "died": 1951,
+    "free": true,
+    "name": "Sinclair Lewis",
+    "roles": [
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q123469"
+   },
+   {
+    "died": 1935,
+    "free": true,
+    "name": "Childe Hassam",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q737635"
    }
   ]
  },
@@ -4336,6 +4755,29 @@
      "cover painting"
     ],
     "wikidata": "Q1378807"
+   }
+  ]
+ },
+ "measure-for-measure": {
+  "free": true,
+  "people": [
+   {
+    "died": 1616,
+    "free": true,
+    "name": "William Shakespeare",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q692"
+   },
+   {
+    "died": 1896,
+    "free": true,
+    "name": "John Everett Millais",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q159606"
    }
   ]
  },
@@ -4655,6 +5097,20 @@
      "cover painting"
     ],
     "wikidata": "Q171344"
+   }
+  ]
+ },
+ "mr-standfast": {
+  "free": true,
+  "people": [
+   {
+    "died": 1940,
+    "free": true,
+    "name": "John Buchan",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -5054,6 +5510,29 @@
    }
   ]
  },
+ "o-pioneers": {
+  "free": true,
+  "people": [
+   {
+    "died": 1947,
+    "free": true,
+    "name": "Willa Cather",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q229480"
+   },
+   {
+    "died": 1910,
+    "free": true,
+    "name": "Winslow Homer",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q344838"
+   }
+  ]
+ },
  "oedipus-rex": {
   "free": true,
   "people": [
@@ -5311,6 +5790,20 @@
    }
   ]
  },
+ "out-of-times-abyss": {
+  "free": true,
+  "people": [
+   {
+    "died": 1950,
+    "free": true,
+    "name": "Edgar Rice Burroughs",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "paradise-lost": {
   "free": true,
   "people": [
@@ -5427,6 +5920,20 @@
      "cover painting"
     ],
     "wikidata": "Q43270"
+   }
+  ]
+ },
+ "peter-pan-b-peter-and-wendy": {
+  "free": true,
+  "people": [
+   {
+    "died": 1937,
+    "free": true,
+    "name": "J. James Matthew Barrie",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -6356,6 +6863,34 @@
    }
   ]
  },
+ "songs-of-innocence-and-of-experience": {
+  "free": true,
+  "people": [
+   {
+    "died": 1827,
+    "free": true,
+    "name": "William Blake",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "sonnets-from-the-portuguese": {
+  "free": true,
+  "people": [
+   {
+    "died": 1861,
+    "free": true,
+    "name": "Elizabeth Barrett Browning",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "sons-and-lovers": {
   "free": true,
   "people": [
@@ -6454,6 +6989,29 @@
    }
   ]
  },
+ "symposium": {
+  "free": true,
+  "people": [
+   {
+    "died": -348,
+    "free": true,
+    "name": "Plato",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1893,
+    "free": true,
+    "name": "Benjamin Jowett",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "t-s-eliot-poetry": {
   "free": true,
   "people": [
@@ -6474,6 +7032,20 @@
      "cover painting"
     ],
     "why": "not used: the book has its own cover"
+   }
+  ]
+ },
+ "tales-of-terror-and-mystery": {
+  "free": true,
+  "people": [
+   {
+    "died": 1930,
+    "free": true,
+    "name": "Arthur Conan Doyle",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -7430,6 +8002,29 @@
    }
   ]
  },
+ "the-charwomans-shadow": {
+  "free": true,
+  "people": [
+   {
+    "died": 1957,
+    "free": true,
+    "name": "Lord Dunsany",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q458658"
+   },
+   {
+    "died": 1894,
+    "free": true,
+    "name": "George Inness",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q704868"
+   }
+  ]
+ },
  "the-cherry-orchard": {
   "free": true,
   "people": [
@@ -7528,6 +8123,29 @@
      "cover painting"
     ],
     "wikidata": "Q150679"
+   }
+  ]
+ },
+ "the-communist-manifesto": {
+  "free": true,
+  "people": [
+   {
+    "died": 1883,
+    "free": true,
+    "name": "Karl Marx",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1895,
+    "free": true,
+    "name": "Friedrich Engels",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -7676,6 +8294,20 @@
    }
   ]
  },
+ "the-dangerous-game": {
+  "free": true,
+  "people": [
+   {
+    "died": 1927,
+    "free": true,
+    "name": "William Le Queux",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-decameron": {
   "free": true,
   "people": [
@@ -7766,6 +8398,30 @@
    }
   ]
  },
+ "the-duchess-of-malfi": {
+  "free": true,
+  "people": [
+   {
+    "died": 1634,
+    "free": true,
+    "name": "John Webster",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q225904"
+   },
+   {
+    "died": 1926,
+    "free": true,
+    "name": "Charles W. Eliot",
+    "roles": [
+     "notes",
+     "editor"
+    ],
+    "wikidata": "Q1066447"
+   }
+  ]
+ },
  "the-education-of-henry-adams": {
   "free": true,
   "people": [
@@ -7843,6 +8499,29 @@
      "author"
     ],
     "wikidata": "Q76189"
+   }
+  ]
+ },
+ "the-essays-of-arthur-schopenhauer": {
+  "free": true,
+  "people": [
+   {
+    "died": 1860,
+    "free": true,
+    "name": "Arthur Schopenhauer",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1928,
+    "free": true,
+    "name": "T. Bailey (Thomas Bailey) Saunders",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -8146,6 +8825,20 @@
    }
   ]
  },
+ "the-golden-bough-a-study-of-magic-and-religion": {
+  "free": true,
+  "people": [
+   {
+    "died": 1941,
+    "free": true,
+    "name": "James George Frazer",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-golden-bowl": {
   "free": true,
   "people": [
@@ -8257,6 +8950,34 @@
      "cover painting"
     ],
     "wikidata": "Q1293032"
+   }
+  ]
+ },
+ "the-happiness-of-hazelbrook": {
+  "free": true,
+  "people": [
+   {
+    "died": 1909,
+    "free": true,
+    "name": "Charlotte Grace O'Brien",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "the-haunting-hand": {
+  "free": true,
+  "people": [
+   {
+    "died": 1962,
+    "free": true,
+    "name": "Walter Adolphe Roberts",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -8677,6 +9398,20 @@
      "cover painting"
     ],
     "wikidata": "Q970806"
+   }
+  ]
+ },
+ "the-insidious-dr-fu-manchu": {
+  "free": true,
+  "people": [
+   {
+    "died": 1959,
+    "free": true,
+    "name": "Sax Rohmer",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -9266,6 +10001,20 @@
    }
   ]
  },
+ "the-man-who-mastered-time": {
+  "free": true,
+  "people": [
+   {
+    "died": 1957,
+    "free": true,
+    "name": "Ray Cummings",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-man-who-was-thursday": {
   "free": true,
   "people": [
@@ -9308,6 +10057,20 @@
      "cover painting"
     ],
     "wikidata": "Q1373022"
+   }
+  ]
+ },
+ "the-marvellous-land-of-snergs": {
+  "free": true,
+  "people": [
+   {
+    "died": 1935,
+    "free": true,
+    "name": "E. Edward Augustine Wyke-Smith",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -9354,6 +10117,29 @@
      "cover painting"
     ],
     "wikidata": "Q391608"
+   }
+  ]
+ },
+ "the-memoirs-of-jacques-casanova-de-seingalt-1725-1798": {
+  "free": true,
+  "people": [
+   {
+    "died": 1798,
+    "free": true,
+    "name": "Giacomo Casanova",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1947,
+    "free": true,
+    "name": "Arthur Machen",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -9632,6 +10418,44 @@
    }
   ]
  },
+ "the-mystery-of-the-yellow-room": {
+  "free": true,
+  "people": [
+   {
+    "died": 1927,
+    "free": true,
+    "name": "Gaston Leroux",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "the-napoleon-of-notting-hill": {
+  "free": true,
+  "people": [
+   {
+    "died": 1936,
+    "free": true,
+    "name": "G. K. Chesterton",
+    "roles": [
+     "notes",
+     "author"
+    ],
+    "wikidata": "Q183167"
+   },
+   {
+    "died": 1944,
+    "free": true,
+    "name": "William Logsdail",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q8014675"
+   }
+  ]
+ },
  "the-narrative-of-arthur-gordon-pym-of-nantucket": {
   "free": true,
   "people": [
@@ -9816,6 +10640,20 @@
      "notes"
     ],
     "why": "a volunteer, whose work is given to the public domain"
+   }
+  ]
+ },
+ "the-parables-of-our-lord": {
+  "free": true,
+  "people": [
+   {
+    "died": 1875,
+    "free": true,
+    "name": "William Arnot",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -10755,6 +11593,20 @@
    }
   ]
  },
+ "the-secret-of-the-night": {
+  "free": true,
+  "people": [
+   {
+    "died": 1927,
+    "free": true,
+    "name": "Gaston Leroux",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-sign-of-the-four": {
   "free": true,
   "people": [
@@ -11019,6 +11871,20 @@
      "cover painting"
     ],
     "wikidata": "Q748177"
+   }
+  ]
+ },
+ "the-story-of-nelson": {
+  "free": true,
+  "people": [
+   {
+    "died": 1918,
+    "free": true,
+    "name": "Edmund Francis Sellar",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -11392,6 +12258,20 @@
    }
   ]
  },
+ "the-trouble-at-pinelands-b-a-detective-story": {
+  "free": true,
+  "people": [
+   {
+    "died": 1935,
+    "free": true,
+    "name": "Ernest M. Poate",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-turn-of-the-screw": {
   "free": true,
   "people": [
@@ -11412,6 +12292,20 @@
      "cover painting"
     ],
     "wikidata": "Q1699185"
+   }
+  ]
+ },
+ "the-unknown-seven-b-a-detective-story": {
+  "free": true,
+  "people": [
+   {
+    "died": 1960,
+    "free": true,
+    "name": "Herman Landon",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -11594,6 +12488,38 @@
      "cover painting"
     ],
     "wikidata": "Q6104584"
+   }
+  ]
+ },
+ "the-way-of-the-world": {
+  "free": true,
+  "people": [
+   {
+    "died": 1729,
+    "free": true,
+    "name": "William Congreve",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q366805"
+   },
+   {
+    "died": 1806,
+    "free": true,
+    "name": "Jean-Honoré Fragonard",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q127171"
+   },
+   {
+    "died": 1945,
+    "free": true,
+    "name": "Felix E. Schelling",
+    "roles": [
+     "notes"
+    ],
+    "wikidata": "Q5442196"
    }
   ]
  },
@@ -11981,6 +12907,34 @@
    }
   ]
  },
+ "the-zeppelins-passenger": {
+  "free": true,
+  "people": [
+   {
+    "died": 1946,
+    "free": true,
+    "name": "E. Phillips (Edward Phillips) Oppenheim",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "things-near-far": {
+  "free": true,
+  "people": [
+   {
+    "died": 1947,
+    "free": true,
+    "name": "Arthur Machen",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "this-side-of-paradise": {
   "free": true,
   "people": [
@@ -12001,6 +12955,29 @@
      "cover painting"
     ],
     "wikidata": "Q724860"
+   }
+  ]
+ },
+ "thoughts-of-marcus-aurelius-antoninus": {
+  "free": true,
+  "people": [
+   {
+    "died": 180,
+    "free": true,
+    "name": "Marcus Aurelius",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1879,
+    "free": true,
+    "name": "George Long",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -12026,6 +13003,20 @@
      "cover painting"
     ],
     "wikidata": "Q983349"
+   }
+  ]
+ },
+ "three-sevens-b-a-detective-story": {
+  "free": true,
+  "people": [
+   {
+    "died": 1943,
+    "free": true,
+    "name": "Perley Poore Sheehan",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -12091,6 +13082,20 @@
      "cover painting"
     ],
     "wikidata": "Q77132"
+   }
+  ]
+ },
+ "thuvia-maid-of-mars": {
+  "free": true,
+  "people": [
+   {
+    "died": 1950,
+    "free": true,
+    "name": "Edgar Rice Burroughs",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -12305,6 +13310,20 @@
    }
   ]
  },
+ "twenty-thousand-leagues-under-the-sea": {
+  "free": true,
+  "people": [
+   {
+    "died": 1905,
+    "free": true,
+    "name": "Jules Verne",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "twenty-two-goblins": {
   "free": true,
   "people": [
@@ -12501,6 +13520,20 @@
      "cover painting"
     ],
     "wikidata": "Q381248"
+   }
+  ]
+ },
+ "verses": {
+  "free": true,
+  "people": [
+   {
+    "died": 1946,
+    "free": true,
+    "name": "Violet Jacob",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
