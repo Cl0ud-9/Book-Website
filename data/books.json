@@ -12820,6 +12820,278 @@
   "kobo": "https://standardebooks.org/ebooks/george-eliot/daniel-deronda/downloads/george-eliot_daniel-deronda.kepub.epub?source=download"
  },
  {
+  "title": "Progress and Poverty",
+  "author": "Henry George",
+  "translator": null,
+  "abstract": "An explanation on why increased productivity has not led to increased wages, and how the application of a single land value tax can fix this and lead to a more just society.",
+  "description": [
+   "Progress and Poverty, first published in 1879, was American political economist Henry George’s most popular book. It explores why the economy of the mid-to-late 1800s had seen a simultaneous economic growth and growth in poverty. The book’s appeal was in its balance of moral and economic arguments, challenging the popular notion that the poor, through uncontrolled population growth, were responsible for their own woes. Inspired by his years living in San Francisco and his own experience with privation, George argues instead that poverty had grown due to the increasing speculation and monopolization of land, as landowners had captured the increases in growth, investment, and productivity through the rising cost of rent.",
+   "To solve this, George proposes the complete taxation of the unimproved value of land, thus returning the value of land, created through location, to the community. This solution would incentivize individuals to use the land they own productively and remove the tendency to speculate upon land’s increasing value. George’s argument was profoundly liberal, as individuals retain the right to own land and enjoy the profits generated from production upon it.",
+   "Progress and Poverty was hugely popular in the 1890s, being outsold only by the Bible. It inspired the Single Tax Movement, and influenced a wide range of intellectuals and policymakers in the early 1900s including Leo Tolstoy, Albert Einstein, and Winston Churchill."
+  ],
+  "words": 169522,
+  "reading_time": "10 hours 17 minutes",
+  "language": "en-US",
+  "standard_ebooks": "https://standardebooks.org/ebooks/henry-george/progress-and-poverty",
+  "slug": "progress-and-poverty",
+  "genres": [
+   "History and politics",
+   "Philosophy"
+  ],
+  "collections": [],
+  "spine": "#36383c",
+  "epub": "books/progress-and-poverty.epub",
+  "size": 993274,
+  "popularity": 616,
+  "opening": "The present century has been marked by a prodigious increase in wealth-producing power.",
+  "kindle": "https://standardebooks.org/ebooks/henry-george/progress-and-poverty/downloads/henry-george_progress-and-poverty.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/henry-george/progress-and-poverty/downloads/henry-george_progress-and-poverty.kepub.epub?source=download"
+ },
+ {
+  "title": "She",
+  "author": "H. Rider Haggard",
+  "translator": null,
+  "abstract": "Three men travel to Africa and encounter a 2000-year old woman.",
+  "description": [
+   "A professor is entreated by a dying colleague to take custody of the colleague’s five-year old son, raise him to adulthood, and at that time pass on a chest to him. The professor does so, and when the child reaches adulthood and the chest is revealed, it leads them on an adventure to Africa. There they encounter a young queen of a lost race who says she’s over two thousand years old, with an equally startling claim about the young man.",
+   "H. Rider Haggard invented the “lost world” genre of fiction with King Solomon’s Mines, and he continued the theme, adding in a bit of romance, in She. Haggard wrote the book in six months “in a white heat,” and handed the manuscript to his agent with the remark, “There is what I shall be remembered by.” Haggard was right: with its setting in darkest Africa and a woman at its center described as the most beautiful in the world, She was a sensation at its release, has never been out of print, and has sold upwards of 100 million copies."
+  ],
+  "words": 110191,
+  "reading_time": "6 hours 41 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/h-rider-haggard/she",
+  "slug": "she",
+  "genres": [
+   "Adventure",
+   "Fantasy"
+  ],
+  "collections": [],
+  "spine": "#46403a",
+  "epub": "books/she.epub",
+  "size": 1192544,
+  "popularity": 620,
+  "opening": "There are some events of which each circumstance and surrounding detail seems to be graven on the memory in such fashion that we cannot forget it, and so it is with the scene that I am about to describe.",
+  "kindle": "https://standardebooks.org/ebooks/h-rider-haggard/she/downloads/h-rider-haggard_she.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/h-rider-haggard/she/downloads/h-rider-haggard_she.kepub.epub?source=download"
+ },
+ {
+  "title": "The Four Feathers",
+  "author": "A. E. W. Mason",
+  "translator": null,
+  "abstract": "A young man sets off to regain his honor after his resignation from the military on the eve of deployment brands him a coward.",
+  "description": [
+   "Recently engaged Harry Feversham, son of a soldier and descendant of a long line of soldiers, receives word that his regiment is going overseas. For complex reasons he suddenly resigns rather than be deployed. This action brands him a coward among his fellow officers and his fiancée, who present him with white feathers, a symbol of cowardice.",
+   "To regain his honor, Feversham sets out for Egypt and Sudan, where he awaits opportunities to redeem himself. His daring adventures are beset with betrayal, torture, and imprisonment. Meanwhile, his fiancée is racked with regret, and tries to convince herself she no longer loves him, while simultaneously becoming romantically entangled with Feversham’s friend, a soldier in the regiment.",
+   "The Four Feathers is recognized for its vivid settings, as well as its characters’ complex emotions and motivations. Mason had traveled widely in Egypt and Sudan by camel along caravan routes, visiting the places he describes so clearly in the novel."
+  ],
+  "words": 107029,
+  "reading_time": "6 hours 30 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/a-e-w-mason/the-four-feathers",
+  "slug": "the-four-feathers",
+  "genres": [
+   "Adventure"
+  ],
+  "collections": [],
+  "spine": "#7b7262",
+  "epub": "books/the-four-feathers.epub",
+  "size": 713256,
+  "popularity": 533,
+  "opening": "Lieutenant Sutch was the first of General Feversham’s guests to reach Broad Place.",
+  "kindle": "https://standardebooks.org/ebooks/a-e-w-mason/the-four-feathers/downloads/a-e-w-mason_the-four-feathers.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/a-e-w-mason/the-four-feathers/downloads/a-e-w-mason_the-four-feathers.kepub.epub?source=download"
+ },
+ {
+  "title": "Confessions of an English Opium-Eater",
+  "author": "Thomas De Quincey",
+  "translator": null,
+  "abstract": "A portrait of the life of a drug addict in Georgian-era London.",
+  "description": [
+   "Thomas De Quincey spent much of his life addicted to the powerful drug opium. This book, first published anonymously in the London Magazine, is the autobiographical account of his addiction. De Quincey’s compelling language and frankness give the reader a window in to both the strange pleasures and the horrible pains of that famous drug.",
+   "As the science of addiction was an unheard of thing at the time, De Quincey’s account became a sort of authoritative reference for decades, with people going so far as to denounce the book for presenting too pleasurable a picture of opium use. His work stands as a fascinating window into the life of a Georgian-era addict in one of the busiest cities in the world."
+  ],
+  "words": 36689,
+  "reading_time": "2 hours 14 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/thomas-de-quincey/confessions-of-an-english-opium-eater",
+  "slug": "confessions-of-an-english-opium-eater",
+  "genres": [
+   "Lives and memoirs"
+  ],
+  "collections": [],
+  "spine": "#5d4c36",
+  "epub": "books/confessions-of-an-english-opium-eater.epub",
+  "size": 1041418,
+  "popularity": 580,
+  "opening": "These preliminary confessions, or introductory narrative of the youthful adventures which laid the foundation of the writer’s habit of opium-eating in after-life, it has been judged proper to…",
+  "kindle": "https://standardebooks.org/ebooks/thomas-de-quincey/confessions-of-an-english-opium-eater/downloads/thomas-de-quincey_confessions-of-an-english-opium-eater.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/thomas-de-quincey/confessions-of-an-english-opium-eater/downloads/thomas-de-quincey_confessions-of-an-english-opium-eater.kepub.epub?source=download"
+ },
+ {
+  "title": "Indian Fairy Tales",
+  "author": "Joseph Jacobs",
+  "translator": null,
+  "abstract": "A collection of fairy tales that exhibits India’s rich folk tale tradition.",
+  "description": [
+   "Although many readers might associate the term “fairy tales” with the Germanic or Celtic folk tale tradition—like in the stories collected by the Brothers Grimm—countries like India have their own rich history of fairy tales. Many of these tales, infused with a local flavor, bear a striking structural and thematic similarity to those with which Western readers are accustomed: moral allegories, talking animals, gambling incidents, and the like. Joseph Jacobs has carefully selected 29 fairy tales from the Jatakas, the Fables of Bidpai, the Tales of the Sun, the Baluchi Folktales, the Folktales of Kashmir, and other Sanskrit sources. These stories are a humorous and imaginative showcase of India’s rich fairy tale tradition.",
+   "Joseph Jacobs was an Australian folklorist who devoted most of his career to collecting fairy tales from around the world. His collections on English fairy tales have immortalized stories such as “Jack and the Beanstalk,” “Goldilocks and the Three Bears,” “The Three Little Pigs,” “Jack the Giant Killer” and “The History of Tom Thumb.”"
+  ],
+  "words": 70816,
+  "reading_time": "4 hours 18 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/joseph-jacobs/indian-fairy-tales",
+  "slug": "indian-fairy-tales",
+  "genres": [
+   "Children’s",
+   "Fantasy"
+  ],
+  "collections": [],
+  "spine": "#1e1f0c",
+  "epub": "books/indian-fairy-tales.epub",
+  "size": 711264,
+  "popularity": 634,
+  "opening": "The Bodhisatta was at one time born in the region of Himavanta as a white crane; now Brahmadatta was at that time reigning in Benares.",
+  "kindle": "https://standardebooks.org/ebooks/joseph-jacobs/indian-fairy-tales/downloads/joseph-jacobs_indian-fairy-tales.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/joseph-jacobs/indian-fairy-tales/downloads/joseph-jacobs_indian-fairy-tales.kepub.epub?source=download"
+ },
+ {
+  "title": "Heretics",
+  "author": "G. K. Chesterton",
+  "translator": null,
+  "abstract": "A collection of essays in which G. K. Chesterton debates the intellectuals of his day on a range of topics.",
+  "description": [
+   "G. K. Chesterton was an English writer, journalist, philosopher, poet and lay theologian. He delighted in standing conventional wisdom on its head in order to expose what he considered to be the lack of substance in the “vague modern.”",
+   "In Heretics, he touches on a range of topics, including social Darwinism, eugenics, nihilism and atheism, while enumerating the flaws he finds in the work of his intellectual contemporaries such as Rudyard Kipling, Friedrich Nietzsche, George Bernard Shaw, and H. G. Wells."
+  ],
+  "words": 64101,
+  "reading_time": "3 hours 54 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/g-k-chesterton/heretics",
+  "slug": "heretics",
+  "genres": [
+   "Essays and letters",
+   "Philosophy"
+  ],
+  "collections": [],
+  "spine": "#43351f",
+  "epub": "books/heretics.epub",
+  "size": 566730,
+  "popularity": 497,
+  "opening": "Introductory Remarks on the Importance of…",
+  "kindle": "https://standardebooks.org/ebooks/g-k-chesterton/heretics/downloads/g-k-chesterton_heretics.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/g-k-chesterton/heretics/downloads/g-k-chesterton_heretics.kepub.epub?source=download"
+ },
+ {
+  "title": "My First Summer in the Sierra",
+  "author": "John Muir",
+  "translator": null,
+  "abstract": "The influential Scottish-American naturalist spends a summer exploring the high country surrounding the headwaters of the Merced and Tuolumne rivers in the Sierra Nevada, and records what he sees in a diary.",
+  "description": [
+   "In the summer of 1869, Scottish-American naturalist and author John Muir spent the months of June through September in the Sierra Nevada Mountains of California accompanying a group of shepherds while they led a flock of sheep to the high country to graze. During that time, Muir took every opportunity to explore the Yosemite area extensively—hiking, camping, writing, and sketching. Muir’s diary entries describing the land, flora, and fauna he encountered became the basis for the book My First Summer in the Sierra, first published in 1911.",
+   "Muir’s journal entries from that summer reveal his growing wonder and awe at the Yosemite landscape, as well as his endless curiosity for the natural world. On a grand scale, he trekked into remote areas for sometimes days at a time. He climbed Cathedral Peak and Mount Dana and trekked through Bloody Canyon to Mono Lake. On a more modest scale, Muir observed the flora and fauna that surrounded him with the keen enthusiasm of a naturalist. He described in detail the area’s trees, shrubs, flowers, mountain meadows, glacial features, and animals.",
+   "In the years that followed the publication of My First Summer in the Sierra, Muir went on to advocate for the protection and preservation of wild landscapes. In 1892, Muir co-founded the Sierra Club and became the organization’s first president. Muir also played an instrumental role in the establishment of several national parks including Yosemite, Sequoia, and Kings Canyon.",
+   "My First Summer in the Sierra remains among John Muir’s most popular works. The book’s inspired and lyrical accounts of an iconic wilderness, written at a time in Muir’s life when his character as a naturalist and wilderness advocate was taking form, earns it a prominent, influential place in the annals of nature writing and the history of wilderness preservation."
+  ],
+  "words": 57660,
+  "reading_time": "3 hours 30 minutes",
+  "language": "en-US",
+  "standard_ebooks": "https://standardebooks.org/ebooks/john-muir/my-first-summer-in-the-sierra",
+  "slug": "my-first-summer-in-the-sierra",
+  "genres": [
+   "Science and nature",
+   "Lives and memoirs"
+  ],
+  "collections": [],
+  "spine": "#6e5d44",
+  "epub": "books/my-first-summer-in-the-sierra.epub",
+  "size": 6361315,
+  "popularity": 481,
+  "opening": "Through the Foothills with a Flock of…",
+  "kindle": "https://standardebooks.org/ebooks/john-muir/my-first-summer-in-the-sierra/downloads/john-muir_my-first-summer-in-the-sierra.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/john-muir/my-first-summer-in-the-sierra/downloads/john-muir_my-first-summer-in-the-sierra.kepub.epub?source=download"
+ },
+ {
+  "title": "Ashenden",
+  "author": "W. Somerset Maugham",
+  "translator": null,
+  "abstract": "A collection of short stories based on the experiences of an intelligence agent during World War I.",
+  "description": [
+   "During World War I W. Somerset Maugham, already by then an established playwright and author, was recruited to be a British intelligence agent. These stories reflect his wartime experiences in intelligence gathering. Though fictionalized, they managed to retain enough authentic elements for Winston Churchill to advise Maugham that their publication might be a violation of the Official Secrets Act, resulting in the author burning an additional fourteen stories.",
+   "Set in various locales across the continent, these remaining Ashenden stories are a precursor to the jet-setting spy novels of the 1950s and 1960s. Maugham is known as a master short story writer and these stories are no exception, combining wit and realism to create memorable characters in a unique and highly critical portrait of wartime espionage.",
+   "Initially released to a mixed reception—with an early review by D. H. Lawrence being especially scathing—Ashenden has since been credited as an inspiration for numerous authors, including John Le Carré, Graham Greene, and Raymond Chandler. The latter in particular was especially impressed, writing in 1950, “There are no other great spy stories—none at all. I have been searching and I know.”"
+  ],
+  "words": 87442,
+  "reading_time": "5 hours 18 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/w-somerset-maugham/ashenden",
+  "slug": "ashenden",
+  "genres": [
+   "Mystery",
+   "Literary fiction"
+  ],
+  "collections": [],
+  "spine": "#6a7172",
+  "epub": "books/ashenden.epub",
+  "size": 779541,
+  "popularity": 618,
+  "opening": "It was not till the beginning of September that Ashenden, a writer by profession, who had been abroad at the outbreak of the war, managed to get back to England.",
+  "kindle": "https://standardebooks.org/ebooks/w-somerset-maugham/ashenden/downloads/w-somerset-maugham_ashenden.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/w-somerset-maugham/ashenden/downloads/w-somerset-maugham_ashenden.kepub.epub?source=download"
+ },
+ {
+  "title": "Love’s Labour’s Lost",
+  "author": "William Shakespeare",
+  "translator": null,
+  "abstract": "A king and his men swear to abstain from women, just as four women arrive for a state visit.",
+  "description": [
+   "King Ferdinand and his three friends, Biron, Longaville, and Dumain, plan to study philosophy for the next three years. During their academic pursuits, they must vow to sleep only three hours a night and not let any woman within a mile of court. These strict rules will prevent any distractions from their work—but their promises are soon put to the test when a princess and her three companions arrive for a state visit.",
+   "This Standard Ebooks edition is based on William George Clark and William Aldis Wright’s 1887 Victoria edition, which is taken from the Globe edition."
+  ],
+  "words": 22651,
+  "reading_time": "1 hour 23 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/william-shakespeare/loves-labours-lost",
+  "slug": "loves-labours-lost",
+  "genres": [
+   "Plays"
+  ],
+  "collections": [],
+  "spine": "#503a2d",
+  "epub": "books/loves-labours-lost.epub",
+  "size": 653737,
+  "popularity": 614,
+  "opening": "Let fame, that all hunt after in their lives, Live register’d upon our brazen tombs And then grace us in the disgrace of death; When, spite of cormorant devouring Time, The endeavour of this present…",
+  "kindle": "https://standardebooks.org/ebooks/william-shakespeare/loves-labours-lost/downloads/william-shakespeare_loves-labours-lost.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/william-shakespeare/loves-labours-lost/downloads/william-shakespeare_loves-labours-lost.kepub.epub?source=download"
+ },
+ {
+  "title": "Quicksand",
+  "author": "Nella Larsen",
+  "translator": null,
+  "abstract": "A young biracial woman struggles to find her place in a society that refuses to fully accept her, navigating the suffocating racial and social expectations of 1920s America while seeking personal identity and freedom.",
+  "description": [
+   "Quicksand, Larsen’s debut novel, opens with Helga Crane, a biracial woman, struggling to fit in at Naxos, a fictional Negro school where she works as a teacher. Dissatisfied, Helga embarks on a journey to find herself, moving through Harlem and Copenhagen in search of a place where she belongs. The novel explores themes of identity and race through the struggles of the mixed-race protagonist.",
+   "The novel was published in 1928 during the heart of the Harlem renaissance. Larsen herself was of mixed Danish and African American heritage, and the character and struggles of Helga Crane were heavily influenced by Larsen’s own life.",
+   "Today, the novel continues to be read as a prototypical reflection on what it means to be a part of a community, especially in relation to race, identity, and belonging."
+  ],
+  "words": 46296,
+  "reading_time": "2 hours 49 minutes",
+  "language": "en-US",
+  "standard_ebooks": "https://standardebooks.org/ebooks/nella-larsen/quicksand",
+  "slug": "quicksand",
+  "genres": [
+   "Literary fiction"
+  ],
+  "collections": [],
+  "spine": "#312c27",
+  "epub": "books/quicksand.epub",
+  "size": 386772,
+  "popularity": 612,
+  "opening": "Helga Crane sat alone in her room, which at that hour, eight in the evening, was in soft gloom.",
+  "kindle": "https://standardebooks.org/ebooks/nella-larsen/quicksand/downloads/nella-larsen_quicksand.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/nella-larsen/quicksand/downloads/nella-larsen_quicksand.kepub.epub?source=download"
+ },
+ {
   "title": "The Golden Threshold",
   "author": "Sarojini Naidu",
   "translator": null,

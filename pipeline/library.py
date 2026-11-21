@@ -542,6 +542,16 @@ CATALOGUE = [
     ("charles-dickens/barnaby-rudge", ["Literary fiction", "Adventure"]),
     ("willa-cather/o-pioneers", ["Literary fiction", "Romance"]),
     ("george-eliot/daniel-deronda", ["Literary fiction", "Romance"]),
+    ("henry-george/progress-and-poverty", ["History and politics", "Philosophy"]),
+    ("h-rider-haggard/she", ["Adventure", "Fantasy"]),
+    ("a-e-w-mason/the-four-feathers", ["Adventure"]),
+    ("thomas-de-quincey/confessions-of-an-english-opium-eater", ["Lives and memoirs"]),
+    ("joseph-jacobs/indian-fairy-tales", ["Children’s", "Fantasy"]),
+    ("g-k-chesterton/heretics", ["Essays and letters", "Philosophy"]),
+    ("john-muir/my-first-summer-in-the-sierra", ["Science and nature", "Lives and memoirs"]),
+    ("w-somerset-maugham/ashenden", ["Mystery", "Literary fiction"]),
+    ("william-shakespeare/loves-labours-lost", ["Plays"]),
+    ("nella-larsen/quicksand", ["Literary fiction"]),
     # pipeline/grow.py adds the next books from pipeline/queue.json above this line
 ]
 

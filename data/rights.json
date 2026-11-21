@@ -1109,6 +1109,30 @@
    }
   ]
  },
+ "ashenden": {
+  "free": true,
+  "people": [
+   {
+    "died": 1965,
+    "free": true,
+    "name": "W. Somerset Maugham",
+    "roles": [
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q134942"
+   },
+   {
+    "died": 1890,
+    "free": true,
+    "name": "Vincent van Gogh",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q5582"
+   }
+  ]
+ },
  "at-the-back-of-the-north-wind": {
   "free": true,
   "people": [
@@ -1814,6 +1838,31 @@
      "cover painting"
     ],
     "wikidata": "Q21465588"
+   }
+  ]
+ },
+ "confessions-of-an-english-opium-eater": {
+  "free": true,
+  "people": [
+   {
+    "died": 1859,
+    "free": true,
+    "name": "Thomas De Quincey",
+    "roles": [
+     "notes",
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q317160"
+   },
+   {
+    "died": 1926,
+    "free": true,
+    "name": "Claude Monet",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q296"
    }
   ]
  },
@@ -3312,6 +3361,29 @@
    }
   ]
  },
+ "heretics": {
+  "free": true,
+  "people": [
+   {
+    "died": 1936,
+    "free": true,
+    "name": "G. K. Chesterton",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q183167"
+   },
+   {
+    "died": 1886,
+    "free": true,
+    "name": "John F. Francis",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q6232278"
+   }
+  ]
+ },
  "herland": {
   "free": true,
   "people": [
@@ -3595,6 +3667,31 @@
      "cover painting"
     ],
     "wikidata": "Q8019587"
+   }
+  ]
+ },
+ "indian-fairy-tales": {
+  "free": true,
+  "people": [
+   {
+    "died": 1916,
+    "free": true,
+    "name": "Joseph Jacobs",
+    "roles": [
+     "notes",
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q981949"
+   },
+   {
+    "died": 1910,
+    "free": true,
+    "name": "Henri Rousseau",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q156386"
    }
   ]
  },
@@ -4471,6 +4568,29 @@
    }
   ]
  },
+ "loves-labours-lost": {
+  "free": true,
+  "people": [
+   {
+    "died": 1616,
+    "free": true,
+    "name": "William Shakespeare",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q692"
+   },
+   {
+    "died": 1898,
+    "free": true,
+    "name": "Edward Coley Burne-Jones",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q216406"
+   }
+  ]
+ },
  "lyrical-ballads-with-a-few-other-poems-1798": {
   "free": true,
   "people": [
@@ -5181,6 +5301,30 @@
      "cover painting"
     ],
     "wikidata": "Q5582"
+   }
+  ]
+ },
+ "my-first-summer-in-the-sierra": {
+  "free": true,
+  "people": [
+   {
+    "died": 1914,
+    "free": true,
+    "name": "John Muir",
+    "roles": [
+     "author",
+     "illustrator"
+    ],
+    "wikidata": "Q379580"
+   },
+   {
+    "died": 1902,
+    "free": true,
+    "name": "Albert Bierstadt",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q77132"
    }
   ]
  },
@@ -6205,6 +6349,31 @@
    }
   ]
  },
+ "progress-and-poverty": {
+  "free": true,
+  "people": [
+   {
+    "died": 1897,
+    "free": true,
+    "name": "Henry George",
+    "roles": [
+     "notes",
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q355245"
+   },
+   {
+    "died": 1925,
+    "free": true,
+    "name": "George Bellows",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q167132"
+   }
+  ]
+ },
  "pygmalion": {
   "free": true,
   "people": [
@@ -6226,6 +6395,29 @@
      "cover painting"
     ],
     "why": "Howard Gardiner Cushing, American painter, 1869 to 1916"
+   }
+  ]
+ },
+ "quicksand": {
+  "free": true,
+  "people": [
+   {
+    "died": 1964,
+    "free": true,
+    "name": "Nella Larsen",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q453665"
+   },
+   {
+    "died": 1925,
+    "free": true,
+    "name": "Christian Krohg",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q334200"
    }
   ]
  },
@@ -6668,6 +6860,49 @@
      "translator"
     ],
     "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "she": {
+  "free": true,
+  "people": [
+   {
+    "died": 1925,
+    "free": true,
+    "name": "H. Rider Haggard",
+    "roles": [
+     "notes",
+     "author",
+     "introduction"
+    ],
+    "wikidata": "Q237196"
+   },
+   {
+    "died": 1931,
+    "free": true,
+    "name": "Maurice Greiffenhagen",
+    "roles": [
+     "illustrator"
+    ],
+    "wikidata": "Q6793159"
+   },
+   {
+    "died": 1907,
+    "free": true,
+    "name": "Charles H. M. Kerr",
+    "roles": [
+     "illustrator"
+    ],
+    "wikidata": "Q16031452"
+   },
+   {
+    "died": 1797,
+    "free": true,
+    "name": "John Robert Cozens",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q613852"
    }
   ]
  },
@@ -8722,6 +8957,30 @@
      "cover painting"
     ],
     "wikidata": "Q956102"
+   }
+  ]
+ },
+ "the-four-feathers": {
+  "free": true,
+  "people": [
+   {
+    "died": 1948,
+    "free": true,
+    "name": "A. E. W. Mason",
+    "roles": [
+     "notes",
+     "author"
+    ],
+    "wikidata": "Q382786"
+   },
+   {
+    "died": 1888,
+    "free": true,
+    "name": "Charles Camino",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q18508025"
    }
   ]
  },
