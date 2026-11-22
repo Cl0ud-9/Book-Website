@@ -552,6 +552,16 @@ CATALOGUE = [
     ("w-somerset-maugham/ashenden", ["Mystery", "Literary fiction"]),
     ("william-shakespeare/loves-labours-lost", ["Plays"]),
     ("nella-larsen/quicksand", ["Literary fiction"]),
+    ("l-frank-baum/ozma-of-oz", ["Children’s", "Fantasy"]),
+    ("moliere/tartuffe/curtis-hidden-page", ["Plays"]),
+    ("william-shakespeare/richard-ii", ["Plays"]),
+    ("samuel-pepys/the-diary", ["Lives and memoirs", "History and politics"]),
+    ("george-macdonald/poetry", ["Poetry"]),
+    ("felix-salten/bambi/whittaker-chambers", ["Children’s", "Literary fiction"]),
+    ("anthony-trollope/barchester-towers", ["Literary fiction", "Romance"]),
+    ("louis-joseph-vance/the-lone-wolf", ["Mystery", "Adventure"]),
+    ("nikolai-gogol/the-inspector-general/thomas-seltzer", ["Plays"]),
+    ("george-bernard-shaw/saint-joan", ["Plays"]),
     # pipeline/grow.py adds the next books from pipeline/queue.json above this line
 ]
 

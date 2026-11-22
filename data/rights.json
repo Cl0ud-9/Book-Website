@@ -1216,6 +1216,61 @@
    }
   ]
  },
+ "bambi": {
+  "free": true,
+  "people": [
+   {
+    "died": 1945,
+    "free": true,
+    "name": "Felix Salten",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q163747"
+   },
+   {
+    "died": 1961,
+    "free": true,
+    "name": "Whittaker Chambers",
+    "roles": [
+     "translator"
+    ],
+    "wikidata": "Q1204764"
+   },
+   {
+    "died": 1889,
+    "free": true,
+    "name": "John George Wood",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q2731171"
+   }
+  ]
+ },
+ "barchester-towers": {
+  "free": true,
+  "people": [
+   {
+    "died": 1882,
+    "free": true,
+    "name": "Anthony Trollope",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q318399"
+   },
+   {
+    "died": 1923,
+    "free": true,
+    "name": "Benjamin Williams Leader",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q817742"
+   }
+  ]
+ },
  "barlasch-of-the-guard": {
   "free": true,
   "people": [
@@ -2863,6 +2918,38 @@
      "cover painting"
     ],
     "wikidata": "Q7751"
+   }
+  ]
+ },
+ "george-macdonald-poetry": {
+  "free": true,
+  "people": [
+   {
+    "died": 1905,
+    "free": true,
+    "name": "George MacDonald",
+    "roles": [
+     "notes",
+     "author"
+    ],
+    "wikidata": "Q368519"
+   },
+   {
+    "died": 1854,
+    "free": true,
+    "name": "John Martin",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q937096"
+   },
+   {
+    "free": true,
+    "name": "C. B. Bowman",
+    "roles": [
+     "notes"
+    ],
+    "why": "a volunteer, whose work is given to the public domain"
    }
   ]
  },
@@ -5948,6 +6035,31 @@
    }
   ]
  },
+ "ozma-of-oz": {
+  "free": true,
+  "people": [
+   {
+    "died": 1919,
+    "free": true,
+    "name": "L. Frank Baum",
+    "roles": [
+     "notes",
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q207544"
+   },
+   {
+    "died": 1912,
+    "free": true,
+    "name": "Jan Ciągliński",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q1671969"
+   }
+  ]
+ },
  "paradise-lost": {
   "free": true,
   "people": [
@@ -6584,6 +6696,29 @@
    }
   ]
  },
+ "richard-ii": {
+  "free": true,
+  "people": [
+   {
+    "died": 1616,
+    "free": true,
+    "name": "William Shakespeare",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q692"
+   },
+   {
+    "died": 1897,
+    "free": true,
+    "name": "John Gilbert",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q1591928"
+   }
+  ]
+ },
  "richard-iii": {
   "free": true,
   "people": [
@@ -6758,6 +6893,30 @@
      "cover painting"
     ],
     "wikidata": "Q204138"
+   }
+  ]
+ },
+ "saint-joan": {
+  "free": true,
+  "people": [
+   {
+    "died": 1950,
+    "free": true,
+    "name": "George Bernard Shaw",
+    "roles": [
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q19185"
+   },
+   {
+    "died": 1896,
+    "free": true,
+    "name": "John Everett Millais",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q159606"
    }
   ]
  },
@@ -7316,6 +7475,31 @@
      "cover painting"
     ],
     "wikidata": "Q716222"
+   }
+  ]
+ },
+ "tartuffe": {
+  "free": true,
+  "people": [
+   {
+    "died": 1673,
+    "free": true,
+    "name": "Molière",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q687"
+   },
+   {
+    "died": 1946,
+    "free": true,
+    "name": "Curtis Hidden Page",
+    "roles": [
+     "notes",
+     "translator",
+     "introduction"
+    ],
+    "wikidata": "Q5195762"
    }
   ]
  },
@@ -8600,6 +8784,49 @@
    }
   ]
  },
+ "the-diary": {
+  "free": true,
+  "people": [
+   {
+    "died": 1703,
+    "free": true,
+    "name": "Samuel Pepys",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q106143"
+   },
+   {
+    "died": 1679,
+    "free": true,
+    "name": "John Hayls",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q1033596"
+   },
+   {
+    "free": true,
+    "name": "Henry B. Wheatley",
+    "roles": [
+     "notes",
+     "editor",
+     "introduction"
+    ],
+    "why": "a volunteer, whose work is given to the public domain"
+   },
+   {
+    "died": 1858,
+    "free": true,
+    "name": "Richard Griffin",
+    "roles": [
+     "notes",
+     "illustrator"
+    ],
+    "wikidata": "Q7326083"
+   }
+  ]
+ },
  "the-divine-comedy": {
   "free": true,
   "people": [
@@ -9674,6 +9901,39 @@
    }
   ]
  },
+ "the-inspector-general": {
+  "free": true,
+  "people": [
+   {
+    "died": 1852,
+    "free": true,
+    "name": "Nikolai Gogol",
+    "roles": [
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q43718"
+   },
+   {
+    "died": 1943,
+    "free": true,
+    "name": "Thomas Seltzer",
+    "roles": [
+     "translator"
+    ],
+    "wikidata": "Q7793870"
+   },
+   {
+    "died": 1868,
+    "free": true,
+    "name": "Christiaan Julius Lodewijk Portman",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q18552608"
+   }
+  ]
+ },
  "the-invisible-man": {
   "free": true,
   "people": [
@@ -10110,6 +10370,29 @@
      "cover painting"
     ],
     "wikidata": "Q437233"
+   }
+  ]
+ },
+ "the-lone-wolf": {
+  "free": true,
+  "people": [
+   {
+    "died": 1933,
+    "free": true,
+    "name": "Louis Joseph Vance",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q3262364"
+   },
+   {
+    "died": 1929,
+    "free": true,
+    "name": "Henri Gervex",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q956102"
    }
   ]
  },

@@ -13092,6 +13092,280 @@
   "kobo": "https://standardebooks.org/ebooks/nella-larsen/quicksand/downloads/nella-larsen_quicksand.kepub.epub?source=download"
  },
  {
+  "title": "Ozma of Oz",
+  "author": "L. Frank Baum",
+  "translator": null,
+  "abstract": "A girl gets whisked away to a fairy land and helps restore the proper rulers to the throne.",
+  "description": [
+   "Three years after the publication of The Marvelous Land of Oz and encouraged by young fans’ letters, L. Frank Baum once more returned to write about lands full of magic and wonder.",
+   "On a ship on her way to Australia for a holiday with Uncle Henry, Dorothy Gale gets tossed overboard during a storm. Washing ashore in a chicken-coop, Dorothy and her newfound friend, a hen she names Billina, embark on an exploration of the new land. After meeting old friends and making new ones, Dorothy joins the Princess Ozma of Oz on a mission to restore the royal family of Ev to their rightful place on the throne.",
+   "This is the first book in which it becomes clear that Baum intended to make Oz a series, and, like its predecessors, Ozma of Oz has been adapted to theater and film."
+  ],
+  "words": 38487,
+  "reading_time": "2 hours 20 minutes",
+  "language": "en-US",
+  "standard_ebooks": "https://standardebooks.org/ebooks/l-frank-baum/ozma-of-oz",
+  "slug": "ozma-of-oz",
+  "genres": [
+   "Children’s",
+   "Fantasy"
+  ],
+  "collections": [],
+  "spine": "#856e5f",
+  "epub": "books/ozma-of-oz.epub",
+  "size": 552266,
+  "popularity": 580,
+  "opening": "The wind blew hard and joggled the water of the ocean, sending ripples across its surface.",
+  "kindle": "https://standardebooks.org/ebooks/l-frank-baum/ozma-of-oz/downloads/l-frank-baum_ozma-of-oz.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/l-frank-baum/ozma-of-oz/downloads/l-frank-baum_ozma-of-oz.kepub.epub?source=download"
+ },
+ {
+  "title": "Tartuffe",
+  "author": "Molière",
+  "translator": "Curtis Hidden Page",
+  "abstract": "A father announces his daughter will marry Tartuffe, a sanctimonious fraud and hypocrite.",
+  "description": [
+   "The first three acts of Molière’s Tartuffe were first performed for Louis XIV in 1664, but the play was almost immediately suppressed—not because the King disliked it, but because the church resented the insinuation that the pious were frauds. After several different versions were written and performed privately, Tartuffe was eventually published in its final five-act form in 1669.",
+   "A comic tale of man taken in by a sanctimonious scoundrel, the characters of Tartuffe, Elmire, and Orgon are considered among some of the great classical theater roles. As the family strives to convince the patriarch that Tartuffe is a religious fraud, the play ultimately focuses on skewering not the hypocrite, but his victims, and the hypocrisy of fervent religious belief unchecked by facts or reason—a defense Molière himself used to overcome the church’s proscriptions. In the end, the play was so impactful that both French and English now use the word “Tartuffe” to refer to a religious hypocrite who feigns virtue.",
+   "In its original French, the play is written in twelve-syllable lines of rhyming couplets. Curtis Hidden Page’s translation invokes a popular compromise and renders it into the familiar blank verse without rhymed endings that was popularized by Shakespeare. The translation is considered a seminal one by modern translators."
+  ],
+  "words": 19291,
+  "reading_time": "1 hour 11 minutes",
+  "language": "en-US",
+  "standard_ebooks": "https://standardebooks.org/ebooks/moliere/tartuffe/curtis-hidden-page",
+  "slug": "tartuffe",
+  "genres": [
+   "Plays"
+  ],
+  "collections": [],
+  "spine": "#38180d",
+  "epub": "books/tartuffe.epub",
+  "size": 521175,
+  "popularity": 717,
+  "opening": "Come, come, Flipotte, and let me get away.",
+  "kindle": "https://standardebooks.org/ebooks/moliere/tartuffe/curtis-hidden-page/downloads/moliere_tartuffe_curtis-hidden-page.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/moliere/tartuffe/curtis-hidden-page/downloads/moliere_tartuffe_curtis-hidden-page.kepub.epub?source=download"
+ },
+ {
+  "title": "Richard II",
+  "author": "William Shakespeare",
+  "translator": null,
+  "abstract": "King Richard II’s wasteful spending habits drive his supporters to revolt.",
+  "description": [
+   "Against the advice of his counselors, Richard II has been taking money from England’s coffers and spending it on fashion and close friends. In order to continue his wasteful spending, he raises taxes on the commoners and leases portions of English land to wealthy noblemen. He also sees an opportunity to seize more land and money after hearing news of John of Gaunt’s failing health.",
+   "King Richard arrives at Windsor Castle to settle a dispute between Henry Bolingbroke, the Duke of Hereford and son of John of Gaunt, and Thomas Mowbray, the Duke of Norfolk. Bolingbroke accuses Mowbray of numerous counts of treason: embezzling funds for Richard’s soldiers, conspiring against the king for the past eighteen years, and murdering the Duke of Gloucester. Mowbray denies these charges and claims to have repented for any wrongs he has caused in the past. John of Gaunt tries to convince the two to reconcile, but his attempts fall on deaf ears. Richard determines that a trial by combat will settle the matter.",
+   "This Standard Ebooks edition is based on William George Clark and William Aldis Wright’s 1887 Victoria edition, which is taken from the Globe edition."
+  ],
+  "words": 23253,
+  "reading_time": "1 hour 25 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/william-shakespeare/richard-ii",
+  "slug": "richard-ii",
+  "genres": [
+   "Plays"
+  ],
+  "collections": [],
+  "spine": "#44271a",
+  "epub": "books/richard-ii.epub",
+  "size": 422803,
+  "popularity": 581,
+  "opening": "Old John of Gaunt, time-honour’d Lancaster, Hast thou, according to thy oath and band, Brought hither Henry Hereford thy bold son, Here to make good the boisterous late appeal, Which then our leisure…",
+  "kindle": "https://standardebooks.org/ebooks/william-shakespeare/richard-ii/downloads/william-shakespeare_richard-ii.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/william-shakespeare/richard-ii/downloads/william-shakespeare_richard-ii.kepub.epub?source=download"
+ },
+ {
+  "title": "The Diary",
+  "author": "Samuel Pepys",
+  "translator": null,
+  "abstract": "The diary of a man living in London in the 17th century.",
+  "description": [
+   "Pepys’ Diary is a decade-long snapshot of the life of an up and coming naval administrator in mid-17th century London. In it he describes everything from battles against the Dutch and the intrigues of court, to the plays he saw, his marital infidelities, and the quality of the meat provided for his supper. His incredibly frank observations have proved invaluable in establishing an accurate record of the daily life of the people of London of that period.",
+   "Pepys eventually stopped keeping the diary due to progressive deterioration of his eyesight, fearing that continuing to write would worsen the condition. He did consider employing an amanuensis to transcribe future entries for him, but worried that the content he wanted written would be too personal. Luckily for Pepys, his eyesight difficulties never progressed to blindness and he was able to go on to become both a Member of Parliament and the President of the Royal Society, but he never resumed his diarism.",
+   "After Pepys’ death he left his large library of books and manuscripts first to his nephew, which was then passed on to Magdalene College, Cambridge, where it survives to this day. The diary, originally written in a shorthand, was included in this trove and was eventually deciphered in the early 19th century, and published by Lord Baybrooke in 1825. This early release censored large amounts of the text, and it was only in the 1970s that an uncensored version was published. Presented here is the 1893 edition, which restores the majority of the originally censored content but omits “a few passages which cannot possibly be printed.” The rich collection of endnotes serves to further illustrate the lives of the people Pepys meets and the state of internal politics and international relations during the English Restoration."
+  ],
+  "words": 1196787,
+  "reading_time": "72 hours 32 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/samuel-pepys/the-diary",
+  "slug": "the-diary",
+  "genres": [
+   "Lives and memoirs",
+   "History and politics"
+  ],
+  "collections": [],
+  "spine": "#27251c",
+  "epub": "books/the-diary.epub",
+  "size": 3590032,
+  "popularity": 597,
+  "opening": "Blessed be God, at the end of the last year I was in very good health, without any sense of my old pain, but upon taking of cold.",
+  "kindle": "https://standardebooks.org/ebooks/samuel-pepys/the-diary/downloads/samuel-pepys_the-diary.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/samuel-pepys/the-diary/downloads/samuel-pepys_the-diary.kepub.epub?source=download"
+ },
+ {
+  "title": "Poetry",
+  "author": "George MacDonald",
+  "translator": null,
+  "abstract": "A collection of poetry by Scottish author, poet, and Christian minister George MacDonald, exploring themes of faith, nature, redemption, and the human soul.",
+  "description": [
+   "George MacDonald was a Scottish author, poet, and Christian minister whose visionary works laid foundations for modern fantasy literature. They continue to resonate today with their spirituality, emphasis on personal transformation, and harmonious view of nature as a reflection of divine presence, influencing contemporary discussions on faith, ecology, and moral imagination.",
+   "Composed amid his novels and sermons, many of his poems first appeared in 19th-century periodicals. This edition collects all of his poetry (excluding only his poetry written in Scots), encompassing narrative epics that trace inner journeys, intimate sonnets on divine love and human vulnerability, devotional reflections on the soul’s quest for enlightenment, and whimsical verses for children that blend wonder with ethical insight.",
+   "Marked by a profound personal spirituality, MacDonald’s poems delve into the tensions of faith and doubt, the divine presence in everyday life, and the interplay between the ordinary and the transcendent—as seen, for example, in “A Hidden Life,” a long narrative tracing a young man’s spiritual growth through humble rural toil and inner trials, and “The Diary of an Old Soul,” a year-long sequence of introspective stanzas chronicling daily spiritual struggles and aspirations."
+  ],
+  "words": 158017,
+  "reading_time": "9 hours 35 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/george-macdonald/poetry",
+  "slug": "george-macdonald-poetry",
+  "genres": [
+   "Poetry"
+  ],
+  "collections": [],
+  "spine": "#2d302c",
+  "epub": "books/george-macdonald-poetry.epub",
+  "size": 849363,
+  "popularity": 685,
+  "opening": "Take of the first fruits, Father, of thy care, Wrapped in the fresh leaves of my gratitude Late waked for early gifts ill understood; Claiming in all my harvests rightful share, Whether with song…",
+  "kindle": "https://standardebooks.org/ebooks/george-macdonald/poetry/downloads/george-macdonald_poetry.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/george-macdonald/poetry/downloads/george-macdonald_poetry.kepub.epub?source=download"
+ },
+ {
+  "title": "Bambi",
+  "author": "Felix Salten",
+  "translator": "Whittaker Chambers",
+  "abstract": "A roe deer learns the rules of the forest and how to survive in a world inhabited by men as he grows to maturity.",
+  "description": [
+   "Bambi follows the life of the eponymous roe deer, from birth to maturity. Through the years Bambi meets friends, learns how to survive in the forest, finds love, and learns how to survive “He”—the name animals give to man. The novel gives a glimpse into forest life: dangerous, yet awe-inspiring; unforgiving, yet beautiful.",
+   "Written by Felix Salten and published in 1923 in German, it was translated to English in 1928 by Whittaker Chambers. It is considered one of the first environmental novels, and in 1936 was banned by Nazi Germany for being a parable of the persecution of Jews in Europe.",
+   "Although adapted into multiple movies, ballets, and plays, Bambi is perhaps most popularly remembered as the subject of Walt Disney’s famous animated feature of the same name."
+  ],
+  "words": 40688,
+  "reading_time": "2 hours 28 minutes",
+  "language": "en-US",
+  "standard_ebooks": "https://standardebooks.org/ebooks/felix-salten/bambi/whittaker-chambers",
+  "slug": "bambi",
+  "genres": [
+   "Children’s",
+   "Literary fiction"
+  ],
+  "collections": [],
+  "spine": "#3a3b29",
+  "epub": "books/bambi.epub",
+  "size": 734448,
+  "popularity": 565,
+  "opening": "He came into the world in the middle of the thicket, in one of those little, hidden forest glades which seem to be entirely open, but are really screened in on all sides.",
+  "kindle": "https://standardebooks.org/ebooks/felix-salten/bambi/whittaker-chambers/downloads/felix-salten_bambi_whittaker-chambers.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/felix-salten/bambi/whittaker-chambers/downloads/felix-salten_bambi_whittaker-chambers.kepub.epub?source=download"
+ },
+ {
+  "title": "Barchester Towers",
+  "author": "Anthony Trollope",
+  "translator": null,
+  "abstract": "The affections of a young widow are at play while rival clerical factions contend for control over church matters in the cathedral city of Barchester.",
+  "description": [
+   "Barchester Towers, published in 1857, is the sequel to Trollope’s The Warden and continues the story of the clerical doings in the fictional cathedral town of Barchester.",
+   "As this novel opens, the old Bishop of Barchester lies dying, and there is considerable doubt as to who will replace him. The Bishop’s son Dr. Grantly, the Archdeacon, has high hopes of succeeding him, but these hopes are dashed and a new Bishop, Dr. Proudie, is appointed. Along with Dr. Proudie comes his domineering wife and their ambitious chaplain the Reverend Mr. Slope.",
+   "The old clerical party headed by Dr. Grantly and the new, championed by Mrs. Proudie and Mr. Slope, are soon in contention over Church matters. These two parties represent a then-significant struggle between different evangelical approaches in the Church of England. One local issue in particular is fought over—the appointment of a new Warden for Hiram’s Hospital, the focus of the preceding book.",
+   "Mrs. Eleanor Bold is the daughter of Mr. Harding, the prior Warden. She has recently been widowed. The wealth she inherited from her late husband makes her an attractive match, and her affections are in contention from several prospective suitors, including the oily Mr. Slope. All of this lends itself to considerable humor and interest.",
+   "Though not well received by critics on its initial publication, Barchester Towers is now regarded as one of Trollope’s most popular novels. Together with The Warden, it was made into a very successful television series by the BBC in 1982."
+  ],
+  "words": 198397,
+  "reading_time": "12 hours 2 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/anthony-trollope/barchester-towers",
+  "slug": "barchester-towers",
+  "genres": [
+   "Literary fiction",
+   "Romance"
+  ],
+  "collections": [],
+  "spine": "#6d5f4a",
+  "epub": "books/barchester-towers.epub",
+  "size": 912931,
+  "popularity": 646,
+  "opening": "In the latter days of July in the year 185‒, a most important question was for ten days hourly asked in the cathedral city of Barchester, and answered every hour in various ways—Who was to be the new bishop?",
+  "kindle": "https://standardebooks.org/ebooks/anthony-trollope/barchester-towers/downloads/anthony-trollope_barchester-towers.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/anthony-trollope/barchester-towers/downloads/anthony-trollope_barchester-towers.kepub.epub?source=download"
+ },
+ {
+  "title": "The Lone Wolf",
+  "author": "Louis Joseph Vance",
+  "translator": null,
+  "abstract": "A skilled thief, pursued for his past crimes, is faced with a choice between love or a life of crime.",
+  "description": [
+   "On a wet winter night in Paris, a boy is abandoned at the restaurant Troyon’s. Without even having a name, the boy makes a new life for himself under the stern eye of the restaurant’s owners, when through one of its guests he’s introduced to the criminal underworld. Years later, the boy—now named Michael Lanyard, the Lone Wolf—is a seasoned jewel thief, learned in mathematics, mechanics, and the ways of elegant society. He finds himself on the run, and returns to Paris where he must choose between the lonely life of a criminal, and the possibility of newfound love.",
+   "The Lone Wolf is the first of many novels and movies featuring Michael Lanyard the jewel thief."
+  ],
+  "words": 75960,
+  "reading_time": "4 hours 37 minutes",
+  "language": "en-US",
+  "standard_ebooks": "https://standardebooks.org/ebooks/louis-joseph-vance/the-lone-wolf",
+  "slug": "the-lone-wolf",
+  "genres": [
+   "Mystery",
+   "Adventure"
+  ],
+  "collections": [],
+  "spine": "#5e5c5b",
+  "epub": "books/the-lone-wolf.epub",
+  "size": 559293,
+  "popularity": 642,
+  "opening": "It must have been Bourke who first said that even if you knew your way about Paris you had to lose it in order to find it to Troyon’s.",
+  "kindle": "https://standardebooks.org/ebooks/louis-joseph-vance/the-lone-wolf/downloads/louis-joseph-vance_the-lone-wolf.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/louis-joseph-vance/the-lone-wolf/downloads/louis-joseph-vance_the-lone-wolf.kepub.epub?source=download"
+ },
+ {
+  "title": "The Inspector General",
+  "author": "Nikolai Gogol",
+  "translator": "Thomas Seltzer",
+  "abstract": "Corrupt officials in a small Russian town are thrown into disarray by the arrival of an Inspector General from the central government.",
+  "description": [
+   "A small Russian town is a corrupt mess: prisoners aren’t being fed, invalids are left to die, trash piles up against monuments, the courthouse is being used to hold livestock, and all the officials are taking bribes. But suddenly everybody is put on alert by the news that an Inspector General from the central government is due to arrive, incognito—and when it’s discovered that a suspicious young man from St. Petersburg is staying at the town inn, all is thrown into disarray. With the governor trying to bribe him, the governor’s daughter trying to woo him, and the town’s merchants trying to convince him to usurp the governor himself, is this young man—the supposed Inspector General—all that he seems?",
+   "Nikolai Gogol was known for his short fiction when he published The Inspector General; in a time of strict censorship. Permission to perform the play was obtained through personal approval by Czar Nicholas I, who was present at the play’s premiere in 1836. Widely regarded as one of the great plays not only of the Russian canon but in the history of comedic theater, The Inspector General has been adapted dozens of times for film, television, radio, and opera, and has been staged around the world."
+  ],
+  "words": 27205,
+  "reading_time": "1 hour 39 minutes",
+  "language": "en-US",
+  "standard_ebooks": "https://standardebooks.org/ebooks/nikolai-gogol/the-inspector-general/thomas-seltzer",
+  "slug": "the-inspector-general",
+  "genres": [
+   "Plays"
+  ],
+  "collections": [],
+  "spine": "#1e1e25",
+  "epub": "books/the-inspector-general.epub",
+  "size": 516161,
+  "popularity": 656,
+  "opening": "Anton Antonovich, the Governor, Artemy Filippovich, the Superintendent of Charities, Luka Lukich, the Inspector of Schools, Ammos Fiodorovich, the Judge, Stepan Ilyich, Christian Ivanovich, the Doctor, and two Police Sergeants.",
+  "kindle": "https://standardebooks.org/ebooks/nikolai-gogol/the-inspector-general/thomas-seltzer/downloads/nikolai-gogol_the-inspector-general_thomas-seltzer.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/nikolai-gogol/the-inspector-general/thomas-seltzer/downloads/nikolai-gogol_the-inspector-general_thomas-seltzer.kepub.epub?source=download"
+ },
+ {
+  "title": "Saint Joan",
+  "author": "George Bernard Shaw",
+  "translator": null,
+  "abstract": "Joan of Arc’s life story is retold, from her early life, to her campaigns, and beyond.",
+  "description": [
+   "Saint Joan stands out among George Bernard Shaw’s plays. He’s best known for drawing-room plays exploring social issues; here he writes something closer to a Shakespearean history play, following the fifteenth-century French national hero Joan of Arc through her campaigns and beyond.",
+   "Shaw’s preface to the play argues that other tellings of Joan’s story do her a disservice by idealizing her and demonizing her antagonists. By refusing to show the prosecutors at Joan’s trial as cartoonish villains, Shaw introduces real drama into what could easily be cheap melodrama. And Shaw’s fully human Joan is one of his finest creations, which has attracted great actresses to the part from the 1920s to the present day. It is mostly on account of this deep characterization that this is considered by some to be Shaw’s greatest play."
+  ],
+  "words": 56213,
+  "reading_time": "3 hours 25 minutes",
+  "language": "en-GB",
+  "standard_ebooks": "https://standardebooks.org/ebooks/george-bernard-shaw/saint-joan",
+  "slug": "saint-joan",
+  "genres": [
+   "Plays"
+  ],
+  "collections": [],
+  "spine": "#1d140c",
+  "epub": "books/saint-joan.epub",
+  "size": 536576,
+  "popularity": 630,
+  "opening": "A fine spring morning on the river Meuse, between Lorraine and Champagne, in the year 1429 AD, in the castle of Vaucouleurs.",
+  "kindle": "https://standardebooks.org/ebooks/george-bernard-shaw/saint-joan/downloads/george-bernard-shaw_saint-joan.azw3?source=download",
+  "kobo": "https://standardebooks.org/ebooks/george-bernard-shaw/saint-joan/downloads/george-bernard-shaw_saint-joan.kepub.epub?source=download"
+ },
+ {
   "title": "The Golden Threshold",
   "author": "Sarojini Naidu",
   "translator": null,

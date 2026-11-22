@@ -484,5 +484,15 @@
  "my-first-summer-in-the-sierra": ["Adventurous", "Heartwarming", "Thoughtful"],
  "ashenden": ["Gripping", "Dark", "Funny"],
  "loves-labours-lost": ["Funny", "Romantic"],
- "quicksand": ["Dark", "Thoughtful"]
+ "quicksand": ["Dark", "Thoughtful"],
+ "ozma-of-oz": ["Adventurous", "Funny", "Heartwarming"],
+ "tartuffe": ["Funny"],
+ "richard-ii": ["Dark", "Thoughtful"],
+ "the-diary": ["Funny", "Thoughtful"],
+ "george-macdonald-poetry": ["Thoughtful"],
+ "bambi": ["Heartwarming", "Dark"],
+ "barchester-towers": ["Funny", "Romantic"],
+ "the-lone-wolf": ["Gripping", "Adventurous"],
+ "the-inspector-general": ["Funny"],
+ "saint-joan": ["Thoughtful", "Gripping"]
 }
