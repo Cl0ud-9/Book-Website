@@ -562,6 +562,16 @@ CATALOGUE = [
     ("louis-joseph-vance/the-lone-wolf", ["Mystery", "Adventure"]),
     ("nikolai-gogol/the-inspector-general/thomas-seltzer", ["Plays"]),
     ("george-bernard-shaw/saint-joan", ["Plays"]),
+    ("lord-dunsany/the-book-of-wonder/sidney-h-sime", ["Fantasy"]),
+    ("sophocles/ajax/francis-storr", ["Plays"]),
+    ("herman-melville/typee", ["Adventure", "Literary fiction"]),
+    ("henry-james/the-ambassadors", ["Literary fiction"]),
+    ("peter-kropotkin/mutual-aid", ["Science and nature", "Philosophy"]),
+    ("emile-zola/germinal/havelock-ellis", ["Literary fiction"]),
+    ("hilaire-belloc/the-cruise-of-the-nona", ["Lives and memoirs", "Adventure"]),
+    ("edgar-rice-burroughs/the-master-mind-of-mars", ["Science fiction", "Adventure"]),
+    ("josephine-tey/the-man-in-the-queue", ["Mystery"]),
+    ("l-m-montgomery/emily-of-new-moon", ["Children’s", "Literary fiction"]),
     # pipeline/grow.py adds the next books from pipeline/queue.json above this line
 ]
 

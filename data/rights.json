@@ -520,6 +520,40 @@
    }
   ]
  },
+ "ajax": {
+  "free": true,
+  "people": [
+   {
+    "died": -406,
+    "free": true,
+    "name": "Sophocles",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q7235"
+   },
+   {
+    "died": 1919,
+    "free": true,
+    "name": "Francis Storr",
+    "roles": [
+     "notes",
+     "translator",
+     "introduction"
+    ],
+    "wikidata": "Q16861781"
+   },
+   {
+    "died": 1865,
+    "free": true,
+    "name": "Antoine Wiertz",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q352978"
+   }
+  ]
+ },
  "alices-adventures-in-wonderland": {
   "free": true,
   "people": [
@@ -2512,6 +2546,29 @@
    }
   ]
  },
+ "emily-of-new-moon": {
+  "free": true,
+  "people": [
+   {
+    "died": 1942,
+    "free": true,
+    "name": "L. M. Montgomery",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q273034"
+   },
+   {
+    "died": 1919,
+    "free": true,
+    "name": "Pierre-Auguste Renoir",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q39931"
+   }
+  ]
+ },
  "emma": {
   "free": true,
   "people": [
@@ -2973,6 +3030,39 @@
      "cover painting"
     ],
     "wikidata": "Q17384822"
+   }
+  ]
+ },
+ "germinal": {
+  "free": true,
+  "people": [
+   {
+    "died": 1902,
+    "free": true,
+    "name": "Émile Zola",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q504"
+   },
+   {
+    "died": 1939,
+    "free": true,
+    "name": "Havelock Ellis",
+    "roles": [
+     "translator",
+     "introduction"
+    ],
+    "wikidata": "Q552983"
+   },
+   {
+    "died": 1905,
+    "free": true,
+    "name": "Constantin Meunier",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q552440"
    }
   ]
  },
@@ -5364,6 +5454,31 @@
      "cover painting"
     ],
     "wikidata": "Q212657"
+   }
+  ]
+ },
+ "mutual-aid": {
+  "free": true,
+  "people": [
+   {
+    "died": 1921,
+    "free": true,
+    "name": "Peter Kropotkin",
+    "roles": [
+     "notes",
+     "author",
+     "introduction"
+    ],
+    "wikidata": "Q5752"
+   },
+   {
+    "died": 1938,
+    "free": true,
+    "name": "Elizabeth Nourse",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q532168"
    }
   ]
  },
@@ -7786,6 +7901,38 @@
    }
   ]
  },
+ "the-ambassadors": {
+  "free": true,
+  "people": [
+   {
+    "died": 1916,
+    "free": true,
+    "name": "Henry James",
+    "roles": [
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q170509"
+   },
+   {
+    "died": 1894,
+    "free": true,
+    "name": "Gustave Caillebotte",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q295144"
+   },
+   {
+    "free": true,
+    "name": "Richard D. Hathaway",
+    "roles": [
+     "notes"
+    ],
+    "why": "a volunteer, whose work is given to the public domain"
+   }
+  ]
+ },
  "the-art-of-illustration": {
   "free": true,
   "people": [
@@ -8203,6 +8350,30 @@
      "notes"
     ],
     "why": "a volunteer, whose work is given to the public domain"
+   }
+  ]
+ },
+ "the-book-of-wonder": {
+  "free": true,
+  "people": [
+   {
+    "died": 1957,
+    "free": true,
+    "name": "Lord Dunsany",
+    "roles": [
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q458658"
+   },
+   {
+    "died": 1941,
+    "free": true,
+    "name": "Sidney H. Sime",
+    "roles": [
+     "illustrator"
+    ],
+    "wikidata": "Q7509343"
    }
   ]
  },
@@ -8696,6 +8867,29 @@
      "cover painting"
     ],
     "why": "not used: the book has its own cover"
+   }
+  ]
+ },
+ "the-cruise-of-the-nona": {
+  "free": true,
+  "people": [
+   {
+    "died": 1953,
+    "free": true,
+    "name": "Hilaire Belloc",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q333106"
+   },
+   {
+    "died": 1917,
+    "free": true,
+    "name": "Albert Pinkham Ryder",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q948598"
    }
   ]
  },
@@ -10543,6 +10737,30 @@
    }
   ]
  },
+ "the-man-in-the-queue": {
+  "free": true,
+  "people": [
+   {
+    "died": 1952,
+    "free": true,
+    "name": "Josephine Tey",
+    "roles": [
+     "author",
+     "illustrator"
+    ],
+    "wikidata": "Q261521"
+   },
+   {
+    "died": 1919,
+    "free": true,
+    "name": "Arthur Hacker",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q3354355"
+   }
+  ]
+ },
  "the-man-who-mastered-time": {
   "free": true,
   "people": [
@@ -10636,6 +10854,31 @@
      "cover painting"
     ],
     "wikidata": "Q37693"
+   }
+  ]
+ },
+ "the-master-mind-of-mars": {
+  "free": true,
+  "people": [
+   {
+    "died": 1950,
+    "free": true,
+    "name": "Edgar Rice Burroughs",
+    "roles": [
+     "notes",
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q148234"
+   },
+   {
+    "died": 1957,
+    "free": true,
+    "name": "J. Allen St. John",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q6104584"
    }
   ]
  },
@@ -13925,6 +14168,40 @@
      "cover painting"
     ],
     "wikidata": "Q18516533"
+   }
+  ]
+ },
+ "typee": {
+  "free": true,
+  "people": [
+   {
+    "died": 1891,
+    "free": true,
+    "name": "Herman Melville",
+    "roles": [
+     "notes",
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q4985"
+   },
+   {
+    "died": 1908,
+    "free": true,
+    "name": "Arthur Stedman",
+    "roles": [
+     "introduction"
+    ],
+    "wikidata": "Q21469841"
+   },
+   {
+    "died": 1797,
+    "free": true,
+    "name": "William Hodges",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q730841"
    }
   ]
  },

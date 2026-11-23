@@ -494,5 +494,15 @@
  "barchester-towers": ["Funny", "Romantic"],
  "the-lone-wolf": ["Gripping", "Adventurous"],
  "the-inspector-general": ["Funny"],
- "saint-joan": ["Thoughtful", "Gripping"]
+ "saint-joan": ["Thoughtful", "Gripping"],
+ "the-book-of-wonder": ["Eerie", "Funny", "Adventurous"],
+ "ajax": ["Dark"],
+ "typee": ["Adventurous"],
+ "the-ambassadors": ["Thoughtful"],
+ "mutual-aid": ["Thoughtful"],
+ "germinal": ["Dark", "Gripping"],
+ "the-cruise-of-the-nona": ["Adventurous", "Thoughtful"],
+ "the-master-mind-of-mars": ["Adventurous", "Eerie"],
+ "the-man-in-the-queue": ["Gripping"],
+ "emily-of-new-moon": ["Heartwarming", "Thoughtful"]
 }
