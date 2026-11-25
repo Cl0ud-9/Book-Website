@@ -1647,6 +1647,29 @@
    }
   ]
  },
+ "c-s-lewis-poetry": {
+  "free": true,
+  "people": [
+   {
+    "died": 1963,
+    "free": true,
+    "name": "C. S. Lewis",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q9204"
+   },
+   {
+    "died": 1907,
+    "free": true,
+    "name": "John F. Peto",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q978526"
+   }
+  ]
+ },
  "camille-la-dame-aux-camilias": {
   "free": true,
   "people": [
@@ -3990,6 +4013,29 @@
    }
   ]
  },
+ "james-joyce-poetry": {
+  "free": true,
+  "people": [
+   {
+    "died": 1941,
+    "free": true,
+    "name": "James Joyce",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q6882"
+   },
+   {
+    "died": 1931,
+    "free": true,
+    "name": "Lesser Ury",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q512596"
+   }
+  ]
+ },
  "jane-eyre": {
   "free": true,
   "people": [
@@ -5345,6 +5391,40 @@
      "cover painting"
     ],
     "wikidata": "Q159297"
+   }
+  ]
+ },
+ "midst-the-wild-carpathians": {
+  "free": true,
+  "people": [
+   {
+    "died": 1904,
+    "free": true,
+    "name": "Mór Jókai",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q379621"
+   },
+   {
+    "died": 1909,
+    "free": true,
+    "name": "Robert Nisbet Bain",
+    "roles": [
+     "notes",
+     "translator",
+     "introduction"
+    ],
+    "wikidata": "Q2158388"
+   },
+   {
+    "died": 1915,
+    "free": true,
+    "name": "Stanisław Witkiewicz",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q684591"
    }
   ]
  },
@@ -9482,6 +9562,31 @@
    }
   ]
  },
+ "the-gods-of-pegana": {
+  "free": true,
+  "people": [
+   {
+    "died": 1957,
+    "free": true,
+    "name": "Lord Dunsany",
+    "roles": [
+     "author",
+     "introduction",
+     "preface"
+    ],
+    "wikidata": "Q458658"
+   },
+   {
+    "died": 1946,
+    "free": true,
+    "name": "Joseph Stella",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q1347418"
+   }
+  ]
+ },
  "the-gold-bag": {
   "free": true,
   "people": [
@@ -10817,6 +10922,29 @@
      "cover painting"
     ],
     "wikidata": "Q1373022"
+   }
+  ]
+ },
+ "the-mark-of-zorro": {
+  "free": true,
+  "people": [
+   {
+    "died": 1958,
+    "free": true,
+    "name": "Johnston McCulley",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q552372"
+   },
+   {
+    "died": 1862,
+    "free": true,
+    "name": "John Woodhouse Audubon",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q18508415"
    }
   ]
  },
@@ -13043,6 +13171,39 @@
    }
   ]
  },
+ "the-tragical-history-of-doctor-faustus": {
+  "free": true,
+  "people": [
+   {
+    "died": 1593,
+    "free": true,
+    "name": "Christopher Marlowe",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q28975"
+   },
+   {
+    "died": 1928,
+    "free": true,
+    "name": "Eilif Peterssen",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q739176"
+   },
+   {
+    "died": 1939,
+    "free": true,
+    "name": "Havelock Ellis",
+    "roles": [
+     "notes",
+     "editor"
+    ],
+    "wikidata": "Q552983"
+   }
+  ]
+ },
  "the-trouble-at-pinelands-b-a-detective-story": {
   "free": true,
   "people": [
@@ -13193,6 +13354,29 @@
    }
   ]
  },
+ "the-voyages-of-doctor-dolittle": {
+  "free": true,
+  "people": [
+   {
+    "died": 1947,
+    "free": true,
+    "name": "Hugh Lofting",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q560015"
+   },
+   {
+    "died": 1695,
+    "free": true,
+    "name": "Melchior d’Hondecoeter",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q304411"
+   }
+  ]
+ },
  "the-vultures": {
   "free": true,
   "people": [
@@ -13273,6 +13457,37 @@
      "cover painting"
     ],
     "wikidata": "Q6104584"
+   }
+  ]
+ },
+ "the-way-of-all-flesh": {
+  "free": true,
+  "people": [
+   {
+    "free": true,
+    "name": "Samuel Butler",
+    "roles": [
+     "author"
+    ],
+    "why": "English novelist, author of Erewhon, 1835 to 1902"
+   },
+   {
+    "died": 1919,
+    "free": true,
+    "name": "R. A. Streatfeild",
+    "roles": [
+     "preface"
+    ],
+    "wikidata": "Q16043834"
+   },
+   {
+    "died": 1851,
+    "free": true,
+    "name": "J. M. W. Turner",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q159758"
    }
   ]
  },
@@ -13805,6 +14020,39 @@
    }
   ]
  },
+ "three-sisters": {
+  "free": true,
+  "people": [
+   {
+    "died": 1904,
+    "free": true,
+    "name": "Anton Chekhov",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q5685"
+   },
+   {
+    "died": 1918,
+    "free": true,
+    "name": "Julius West",
+    "roles": [
+     "notes",
+     "translator"
+    ],
+    "wikidata": "Q19370740"
+   },
+   {
+    "died": 1681,
+    "free": true,
+    "name": "Gerard ter Borch",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q346808"
+   }
+  ]
+ },
  "through-the-looking-glass": {
   "free": true,
   "people": [
@@ -14168,6 +14416,40 @@
      "cover painting"
     ],
     "wikidata": "Q18516533"
+   }
+  ]
+ },
+ "two-years-before-the-mast": {
+  "free": true,
+  "people": [
+   {
+    "died": 1882,
+    "free": true,
+    "name": "Richard Henry Dana Jr.",
+    "roles": [
+     "notes",
+     "author",
+     "preface"
+    ],
+    "wikidata": "Q527981"
+   },
+   {
+    "died": 1938,
+    "free": true,
+    "name": "Homer Eaton Keyes",
+    "roles": [
+     "notes"
+    ],
+    "wikidata": "Q5890014"
+   },
+   {
+    "died": 1915,
+    "free": true,
+    "name": "Hendrik Willem Mesdag",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q474238"
    }
   ]
  },

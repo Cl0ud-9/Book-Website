@@ -504,5 +504,15 @@
  "the-cruise-of-the-nona": ["Adventurous", "Thoughtful"],
  "the-master-mind-of-mars": ["Adventurous", "Eerie"],
  "the-man-in-the-queue": ["Gripping"],
- "emily-of-new-moon": ["Heartwarming", "Thoughtful"]
+ "emily-of-new-moon": ["Heartwarming", "Thoughtful"],
+ "two-years-before-the-mast": ["Adventurous", "Gripping"],
+ "james-joyce-poetry": ["Romantic", "Thoughtful"],
+ "three-sisters": ["Thoughtful", "Dark"],
+ "midst-the-wild-carpathians": ["Adventurous", "Gripping"],
+ "c-s-lewis-poetry": ["Dark", "Thoughtful"],
+ "the-way-of-all-flesh": ["Funny", "Thoughtful", "Dark"],
+ "the-tragical-history-of-doctor-faustus": ["Dark", "Eerie"],
+ "the-gods-of-pegana": ["Eerie", "Thoughtful"],
+ "the-voyages-of-doctor-dolittle": ["Adventurous", "Funny", "Heartwarming"],
+ "the-mark-of-zorro": ["Adventurous", "Gripping", "Romantic"]
 }

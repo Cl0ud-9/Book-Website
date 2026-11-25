@@ -572,6 +572,16 @@ CATALOGUE = [
     ("edgar-rice-burroughs/the-master-mind-of-mars", ["Science fiction", "Adventure"]),
     ("josephine-tey/the-man-in-the-queue", ["Mystery"]),
     ("l-m-montgomery/emily-of-new-moon", ["Children’s", "Literary fiction"]),
+    ("richard-henry-dana-jr/two-years-before-the-mast", ["Lives and memoirs", "Adventure"]),
+    ("james-joyce/poetry", ["Poetry"]),
+    ("anton-chekhov/three-sisters/julius-west", ["Plays"]),
+    ("mor-jokai/midst-the-wild-carpathians/robert-nisbet-bain", ["Adventure", "Romance"]),
+    ("c-s-lewis/poetry", ["Poetry"]),
+    ("samuel-butler/the-way-of-all-flesh", ["Literary fiction"]),
+    ("christopher-marlowe/the-tragical-history-of-doctor-faustus", ["Plays"]),
+    ("lord-dunsany/the-gods-of-pegana", ["Fantasy"]),
+    ("hugh-lofting/the-voyages-of-doctor-dolittle", ["Children’s", "Adventure"]),
+    ("johnston-mcculley/the-mark-of-zorro", ["Adventure", "Romance"]),
     # pipeline/grow.py adds the next books from pipeline/queue.json above this line
 ]
 
