@@ -514,5 +514,7 @@
  "the-tragical-history-of-doctor-faustus": ["Dark", "Eerie"],
  "the-gods-of-pegana": ["Eerie", "Thoughtful"],
  "the-voyages-of-doctor-dolittle": ["Adventurous", "Funny", "Heartwarming"],
- "the-mark-of-zorro": ["Adventurous", "Gripping", "Romantic"]
+ "the-mark-of-zorro": ["Adventurous", "Gripping", "Romantic"],
+ "electra": ["Dark"],
+ "oedipus-at-colonus": ["Thoughtful", "Dark"]
 }

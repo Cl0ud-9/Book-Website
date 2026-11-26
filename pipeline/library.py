@@ -582,6 +582,8 @@ CATALOGUE = [
     ("lord-dunsany/the-gods-of-pegana", ["Fantasy"]),
     ("hugh-lofting/the-voyages-of-doctor-dolittle", ["Children’s", "Adventure"]),
     ("johnston-mcculley/the-mark-of-zorro", ["Adventure", "Romance"]),
+    ("sophocles/electra/francis-storr", ["Plays"]),
+    ("sophocles/oedipus-at-colonus/francis-storr", ["Plays"]),
     # pipeline/grow.py adds the next books from pipeline/queue.json above this line
 ]
 

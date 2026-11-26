@@ -1,6 +1,6 @@
 <h1 align="center">The Bookshelf</h1>
 
-<p align="center"><strong>A free library of 587 classics to read in your browser or download, in a bright, playful site where everything moves.</strong></p>
+<p align="center"><strong>A free library of 639 classics to read in your browser or download, in a bright, playful site where everything moves.</strong></p>
 
 <p align="center">
   <a href="https://the-bookshelf.cl0ud-9.workers.dev/"><img src="https://img.shields.io/badge/Live%20site-the--bookshelf.cl0ud--9.workers.dev-ff008c?style=for-the-badge" alt="Live site" height="34"></a>
@@ -21,7 +21,7 @@
 </p>
 
 The Bookshelf is a free library of the classics with a loud, warm personality: heavy type, handwritten notes,
-colour cards, stickers and motion everywhere you look. 587 books, from Austen and the Brontës to Sherlock Holmes,
+colour cards, stickers and motion everywhere you look. 639 books, from Austen and the Brontës to Sherlock Holmes,
 Frankenstein, Tagore and Marcus Aurelius, can be read right in the browser or downloaded for a phone, Kindle or Kobo. It began as a
 Web Technology course project, was rebuilt as an animated bookshop in version 2, became a library in version 3, and
 moved to Astro and TypeScript in version 4.
@@ -29,7 +29,7 @@ moved to Astro and TypeScript in version 4.
 | Page | What it does |
 |---|---|
 | [Home](https://the-bookshelf.cl0ud-9.workers.dev/) | Where to start, on a draggable shelf; the books you are reading; a line of the day; how it works; a book that opens as you scroll; the genres; questions; the book of the month and why it was chosen. |
-| [All books](https://the-bookshelf.cl0ud-9.workers.dev/books) | All 587 books, most read first: fiction or non-fiction, a genre or the From India shelf, a mood and a length, searchable by title, author or genre (accents optional), sorted by title or length. The choice is kept in the address, so it can be shared. |
+| [All books](https://the-bookshelf.cl0ud-9.workers.dev/books) | All 639 books, most read first: fiction or non-fiction, a genre or the From India shelf, a mood and a length, searchable by title, author or genre (accents optional), sorted by title or length. The choice is kept in the address, so it can be shared. |
 | [Genres](https://the-bookshelf.cl0ud-9.workers.dev/genres.html) | A shelf for each genre, fiction and non-fiction, and one of classics from India, its most read books first, to scroll or drag sideways. |
 | [Questions](https://the-bookshelf.cl0ud-9.workers.dev/faq.html) | Every question, by topic, with a list of topics that follows you down the page and marks the one you are reading. |
 | [A book](https://the-bookshelf.cl0ud-9.workers.dev/book-pride-and-prejudice.html) | Every book has its own page: a 3D copy that leans towards the pointer, its description, details and edition, Read now, the EPUB download, Kindle and Kobo editions, a free LibriVox audiobook where there is one, Keep for offline reading, Before you start (who's who and what to know, with no spoilers) and Lines worth knowing for the most read books, and three related books. |

@@ -1,4 +1,18 @@
 {
+ "a-childs-garden-of-verses": {
+  "free": true,
+  "people": [
+   {
+    "died": 1894,
+    "free": true,
+    "name": "Robert Louis Stevenson",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "a-christmas-carol": {
   "free": true,
   "people": [
@@ -171,6 +185,20 @@
      "cover painting"
     ],
     "wikidata": "Q123071"
+   }
+  ]
+ },
+ "a-journey-to-the-world-under-ground": {
+  "free": true,
+  "people": [
+   {
+    "died": 1754,
+    "free": true,
+    "name": "Ludvig Holberg",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -1027,6 +1055,20 @@
    }
   ]
  },
+ "argonauts-of-the-western-pacific-an-account-of-native-enterprise-and-adventure-in-the-archipelagoes-of-melanesian-new-guinea": {
+  "free": true,
+  "people": [
+   {
+    "died": 1942,
+    "free": true,
+    "name": "Bronislaw Malinowski",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "around-the-world-in-eighty-days": {
   "free": true,
   "people": [
@@ -1359,6 +1401,20 @@
     "died": 1944,
     "free": true,
     "name": "Ralph Henry Barbour",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "beasts-and-super-beasts": {
+  "free": true,
+  "people": [
+   {
+    "died": 1916,
+    "free": true,
+    "name": "Saki",
     "roles": [
      "author"
     ],
@@ -1978,6 +2034,20 @@
    }
   ]
  },
+ "considerations-on-representative-government": {
+  "free": true,
+  "people": [
+   {
+    "died": 1873,
+    "free": true,
+    "name": "John Stuart Mill",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "contending-forces": {
   "free": true,
   "people": [
@@ -2109,6 +2179,20 @@
      "cover painting"
     ],
     "wikidata": "Q41406"
+   }
+  ]
+ },
+ "cursed-be-the-treasure": {
+  "free": true,
+  "people": [
+   {
+    "died": 1963,
+    "free": true,
+    "name": "H. Henry Burgess Drake",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -2569,6 +2653,40 @@
    }
   ]
  },
+ "electra": {
+  "free": true,
+  "people": [
+   {
+    "died": -406,
+    "free": true,
+    "name": "Sophocles",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q7235"
+   },
+   {
+    "died": 1919,
+    "free": true,
+    "name": "Francis Storr",
+    "roles": [
+     "notes",
+     "translator",
+     "introduction"
+    ],
+    "wikidata": "Q16861781"
+   },
+   {
+    "died": 1896,
+    "free": true,
+    "name": "Frederic Leighton",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q160252"
+   }
+  ]
+ },
  "emily-of-new-moon": {
   "free": true,
   "people": [
@@ -2752,6 +2870,20 @@
     "name": "R. H. Robert Harvey Monro Elwes",
     "roles": [
      "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "expositions-of-holy-scripture-second-corinthians-galatians-and-philippians-chapters": {
+  "free": true,
+  "people": [
+   {
+    "died": 1910,
+    "free": true,
+    "name": "Alexander Maclaren",
+    "roles": [
+     "author"
     ],
     "why": "Project Gutenberg's catalogue"
    }
@@ -2967,6 +3099,20 @@
    }
   ]
  },
+ "four-square-jane": {
+  "free": true,
+  "people": [
+   {
+    "died": 1932,
+    "free": true,
+    "name": "Edgar Wallace",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "frankenstein": {
   "free": true,
   "people": [
@@ -3147,6 +3293,20 @@
    }
   ]
  },
+ "ghost-stories-of-an-antiquary": {
+  "free": true,
+  "people": [
+   {
+    "died": 1936,
+    "free": true,
+    "name": "M. Montague Rhodes James",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "gitanjali": {
   "free": true,
   "people": [
@@ -3294,6 +3454,20 @@
      "notes"
     ],
     "why": "a volunteer, whose work is given to the public domain"
+   }
+  ]
+ },
+ "gullivers-travels-into-several-remote-regions-of-the-world": {
+  "free": true,
+  "people": [
+   {
+    "died": 1745,
+    "free": true,
+    "name": "Jonathan Swift",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -4322,6 +4496,20 @@
    }
   ]
  },
+ "karl-grier-b-the-strange-story-of-a-man-with-a-sixth-sense": {
+  "free": true,
+  "people": [
+   {
+    "died": 1928,
+    "free": true,
+    "name": "Louis Tracy",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "kate-mulhall-b-a-romance-of-the-oregon-trail": {
   "free": true,
   "people": [
@@ -4329,6 +4517,20 @@
     "died": 1928,
     "free": true,
     "name": "Ezra Meeker",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "kate-plus-10": {
+  "free": true,
+  "people": [
+   {
+    "died": 1932,
+    "free": true,
+    "name": "Edgar Wallace",
     "roles": [
      "author"
     ],
@@ -4682,6 +4884,20 @@
    }
   ]
  },
+ "limanora-b-the-island-of-progress": {
+  "free": true,
+  "people": [
+   {
+    "died": 1935,
+    "free": true,
+    "name": "Godfrey Sweven",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "little-dorrit": {
   "free": true,
   "people": [
@@ -5031,6 +5247,20 @@
    }
   ]
  },
+ "marigold-b-a-story": {
+  "free": true,
+  "people": [
+   {
+    "died": 1905,
+    "free": true,
+    "name": "Edith Allonby",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "martin-chuzzlewit": {
   "free": true,
   "people": [
@@ -5180,6 +5410,29 @@
      "cover painting"
     ],
     "wikidata": "Q7788095"
+   }
+  ]
+ },
+ "meno": {
+  "free": true,
+  "people": [
+   {
+    "died": -348,
+    "free": true,
+    "name": "Plato",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1893,
+    "free": true,
+    "name": "Benjamin Jowett",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -5956,6 +6209,40 @@
      "cover painting"
     ],
     "wikidata": "Q344838"
+   }
+  ]
+ },
+ "oedipus-at-colonus": {
+  "free": true,
+  "people": [
+   {
+    "died": -406,
+    "free": true,
+    "name": "Sophocles",
+    "roles": [
+     "author"
+    ],
+    "wikidata": "Q7235"
+   },
+   {
+    "died": 1919,
+    "free": true,
+    "name": "Francis Storr",
+    "roles": [
+     "notes",
+     "translator",
+     "introduction"
+    ],
+    "wikidata": "Q16861781"
+   },
+   {
+    "died": 1805,
+    "free": true,
+    "name": "Fulchran-Jean Harriet",
+    "roles": [
+     "cover painting"
+    ],
+    "wikidata": "Q3090717"
    }
   ]
  },
@@ -6786,6 +7073,20 @@
    }
   ]
  },
+ "red-aces-b-being-three-cases-of-mr-reeder": {
+  "free": true,
+  "people": [
+   {
+    "died": 1932,
+    "free": true,
+    "name": "Edgar Wallace",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "red-harvest": {
   "free": true,
   "people": [
@@ -7030,6 +7331,20 @@
      "cover painting"
     ],
     "wikidata": "Q160252"
+   }
+  ]
+ },
+ "room-13": {
+  "free": true,
+  "people": [
+   {
+    "died": 1932,
+    "free": true,
+    "name": "Edgar Wallace",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -7452,6 +7767,34 @@
    }
   ]
  },
+ "slighted-love-b": {
+  "free": true,
+  "people": [
+   {
+    "died": 1937,
+    "free": true,
+    "name": "Alex. McVeigh Miller",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "snow-blind": {
+  "free": true,
+  "people": [
+   {
+    "died": 1948,
+    "free": true,
+    "name": "Albert Albert McKune Treynor",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "songs-of-innocence-and-of-experience": {
   "free": true,
   "people": [
@@ -7528,6 +7871,34 @@
      "cover painting"
     ],
     "wikidata": "Q8005829"
+   }
+  ]
+ },
+ "southern-horrors-lynch-law-in-all-its-phases": {
+  "free": true,
+  "people": [
+   {
+    "died": 1931,
+    "free": true,
+    "name": "Ida B. Wells-Barnett",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "stray-birds": {
+  "free": true,
+  "people": [
+   {
+    "died": 1941,
+    "free": true,
+    "name": "Rabindranath Tagore",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -7718,6 +8089,20 @@
      "cover painting"
     ],
     "wikidata": "Q156386"
+   }
+  ]
+ },
+ "terror-keep": {
+  "free": true,
+  "people": [
+   {
+    "died": 1932,
+    "free": true,
+    "name": "Edgar Wallace",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -7981,6 +8366,20 @@
    }
   ]
  },
+ "the-amazing-adventures-of-letitia-carberry": {
+  "free": true,
+  "people": [
+   {
+    "died": 1958,
+    "free": true,
+    "name": "Mary Roberts Rinehart",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-ambassadors": {
   "free": true,
   "people": [
@@ -8084,6 +8483,29 @@
      "preface"
     ],
     "wikidata": "Q59188"
+   }
+  ]
+ },
+ "the-athenian-constitution": {
+  "free": true,
+  "people": [
+   {
+    "died": -322,
+    "free": true,
+    "name": "Aristotle",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1952,
+    "free": true,
+    "name": "Frederic Frederic George Kenyon",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -8402,6 +8824,20 @@
    }
   ]
  },
+ "the-blue-scarab": {
+  "free": true,
+  "people": [
+   {
+    "died": 1943,
+    "free": true,
+    "name": "R. Austin (Richard Austin) Freeman",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-book-of-tea": {
   "free": true,
   "people": [
@@ -8430,6 +8866,29 @@
      "notes"
     ],
     "why": "a volunteer, whose work is given to the public domain"
+   }
+  ]
+ },
+ "the-book-of-the-courtier": {
+  "free": true,
+  "people": [
+   {
+    "died": 1529,
+    "free": true,
+    "name": "Baldassarre Castiglione",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1914,
+    "free": true,
+    "name": "Leonard Eckstein Opdycke",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -8695,6 +9154,20 @@
    }
   ]
  },
+ "the-chemical-history-of-a-candle": {
+  "free": true,
+  "people": [
+   {
+    "died": 1867,
+    "free": true,
+    "name": "Michael Faraday",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-cherry-orchard": {
   "free": true,
   "people": [
@@ -8854,6 +9327,20 @@
    }
   ]
  },
+ "the-confessions-of-jean-jacques-rousseau": {
+  "free": true,
+  "people": [
+   {
+    "died": 1778,
+    "free": true,
+    "name": "Jean-Jacques Rousseau",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-confessions-of-st-augustine": {
   "free": true,
   "people": [
@@ -8911,6 +9398,20 @@
    }
   ]
  },
+ "the-corbin-necklace": {
+  "free": true,
+  "people": [
+   {
+    "died": 1932,
+    "free": true,
+    "name": "Henry Kitchell Webster",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-count-of-monte-cristo": {
   "free": true,
   "people": [
@@ -8947,6 +9448,20 @@
      "cover painting"
     ],
     "why": "not used: the book has its own cover"
+   }
+  ]
+ },
+ "the-crimson-circle": {
+  "free": true,
+  "people": [
+   {
+    "died": 1932,
+    "free": true,
+    "name": "Edgar Wallace",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -9134,6 +9649,34 @@
    }
   ]
  },
+ "the-dream-detective": {
+  "free": true,
+  "people": [
+   {
+    "died": 1959,
+    "free": true,
+    "name": "Sax Rohmer",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "the-dryad-b-a-novel": {
+  "free": true,
+  "people": [
+   {
+    "died": 1936,
+    "free": true,
+    "name": "Justin Justin Huntly McCarthy",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-duchess-of-malfi": {
   "free": true,
   "people": [
@@ -9238,6 +9781,20 @@
    }
   ]
  },
+ "the-essays": {
+  "free": true,
+  "people": [
+   {
+    "died": 1626,
+    "free": true,
+    "name": "Francis Bacon",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-essays-of-arthur-schopenhauer": {
   "free": true,
   "people": [
@@ -9328,6 +9885,20 @@
    }
   ]
  },
+ "the-every-day-book-and-table-book-v-3-of-3-everlasting-calerdar-of-popular-amusements-sports-pastimes-ceremonies-manners-customs-and-events-incident-to-each-of-the-three-hundred-and-sixty-five-days-in-past-and-present-times": {
+  "free": true,
+  "people": [
+   {
+    "died": 1842,
+    "free": true,
+    "name": "William Hone",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-expedition-of-humphry-clinker": {
   "free": true,
   "people": [
@@ -9363,6 +9934,20 @@
      "cover painting"
     ],
     "wikidata": "Q535393"
+   }
+  ]
+ },
+ "the-fairy-mythology-illustrative-of-the-romance-and-superstition-of-various-countries": {
+  "free": true,
+  "people": [
+   {
+    "died": 1872,
+    "free": true,
+    "name": "Thomas Keightley",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -9559,6 +10144,20 @@
      "cover painting"
     ],
     "wikidata": "Q130531"
+   }
+  ]
+ },
+ "the-germany-and-the-agricola-of-tacitus": {
+  "free": true,
+  "people": [
+   {
+    "died": 117,
+    "free": true,
+    "name": "Cornelius Tacitus",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -9843,6 +10442,20 @@
      "cover painting"
     ],
     "wikidata": "Q104884"
+   }
+  ]
+ },
+ "the-hour-of-the-dragon": {
+  "free": true,
+  "people": [
+   {
+    "died": 1936,
+    "free": true,
+    "name": "Robert Robert Ervin Howard",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -10305,6 +10918,29 @@
    }
   ]
  },
+ "the-journals-of-lewis-and-clark-1804-1806": {
+  "free": true,
+  "people": [
+   {
+    "died": 1809,
+    "free": true,
+    "name": "Meriwether Lewis",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1838,
+    "free": true,
+    "name": "William Clark",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-jungle-book": {
   "free": true,
   "people": [
@@ -10764,6 +11400,20 @@
    }
   ]
  },
+ "the-magic-casket": {
+  "free": true,
+  "people": [
+   {
+    "died": 1943,
+    "free": true,
+    "name": "R. Austin (Richard Austin) Freeman",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-magic-mountain": {
   "free": true,
   "people": [
@@ -10902,6 +11552,20 @@
    }
   ]
  },
+ "the-manual-of-the-botany-of-the-northern-united-states-including-the-district-east-of-the-mississippi-and-north-of-north-carolina-and-tennessee": {
+  "free": true,
+  "people": [
+   {
+    "died": 1888,
+    "free": true,
+    "name": "Asa Gray",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-maracot-deep": {
   "free": true,
   "people": [
@@ -11030,6 +11694,29 @@
      "cover painting"
     ],
     "wikidata": "Q391608"
+   }
+  ]
+ },
+ "the-meditations-of-the-emperor-marcus-aurelius-antoninus-a-new-rendering-based-on-the-foulis-translation-of-1742": {
+  "free": true,
+  "people": [
+   {
+    "died": 180,
+    "free": true,
+    "name": "Marcus Aurelius",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1944,
+    "free": true,
+    "name": "George George William Chrystal",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -11417,6 +12104,29 @@
    }
   ]
  },
+ "the-new-terror": {
+  "free": true,
+  "people": [
+   {
+    "died": 1927,
+    "free": true,
+    "name": "Gaston Leroux",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1946,
+    "free": true,
+    "name": "Hannaford Bennett",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-night-land": {
   "free": true,
   "people": [
@@ -11592,6 +12302,20 @@
      "cover painting"
     ],
     "wikidata": "Q41406"
+   }
+  ]
+ },
+ "the-people-of-the-black-circle": {
+  "free": true,
+  "people": [
+   {
+    "died": 1936,
+    "free": true,
+    "name": "Robert Robert Ervin Howard",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
@@ -12824,6 +13548,20 @@
    }
   ]
  },
+ "the-strange-countess": {
+  "free": true,
+  "people": [
+   {
+    "died": 1932,
+    "free": true,
+    "name": "Edgar Wallace",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-string-of-pearls": {
   "free": true,
   "people": [
@@ -13171,6 +13909,20 @@
    }
   ]
  },
+ "the-tomb-of-tsin": {
+  "free": true,
+  "people": [
+   {
+    "died": 1932,
+    "free": true,
+    "name": "Edgar Wallace",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-tragical-history-of-doctor-faustus": {
   "free": true,
   "people": [
@@ -13248,6 +14000,20 @@
     "died": 1960,
     "free": true,
     "name": "Herman Landon",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "the-valley-of-eyes-unseen": {
+  "free": true,
+  "people": [
+   {
+    "died": 1960,
+    "free": true,
+    "name": "Gilbert Collins",
     "roles": [
      "author"
     ],
@@ -13661,6 +14427,20 @@
    }
   ]
  },
+ "the-willows": {
+  "free": true,
+  "people": [
+   {
+    "died": 1951,
+    "free": true,
+    "name": "Algernon Blackwood",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-wind-in-the-willows": {
   "free": true,
   "people": [
@@ -13811,6 +14591,20 @@
    }
   ]
  },
+ "the-world-below": {
+  "free": true,
+  "people": [
+   {
+    "died": 1965,
+    "free": true,
+    "name": "S. Fowler (Sydney Fowler) Wright",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
  "the-world-set-free": {
   "free": true,
   "people": [
@@ -13916,6 +14710,29 @@
     "name": "E. Phillips (Edward Phillips) Oppenheim",
     "roles": [
      "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   }
+  ]
+ },
+ "theaetetus": {
+  "free": true,
+  "people": [
+   {
+    "died": -348,
+    "free": true,
+    "name": "Plato",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1893,
+    "free": true,
+    "name": "Benjamin Jowett",
+    "roles": [
+     "translator"
     ],
     "why": "Project Gutenberg's catalogue"
    }
@@ -14873,6 +15690,38 @@
      "cover painting"
     ],
     "wikidata": "Q172911"
+   }
+  ]
+ },
+ "what-men-live-by-and-other-tales": {
+  "free": true,
+  "people": [
+   {
+    "died": 1910,
+    "free": true,
+    "name": "Leo Tolstoy",
+    "roles": [
+     "author"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1938,
+    "free": true,
+    "name": "Aylmer Maude",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
+   },
+   {
+    "died": 1939,
+    "free": true,
+    "name": "Louise Maude",
+    "roles": [
+     "translator"
+    ],
+    "why": "Project Gutenberg's catalogue"
    }
   ]
  },
